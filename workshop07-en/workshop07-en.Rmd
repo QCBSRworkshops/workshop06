@@ -44,7 +44,7 @@ devtools::install_github("yihui/xaringan")
 ---
 ## Setup for your presentation
 
-```{r setup, echo = T}
+```{r setup2, echo = T}
 knitr::opts_chunk$set(
   comment = "#",
   collapse = TRUE,
