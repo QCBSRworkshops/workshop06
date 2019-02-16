@@ -26,6 +26,13 @@ knitr::opts_chunk$set(
   fig.align = 'center'
 )
 mypar = list(mar = c(3,3,1,0.5), mgp = c(1.6, 0.3, 0), tck = -.02)
+```
+
+```{r, echo =F}
+options(repos=structure(c(CRAN="http://cran.r-project.org")))
+```
+
+```{r package, echo = F}
 
 # add packages
 if (!suppressPackageStartupMessages(require(ggplot2))) {
@@ -1549,8 +1556,8 @@ mp1 <- glmer(total.fruits ~ nutrient*amd + rack + status +
 We can check for overdispersion using the `overdisp_fun()` function (Bolker *et al*. 2011) which divides the Pearson residuals by the residual degrees of freedom and tests whether ratio is greater than unity
 
 ```{r}
-# Download the glmm_funs.R code from the wiki page and source it to run the function in R
-source("glmm_funs.R")
+# Download the glmm_funs.R code from the wiki page and source it to run the function
+source(file="data/glmm_funs.R")
 # Overdispersion?
 overdisp_fun(mp1)
 ```
