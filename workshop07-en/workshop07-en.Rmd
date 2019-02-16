@@ -1439,14 +1439,14 @@ Follows similar steps introduced in LMM Workshop
 ---
 ## How to run a GLMM in R
 
-Import the `Arabidopsis` dataset `Banta_TotalFruits.csv` into R.
+Import the `Arabidopsis` dataset `banta_totalfruits.csv` into R.
 
 ```{r, echo=F}
-dat.tf <- read.csv("data/Banta_TotalFruits.csv")
+dat.tf <- read.csv("data/banta_totalfruits.csv")
 ```
 
 ```r
-dat.tf <- read.csv("Banta_TotalFruits.csv")
+dat.tf <- read.csv("banta_totalfruits.csv")
 ```
 ```r
 # popu factor with a level for each population
@@ -1465,7 +1465,8 @@ The response variable is count data which suggests to that a **Poisson distribut
 
 ```{r,echo=F, fig.height=5, fig.width=6}
 par(mypar);par(cex = 1.4)
-hist(dat.tf$total.fruits, breaks = 50, col = 'blue', main = '', xlab = 'Total fruits', ylab = 'Count')
+hist(dat.tf$total.fruits, breaks = 50, col = 'blue', main = '', 
+     xlab = 'Total fruits', ylab = 'Count')
 ```
 
 However, as we will soon see, the variance increases with the mean much more rapidly than expected under the Poisson distribution
