@@ -1667,11 +1667,12 @@ overdisp_fun(mpl1)
 
 ---
 .small[
-**Représentation graphique des paramètres du modèle**: Une représentation graphique des paramètres du modèle peut être obtenu en utilisant la fonction `coefplot2()`du paquet `coefplot2`:
+**Représentation graphique des paramètres du modèle**: Une représentation graphique des paramètres du modèle peut être obtenue en utilisant la fonction `coefplot2()`du paquet `coefplot2`:
 
 .pull-left[
-```{r, fig.height=5, fig.width=6,echo=-1}
+```{r, fig.height=5, fig.width=6, echo=-1}
 par(mypar);par(cex = 1.4)
+library(coefplot2)
 # Paramètres de la variance
 coefplot2(mpl1, ptype = "vcov", intercept = TRUE)
 ```

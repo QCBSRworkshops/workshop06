@@ -1465,7 +1465,7 @@ The response variable is count data which suggests to that a **Poisson distribut
 
 ```{r,echo=F, fig.height=5, fig.width=6}
 par(mypar);par(cex = 1.4)
-hist(dat.tf$total.fruits, breaks = 50, col = 'blue', main = '', 
+hist(dat.tf$total.fruits, breaks = 50, col = 'blue', main = '',
      xlab = 'Total fruits', ylab = 'Count')
 ```
 
@@ -1617,13 +1617,14 @@ overdisp_fun(mpl1)
 
 ---
 .small[
-**Visualization the model parameters**: A graphical representation of the model parameters can be obtained using the `coefplot2()` funtion from the `coefplot2` package:
+**Visualization the model parameters**: A graphical representation of the model parameters can be obtained using the `coefplot2()` function from the `coefplot2` package:
 
 .pull-left[
 ```{r, fig.height=6, fig.width=6,echo=-1}
 par(mypar);par(cex = 1.4)
+library(coefplot2)
 # Variance terms
-coefplot2(mpl1, ptype = "vcov", intercept = TRUE)
+# coefplot2(mpl1, ptype = "vcov", intercept = TRUE)
 ```
 ]
 .pull-right[
