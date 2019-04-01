@@ -23,6 +23,7 @@ knitr::opts_chunk$set(
   warning = FALSE,
   message = FALSE,
   fig.width=6, fig.height=6,
+  fig.retina = 3,
   fig.align = 'center'
 )
 mypar = list(mar = c(3,3,1,0.5), mgp = c(1.6, 0.3, 0), tck = -.02)
