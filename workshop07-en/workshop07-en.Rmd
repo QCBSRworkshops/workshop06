@@ -50,9 +50,21 @@ if (!suppressPackageStartupMessages(require(binomTools))) {
   # install from source
   system(paste('R CMD INSTALL', f))
 }
+#if (!suppressPackageStartupMessages(require(coefplot2))) {
+#  install.packages("coefplot2", repos = "http://www.math.mcmaster.ca/bolker/R", type="source")
+#}
+
 if (!suppressPackageStartupMessages(require(coefplot2))) {
-  install.packages("coefplot2", repos = "http://www.math.mcmaster.ca/bolker/R", type="source")
+  # file name
+  f = file.path(tempdir(), "coefplot2")
+  # download package file
+  download.file('http://download.r-forge.r-project.org/src/contrib/coefplot2_0.1.3.3.tar.gz', destfile = f, method = 'curl')
+  # install from source
+  system(paste('R CMD INSTALL', f))
 }
+
+
+
 if (!suppressPackageStartupMessages(require(gridExtra))) {
   install.packages("gridExtra")
 }
