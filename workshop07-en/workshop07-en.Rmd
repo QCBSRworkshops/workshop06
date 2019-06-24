@@ -65,8 +65,8 @@ if (!suppressPackageStartupMessages(require(bbmle))) {
 if (!suppressPackageStartupMessages(require(coda))) {
   install.packages("coda")
 }
-if (!suppressPackageStartupMessages(require(reshape2))) {
-  install.packages("reshape2")
+if (!suppressPackageStartupMessages(require(reshape))) {
+  install.packages("reshape")
 }
 if (!suppressPackageStartupMessages(require(coefplot2))) {
  install.packages("coefplot2", repos = "http://www.math.mcmaster.ca/bolker/R", type="source")
