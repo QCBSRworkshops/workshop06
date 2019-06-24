@@ -54,6 +54,10 @@ if (!suppressPackageStartupMessages(require(binomTools))) {
 #  install.packages("coefplot2", repos = "http://www.math.mcmaster.ca/bolker/R", type="source")
 #}
 
+if (!suppressPackageStartupMessages(require(coda))) {
+  install.packages("coda")
+}
+
 if (!suppressPackageStartupMessages(require(coefplot2))) {
   # file name
   f = file.path(tempdir(), "coefplot2")
@@ -1637,7 +1641,7 @@ overdisp_fun(mpl1)
 par(mypar);par(cex = 1.4)
 library(coefplot2)
 # Variance terms
-# coefplot2(mpl1, ptype = "vcov", intercept = TRUE)
+coefplot2(mpl1, ptype = "vcov", intercept = TRUE)
 ```
 ]
 .pull-right[
