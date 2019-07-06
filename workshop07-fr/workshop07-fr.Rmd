@@ -42,13 +42,11 @@ if (!suppressPackageStartupMessages(require(ggplot2))) {
 if (!suppressPackageStartupMessages(require(MASS))) {
   install.packages("MASS")
 }
-if (!suppressPackageStartupMessages(require(binomTools))) {
-  # file name
-  f = file.path(tempdir(), "binomTools")
-  # download package file
-  download.file('https://cran.r-project.org/src/contrib/Archive/binomTools/binomTools_1.0-1.tar.gz', destfile = f, method = 'curl')
-  # install from source
-  system(paste('R CMD INSTALL', f))
+if (!suppressPackageStartupMessages(require(DescTools))) {
+  install.packages("DescTools")
+}
+if (!suppressPackageStartupMessages(require(vcdExtra))) {
+  install.packages("vcdExtra")
 }
 
 if (!suppressPackageStartupMessages(require(gridExtra))) {
@@ -875,30 +873,25 @@ Pour évaluer l'ajustement du modèle, les graphiques de diagnostique ne sont pa
 ---
 ## Exercice 2
 
-Dans R, ces tests sont disponibles dans le paquet `binomTools`
+La fonction R `PseudoR2` dans le package` DescTools` permet de calculer plusieurs Pseudo R2. En spécifiant `which = all`, calculez toutes les statistiques en même temps.
 
-Calculez le coefficient de discrimination D
 
 ```{r}
-fit <- binomTools::Rsq(object = logit.reg)
+library(DescTools)
+fit <- PseudoR2(logit.reg, which = "all")
 fit
 ```
 
 ---
-#### Exercice 2: Faites le test de Hosmer-Lemeshow .comment[*]
+#### Exercice 2: Faites le test de Hosmer-Lemeshow
 
-.small[
 ```{r}
-binomTools::HLtest(binomTools::Rsq(model.bact2))
+library(vcdExtra)
+HLtest(logit.reg)
 ```
-]
 
 .comment[Une valeur non significative indique un ajustement adéquat!]
 
----
-#### Exercice 2: Faites le test de Hosmer-Lemeshow .comment[*]
-
-.comment[Une valeur non significative indique un ajustement adéquat!]
 
 ---
 ## Défi 2 ![:cube]()
@@ -914,8 +907,8 @@ binomTools::HLtest(binomTools::Rsq(model.bact2))
 ```{r,eval=F}
 null.d <- model.bact2$null.deviance
 resid.d <- model.bact2$deviance
-bact.pseudoR2 <- (null.d -resid.d) / null.d
-HLtest(Rsq(model.bact2)
+bact.pseudoR2 <- (null.d - resid.d) / null.d
+HLtest(model.bact2)
 ```
 
 2 : Ajouter des variables explicatives pertinentes pourrait certainement augmenter le pouvoir explicatif du modèle.

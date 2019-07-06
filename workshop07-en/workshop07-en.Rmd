@@ -42,14 +42,13 @@ if (!suppressPackageStartupMessages(require(ggplot2))) {
 if (!suppressPackageStartupMessages(require(MASS))) {
   install.packages("MASS")
 }
-if (!suppressPackageStartupMessages(require(binomTools))) {
-  # file name
-  f = file.path(tempdir(), "biomTools")
-  # download package file
-  download.file('https://cran.r-project.org/src/contrib/Archive/binomTools/binomTools_1.0-1.tar.gz', destfile = f, method = 'curl')
-  # install from source
-  system(paste('R CMD INSTALL', f))
+if (!suppressPackageStartupMessages(require(DescTools))) {
+  install.packages("DescTools")
 }
+if (!suppressPackageStartupMessages(require(vcdExtra))) {
+  install.packages("vcdExtra")
+}
+
 if (!suppressPackageStartupMessages(require(gridExtra))) {
   install.packages("gridExtra")
 }
@@ -825,7 +824,7 @@ pseudoR2
 ---
 ## Predictive Power and goodness of fit
 
-New statistic - **coefficient of discrimination (D)** evaluates the predictive power of logistic regression
+The goodness of fit of the logistic regression model can be expressed by some variants of pseudo R squared statistics, most of which being based on the deviance of the model.
 
 - Measure of how well logistic regression classifies an outcome as a success or a failure
 
@@ -837,23 +836,24 @@ To assess goodness of fit, diagnostic plots are not useful, instead must use **H
 ---
 ## Exercise 2
 
-In R these tests are available in the `binomTools` package
+The R function `PseudoR2` in the `DescTools` package allow the compute several Pseudo R2. Specifying `which = all` compute all the different statistics.
 
-Compute the coefficient of discrimination D
 
 ```{r}
-fit <- binomTools::Rsq(object = logit.reg)
+library(DescTools)
+fit <- PseudoR2(logit.reg, which = "all")
 fit
 ```
 
 ---
-#### Exercise 2: Perform a Hosmer-Lemeshow test .comment[*]
+#### Exercise 2: Perform a Hosmer-Lemeshow test 
 
-.small[
+
 ```{r}
-binomTools::HLtest(binomTools::Rsq(model.bact2))
+library(vcdExtra)
+HLtest(logit.reg)
 ```
-]
+
 
 .comment[A non significant value indicates an adequate fit!]
 
@@ -871,8 +871,8 @@ binomTools::HLtest(binomTools::Rsq(model.bact2))
 ```{r,eval=F}
 null.d <- model.bact2$null.deviance
 resid.d <- model.bact2$deviance
-bact.pseudoR2 <- (null.d -resid.d) / null.d
-HLtest(Rsq(model.bact2)
+bact.pseudoR2 <- (null.d - resid.d) / null.d
+HLtest(model.bact2)
 ```
 
 2: Adding informative explanatory variables could increase the explanatory power of the model
