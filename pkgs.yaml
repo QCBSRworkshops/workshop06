@@ -1,15 +1,12 @@
 cran_pkgs:
     - MASS
-    - ggplot2
-    - MASS
-    - binomTools
+    - tidyverse
     - gridExtra
     - lme4
     - lattice
     - bbmle
     - coda
     - reshape
-    - coefplot2
 
 archive_pkgs:
     - url: https://cran.r-project.org/src/contrib/Archive/binomTools/binomTools_1.0-1.tar.gz
