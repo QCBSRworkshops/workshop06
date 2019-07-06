@@ -44,7 +44,7 @@ if (!suppressPackageStartupMessages(require(MASS))) {
 }
 if (!suppressPackageStartupMessages(require(binomTools))) {
   # file name
-  f = file.path(tempdir(), "biomTools")
+  f = file.path(tempdir(), "binomTools")
   # download package file
   download.file('https://cran.r-project.org/src/contrib/Archive/binomTools/binomTools_1.0-1.tar.gz', destfile = f, method = 'curl')
   # install from source
@@ -288,9 +288,9 @@ $\beta_1$ = pente
 
 $x_i$ = valeur de la variable indépendante
 
-$\varepsilon_i$ = résidus du modèle obtenus d'une distribution normale dont la moyenne varie mais dont la variance est constante**
+$\varepsilon_i$ = résidus du modèle obtenus d'une distribution normale dont la moyenne varie mais dont la variance est constante.
 
-.comment[.alert[**Point clé!] les résidus (distances entre les observations et la droite de régression) peuvent être prédits en échantillonnant de façon aléatoire une distribution normale.]
+.comment[.alert[**Point clé!**] les résidus (distances entre les observations et la droite de régression) peuvent être prédits en échantillonnant de façon aléatoire une distribution normale.]
 
 ---
 ## Distribution normale des résidus
@@ -875,7 +875,7 @@ Pour évaluer l'ajustement du modèle, les graphiques de diagnostique ne sont pa
 ---
 ## Exercice 2
 
-Dans R, ces testes sont disponibles dans le paquet `binomTools`
+Dans R, ces tests sont disponibles dans le paquet `binomTools`
 
 Calculez le coefficient de discrimination D
 
