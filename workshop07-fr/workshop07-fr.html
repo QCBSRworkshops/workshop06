@@ -1,0 +1,2094 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Atelier 7: Modèles linéaires généralisés (mixtes)</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Centre de la Science de la Biodiversité du Québec" />
+    <link href="assets/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/academicons-1.8.1/css/academicons.min.css">
+    <link rel="stylesheet" href="qcbsR.css" type="text/css" />
+    <link rel="stylesheet" href="qcbsR-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Atelier 7: Modèles linéaires généralisés (mixtes)
+## Série d’ateliers R
+### Centre de la Science de la Biodiversité du Québec
+
+---
+
+
+
+
+
+
+
+
+
+## Objectifs
+
+1. Pourquoi être normale? .small[(*Vos données sont correctes; mais le modèle est faux*)]
+2. GLM avec variable binaire
+3. GLM avec des données d'abondance
+4. GLMMs
+
+---
+class: inverse, center, middle
+
+# Pourquoi être normale?
+
+## Vos données sont correctes;
+## mais le modèle est faux
+
+---
+## Limitations des modèles linéaires (mixtes)
+
+Charger les données et appliquer un modèle linéaire (`lm()`) :
+
+
+
+
+```r
+  # vérifiez que vous êtes dans le bon répertoire de travail
+  mites &lt;- read.csv('data/mites.csv')
+  head(mites)
+  str(mites)
+```
+
+Le jeu de données chargé contient une partie du jeu de données classique des 'mites Oribatid'
+
+.small[
+&gt; 70 échantillons de mousses et mites
+
+&gt; 5 variables environmentales, abondance de la mite *Galumna sp.*, et abondance totale des mites
+]
+
+---
+## Limitations des modèles linéaires (mixtes)
+
+Charger les données et appliquer un modèle linéaire (`lm()`) :
+
+
+
+
+```r
+  # vérifiez que vous êtes dans le bon répertoire de travail
+  mites &lt;- read.csv('data/mites.csv')
+  head(mites)
+  str(mites)
+```
+
+Le jeu de données chargé contient une partie du jeu de données classique des 'mites Oribatid'
+
+**Objectif**: Modéliser l'abondance (`abund`), l'occurrence (`pa`), et la proportion (`prop`) de Galumna en fonction des 5 paramètres environnementaux.
+
+---
+## Explorer les relations
+
+Pouvons-nous voir une/des relation(s) entre Galumna et les 5 variables environnementales?
+
+---
+## Explorer les relations
+
+.small[Pouvons-nous détecter des relations entre `Galumna` et les variables environnementales?]
+
+.pull-left2[
+
+```r
+  plot(mites)
+```
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-6-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+.pull-right2[
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+`Galumna` vs `WatrCont`?!
+]
+
+---
+## Explorer les relations
+
+Une relation negative entre `Galumna` et le contenu d'eau du sol?
+
+
+```r
+  par(mfrow = c(1, 3), cex = 1.4)
+  plot(Galumna ~ WatrCont, data = mites, xlab = 'Contenu en eau', ylab='Abondance')
+  boxplot(WatrCont ~ pa, data = mites, xlab='Présence/Absence', ylab = 'Contenu en eau')
+  plot(prop ~ WatrCont, data = mites, xlab = 'Contenu en eau', ylab='Proportion')
+```
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-7-1.png" width="864" style="display: block; margin: auto;" /&gt;
+
+---
+## Tester la linéarité
+
+Utiliser des modèles linéaires pour voir si l'abondance, `abund`, la présence/absence, `pa`, et/ou la proportion, `prop`, varient en fonction du contenu d'eau.
+
+--
+
+```r
+  lm.abund &lt;- lm(Galumna ~ WatrCont, data = mites)
+##   summary(lm.abund)
+  lm.pa &lt;- lm(pa ~ WatrCont, data = mites)
+##   summary(lm.pa)
+  lm.prop &lt;- lm(prop ~ WatrCont, data = mites)
+##   summary(lm.prop)
+```
+
+---
+## Tester la linéarité
+
+Utiliser des modèles linéaires pour voir si l'abondance, `abund`, la présence/absence, `pa`, et/ou la proportion, `prop`, varient en fonction du contenu d'eau.
+
+.pull-left[
+
+```r
+summary(lm.abund)$coefficients[, 4]
+#  (Intercept)     WatrCont 
+# 3.981563e-08 1.206117e-05
+summary(lm.abund)$coefficients[, 4]
+#  (Intercept)     WatrCont 
+# 3.981563e-08 1.206117e-05
+summary(lm.abund)$coefficients[, 4]
+#  (Intercept)     WatrCont 
+# 3.981563e-08 1.206117e-05
+```
+]
+.pull-right[
+Un effet significatif dans tous les modèles!
+
+.alert[Mais...]
+]
+
+---
+## Tester la linéarité
+
+Un effet significatif dans tous les modèles! .alert[Attends une minute...]
+
+.pull-left[
+
+```r
+plot(Galumna ~ WatrCont, data = mites)
+abline(lm.abund)
+```
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-10-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+```r
+par(mfrow = c(2, 2), cex = 1.4)
+plot(lm.abund)
+```
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-11-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+
+---
+## Tester la linéarité
+
+Encore pire pour les autres modèles (Proportion `prop`) :
+
+.pull-left[
+
+```r
+plot(prop ~ WatrCont, data = mites)
+abline(lm.prop)
+```
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-12-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+```r
+par(mfrow = c(2, 2), cex = 1.4)
+plot(lm.prop)
+```
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-13-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+
+---
+## Tester la linéarité
+
+Encore pire pour les autres modèles (Présence/Absence `pa`) :
+
+.pull-left[
+
+```r
+plot(pa ~ WatrCont, data = mites)
+abline(lm.pa)
+```
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-14-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+```r
+par(mfrow = c(2, 2), cex = 1.4)
+plot(lm.pa)
+```
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-15-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+
+---
+## Suppositions des modèles linéaires
+
+Il est très commun en écologie que les suppositions des modèles linéaires ne soient pas respectées.
+  - Raison principale pourquoi nous avons souvent besoin des modèles linéaires généralisées (GLMs)!
+
+.comment[Revisitons les hypothèses du modèle linéaire...]
+
+---
+## Suppositions des modèles linéaires
+
+Équation du modèle linéaire :
+
+`\(y = \beta_0 + \beta_1x_i + \varepsilon\)`
+
+où:
+
+`\(y_i\)` = valeur estimée pour la variable réponse
+
+`\(\beta_0\)` = ordonnée à l'origine de la droite
+
+`\(\beta_1\)` = pente
+
+`\(x_i\)` = valeur de la variable indépendante
+
+`\(\varepsilon_i\)` = résidus du modèle obtenus d'une distribution normale dont la moyenne varie mais dont la variance est constante.
+
+.comment[.alert[**Point clé!**] les résidus (distances entre les observations et la droite de régression) peuvent être prédits en échantillonnant de façon aléatoire une distribution normale.]
+
+---
+## Distribution normale des résidus
+
+Rappel : La distribution normale a deux paramètres, `\(\mu\)` (moyenne) et `\(\sigma\)` (variance)
+
+&lt;br&gt;
+.pull-left[
+Varing `\(\mu\)`, `\(\sigma = 5\)`
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-16-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+`\(\mu = 25\)`, varing `\(\sigma\)`
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-17-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+
+---
+## Distribution normale des résidus
+
+Une autre équation pour le modèle linéaire est :
+
+`\(y_i \sim N(\mu = \beta_0 + \beta_1 X_i, \sigma^2)\)`
+
+&lt;br&gt;
+Ce qui signifie que `\(y_i\)` est échantillonné d'une distribution normale ayant les paramètres `\(\mu\)` (dont la valeur dépend de `\(x_i\)`) et `\(\sigma\)` (qui garde la même valeur pour toutes les valeurs de `\(Y\)`s)
+
+&lt;br&gt;
+.comment[Essayons de prédire l'abondance de `Galumna` en fonction du contenu d'eau en utilisant le `lm` que nous avons vu plus tôt...]
+
+---
+## Prédiction du modèle
+
+Nous avons besoin des coefficients de régression ($\beta$s) et de `\(\sigma\)` :
+
+
+```r
+coef(lm.abund)
+#  (Intercept)     WatrCont 
+#  3.439348672 -0.006044788
+summary(lm.abund)$sigma
+# [1] 1.513531
+```
+
+Quels sont les paramètres de la distribution normale utilisés pour modéliser `\(y\)` lorsque le contenu d'eau = 300?
+
+`\(y_i \sim N(\mu = \beta_0 + \beta_1 X_i, \sigma^2)\)`
+
+--
+
+`\(\mu = 3.44 + (-0.006 x 300) = 1.63\)`
+
+`\(\sigma = 1.51\)`
+
+---
+## Prédiction du modèle
+
+- Lorsque `\(x = 300\)`, les résidus devraient suivre une distribution normale avec `\(\mu = 1.63\)` et `\(\sigma^2 = 1.51\)`.
+
+- Lorsque `\(x = 400\)`, les résidus devraient suivre une distribution normale avec `\(\mu = 1.02\)` et `\(\sigma^2 = 1.51\)`, etc.
+
+
+&lt;br&gt;
+Graphiquement, notre modèle ressemble à :
+
+--
+.pull-left[
+.center[
+  ![:scale 100%](images/modelPredic.png)
+]]
+
+
+---
+## Prédiction du modèle
+
+&lt;br&gt;
+Graphiquement, notre modèle ressemble à :
+
+.pull-left[
+.center[
+  ![:scale 100%](images/modelPredic.png)
+]]
+
+.pull-right[
+**Problems**:
+- `\(\sigma^2\)` n'est pas homogène, mais la fonction `lm()` nous contraint d'utiliser toujours la même valeur de `\(\sigma^2\)`
+- Les valeurs estimées devraient être des nombres entiers
+]
+
+---
+## Données biologiques &amp; distributions
+
+- Les statisticiens ont développé une foule de lois de probabilité (distributions) correspondant à divers types de données
+
+- Une distribution donne la probabilité d'observer chaque issue possible d'une expérience ou échantillonage (e.g. `\(abund = 8\)` Galumna)
+
+- Les distributions peuvent être **discrètes** (que des nombres entiers) ou **continues** (incluent aussi des fractions)
+
+- Toutes les distributions ont des **paramètres** qui déterminent la forme (e.g. `\(\mu\)` et `\(\sigma^2\)` pour la distribution normale)
+
+---
+## Données biologiques &amp; distributions
+
+L'abondance de *Galumna* suit une distribution discrète (que des nombres entiers).
+
+Une loi utile pour modéliser les données d'abondance est la loi de “Poisson”:
+
+  - une distribution discrète avec un seul paramètre, `\(\lambda\)` (lambda), qui détermine la moyenne et la variance de la distribution:
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-19-1.png" width="1080" style="display: block; margin: auto;" /&gt;
+
+---
+## Données biologiques &amp; distributions
+
+*Galumna* semble suivre une loi de Poisson avec une faible valeur de `\(\lambda\)` :
+
+.pull-left[
+
+```r
+  hist(mites$Galumna)
+```
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-20-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+
+```r
+  mean(mites$Galumna)
+# [1] 0.9571429
+```
+]
+
+---
+## Données biologiques &amp; distributions
+
+Présence-absence par contre prend une autre forme :
+
+- Inclut seulement des `0`s et des `1`s
+- La loi de Poisson n'est pas appropriée pour cette variable
+
+
+```r
+  hist(mites$pa)
+```
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-22-1.png" width="432" style="display: block; margin: auto;" /&gt;
+
+---
+## Données biologiques &amp; distributions
+
+**Distribution “Bernoulli”** :
+
+- N'inclut que deux issues possibles dans son ensemble: succès (`1`) ou échec (`0`)
+- N'a qu'un paramètre, `\(p\)`, la probabilité de succès
+
+&lt;br&gt;
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-23-1.png" width="864" style="display: block; margin: auto;" /&gt;
+Nous pouvons utiliser la loi de Bernoulli pour calculer la probabilité d'obtenir l'issue "Galumna present" (`1`) vs. "Galumna absent" (`0`)
+
+---
+## Données biologiques &amp; distributions
+
+**Distribution binomiale** : Lorsqu'il y a plusieurs épreuves (chacune avec un succès/échec), la loi de Bernoulli se transforme en loi binomiale
+
+- Inclut le paramètre additionel `\(n\)`, le nombre d'épreuves
+- Prédit la probabilité d'observer une certaine proportion de succès, `\(p\)`, sur le nombre total d'épreuves, `\(n\)`
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-24-1.png" width="1080" style="display: block; margin: auto;" /&gt;
+
+---
+## Données biologiques &amp; distributions
+
+**Distribution binomiale** : utilisée pour modéliser des données lorsque le nombre de succès est donné par un nombre entier, et lorsque le nombre d'épreuves, `\(n\)`, est connu.
+
+**Différence principale avec la loi de Poisson** : L'étendue de la loi binomiale a une limite supérieure, `\(n\)`. Par conséquent, elle est asumétrique et décalée à gauche lorsque `\(p\)` est faible, mais décalée à droite lorsque `\(p\)` est élevé.
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-25-1.png" width="720" style="display: block; margin: auto;" /&gt;
+
+---
+## Données biologiques &amp; distributions
+
+Retournons à notre problème... pour changer la distribution des résidus (εi) de normale à Poisson :
+
+`$$y_i \sim Poisson(\lambda = \beta_0 + \beta_1 x_i)$$`
+
+Le problème est résolu!
+
+1. `\(\lambda\)` varie avec `\(x\)` (contenu d'eau), donc la variance des résidus variera aussi selon `\(x\)`, et nous venons de nous défaire de la supposition d'homogénéité de la variance!
+
+2. Les valeurs estimées seront des nombres entiers plutôt que des nombres décimaux
+
+3. Ce modèle ne prédira jamais de valeurs négatives (Poisson est toujours strictement positif)
+
+---
+## Données biologiques &amp; distributions
+
+Ce modèle est **presque** un GLM de Poisson, qui ressemble à ça:
+
+.center[![:scale 90%](images/poisPred.png)]
+
+Les probabilités (en orange) sont maintenant des nombres entiers, et la variance et la moyenne de la distribution déclinent lorsque `\(\lambda\)` diminue avec le contenu d'eau.
+
+---
+class: inverse, center, middle
+
+# GLM avec variable binaire
+
+---
+## Variables binaires
+
+Une variable réponse commune dans les jeux de données en écologie : variable binaire, on observe un phénomène X ou son "absence"
+
+- Présence/Absence d'une espèce
+- Présence/Absence d'une maladie
+- Succès/Échec d'observer un comportement
+- Survie/Mort d'un organisme
+
+On veut déterminer si `\(P/A \sim Environment\)` .comment[*]
+
+.comment[Régression logistique ou modèle logit]
+
+---
+## Variables binaires
+
+Dans `R`, on code une variable binaire avec `1` et `0`:
+
+
+
+&lt;br&gt;
+
+.pull-left[
+.right[
+
+```
+#   Site Presence
+# 1    A        1
+# 2    B        0
+# 3    C        1
+# 4    D        1
+# 5    E        0
+# 6    F        1
+```
+]]
+.pull-right[
+ &lt;br&gt;
+
+ 1 = Présence
+
+ &lt;br&gt;
+
+ 0 = Absence
+]
+
+---
+## Variables binaires
+
+Clairement pas distribué normalement!
+
+&lt;br&gt;
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-28-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+---
+## Variables binaires
+
+Les valeurs prédites peuvent se trouver hors de l'intervalle `[0,1]` avec `lm()`:
+
+&lt;br&gt;
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-29-1.png" width="540" style="display: block; margin: auto;" /&gt;
+
+---
+## Distribution de probabilité
+
+La distribution de Bernoulli est adaptée pour des variables réponses binaires
+
+&lt;br&gt;
+
+.pull-left[.right[
+
+`\(E(Y) = p\)`
+
+&lt;br&gt;
+
+`\(Var(Y) = p \times (1 - p)\)`
+
+]]
+.pull-right[
+
+![:faic](arrow-right) **Moyenne de la distribution** .small[Probabilité `\(p\)` d'observer un résultat]
+
+![:faic](arrow-right) **Variance de la distribution** .small[La variance décroît quand `\(p\)` est proche de `0` ou `1`]
+]
+
+---
+## Régression logistique
+
+La fonction `glm()`!
+
+&lt;br&gt;
+
+`logit.reg &lt;- glm(formula, data, family)`
+
+&lt;br&gt;
+
+Pour s'éloigner des modèles linéaires traditionnels, il faut spécifier deux choses (`family`) :
+
+1) distribution de probabilité
+
+**ET**
+
+2) une fonction de lien
+
+---
+## La fonction de lien
+
+Pour un modèle linéaire de base d'une variable réponse normalement distribuée, l'équation pour la valeur attendue est :
+
+&lt;br&gt;
+
+`$$\mu = x\beta$$`
+
+où
+
+- `\(\mu\)` représente les valeurs prédites par le modèle
+- `\(x\)` est la matrice du modèle (*i.e.* les variables explicatives)
+- `\(\beta\)` est le vecteur des paramètres estimés (*i.e.* intercept &amp; pente)
+
+&lt;br&gt;
+
+`\(x\beta\)` se nomme le **prédicteur linéaire**
+
+---
+## La fonction de lien
+
+`\(\mu = x\beta\)` est vrai seulement pour la distribution normale
+
+Si ce n'est pas le cas, on utilise une transformation sur `\(\mu\)`
+
+`$$g(\mu) = x\beta$$`
+
+où `\(g(\mu)\)` est la fonction de lien
+
+&lt;br&gt;
+
+Cela permet de relâcher l'hypothèse de normalité
+
+---
+## La fonction de lien
+
+Pour les données binaires, on utilise la transformation **logit** :
+
+&lt;br&gt;
+
+`$$g(\mu) = log\frac{\mu}{1-\mu}$$`
+
+`\(\mu =\)` variables prédites (probabilité que `\(Y = 1\)`)
+
+&lt;br&gt;
+
+- Obtenir la cote ( `\(\frac{\mu}{1-\mu}\)`)
+- La transformer en log
+
+---
+## La fonction de lien
+
+`$$g(\mu) = log\frac{\mu}{1-\mu}$$`
+
+- Obtenir la cote ( `\(\frac{\mu}{1-\mu}\)`)
+- La transformer en log
+
+&lt;br&gt;
+La cote met les valeurs prédites sur une échelle de  `0` à `+Inf`
+
+La transformation log met les valeurs prédites sur une échelle de `-Inf` à `+Inf`
+
+![:faic](arrow-right) Les valeurs prédites transformées sont reliées **linéairement** au prédicteur linéaire
+
+---
+## Exercice 1
+
+Spécifiez un modèle de régression logistique avec le jeu de données mites.
+
+
+```r
+#setwd('...')
+mites &lt;- read.csv("mites.csv", header = TRUE)
+str(mites)
+
+```
+
+```
+# 'data.frame':	70 obs. of  9 variables:
+#  $ Galumna   : int  8 3 1 1 2 1 1 1 2 5 ...
+#  $ pa        : int  1 1 1 1 1 1 1 1 1 1 ...
+#  $ totalabund: int  140 268 186 286 199 209 162 126 123 166 ...
+#  $ prop      : num  0.05714 0.01119 0.00538 0.0035 0.01005 ...
+#  $ SubsDens  : num  39.2 55 46.1 48.2 23.6 ...
+#  $ WatrCont  : num  350 435 372 360 204 ...
+#  $ Substrate : Factor w/ 7 levels "Barepeat","Interface",..: 4 3 2 4 4 4 4 2 3 4 ...
+#  $ Shrub     : Factor w/ 3 levels "Few","Many","None": 1 1 1 1 1 1 1 2 2 2 ...
+#  $ Topo      : Factor w/ 2 levels "Blanket","Hummock": 2 2 2 2 2 2 2 1 1 2 ...
+```
+
+---
+## Exercice 1
+
+Spécifiez un modèle de la présence et de l'absence de *Galumna sp.* en fonction du contenu en eau du sol et de la topographie.
+
+
+```r
+logit.reg &lt;- glm(pa ~ WatrCont + Topo, data=mites,
+family = binomial(link = "logit"))
+```
+
+```r
+summary(logit.reg)
+```
+
+---
+## Exercice 1
+
+.small[
+
+```r
+summary(logit.reg)
+# 
+# Call:
+# glm(formula = pa ~ WatrCont + Topo, family = binomial(link = "logit"), 
+#     data = mites)
+# 
+# Deviance Residuals: 
+#     Min       1Q   Median       3Q      Max  
+# -2.0387  -0.5589  -0.1594   0.4112   2.0252  
+# 
+# Coefficients:
+#              Estimate Std. Error z value Pr(&gt;|z|)    
+# (Intercept)  4.464402   1.670622   2.672 0.007533 ** 
+# WatrCont    -0.015813   0.004535  -3.487 0.000489 ***
+# TopoHummock  2.090757   0.735348   2.843 0.004466 ** 
+# ---
+# Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 91.246  on 69  degrees of freedom
+# Residual deviance: 48.762  on 67  degrees of freedom
+# AIC: 54.762
+# 
+# Number of Fisher Scoring iterations: 6
+```
+]
+
+---
+## Défi 1 ![:cube]()
+
+En utilisant le jeu de données 'bacteria', spécifiez un modèle de la présence de *H. influenzae* en fonction du traitement et de la semaine de test.
+
+Commencez avec un modèle saturé et trouvez le modèle le plus parcimonieux.
+
+
+
+```r
+#install.packages("MASS")
+library(MASS)
+data(bacteria)
+str(bacteria)
+# 'data.frame':	220 obs. of  6 variables:
+#  $ y   : Factor w/ 2 levels "n","y": 2 2 2 2 2 2 1 2 2 2 ...
+#  $ ap  : Factor w/ 2 levels "a","p": 2 2 2 2 1 1 1 1 1 1 ...
+#  $ hilo: Factor w/ 2 levels "hi","lo": 1 1 1 1 1 1 1 1 2 2 ...
+#  $ week: int  0 2 4 11 0 2 6 11 0 2 ...
+#  $ ID  : Factor w/ 50 levels "X01","X02","X03",..: 1 1 1 1 2 2 2 2 3 3 ...
+#  $ trt : Factor w/ 3 levels "placebo","drug",..: 1 1 1 1 3 3 3 3 2 2 ...
+```
+
+---
+## Solution ![:cube]()
+
+
+```r
+model.bact1 &lt;- glm(y ~ trt * week, data = bacteria, family = binomial)
+```
+
+
+```r
+model.bact2 &lt;- glm(y ~ trt + week, data = bacteria, family = binomial)
+```
+
+
+```r
+model.bact3 &lt;- glm(y ~ week, data = bacteria, family = binomial)
+```
+
+
+```r
+anova(model.bact1, model.bact2, model.bact3, test = "LRT")
+# Analysis of Deviance Table
+# 
+# Model 1: y ~ trt * week
+# Model 2: y ~ trt + week
+# Model 3: y ~ week
+#   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)  
+# 1       214     203.12                       
+# 2       216     203.81 -2  -0.6854  0.70984  
+# 3       218     210.91 -2  -7.1026  0.02869 *
+# ---
+# Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+---
+## Interpréter la sortie
+
+Regardez à nouveau les coefficients du modèle `logit.reg` :
+
+
+```r
+summary(logit.reg)$coefficients
+#                Estimate  Std. Error   z value     Pr(&gt;|z|)
+# (Intercept)  4.46440199 1.670622482  2.672299 0.0075333598
+# WatrCont    -0.01581255 0.004535069 -3.486728 0.0004889684
+# TopoHummock  2.09075654 0.735348234  2.843220 0.0044660283
+```
+
+La sortie indique que le contenu d'eau et la topographie sont significatifs
+
+.comment[Mais comment interprète-on les coefficients de la pente?]
+
+---
+## Interpréter la sortie
+
+Rappelez-vous que nous avons utilisé une transformation logit!
+
+Pour bien interpréter les coefficients du modèle, on doit utiliser une fonction 'inverse' :
+
+&lt;br&gt;
+La fonction exponentielle pour obtenir les cotes : `\(e^x\)`
+
+La fonction logit inverse pour obtenir les probabilités :
+
+`$$logit^{-1} = \frac{1}{1 + \frac{1}{e^x}}$$`
+
+---
+## Interpréter la sortie
+
+Pour le contenu d'eau sur l'échelle des cotes :
+
+
+```r
+exp(logit.reg$coefficient[2])
+#  WatrCont 
+# 0.9843118
+```
+
+Pour le contenu d'eau sur l'échelle des probabilités :
+
+
+```r
+1 / (1 + 1/exp(logit.reg$coefficient[2]))
+#  WatrCont 
+# 0.4960469
+```
+
+---
+## Pouvoir prédictif et ajustement du modèle
+
+Le pseudo-R², un concept analogue du `\(R^2\)` pour les modèles estimés par maximisation de la vraisemblance:
+
+`$$\text{pseudo-R}^2 = \frac{\text{déviance nulle - déviance résiduelle}}{\text{déviance nulle}}$$`
+
+&lt;br&gt;
+
+`\(\text{pseudo-R}^2 = \text{variance expliquée par le modèle}\)`
+
+---
+## Pouvoir prédictif et ajustement du modèle
+
+Comparer la déviance du modèle (déviance résiduelle) à la déviance d'un modèle nul (déviance nulle)
+
+Le **modèle nul** est un modèle sans variables explicatives
+
+```R
+null.model &lt;- glm(Response.variable ~ 1, family = binomial)
+```
+
+---
+## Pouvoir prédictif et ajustement du modèle
+
+Dans R, nous pouvons extraire les déviances résiduelles et nulles directement à partir de l'objet glm :
+
+
+```r
+objects(logit.reg)
+#  [1] "aic"               "boundary"          "call"             
+#  [4] "coefficients"      "contrasts"         "control"          
+#  [7] "converged"         "data"              "deviance"         
+# [10] "df.null"           "df.residual"       "effects"          
+# [13] "family"            "fitted.values"     "formula"          
+# [16] "iter"              "linear.predictors" "method"           
+# [19] "model"             "null.deviance"     "offset"           
+# [22] "prior.weights"     "qr"                "R"                
+# [25] "rank"              "residuals"         "terms"            
+# [28] "weights"           "xlevels"           "y"
+```
+
+---
+## Pouvoir prédictif et ajustement du modèle
+
+Dans R, nous pouvons extraire les déviances résiduelles et nulles directement à partir de l'objet glm :
+
+
+```r
+pseudoR2 &lt;- (logit.reg$null.deviance - logit.reg$deviance) / logit.reg$null.deviance
+pseudoR2
+# [1] 0.4655937
+```
+
+.comment[Ainsi, le modèle explique 46.6% de la variabilité des données]
+
+---
+## Pouvoir prédictif et ajustement du modèle
+
+Nouvelle statistique - **coefficient de discrimination (D)** évalue le pouvoir prédictif d'une régression logistique
+
+- Mesure à quel point la régression logistique est capable de bien classifier un résultat en succès ou échec
+
+Pour évaluer l'ajustement du modèle, les graphiques de diagnostique ne sont pas utiles, il vaut mieux utiliser le **test de Hosmer-Lemeshow**:
+
+- Compare le nombre de résultats obtenus et attendus
+- Similaire à un test de `\(Chi^2\)`
+
+---
+## Exercice 2
+
+La fonction R `PseudoR2` dans le package` DescTools` permet de calculer plusieurs Pseudo R2. En spécifiant `which = all`, calculez toutes les statistiques en même temps.
+
+
+
+```r
+library(DescTools)
+fit &lt;- PseudoR2(logit.reg, which = "all")
+fit
+#        McFadden     McFaddenAdj        CoxSnell      Nagelkerke 
+#       0.4655937       0.3998373       0.4549662       0.6245898 
+#   AldrichNelson VeallZimmermann          Effron McKelveyZavoina 
+#       0.1557461       0.5488254       0.5024101       0.7064093 
+#            Tjur             AIC             BIC          logLik 
+#       0.5114661      54.7623962      61.5078819     -24.3811981 
+#         logLik0              G2 
+#     -45.6229593      42.4835224
+```
+
+---
+#### Exercice 2: Faites le test de Hosmer-Lemeshow
+
+
+```r
+library(vcdExtra)
+HLtest(logit.reg)
+# Hosmer and Lemeshow Goodness-of-Fit Test 
+# 
+# Call:
+# glm(formula = mites$pa ~ mites$WatrCont + mites$Topo, family = binomial(link = "logit"))
+#  ChiSquare df   P_value
+#   3.421693  8 0.9051814
+```
+
+.comment[Une valeur non significative indique un ajustement adéquat!]
+
+
+---
+## Défi 2 ![:cube]()
+
+1. En utilisant le modèle créé avec le jeu de données 'bacteria', évaluez le pouvoir prédictif et l'ajustement de ce modèle.
+
+2. Comment faire pour améliorer le pouvoir explicatif du modèle?
+
+---
+## Solution ![:cube]()
+
+1 :
+
+```r
+null.d &lt;- model.bact2$null.deviance
+resid.d &lt;- model.bact2$deviance
+bact.pseudoR2 &lt;- (null.d - resid.d) / null.d
+HLtest(model.bact2)
+```
+
+2 : Ajouter des variables explicatives pertinentes pourrait certainement augmenter le pouvoir explicatif du modèle.
+
+---
+## GLM et données de proportions
+
+Parfois, les données de proportions sont plus similaires à un régression logistique que ce que vous pensez...
+
+Si on mesure un nombre d'occurences et qu'on connaît la taille d'échantillon, on obtient des données de proportions!
+
+Supposons qu'on mesure la prévalence d'une maladie sur dix cerfs dans 10 populations différentes :
+
+.pull-left[
+
+`$$\frac{x\,\, \text{infected deer}}{10\,\,\text{deer}}$$`
+
+]
+
+.pull-right[
+![:faic](arrow-right) toujours entre `0` et `1`!
+]
+
+---
+## Exercice 3
+
+Dans R, on doit spécifier le nombre de fois qu'un événement s'est produit et le nombre de fois qu'un événement ne s'est pas produit:
+
+
+```r
+prop.reg &lt;- glm(cbind(Galumna, totalabund - Galumna) ~ Topo + WatrCont, data = mites, family = binomial)
+```
+
+```r
+summary(prop.reg)
+```
+
+---
+## Exercice 3
+
+.small[
+
+```r
+summary(prop.reg)
+# 
+# Call:
+# glm(formula = cbind(Galumna, totalabund - Galumna) ~ Topo + WatrCont, 
+#     family = binomial, data = mites)
+# 
+# Deviance Residuals: 
+#     Min       1Q   Median       3Q      Max  
+# -1.4808  -0.9699  -0.6327  -0.1798   4.1688  
+# 
+# Coefficients:
+#              Estimate Std. Error z value Pr(&gt;|z|)    
+# (Intercept) -3.288925   0.422109  -7.792 6.61e-15 ***
+# TopoHummock  0.578332   0.274928   2.104   0.0354 *  
+# WatrCont    -0.005886   0.001086  -5.420 5.97e-08 ***
+# ---
+# Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 140.702  on 69  degrees of freedom
+# Residual deviance:  85.905  on 67  degrees of freedom
+# AIC: 158.66
+# 
+# Number of Fisher Scoring iterations: 5
+```
+]
+
+---
+## Exercise 3
+
+On peut coder le modèle directement avec les proportions:
+
+
+```r
+prop.reg2 &lt;- glm(prop ~ Topo + WatrCont, data = mites,
+                 family = binomial, weights = totalabund)
+```
+
+
+---
+class: inverse, center, middle
+
+# GLM avec des données d'abondance
+
+---
+## Modéliser des données d'abondance
+
+.large[Que sont des données d'abondance?]
+
+Importez le jeu de données `faramea.csv` dans R
+
+
+
+```r
+faramea &lt;- read.csv('faramea.csv', header = TRUE)
+```
+
+Le nombre d'arbres de l'espèce *Faramea occidentalis* a été compté dans 43 quadrats sur l'île de Barro Colorado (Panama). Des données environnementales, comme l'élévation et la précipitation ont aussi été mesurées.
+
+Examinons maintenant à quoi ressemble la distribution du nombre d'arbres par transect.
+
+---
+## Modéliser des données d'abondance
+
+.large[Que sont des données d'abondance?]
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-53-1.png" width="432" style="display: block; margin: auto;" /&gt;
+
+---
+## Modéliser des données d'abondance
+
+.large[Que sont des données d'abondance?]
+
+Les données d'abondance sont charactérisées par:
+
+- des valeurs positives : on ne peut pas compter -7 individus
+- des valeurs entières : on ne peut pas compter 7.56 individus
+- une plus grande variance pour les fortes valeurs
+
+---
+## Modéliser des données d'abondance
+
+.large[Comment modéliser des données d'abondance?]
+
+L'élévation influence-t-elle l'abondance de *F. occidentalis*?
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-54-1.png" width="432" style="display: block; margin: auto;" /&gt;
+
+---
+## Modéliser des données d'abondance
+
+.large[Comment modéliser des données d'abondance?]
+
+L'élévation influence-t-elle l'abondance de *F. occidentalis*?
+
+La **distribution de Poisson** semble être le choix parfait pour modéliser ces données, ainsi des **GLMs Poisson** sont généralement une bonne façon pour commencer à modéliser des donnes d'abondance.
+
+---
+## La distribution de Poisson
+
+La distribution de poisson, qui spécifie la probabilité d'une variable aléatoire discrète Y, est données par :
+
+`$$f(y, \,\mu)\, =\, Pr(Y = y)\, =\, \frac{\mu^y \times e^{-\mu}}{y!}$$`
+
+`$$E(Y)\, =\, Var(Y)\, =\, \mu$$`
+
+**Propriétés** :
+
+- `\(\mu\)` est le paramètre de la distribution de Poisson
+- spécifie la probabilité pour des valeurs entières uniquement
+- la probabilité pour des valeurs négatives est nulle ( `\(P(Y&lt;0) = 0\)`)
+- moyenne = variance (permet l'hétérogénéité)
+
+---
+## Que se cache-t-il derrière un GLM Poisson?
+
+Un GLM Poisson va modéliser la valeur de `\(\mu\)` en fonction de différentes variables explicatives.
+
+&lt;br&gt;
+
+.center[**Trois étapes**]
+
+**Étape 1.** On suppose que `\(Y_i\)` suit une distribution de Poisson de moyenne et variance `\(\mu_i\)`
+
+`$$Y_i = Poisson(\mu_i)$$`
+
+`$$E(Y_i) = Var(Y_i) = \mu_i$$`
+
+`$$f(y_i, \, \mu_i) = \frac{\mu^{y_i}_i \times e^{-\mu_i}}{y!}$$`
+
+`\(\mu_i\)` correspond au nombre attendu d'individus
+
+---
+## Que se cache-t-il derrière un GLM Poisson?
+
+**Étape 2.** On spécifie le prédicteur linéaire comme dans un modèle linéaire
+
+`$$\underbrace{\alpha}_\text{One intercept} + \underbrace{\beta}_\text{slope of 'Elevation'} \times \text{Elevation}_i$$`
+
+**Étape 3.** La fonction de lien entre la moyenne de `\(Y_i\)` et la partie systématique est un log
+
+`$$log(\mu_i) = \alpha + \beta \times \text{Elevation}_i$$`
+
+.center[ou]
+
+`$$\mu_i = e^{ \alpha + \beta \times \text{Elevation}_i}$$`
+
+---
+## Ajuster un GLM Poisson sous R
+
+La fonction `glm()` permet de spécifier un GLM Poisson
+
+
+```r
+glm.poisson = glm(Faramea.occidentalis~Elevation, data=faramea, family=poisson)
+```
+
+L'argument `family` permet de spécifier le type de distribution et la fonction de lien (log)
+
+&lt;br&gt;
+
+Tout comme avec `lm()`, vous pouvez accéder au résumé du modèle à l'aide de la fonction `summary()`
+
+
+```r
+summary(glm.poisson)
+```
+
+---
+## Résumé du modèle
+
+.pull-left2[
+.small[
+
+```r
+summary(glm.poisson)
+# 
+# Call:
+# glm(formula = Faramea.occidentalis ~ Elevation, family = poisson, 
+#     data = faramea)
+# 
+# Deviance Residuals: 
+#     Min       1Q   Median       3Q      Max  
+# -3.3319  -2.7509  -1.5451   0.1139  11.3995  
+# 
+# Coefficients:
+#               Estimate Std. Error z value Pr(&gt;|z|)    
+# (Intercept)  1.7687001  0.1099136  16.092  &lt; 2e-16 ***
+# Elevation   -0.0027375  0.0006436  -4.253 2.11e-05 ***
+# ---
+# Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+# 
+# (Dispersion parameter for poisson family taken to be 1)
+# 
+#     Null deviance: 414.81  on 42  degrees of freedom
+# Residual deviance: 388.12  on 41  degrees of freedom
+# AIC: 462.01
+# 
+# Number of Fisher Scoring iterations: 10
+```
+]]
+
+.pull-right2[
+Estimés :
+
+Intercept = `\(\alpha\)`
+
+Élevation = `\(\beta\)`
+
+]
+
+--
+
+.pull-right2[
+&lt;br&gt;
+Qu'en est-il de `Null deviance` et `Residual deviance`?!
+]
+
+
+---
+## Estimation des paramètres
+
+Dans notre modèle, les paramètres à estimer sont l'ordonnée à l'origine ( `\(\alpha\)` ) et le coefficient de régression de l'élevation ( `\(\beta\)` )
+
+
+`$$log(\mu_i) = 1.769 - 0.0027 \times \text{Élevation}_i$$`
+
+.center[ou]
+
+`$$\mu_i = e^{1.769 - 0.0027 \times \text{Élevation}_i}$$`
+
+
+---
+## La déviance
+
+Rappelez vous que pour estimer les paramètres inconnus, l'estimation par maximum de vraisemblance est utilisée
+
+La déviance résiduelle est approximativement la différence entre la vraisemblance d'un modèle saturé (n paramètres pour chaque observation) et le modèle complet (p paramètres):
+
+`$$\text{Res dev} = 2 \, log(L(y;\,y)) - 2 \, log(L(y;\, \mu))$$`
+
+Dans un GLM Poisson, la déviance résiduelle doit être égale au nombre de degrés de liberté résiduels
+
+.center[.alert[388.12 &gt;&gt; 41]]
+
+---
+## La surdispersion
+
+Quand la déviance résiduelle est supérieure au nombre de degrés de liberté résiduels, le modèle est **surdispersé**
+
+`$$\phi \, = \, \frac{\text{Déviance résiduelle}}{\text{Degrés de liberté résiduels}}$$`
+
+Se produit lorsque la variance dans les données est plus grande que la moyenne. Dans ce cas la distribution de Poisson n'est plus appropriée (beaucoup de zéros, covariables manquantes, etc.)
+
+.center[.large[**Solutions**]]
+
+.pull-left[
+1: Corriger la surdispersion en utilisant en **GLM quasi-Poisson**
+]
+
+.pull-right[
+2: Choisir une autre distribution : **la negative binomial**
+]
+
+---
+## GLM Quasi-Poisson
+
+La variance du modèle tient compte de la **surdispersion** en ajoutant le paramètre de surdispersion:
+
+`$$E(Y_i) = \mu_i$$`
+
+`$$Var(Y_I) = \phi \times \mu_i$$`
+
+le **prédicteur linéaire** et la **fonction de lien** restent les même
+
+$ \phi $ est le paramètre de dispersion. Il sera estimé avant les paramètres. Corriger pour la surdispersion ne va pas affecter l'estimation des paramètres, mais leur **significativité**. En effet, les écarts-types des paramètres seront multipliés par `\(\sqrt{\phi}\)`.
+
+.alert[Certaines p-values marginalement significatives peuvent devenir non significatives!]
+
+---
+## Ajuster un GLM quasi-Poisson sous R
+
+Créez un nouveau GLM à l'aide de la famille 'quasipoisson' ou actualisez le modèle précédent:
+
+
+```r
+glm.quasipoisson = glm(Faramea.occidentalis ~ Elevation, data = faramea,
+                       family=quasipoisson)
+glm.quasipoisson = update(glm.poisson, family = quasipoisson)
+```
+
+---
+## Ajuster un GLM quasi-Poisson sous R
+
+.pull-left2[
+.small[
+
+```r
+summary(glm.quasipoisson)
+# 
+# Call:
+# glm(formula = Faramea.occidentalis ~ Elevation, family = quasipoisson, 
+#     data = faramea)
+# 
+# Deviance Residuals: 
+#     Min       1Q   Median       3Q      Max  
+# -3.3319  -2.7509  -1.5451   0.1139  11.3995  
+# 
+# Coefficients:
+#              Estimate Std. Error t value Pr(&gt;|t|)    
+# (Intercept)  1.768700   0.439233   4.027 0.000238 ***
+# Elevation   -0.002738   0.002572  -1.064 0.293391    
+# ---
+# Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+# 
+# (Dispersion parameter for quasipoisson family taken to be 15.96936)
+# 
+#     Null deviance: 414.81  on 42  degrees of freedom
+# Residual deviance: 388.12  on 41  degrees of freedom
+# AIC: NA
+# 
+# Number of Fisher Scoring iterations: 10
+```
+]]
+.pull-right2[
+**Mêmes estimés mais**
+
+.small[Les écarts-types des paramètres sont multipliés par]
+
+`$$\sqrt{\phi} = 4$$`
+
+`0.0006436 * 4 = 0.00257`
+
+&lt;- `\(\phi\)`
+
+&lt;br&gt;
+
+&lt;- .small[Pas d'AIC!]
+]
+
+---
+## Ajuster un GLM quasi-Poisson sous R
+
+Testons l'effet de l'élévation par une analyse de déviance :
+
+
+```r
+null.model &lt;- glm(Faramea.occidentalis ~ 1, data = faramea,
+                  family = quasipoisson)
+anova(null.model, glm.quasipoisson, test = "Chisq")
+# Analysis of Deviance Table
+# 
+# Model 1: Faramea.occidentalis ~ 1
+# Model 2: Faramea.occidentalis ~ Elevation
+#   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
+# 1        42     414.81                     
+# 2        41     388.12  1   26.686   0.1961
+```
+
+---
+## Paramètre de dispersion
+
+.center[![:scale 80%](images/dispParam.png)]
+
+---
+## GLM binomiale négative
+
+Une distribution binomiale négative est favorisée quand la surdispersion est forte
+
+- La distribution a **deux paramètres** `\(\mu\)` and `\(k\)`. `\(k\)` contrôle pour la dispersion (plus la dispersion est forte, plus `\(k\)` est petit)
+- C'est une combinaison de deux distributions (**Poisson** et **gamma**)
+- Les `\(Y_i\)` suivent une distribution de Poisson dont la moyenne `\(\mu\)` suit une distribution Gamma!
+
+`$$E(Y_i) = \mu_i$$`
+
+`$$Var(Y_i) = \mu_i + \frac{\mu^2_i}{k}$$`
+
+
+---
+## Ajuster une binomiale négative sous R
+
+NB La distribution binomiale n'est pas dans la fonction `glm()` donc il faut installer et charger la paquet `MASS`
+
+```r
+install.packages('MASS')
+```
+
+
+```r
+glm.negbin = glm.nb(Faramea.occidentalis ~ Elevation, data = faramea)
+```
+
+```r
+summary(glm.negbin)
+```
+
+---
+
+.pull-left2[
+.small[
+
+```
+# 
+# Call:
+# glm.nb(formula = Faramea.occidentalis ~ Elevation, data = faramea, 
+#     init.theta = 0.2593107955, link = log)
+# 
+# Deviance Residuals: 
+#      Min        1Q    Median        3Q       Max  
+# -1.36748  -1.17564  -0.51338  -0.05226   2.25716  
+# 
+# Coefficients:
+#              Estimate Std. Error z value Pr(&gt;|z|)    
+# (Intercept)  2.369226   0.473841    5.00 5.73e-07 ***
+# Elevation   -0.007038   0.002496   -2.82  0.00481 ** 
+# ---
+# Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+# 
+# (Dispersion parameter for Negative Binomial(0.2593) family taken to be 1)
+# 
+#     Null deviance: 41.974  on 42  degrees of freedom
+# Residual deviance: 36.343  on 41  degrees of freedom
+# AIC: 182.51
+# 
+# Number of Fisher Scoring iterations: 1
+# 
+# 
+#               Theta:  0.2593 
+#           Std. Err.:  0.0755 
+# 
+#  2 x log-likelihood:  -176.5090
+```
+]]
+.pull-right2[
+
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+`theta` `\(= k\)`
+]
+
+---
+## Représenter le modèle final
+
+**Étape 1** Représenter les données et utiliser les estimations des paramètres pour représenter le modèle
+
+`$$\mu_i = e^{2.369 - 0.007 \times Elevation_i}$$`
+
+Utilisez `summary()` pour obtenir les paramètres
+
+```r
+summary(glm.negbin)$coefficients[1, 1]
+summary(glm.negbin)$coefficients[2, 1]
+```
+
+---
+**Étape 2** Utilisez les écarts-types pour construire l'intervalle de confiance
+
+```r
+summary(glm.negbin)$coefficients[1, 2]
+summary(glm.negbin)$coefficients[2, 2]
+```
+
+`$$\text{Limite sup} = e^{[\alpha - 1.96 \times SE_{\alpha}] + [\beta - 1.96 \times SE_{\beta}] \times \text{Élevation}_i}$$`
+
+`$$\text{Limit inf} = e^{[\alpha + 1.96 \times SE_{\alpha}] + [\beta + 1.96 \times SE_{\beta}] \times \text{Élevation}_i}$$`
+
+---
+.small[
+
+```r
+pp &lt;- predict(glm.negbin, newdata = data.frame(Elevation = 1:800), se.fit = TRUE)
+linkinv &lt;- family(glm.negbin)$linkinv ## inverse-link function
+pframe$pred0 &lt;- pp$fit
+pframe$pred &lt;- linkinv(pp$fit)
+sc &lt;- abs(qnorm((1-0.95)/2))  ## Normal approx. to likelihood
+pframe &lt;- transform(pframe, lwr = linkinv(pred0-sc*pp$se.fit), upr = linkinv(pred0+sc*pp$se.fit))
+
+plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'Number of F. occidentalis', xlab = 'Elevation(m)')
+lines(pframe$pred, lwd = 2)
+lines(pframe$upr, col = 2, lty = 3, lwd = 2)
+lines(pframe$lwr, col = 2, lty = 3, lwd = 2)
+```
+]
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-64-1.png" width="432" style="display: block; margin: auto;" /&gt;
+
+---
+## Défi 3 ![:cube]()
+
+
+Utilisez le jeu de données `mites`! Modélisez l'abondance de l'espèce *Galumna* en fonction des caractéristiques du substrat (son contenu en eau `WatrCont` et sa densité `SubsDens`)
+
+- Faut-il contrôler pour la surdispersion?
+- Quelles variables explicatives ont un effet significatif?
+- Selectionnez le meilleur modèle!
+
+
+
+```r
+mites &lt;- read.csv("mites.csv", header = TRUE)
+```
+
+---
+## Défi 3 : conseils ![:cube]()
+
+Sélection pas à pas en retirant à chaque fois une variable et en comparant le modèle emboité au modèle complet :
+
+```r
+drop1(MyGLM, test = "Chi")
+```
+
+Spécifiez un modèle emboîté manuellement, appelez le `MyGLM2`, et utilisez la fonction anova():
+
+```r
+anova(MyGLM, MyGLM2, test = "Chi")
+```
+
+---
+## Défi 3 : solution ![:cube]()
+
+.small[
+
+```r
+# GLM Poisson
+glm.p = glm(Galumna~WatrCont+SubsDens, data=mites, family=poisson)
+# GLM quasi-Poisson
+glm.qp = update(glm.p,family=quasipoisson)
+# sélection du modèle
+drop1(glm.qp, test = "Chi")
+# Single term deletions
+# 
+# Model:
+# Galumna ~ WatrCont + SubsDens
+#          Df Deviance scaled dev.  Pr(&gt;Chi)    
+# &lt;none&gt;        101.49                          
+# WatrCont  1   168.10      31.711 1.789e-08 ***
+# SubsDens  1   108.05       3.125   0.07708 .  
+# ---
+# Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+```r
+# ou
+glm.qp2 = glm(Galumna~WatrCont, data=mites, family=quasipoisson)
+anova(glm.qp2, glm.qp, test="Chisq")
+```
+]
+
+
+---
+## Défi 3 : solution ![:cube]()
+
+&lt;br&gt;
+
+.center[
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-68-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+## Autres distributions
+
+- **Transformation logit des données** souvent utilisée avec `lm()` pour les pourcentages et les proportions quand la distribution binomiale n'est pas appropriée. Quand non selectionné à partir de quantités fixées (e.g. pourcentage de couverture, grades scolaires, etc).
+- **Distribution log-normal dans un glm**, évite d'avoir à log-transformer les données.
+- **Distribution Gamma**. Similaire à une log-normal, plus flexible.
+- **Distribution tweedie**. Famille de distributions flexible. Utile pour des données avec un mélange de 0 et de valeurs positives (pas forcément des comptes).
+- **Poisson ou negative binomiale à inflation de zéro**. Quand les données comprennent un nombre excessif de zéros, venant d'un processus différent de celui qui génère les comptes.
+
+---
+class: inverse, center, middle
+
+# GLMMs
+
+---
+## Révision: Modèles Linéaires Mixtes
+
+**Rappel de l'atelier LMM**:
+
+- Structure dans le jeu de données ou corrélation entre les observations peut entraîner une **dépendance entre les observations** échantillonnés à partir des même sites ou points dans le temps
+- On en tient compte en incluant des **termes d'effet aléatoire**
+
+**Effets aléatoires**:
+
+- Un échantillon de la population, i.e. les sujets que vous avez échantillonnés par hasard
+- Explique la variation de la variable réponse
+
+**Effets fixes**:
+
+- Reproductible, i.e serait le même dans toutes les études
+- Explique la moyenne de la variable réponse
+
+---
+## Révision: Modèles Linéaires Mixtes
+
+.pull-left[
+**"Shrinkage estimates"**
+
+- Les effets aléatoires sont souvent appelés des **estimations de rétrécissement** parce qu'ils représentent une moyenne pondérée des données et de l'ajustement global (effet fixe)
+- La baisse des coeff. vers l'ajustement global est plus sévère si la variabilité intra-groupe est grande par rapport à la variabilité inter-groupe
+]
+
+.pull-right[
+&lt;br&gt;
+![](images/lmm.png)
+]
+
+
+---
+## Modèles Linéaires Généralisés Mixtes (GLMMs)
+
+Extension des GLMs tenant compte de structures supplémentaires dans les données
+
+Suivre les étapes similaires à celles introduites lors de l'atelier sur les LMMs:
+
+1. LMMs incorporent les effets aléatoires
+2. GLMs peuvent gérer des données non-normales (en laissant les erreurs prendre différentes familles de distribution - e.g Poisson ou binomial négatif)
+
+---
+## Comment modéliser un GLM sous R
+
+Chargez les données `Arabidopsis` `banta_totalfruits.csv` dans R.
+
+
+
+```r
+dat.tf &lt;- read.csv("banta_totalfruits.csv")
+```
+```r
+# popu facteur avec un niveau pour chaque population
+# gen facteur avec un niveau pour chaque génotype
+# nutrient facteur avec niveau bas (valeur = 1) ou haut (valeur = 8)
+# amd facteur précisant l'absence ou la présence d'herbivorie
+# total.fruits nombre entier indiquant le nombre de fruits par plante
+```
+
+L'effet de la disponibilité de nutriments et d'herbivorie (**effets fixes**) sur la production de fruits d'*Arabidopsis thaliana* (arabette des dames) a été évalué en mesurant 625 plantes à travers neuf populations différentes, constituées chacune de 2 à 3 génotypes (**effets aléatoires**)
+
+
+---
+## Choisir la distribution des erreurs
+
+La variable réponse constitue des données d'abondance, donc nous devons choisir une **distribution de Poisson** (i.e variance égale à la moyenne)
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-70-1.png" width="432" style="display: block; margin: auto;" /&gt;
+Cependant, comme nous le verrons, la variance de chaque groupe augmente beaucoup plus rapidement que prévu...
+
+---
+## Exploration de la variance
+
+Pour illustrer l'hétérogénéité de la variance, nous allons d'abord créer des boîtes à moustaches (boxplots) de la variable réponse par rapport aux différents facteurs environnementaux
+
+Créons de nouvelles variables qui représentent toutes les combinaisons de **nutriments** x **herbivorie** x **facteur aléatoire**
+
+
+```r
+dat.tf &lt;- within(dat.tf,
+{
+  # génotype x nutriment x herbivorie
+  gna &lt;- interaction(gen,nutrient,amd)
+  gna &lt;- reorder(gna, total.fruits, mean)
+  # population x nutriment x herbivorie
+  pna &lt;- interaction(popu,nutrient,amd)
+  pna &lt;- reorder(pna, total.fruits, mean)
+})
+```
+
+---
+## Exploration de la variance
+
+.small[
+
+```r
+# Boxplot du total des fruits vs interaction génotype x nutriment x herbivorie
+library(ggplot2)
+ggplot(data = dat.tf, aes(factor(x = gna),y = log(total.fruits + 1))) +
+  geom_boxplot(colour = "skyblue2", outlier.shape = 21,
+  outlier.colour = "skyblue2") +
+  theme_bw() + theme(axis.text.x=element_blank()) +
+  stat_summary(fun.y=mean, geom="point", colour = "red")
+```
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-72-1.png" width="576" style="display: block; margin: auto;" /&gt;
+]
+
+.comment[De même, la boîte à moustaches total des fruits vs population x nutriments x herbivorie montre une grande quantité d'hétérogénéité entre les populations.]
+
+
+---
+## Choisir la distribution des erreurs
+
+Comme nous venons de le voir, il existe une importante hétérogénéité parmi la variance de chaque groupe, même lorsque la variable réponse est transformée
+
+Si nous représentons graphiquement les **écarts vs moyennes par groupes** (génotypes x nutriment x herbivorie), on voit que la distribution de Poisson est la moins appropriée (i.e. écart augmentent beaucoup plus vite que la moyenne)
+
+.small[.pull-left[
+![](images/errDist.png)
+]
+.pull-right[
+
+&lt;font color="blue"&gt;NB = negative binomial&lt;/font&gt;
+
+&lt;br&gt;
+
+&lt;font color="red"&gt;QP = quasi-Poisson&lt;/font&gt;
+
+&lt;br&gt;
+&lt;font color="LightBlue"&gt;loess = Locally weighted regression smoothing&lt;/font&gt;
+]]
+
+
+---
+## GLMM Poisson
+
+Compte tenu de la relation moyenne-variance, nous avons besoin d'un modèle avec surdispersion.
+
+- Mais commençons avec un modèle de Poisson :
+
+Pour lancer un GLMM dans R, nous faisons appel à la fonction `glmer()`, du paquet lme4
+
+
+```r
+library(lme4)
+mp1 &lt;- glmer(total.fruits ~ nutrient*amd + rack + status +
+             (1|popu)+
+             (1|gen),
+             data = dat.tf, family = "poisson")
+```
+
+**Effets aléatoires** : `(1|popu)` contient un intercept aléatoire partagé par les mesures qui ont la même valeur pour `popu`
+
+---
+## Vérification de la surdispersion
+
+Nous pouvons vérifier la surdispersion en utilisant la fonction `overdisp_fun()` (Bolker *et al*. 2011) qui divise la déviance des résidus (résidus de Pearson) par les degrés de liberté des résidus et teste si le rapport est plus grand que 1
+
+
+```r
+# Téléchargez le code glmm_funs.R de la page wiki et sourcez le pour exécuter la fonction dans R
+source(file="data/glmm_funs.R")
+# Surdispersion?
+overdisp_fun(mp1)
+#       chisq       ratio           p        logp 
+# 15755.86833    25.57771     0.00000 -6578.47027
+```
+
+- Ratio est significativement `\(&gt;&gt;\)` 1
+- Comme on s'y attendait, nous devons modéliser une distribution différente où la variance augmente plus rapidement que la moyenne
+
+---
+## GLMM binomiale negative .small[(Poisson-gamma)]
+
+La distribution binomiale négative satisfait la supposition que la **variance est proportionnelle au carré de la moyenne**
+
+
+```r
+mnb1 &lt;- glmer.nb(total.fruits ~ nutrient*amd + rack + status +
+                 (1|popu)+
+                 (1|gen),
+                 data=dat.tf, control=glmerControl(optimizer="bobyqa"))
+# Control spécifie la façon dont nous optimisons les valeurs des paramètres
+```
+
+.pull-left[
+```r
+# Surdispersion?
+overdisp_fun(mnb1)
+```
+]
+.pull-right[
+![:faic](arrow-left).small[.alert[Le rapport est maintenant beaucoup plus près de 1 mais la valeur de p &lt; 0.05]]
+]
+
+---
+## GLMM Poisson-lognormal
+
+- Un autre option est la distribution **Poisson-lognormal**.
+- Cela peut être réalisé simplement en plaçant un effet aléatoire de niveau d'observation dans la formule.
+.small[
+
+```r
+mpl1 &lt;- glmer(total.fruits ~ nutrient*amd + rack + status +
+              (1|X) +
+              (1|popu)+
+              (1|gen),
+data=dat.tf, family="poisson",
+control = glmerControl(optimizer = "bobyqa"))
+```
+
+`(1|X)` traite de la surdispersion en ajoutant des **effets aléatoires au niveau de l'observation**
+
+
+```r
+overdisp_fun(mpl1)
+#         chisq         ratio             p          logp 
+#  1.775363e+02  2.886768e-01  1.000000e+00 -3.755952e-73
+```
+
+.alert[Rapport maintenant conforme avec notre critère]
+]
+
+---
+.small[
+**Représentation graphique des paramètres du modèle**: Une représentation graphique des paramètres du modèle peut être obtenue en utilisant la fonction `coefplot2()`du paquet `coefplot2`:
+
+.pull-left[
+
+```r
+library(coefplot2)
+# Paramètres de la variance
+coefplot2(mpl1, ptype = "vcov", intercept = TRUE)
+```
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-78-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+
+```r
+# Effets fixes
+coefplot2(mpl1, intercept = TRUE)
+```
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-79-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+
+.alert[Note]: barres d'erreur visibles seulement pour les effets fixes parce que glmer ne nous donne pas d'informations sur l'incertitude des effets aléatoires.
+]
+
+---
+## Visualisation des effets aléatoires
+
+Vous pouvez aussi extraire les effets aléatoires en utilisant la fonction `ranef()` et les tracer en utilisant un `dotplot()` du paquet `lattice`
+
+Il y a une variabilité régionale parmi les populations :
+
+- Les populations espagnoles (SP) ont des valeurs plus élevées que les populations suédoises (SW) et néerlandaises (NL)
+
+La différence entre les génotypes semble largement induite par génotype 34
+
+```r
+library(gridExtra)
+# dotplot code
+pp &lt;- list(layout.widths=list(left.padding=0, right.padding=0),
+           layout.heights=list(top.padding=0, bottom.padding=0))
+r2 &lt;- ranef(mpl1, condVar = TRUE)
+d2 &lt;- lattice::dotplot(r2, par.settings = pp)
+
+grid.arrange(d2$gen, d2$popu, nrow = 1)
+```
+
+---
+## Visualisation des effets aléatoires
+
+&lt;br&gt;
+
+&lt;img src="workshop07-fr_files/figure-html/unnamed-chunk-80-1.png" width="648" style="display: block; margin: auto;" /&gt;
+
+
+---
+## Sélection du modèle
+
+Les même méthodes peuvent être utilisées avec un glmm ou lmm pour choisir entre des modèles avec différents intercepts aléatoires et/ou des pentes aléatoires et pour choisir les effets fixes à conserver dans le modèle final.
+
+- une **approche de la théorie de l'information** (e.g., AICc - Atelier 5)
+- une **approche fréquentiste** (où l'importance de chaque terme est évaluée en utilisant `anova()` et le test de rapport de vraisemblance; LRT)
+
+
+---
+## Sélection du modèle
+
+Nous dérivons d'abord les modèles potentiels et les comparons en utilisant AICc.comment[*]:
+
+
+```r
+mpl2 &lt;- update(mpl1, . ~ . - rack) # modèle sans rack
+mpl3 &lt;- update(mpl1, . ~ . - status) # modèle sans status
+mpl4 &lt;- update(mpl1, . ~ . - amd:nutrient) # modèle sans interaction amd:nutrient
+bbmle::ICtab(mpl1, mpl2, mpl3, mpl4, type = c("AICc"))
+#      dAICc df
+# mpl1  0.0  10
+# mpl4  1.4  9 
+# mpl3  1.5  8 
+# mpl2 55.0  9
+```
+
+.comment[*NB: Nous ne couvrons pas tous les modèles possibles ci-dessus, cependant, l'interaction `amd:nutriments` ne peut être évaluée que si amd et nutriments sont présents dans le modèle.
+]
+
+
+---
+## Sélection du modèle
+
+Nous pouvons aussi utiliser les fonctions `drop1()` et `dfun()` pour évaluer nos effets fixes (`dfun()` convertit les valeurs AIC retournées par `drop1()` en valeurs `\(\Delta\)`AIC)
+
+.small[
+
+```r
+dd_LRT &lt;- drop1(mpl1,test="Chisq")
+(dd_AIC &lt;- dfun(drop1(mpl1)))
+# Single term deletions
+# 
+# Model:
+# total.fruits ~ nutrient * amd + rack + status + (1 | X) + (1 | 
+#     popu) + (1 | gen)
+#              Df   dAIC
+# &lt;none&gt;           0.000
+# rack          1 55.083
+# status        2  1.612
+# nutrient:amd  1  1.444
+```
+]
+
+---
+.small[
+
+```r
+dd_LRT &lt;- drop1(mpl1,test="Chisq")
+(dd_AIC &lt;- dfun(drop1(mpl1)))
+# Single term deletions
+# 
+# Model:
+# total.fruits ~ nutrient * amd + rack + status + (1 | X) + (1 | 
+#     popu) + (1 | gen)
+#              Df   dAIC
+# &lt;none&gt;           0.000
+# rack          1 55.083
+# status        2  1.612
+# nutrient:amd  1  1.444
+```
+]
+
+- Fort effet de **rack** (dAIC = 55.08 si on enlève cette variable)
+- Effets de **status** et de l'**interaction** sont faibles (dAIC &lt; 2)
+- Commençons par **enlever l'interaction non significative** afin de tester les effets principaux de nutriments et d'herbivorie
+
+---
+## Sélection du modèle
+
+.small[
+.pull-left2[
+
+```r
+mpl2 &lt;- update(mpl1, . ~ . - and:nutrient)
+# Utiliser AIC
+mpl3 &lt;- update(mpl2, . ~ . - rack) # pas de rack ou interaction
+mpl4 &lt;- update(mpl2, . ~ . - status) # pas de status ou interaction
+mpl5 &lt;- update(mpl2, . ~ . - nutrient) # pas de nutrient ou interaction
+mpl6 &lt;- update(mpl2, . ~ . - amd) # pas d'herbivorie ou interaction
+# bbmle::ICtab(mpl2, mpl3, mpl4, mpl5, mpl6,
+#              type = c("AICc"))
+
+# Ou utiliser drop1
+dd_LRT2 &lt;- drop1(mpl2,test="Chisq")
+dd_AIC2 &lt;- dfun(drop1(mpl2))
+```
+]
+.pull-right2[
+
+```r
+library(bbmle)
+ICtab(mpl2, mpl3 ,mpl4,
+      mpl5, mpl6,
+      type = c("AICc"))
+#      dAICc df
+# mpl2  0.0  10
+# mpl5  0.0  10
+# mpl4  1.5  8 
+# mpl6 10.6  9 
+# mpl3 55.0  9
+```
+]]
+
+---
+- Fort effets de **nutriments** et d'**herbivorie** (grand changement d'AIC de `\(135.6\)` (`mpl5`) et `\(10.2\)` (`mpl6`) si l'un ou l'autre sont supprimés, respectivement).
+- Notre modèle final inclut l'effet fixe de nutriments, d'herbivorie, la variable nuisance de rack, l'effet aléatoire au niveau de l'observation `(1|X)` et la variation de fruits par populations et génotypes
+
+
+---
+## Prêt pour un défi? ![:cube]()
+
+En utilisant l'ensemble de données `inverts` (temps de développement larvaire (`PLD`) de 74 espèces d'invertébrés et vertébrés marins élevés à différentes températures et temps), répondez aux questions suivantes:
+
+- Quel est l'effet du type d'alimentation et du climat (**effets fixes**) sur `PLD`?
+- Est-ce que cette relation varie selon les taxons (**effets aléatoires**)?
+- Quelle est la **meilleure famille de distributions** pour ces données?
+- Finalement, une fois que vous avez déterminé la meilleure famille de distribution, re-évaluez vos effets fixes et aléatoires.
+
+
+---
+## Ressources addionnelles sur les GLMMs
+
+**Livres** :
+
+- B. Bolker (2009) Ecological Models and Data in R. Princeton University Press.
+- A. Zuur et al. (2009) Mixed Effects Models and Extensions in Ecology with R. Springer.
+
+**Sites internet** :
+
+- GLMM for ecologists (http://glmm.wikidot.com) .small[.comment[A great website on GLMM with a Q&amp;A section!]]
+
+---
+class: inverse, center, bottom
+
+# Merci pour votre participation à cet atelier!
+
+![:scale 50%](images/QCBS_logo.png)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="qcbsR-macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
