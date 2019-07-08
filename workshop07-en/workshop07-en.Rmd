@@ -94,13 +94,13 @@ class: inverse, center, middle
 
 Load dataset and fit a linear model (`lm()`):
 
-```{r,echo=FALSE}
+```{r, echo=FALSE}
   mites <- read.csv('data/mites.csv')
 ```
 
-```{r,eval=F}
+```r
   # make sure you're in the right working directory
-  mites <- read.csv('mites.csv')
+  mites <- read.csv('data/mites.csv')
   head(mites)
   str(mites)
 ```
@@ -268,7 +268,7 @@ $x_i$ = explanatory variable
 
 $\varepsilon_i$ = model residuals drawn from a normal distribution with a varying mean but a constant variance**
 
-.comment[.alert[**Key point!] Residuals (the distance between each observation and the regression line) can be predicted by drawing random values from a normal distribution.]
+.comment[.alert[**Key point!**] Residuals (the distance between each observation and the regression line) can be predicted by drawing random values from a normal distribution.]
 
 ---
 ## Normally distributed residuals
@@ -501,7 +501,7 @@ Common response variable in ecological datasets is the binary variable: we obser
 - Success/Failure to observe behaviour
 - Survival/Death of organisms
 
-Wish to determine if $P/A \sim Environment$ .comment[*]
+Wish to determine if $P/A \sim Environment$
 
 .comment[Called a logistic regression or logit model]
 
@@ -678,7 +678,7 @@ Build a logistic regression model using the mites data
 
 ```{r,eval=F}
 #setwd('...')
-mites <- read.csv("mites.csv", header = TRUE)
+mites <- read.csv("data/mites.csv", header = TRUE)
 str(mites)
 
 ```{r,echo=F}
@@ -839,14 +839,15 @@ To assess goodness of fit, diagnostic plots are not useful, instead must use **H
 The R function `PseudoR2` in the `DescTools` package allow the compute several Pseudo R2. Specifying `which = all` compute all the different statistics.
 
 
-```{r}
+```{r, echo -1}
+logit.reg <- glm(mites$pa ~ mites$WatrCont + mites$Topo, family = binomial(link = "logit")) # needed for the rmd presentation, or else problem with PseudoR2 environment...  
 library(DescTools)
 fit <- PseudoR2(logit.reg, which = "all")
 fit
 ```
 
 ---
-#### Exercise 2: Perform a Hosmer-Lemeshow test 
+#### Exercise 2: Perform a Hosmer-Lemeshow test
 
 
 ```{r}
@@ -1315,7 +1316,7 @@ Use the `mites` dataset! Model the abundance of the species Galumna as a functio
 mites <- read.csv("data/mites.csv", header = TRUE)
 ```
 ```{r,eval=F}
-mites <- read.csv("mites.csv", header = TRUE)
+mites <- read.csv("data/mites.csv", header = TRUE)
 ```
 
 ---
@@ -1628,7 +1629,7 @@ overdisp_fun(mpl1)
 **Visualization the model parameters**: A graphical representation of the model parameters can be obtained using the `coefplot2()` function from the `coefplot2` package:
 
 .pull-left[
-```{r, fig.height=6, fig.width=6,echo=-1}
+```{r, fig.height=6, fig.width=6, echo=-1}
 par(mypar);par(cex = 1.4)
 library(coefplot2)
 # Variance terms

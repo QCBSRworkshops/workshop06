@@ -98,7 +98,7 @@ Charger les données et appliquer un modèle linéaire (`lm()`) :
 
 ```{r,eval=F}
   # vérifiez que vous êtes dans le bon répertoire de travail
-  mites <- read.csv('mites.csv')
+  mites <- read.csv('data/mites.csv')
   head(mites)
   str(mites)
 ```
@@ -122,7 +122,7 @@ Charger les données et appliquer un modèle linéaire (`lm()`) :
 
 ```{r,eval=F}
   # vérifiez que vous êtes dans le bon répertoire de travail
-  mites <- read.csv('mites.csv')
+  mites <- read.csv('data/mites.csv')
   head(mites)
   str(mites)
 ```
@@ -876,7 +876,8 @@ Pour évaluer l'ajustement du modèle, les graphiques de diagnostique ne sont pa
 La fonction R `PseudoR2` dans le package` DescTools` permet de calculer plusieurs Pseudo R2. En spécifiant `which = all`, calculez toutes les statistiques en même temps.
 
 
-```{r}
+```{r, echo = -1}
+logit.reg <- glm(mites$pa ~ mites$WatrCont + mites$Topo, family = binomial(link = "logit")) # needed for the rmd presentation, or else problem with PseudoR2 environment...  
 library(DescTools)
 fit <- PseudoR2(logit.reg, which = "all")
 fit
