@@ -12,6 +12,8 @@ Le contenu de cet atelier a été révisé par plusieurs membres du CSBQ. Si vou
 
 # Workshop 7: Generalized linear mixed models
 
+[![Build Status](https://travis-ci.org/QCBSRworkshops/workshop07.svg?branch=dev)](https://travis-ci.org/QCBSRworkshops/workshop07)
+
 A significant limitation of linear models is that they cannot accommodate
 response variables that do not have a normal error distribution. Most biological
 data do not follow the assumption of normality. In this workshop, you will learn
@@ -24,6 +26,8 @@ models and extend it to generalized linear mixed effect models.
 
 # Atelier 7: Modèles linéaires généralisés (mixtes)
 
+[![Build Status](https://travis-ci.org/QCBSRworkshops/workshop07.svg?branch=dev)](https://travis-ci.org/QCBSRworkshops/workshop07)
+
 Les modèles linéaires généralisés sont des outils importants afin de surmonter
 un problème récurrent des modèles linéaires, c.-à-d. les variables réponses
 n'ayant pas une distribution normale des résidus. Dans cet atelier, vous
@@ -32,3 +36,22 @@ réponse, le concept de fonction de lien, et comment vérifier les suppositions 
 base de ces modèles. Nous allons également nous baser sur ce qui a été appris
 dans l'atelier 6 afin d'introduire les modèles linéaires généralisés avec
 effets mixtes.
+
+
+# Links
+
+#### [English](https://qcbsrworkshops.github.io/workshop07/workshop07-en/workshop07-en.html)
+
+#### [Français](https://qcbsrworkshops.github.io/workshop07/workshop07-fr/workshop07-fr.html)
+
+# Developers
+
+1. Set the working directory set to this folder.
+2. then use:
+
+``` r
+install.packages("remotes")
+remotes::install_github("QCBSRworkshops/qcbsRworkshops")
+library("qcbsRworkshops")
+build_workshops()
+```

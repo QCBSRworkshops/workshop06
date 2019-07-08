@@ -1,0 +1,22 @@
+Package: placeholder
+Type: Tutorial
+Title: Workshop 07
+Version: 0.0.1
+Authors@R: c(
+  person("Team", "QCBS", role = c("aut", "cre"), email = "kevin.cazelles@gmail.com")
+  )
+Imports:
+  MASS,
+  tidyverse,
+  gridExtra,
+  lme4,
+  lattice,
+  bbmle,
+  coda,
+  reshape,
+  DescTools,
+  vcdExtra,
+  qcbsRworkshops,
+  xaringan
+Remotes:
+  QCBSRworkshops/qcbsRworkshops
