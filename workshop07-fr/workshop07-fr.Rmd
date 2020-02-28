@@ -88,7 +88,7 @@ class: inverse, center, middle
 
 <hr>
 
-## Un meilleur modèle? 
+### Y aurait-il un meilleur modèle? 
 
 
 ---
@@ -97,19 +97,21 @@ class: inverse, center, middle
 Charger les données et appliquer un modèle linéaire (`lm()`) :
 
 ```{r,echo=FALSE}
-  mites <- read.csv('data/mites.csv')
+mites <- read.csv('data/mites.csv')
 ```
 
 ```{r,eval=F}
-  # vérifiez que vous êtes dans le bon répertoire de travail
-  mites <- read.csv('data/mites.csv')
-  head(mites)
-  str(mites)
+# vérifiez que vous êtes dans le bon répertoire de travail
+mites <- read.csv('data/mites.csv')
+head(mites)
+str(mites)
 ```
 
-<br>
-
-Le jeu de données chargé contient une partie du jeu de données classique des [mites Oribatid](http://adn.biol.umontreal.ca/~numericalecology/data/oribates.html):
+Le jeu de données chargé contient une partie du jeu de données classique des
+[mites Oribatid (Acari,
+Oribatei)](http://adn.biol.umontreal.ca/~numericalecology/data/oribates.html)
+des sphaignes (Sphagnum sp.) du Lac Geai, [Station de Biologie de l'Université
+de Montreal](https://goo.gl/maps/PxN1Q7KUPnUt92Eu5) :
 
 .small[
 > 70 échantillons de mousses et mites
@@ -150,9 +152,9 @@ Une relation negative entre `Galumna` et le contenu en eau du sol?
 ```{r,fig.width=12,fig.height=4.5,echo=-1}
 par(mypar)
 par(mfrow = c(1, 3), cex = 1.4)
-  plot(Galumna ~ WatrCont, data = mites, xlab = 'Contenu en eau', ylab='Abondance')
-  boxplot(WatrCont ~ pa, data = mites, xlab='Présence/Absence', ylab = 'Contenu en eau')
-  plot(prop ~ WatrCont, data = mites, xlab = 'Contenu en eau', ylab='Proportion')
+plot(Galumna ~ WatrCont, data = mites, xlab = 'Contenu en eau', ylab='Abondance')
+boxplot(WatrCont ~ pa, data = mites, xlab='Présence/Absence', ylab = 'Contenu en eau')
+plot(prop ~ WatrCont, data = mites, xlab = 'Contenu en eau', ylab='Proportion')
 ```
 
 ---
@@ -252,36 +254,50 @@ plot(lm.pa)
 ]
 
 ---
-# Suppositions des modèles linéaires
+# Conditions d'application du modèle linéaire
 
-Il est très commun en écologie que les suppositions des modèles linéaires ne soient pas respectées.
-  - Raison principale pourquoi nous avons souvent besoin des modèles linéaires généralisées (GLMs)!
+<br>
 
-.comment[Revisitons les hypothèses du modèle linéaire...]
+Il est **très commun** en écologie que lesdonditions d'application du modèle
+linéaire ne soient pas respectées. C'est pourquoi nous avons souvent besoin des
+**modèles linéaires généralisées** (GLMs)!
+
+<br>
+
+.alert[Rafraîchissons-nous la mémoire à propos des conditions d'application du modèle linéaire.]
 
 ---
-# Suppositions des modèles linéaires
+# Conditions d'application du modèle linéaire
 
-Équation du modèle linéaire :
+Équation du modèle:
 
-$y = \beta_0 + \beta_1x_i + \varepsilon$
+$$y_i = \beta_0 + \beta_1x_i + \varepsilon_i$$
 
 où:
 
-$y_i$ = valeur estimée pour la variable réponse
+- $y_i$ = valeur estimée pour la i<sup>ème</sup> variable réponse,
+- $\beta_0$ = ordonnée à l'origine de la droite,
+- $\beta_1$ = pente,
+- $x_i$ = i<sup>ème</sup> valeur de la variable observée.
+- $\varepsilon_i$ = résidus du modèle obtenus d'une distribution normale de moyenne 0 et de variance constante (qui est à estimer).
 
-$\beta_0$ = ordonnée à l'origine de la droite
-
-$\beta_1$ = pente
-
-$x_i$ = valeur de la variable indépendante
-
-$\varepsilon_i$ = résidus du modèle obtenus d'une distribution normale dont la moyenne varie mais dont la variance est constante.
-
-.comment[.alert[**Point clé!**] les résidus (distances entre les observations et la droite de régression) peuvent être prédits en échantillonnant de façon aléatoire une distribution normale.]
 
 ---
-# Distribution normale des résidus
+# Distribution normale
+<br>
+
+Une autre manière d'écrire le modèle linéaire est :
+
+$$Y_i \sim \mathcal{N}(\mu = \beta_0 + \beta_1x_i, \sigma^2)$$
+
+<br>
+Ce qui signifie que $y_i$ (réalisation de la variable aléatoire $Y_i$) est échantillonnée dans une distribution normale ayant les paramètres $\mu$ (dont la valeur dépend de $x_i$) et $\sigma$ (indépendantes de $x_i$)
+
+<br>
+Essayons de prédire l'abondance de `Galumna` en fonction du contenu d'eau en utilisant `lm()` que nous avons vu plus tôt.
+
+---
+# Distribution normale
 
 **Rappel** : La distribution normale a deux paramètres, $\mu$ (moyenne) et $\sigma$ (variance)
 
@@ -311,23 +327,31 @@ legend('topleft', legend = c('5', '7.5', '10'), lty = 1, col = c(1, 2, 4), bty =
 ```
 ]
 
+
+
+
 ---
-# Distribution normale des résidus
+# Distribution normales des résidus 
 
-Une autre équation pour le modèle linéaire est :
-
-$Y_i \sim N(\mu = \beta_0 + \beta_1 X_i, \sigma^2)$
+.large[.alert[Pour utiliser correctement le modèle linéaire, il faut s'assurer que les résidus sont distribués selon une loi normale centrée.]]
 
 <br>
-Ce qui signifie que $y_i$ (réalisation de $Y_i$) est échantillonnée dans une distribution normale ayant les paramètres $\mu$ (dont la valeur dépend de $x_i$) et $\sigma$ (indépendantes de $x_i$)
 
+Il faut donc **vérifier la normalité des résidus** et non celle la distribution de la variable de réponse, comme le Andrew MacDonald dans un tweet à propos de cette dernière pratique:
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">This is the wrong thing to do because what matters is how your &quot;response variable&quot; is distributed *AFTER* you do your model, not before! <a href="https://twitter.com/rlmcelreath?ref_src=twsrc%5Etfw">@rlmcelreath</a> called this practice &quot;histomancy&quot;, which name I love</p>&mdash; Andrew MacDonald 🌈 (@polesasunder) <a href="https://twitter.com/polesasunder/status/1225100358738948101?ref_src=twsrc%5Etfw">February 5, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 <br>
-.comment[Essayons de prédire l'abondance de `Galumna` en fonction du contenu d'eau en utilisant le `lm` que nous avons vu plus tôt...]
+
+
+
+
+<!-- https://fr.wikipedia.org/wiki/Loi_de_Bernoulli -->
 
 ---
 # Prédiction du modèle
+<br>
 
-Nous avons besoin des coefficients de régression ($\beta_0$ et $\beta_1$) et de $\sigma$ :
+Nous avons besoin des coefficients de régression ( $\beta_0$ et $\beta_1$) et de $\sigma$ :
 
 ```{r}
 coef(lm.abund)
@@ -336,7 +360,7 @@ summary(lm.abund)$sigma
 
 Quels sont les paramètres de la distribution normale utilisés pour modéliser $y$ lorsque le contenu d'eau = 300?
 
-$y_i \sim N(\mu = \beta_0 + \beta_1 X_i, \sigma^2)$
+$$y_i \sim N(\mu = \beta_0 + \beta_1 x_i, \sigma^2)$$
 
 --
 
@@ -347,9 +371,9 @@ $\sigma = 1.51$
 ---
 # Prédiction du modèle
 
-- Lorsque $x = 300$, les résidus devraient suivre une distribution normale avec $\mu = 1.63$ et $\sigma^2 = 1.51$.
+- Lorsque $x_i = 300$, $Y_i$ suit une distribution normale avec $\mu = 1.63$ et $\sigma^2 = 1.51$.
 
-- Lorsque $x = 400$, les résidus devraient suivre une distribution normale avec $\mu = 1.02$ et $\sigma^2 = 1.51$, etc.
+- Lorsque $x_i = 400$, $Y_i$ suit une distribution normale avec $\mu = 1.02$ et $\sigma^2 = 1.51$, etc.
 
 
 <br>
@@ -373,18 +397,18 @@ Graphiquement, notre modèle ressemble à :
 
 <br>
 
-- Les statisticiens ont développé [une foule de lois de probabilité (distributions)](https://www.causascientia.org/math_stat/Dists/Compendium.pdf) correspondant à divers types de données
+- Les statisticiens ont développé [de nombreuses lois de probabilité (distributions)](https://www.causascientia.org/math_stat/Dists/Compendium.pdf) correspondant à divers types de données
 
 - Une distribution donne la probabilité d'observer chaque issue possible d'une expérience ou échantillonage (e.g. $abund = 8$ Galumna)
 
 - Les distributions peuvent être **discrètes** (que des nombres entiers) ou **continues** (incluent aussi des fractions)
 
-- Toutes les distributions ont des **paramètres** qui déterminent la forme (e.g. $\mu$ et $\sigma^2$ pour la distribution normale)
+- Toutes les distributions ont des **paramètres** qui déterminent leur forme (e.g. $\mu$ et $\sigma^2$ pour la distribution normale)
 
 ---
 # Données biologiques & distributions
 
-L'abondance de *Galumna* suit une distribution discrète (que des nombres entiers). Pour modéliser les données d'abondance. la [loi de Poisson](https://fr.wikipedia.org/wiki/Loi_de_Poisson) est souvent utilisée:
+L'abondance de *Galumna* suit une distribution discrète (que des nombres entiers). Pour modéliser les données d'abondance, la [loi de Poisson](https://fr.wikipedia.org/wiki/Loi_de_Poisson) est souvent utilisée:
 
 - une distribution discrète avec un seul paramètre, $\lambda$ (lambda), qui détermine la moyenne et la variance de la distribution:
 
@@ -401,16 +425,10 @@ plot(x, dpois(x, lambda = 30), type = 'h', lwd = 3, xlab = '# galumna', ylab = '
 
 *Galumna* semble suivre une loi de Poisson avec une faible valeur de $\lambda$ :
 
-.pull-left[
-```{r}
-  hist(mites$Galumna)
-```
-]
-.pull-right[
 ```{r}
   mean(mites$Galumna)
+  hist(mites$Galumna)
 ```
-]
 
 ---
 # Données biologiques & distributions
@@ -428,7 +446,7 @@ Présence-absence par contre prend une autre forme :
 ---
 # Données biologiques & distributions
 
-**Distribution “Bernoulli”** :
+**Distribution de [Bernoulli](https://fr.wikipedia.org/wiki/Loi_de_Bernoulli)** :
 
 - N'inclut que deux issues possibles dans son ensemble: succès (`1`) ou échec (`0`)
 - N'a qu'un paramètre, $p$, la probabilité de succès
@@ -445,7 +463,7 @@ Nous pouvons utiliser la loi de Bernoulli pour calculer la probabilité d'obteni
 ---
 # Données biologiques & distributions
 
-**Distribution binomiale** : Lorsqu'il y a plusieurs épreuves (chacune avec un succès/échec), la loi de Bernoulli se transforme en loi binomiale
+**[Distribution binomiale](https://fr.wikipedia.org/wiki/Loi_binomiale)** : Lorsqu'il y a plusieurs épreuves (chacune avec un succès/échec), la loi de Bernoulli se transforme en loi binomiale
 
 - Inclut le paramètre additionel $n$, le nombre d'épreuves
 - Prédit la probabilité d'observer une certaine proportion de succès, $p$, sur le nombre total d'épreuves, $n$
@@ -475,17 +493,17 @@ plot(x, dpois(x, lambda = 30), type = 'h', lwd = 3, xlab = '# galumna', ylab = '
 ---
 # Données biologiques & distributions
 
-Retournons à notre problème... pour changer la distribution des résidus (εi) de normale à Poisson :
+Retournons à notre problème pour changer la distribution de $Y_i$ de normale à Poisson :
 
-$$y_i \sim Poisson(\lambda = \beta_0 + \beta_1 x_i)$$
+$$Y_i \sim Poisson(\lambda = \beta_0 + \beta_1 x_i)$$
 
 Le problème est résolu!
 
-1. $\lambda$ varie avec $x$ (contenu d'eau), donc la variance des résidus variera aussi selon $x$, et nous venons de nous défaire de la supposition d'homogénéité de la variance!
+1. $\lambda$ varie avec $x$ (contenu d'eau) et la variance des résidus changera aussi avec $x$, et nous venons de nous défaire de la supposition d'homogénéité de la variance!
 
-2. Les valeurs estimées seront des nombres entiers plutôt que des nombres décimaux
+2. Les valeurs estimées seront des nombres entiers plutôt que des nombres décimaux;
 
-3. Ce modèle ne prédira jamais de valeurs négatives (Poisson est toujours strictement positif)
+3. Ce modèle ne prédira jamais de valeurs négatives (Poisson est toujours strictement positif).
 
 ---
 # Données biologiques & distributions
@@ -550,15 +568,13 @@ print(dat)
 ---
 # Variables binaires
 
-Clairement pas distribué normalement!
-
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">This is the wrong thing to do because what matters is how your &quot;response variable&quot; is distributed *AFTER* you do your model, not before! <a href="https://twitter.com/rlmcelreath?ref_src=twsrc%5Etfw">@rlmcelreath</a> called this practice &quot;histomancy&quot;, which name I love</p>&mdash; Andrew MacDonald 🌈 (@polesasunder) <a href="https://twitter.com/polesasunder/status/1225100358738948101?ref_src=twsrc%5Etfw">February 5, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-<br>
 
 ```{r,echo=F,fig.width=7, fig.height=6}
 par(mypar);par(cex = 1.4)
 hist(Presence)
 ```
+
+.alert[Avec un modèle linéaires, les résidus ne seront pas distribués normalement!]
 
 ---
 # Variables binaires
@@ -608,51 +624,54 @@ La fonction `glm()`!
 
 <br>
 
-`logit.reg <- glm(formula, data, family)`
+```R
+logit.reg <- glm(formula, data, family)
+```
 
 <br>
 
-Pour s'éloigner des modèles linéaires traditionnels, il faut spécifier deux choses (`family`) :
+Pour utiliser la bonne distribution, il faut spécifier deux choses 
 
-1) distribution de probabilité
+1. distribution de probabilité
 
+--
 **ET**
 
-2) une fonction de lien
+--
+2. une [fonction de lien](https://en.wikipedia.org/wiki/Generalized_linear_model#Link_function) (il y a une fonction de lien par défaut pour une distribution donnée!)
+
+<br>
+
+--
+
+Dans R, cela se fait en utilisant l'argument `family` (voir `?family`) :
 
 ---
 # La fonction de lien
 
 Pour un modèle linéaire de base d'une variable réponse normalement distribuée, l'équation pour la valeur attendue est :
 
-<br>
-
 $$\mu = x\beta$$
 
 où
 
-- $\mu$ représente les valeurs prédites par le modèle
-- $x$ est la matrice du modèle (*i.e.* les variables explicatives)
-- $\beta$ est le vecteur des paramètres estimés (*i.e.* intercept & pente)
+- $\mu$ représente les valeurs prédites par le modèle,
+- $x$ est la matrice du modèle (*i.e.* les variables explicatives),
+- $\beta$ est le vecteur des paramètres estimés (*i.e.* intercept & pente).
 
-<br>
 
-$x\beta$ se nomme le **prédicteur linéaire**
+###### $x\beta$ est appelé le **prédicteur linéaire**
 
 ---
 # La fonction de lien
 
 $\mu = x\beta$ est vrai seulement pour la distribution normale
 
-Si ce n'est pas le cas, on utilise une transformation sur $\mu$
+Si ce n'est pas le cas, on utilise une transformation $g$ sur $\mu$
 
 $$g(\mu) = x\beta$$
 
-où $g(\mu)$ est la fonction de lien
-
-<br>
-
-Cela permet de relâcher l'hypothèse de normalité
+où $g$ est appelée **fonction de lien**. Cela permet de travailler avec des distribution autre que la loi normale.
 
 ---
 # La fonction de lien
@@ -661,29 +680,20 @@ Pour les données binaires, on utilise la transformation **logit** :
 
 <br>
 
-$$g(\mu) = log\frac{\mu}{1-\mu}$$
+$$g(\mu) = log\left(\frac{\mu}{1-\mu}\right)$$
 
 $\mu =$ variables prédites (probabilité que $Y = 1$)
 
-<br>
+--
 
-- Obtenir la cote ( $\frac{\mu}{1-\mu}$)
-- La transformer en log
+1. $\frac{\mu}{1-\mu}$ met les valeurs prédites sur une échelle de  `0` à `+Inf`
+2. La transformer en log ce qui projette les valeurs prédites sur entre`-Inf` à `+Inf`
 
----
-# La fonction de lien
-
-$$g(\mu) = log\frac{\mu}{1-\mu}$$
-
-- Obtenir la cote ( $\frac{\mu}{1-\mu}$)
-- La transformer en log
+--
 
 <br>
-La cote met les valeurs prédites sur une échelle de  `0` à `+Inf`
 
-La transformation log met les valeurs prédites sur une échelle de `-Inf` à `+Inf`
-
-![:faic](arrow-right) Les valeurs prédites transformées sont reliées **linéairement** au prédicteur linéaire
+![:faic](arrow-right) Les valeurs prédites **transformées** sont reliées **linéairement** au prédicteur linéaire
 
 ---
 # Exercice 1
@@ -774,14 +784,14 @@ La sortie indique que le contenu d'eau et la topographie sont significatifs
 
 Rappelez-vous que nous avons utilisé une transformation logit!
 
-Pour bien interpréter les coefficients du modèle, on doit utiliser une fonction 'inverse' :
+Pour bien interpréter les coefficients du modèle, on doitla fonction 'inverse' de la function de lien ($g^{-1}$):
 
 <br>
 La fonction exponentielle pour obtenir les cotes : $e^x$
 
 La fonction logit inverse pour obtenir les probabilités :
 
-$$logit^{-1} = \frac{1}{1 + \frac{1}{e^x}}$$
+$$logit^{-1} = \frac{1}{1 + e^{-x}}$$
 
 ---
 # Interpréter la sortie
@@ -795,13 +805,14 @@ exp(logit.reg$coefficient[2])
 Pour le contenu d'eau sur l'échelle des probabilités :
 
 ```{r}
-1 / (1 + 1/exp(logit.reg$coefficient[2]))
+1 / (1 + exp(-logit.reg$coefficient[2]))
 ```
 
 ---
 # Pouvoir prédictif et ajustement du modèle
+<br>
 
-Le pseudo-R², un concept analogue du $R^2$ pour les modèles estimés par maximisation de la vraisemblance:
+Le [pseudo-R²](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-what-are-pseudo-r-squareds/), un concept analogue au $R^2$ pour les modèles estimés par maximisation de la vraisemblance:
 
 $$\text{pseudo-R}^2 = \frac{\text{déviance nulle - déviance résiduelle}}{\text{déviance nulle}}$$
 
@@ -814,7 +825,7 @@ $\text{pseudo-R}^2 = \text{variance expliquée par le modèle}$
 
 Comparer la déviance du modèle (déviance résiduelle) à la déviance d'un modèle nul (déviance nulle)
 
-Le **modèle nul** est un modèle sans variables explicatives
+Le **modèle nul** est un modèle sans variables explicatives, simplement l'ordonnée à l'origine
 
 ```R
 null.model <- glm(Response.variable ~ 1, family = binomial)
@@ -879,6 +890,8 @@ HLtest(logit.reg)
 
 ---
 # Défi 2 ![:cube]()
+<br>
+
 
 1. En utilisant le modèle créé avec le jeu de données 'bacteria', évaluez le pouvoir prédictif et l'ajustement de ce modèle.
 
@@ -947,7 +960,6 @@ On peut coder le modèle directement avec les proportions:
 prop.reg2 <- glm(prop ~ Topo + WatrCont, data = mites,
                  family = binomial, weights = totalabund)
 ```
-
 
 ---
 class: inverse, center, middle
@@ -1036,8 +1048,6 @@ $$E(Y)\, =\, Var(Y)\, =\, \mu$$
 # Que se cache-t-il derrière un GLM Poisson?
 
 Un GLM Poisson va modéliser la valeur de $\mu$ en fonction de différentes variables explicatives.
-
-<br>
 
 .center[**Trois étapes**]
 
@@ -1256,6 +1266,7 @@ summary(glm.negbin)
 ```
 
 ---
+# Ajuster une binomiale négative sous R
 
 .pull-left2[
 .small[
@@ -1284,6 +1295,8 @@ summary(glm.negbin)$coefficients[2, 1]
 ```
 
 ---
+# Représenter le modèle final
+
 **Étape 2** Utilisez les écarts-types pour construire l'intervalle de confiance
 
 ```r
@@ -1296,6 +1309,8 @@ $$\text{Limite sup} = e^{[\alpha - 1.96 \times SE_{\alpha}] + [\beta - 1.96 \tim
 $$\text{Limit inf} = e^{[\alpha + 1.96 \times SE_{\alpha}] + [\beta + 1.96 \times SE_{\beta}] \times \text{Élevation}_i}$$
 
 ---
+# Représenter le modèle final
+
 .small[
 ```{r,eval=F}
 pp <- predict(glm.negbin, newdata = data.frame(Elevation = 1:800), se.fit = TRUE)
@@ -1420,6 +1435,7 @@ lines(pframe$lwr, col = 2, lty = 3, lwd = 2)
 
 ---
 # Autres distributions
+<br>
 
 - **Transformation logit des données** souvent utilisée avec `lm()` pour les pourcentages et les proportions quand la distribution binomiale n'est pas appropriée. Quand non selectionné à partir de quantités fixées (e.g. pourcentage de couverture, grades scolaires, etc).
 - **Distribution log-normal dans un glm**, évite d'avoir à log-transformer les données.
@@ -1431,6 +1447,9 @@ lines(pframe$lwr, col = 2, lty = 3, lwd = 2)
 class: inverse, center, middle
 
 # GLMMs
+
+<hr>
+<br>
 
 ---
 # Révision: Modèles Linéaires Mixtes
@@ -1653,6 +1672,8 @@ overdisp_fun(mpl1)
 ]
 
 ---
+# GLMM Poisson-lognormal
+
 .small[
 **Représentation graphique des paramètres du modèle**: Une représentation graphique des paramètres du modèle peut être obtenue en utilisant la fonction `coefplot2()`du paquet `coefplot2`:
 
@@ -1750,6 +1771,7 @@ dd_LRT <- drop1(mpl1,test="Chisq")
 ]
 
 ---
+# Sélection du modèle
 .small[
 ```{r}
 dd_LRT <- drop1(mpl1,test="Chisq")
@@ -1764,7 +1786,8 @@ dd_LRT <- drop1(mpl1,test="Chisq")
 ---
 # Sélection du modèle
 
-.small[
+<br>
+
 .pull-left2[
 ```{r}
 mpl2 <- update(mpl1, . ~ . - and:nutrient)
@@ -1788,11 +1811,15 @@ ICtab(mpl2, mpl3 ,mpl4,
       mpl5, mpl6,
       type = c("AICc"))
 ```
-]]
+]
+
 
 ---
+# Sélection du modèle
+<br>
+
 - Fort effets de **nutriments** et d'**herbivorie** (grand changement d'AIC de $135.6$ (`mpl5`) et $10.2$ (`mpl6`) si l'un ou l'autre sont supprimés, respectivement).
-- Notre modèle final inclut l'effet fixe de nutriments, d'herbivorie, la variable nuisance de rack, l'effet aléatoire au niveau de l'observation `(1|X)` et la variation de fruits par populations et génotypes
+- Notre modèle final inclut l'effet fixe de nutriments, d'herbivorie, la variable nuisance de rack, l'effet aléatoire au niveau de l'observation `(1|X)` et la variation de fruits par populations et génotypes.
 
 
 ---
@@ -1813,6 +1840,9 @@ En utilisant l'ensemble de données `inverts` (temps de développement larvaire 
 
 - B. Bolker (2009) Ecological Models and Data in R. Princeton University Press.
 - A. Zuur et al. (2009) Mixed Effects Models and Extensions in Ecology with R. Springer.
+
+**Articles** :
+
 - [Harrison et al. (2018), PeerJ, DOI 10.7717/peerj.4794
 ](http://dx.doi.org/10.7717/peerj.4794)
 
