@@ -38,8 +38,8 @@ html {
   background-color: #f3f3f3;
   border-radius: 5px;
   border: 1px solid #aaa;
-  padding: 2px !important;
-  font-size: .95rem;
+  padding: 1px !important;
+  font-size: 80%;
 }
 
 .remark-code-line-highlighted {
@@ -149,12 +149,12 @@ a {
 
 
 .huge {
-  font-size: 2em;
+  font-size: 1.5em;
   font-weight: 400;
 }
 
 .large {
-  font-size: 1.5em;
+  font-size: 1.2em;
   font-weight: 400;
 }
 
@@ -207,6 +207,10 @@ a {
 .pull-right2 {
   float: right;
   width: 27%;
+}
+
+.pull-right2, .pull-right2 p {
+  padding-left: 0rem ;
 }
 
 /* Blockquote */
