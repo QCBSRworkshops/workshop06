@@ -7,7 +7,7 @@ remark.macros.scale = function (percentage) {
 // Image top right
 remark.macros.cube = function () {
   var url = "images/rubicub.png";
-  return '<img style="float: right; margin: 0px 0px 5px 55px; width:150px" src="' + url + '"/>';
+  return '<img style="float: right; margin: -19px 0px 0px 40px; width:80px" src="' + url + '"/>';
 };
 
 
