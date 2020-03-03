@@ -16,7 +16,7 @@ output:
 ---
 
 
-```{r setup, echo = F}
+```{r setup, echo = FALSE}
 knitr::opts_chunk$set(
   comment = "#",
   collapse = TRUE,
@@ -76,7 +76,7 @@ if (!suppressPackageStartupMessages(require(coefplot2))) {
 # Objectifs
 <br>
 
-##### 1. Pourquoi être normal? 
+##### 1. Pourquoi être normal?
 ##### 2. GLM avec variable binaire
 ##### 3. GLM avec des données d'abondance
 ##### 4. GLM avec effet aléatoires
@@ -88,7 +88,7 @@ class: inverse, center, middle
 
 <hr>
 
-### Y aurait-il un meilleur modèle? 
+### Y aurait-il un meilleur modèle?
 
 
 ---
@@ -258,9 +258,9 @@ plot(lm.pa)
 
 <br>
 
-Il est **très commun** en écologie que lesdonditions d'application du modèle
+Il est **très commun** en écologie que les conditions d'application du modèle
 linéaire ne soient pas respectées. C'est pourquoi nous avons souvent besoin des
-**modèles linéaires généralisées** (GLMs)!
+**modèles linéaires généralisées** (GLMs).
 
 <br>
 
@@ -331,7 +331,7 @@ legend('topleft', legend = c('5', '7.5', '10'), lty = 1, col = c(1, 2, 4), bty =
 
 
 ---
-# Distribution normales des résidus 
+# Distribution normales des résidus
 
 .large[.alert[Pour utiliser correctement le modèle linéaire, il faut s'assurer que les résidus sont distribués selon une loi normale centrée.]]
 
@@ -339,7 +339,7 @@ legend('topleft', legend = c('5', '7.5', '10'), lty = 1, col = c(1, 2, 4), bty =
 
 Il faut donc **vérifier la normalité des résidus** et non celle la distribution de la variable de réponse, comme le Andrew MacDonald dans un tweet à propos de cette dernière pratique:
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">This is the wrong thing to do because what matters is how your &quot;response variable&quot; is distributed *AFTER* you do your model, not before! <a href="https://twitter.com/rlmcelreath?ref_src=twsrc%5Etfw">@rlmcelreath</a> called this practice &quot;histomancy&quot;, which name I love</p>&mdash; Andrew MacDonald 🌈 (@polesasunder) <a href="https://twitter.com/polesasunder/status/1225100358738948101?ref_src=twsrc%5Etfw">February 5, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">This is the wrong thing to do because what matters is how your &quot;response variable&quot; is distributed *AFTER* you do your model, not before! <a href="https://twitter.com/rlmcelreath?ref_src=twsrc%5Etfw">@rlmcelreath</a> called this practice &quot;histomancy&quot;, which name I love</p>&mdash; Andrew MacDonald 🌈 (@polesasunder) <a href="https://twitter.com/polesasunder/status/1225100358738948101?ref_src=twsrc%5Etfw">February 5, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 <br>
 
 
@@ -481,7 +481,7 @@ plot(x, dbinom(x, size = 50, prob = 0.9), type = 'h', lwd = 3, xlab = '# galumna
 
 **Distribution binomiale** : utilisée pour modéliser des données lorsque le nombre de succès est donné par un nombre entier, et lorsque le nombre d'épreuves, $n$, est connu.
 
-**Différence principale avec la loi de Poisson** : L'étendue de la loi binomiale a une limite supérieure, $n$. Par conséquent, elle est asumétrique et décalée à gauche lorsque $p$ est faible, mais décalée à droite lorsque $p$ est élevé.
+**Différence principale avec la loi de Poisson** : L'étendue de la loi binomiale a une limite supérieure, $n$. Par conséquent, elle est asymétrique et décalée à gauche lorsque $p$ est faible, mais décalée à droite lorsque $p$ est élevé.
 
 ```{r,echo=F,fig.width=10, fig.height=4}
 x = seq(1, 50, 1)
@@ -532,7 +532,7 @@ Une variable réponse commune dans les jeux de données en écologie : variable 
 - Succès/Échec d'observer un comportement
 - Survie/Mort d'un organisme
 
-On veut déterminer si $P/A \sim Environment$ .comment[*]
+On veut déterminer si $P/A \sim Environment$
 
 .comment[Régression logistique ou modèle logit]
 
@@ -630,7 +630,7 @@ logit.reg <- glm(formula, data, family)
 
 <br>
 
-Pour utiliser la bonne distribution, il faut spécifier deux choses 
+Pour utiliser la bonne distribution, il faut spécifier:
 
 1. distribution de probabilité
 
@@ -638,7 +638,7 @@ Pour utiliser la bonne distribution, il faut spécifier deux choses
 **ET**
 
 --
-2. une [fonction de lien](https://en.wikipedia.org/wiki/Generalized_linear_model#Link_function) (il y a une fonction de lien par défaut pour une distribution donnée!)
+2. une [fonction de lien](https://en.wikipedia.org/wiki/Generalized_linear_model#Link_function) (il y a une fonction de lien par défaut pour une distribution donnée!) qui définit aussi une relation entre la moyenne et la variance.
 
 <br>
 
@@ -671,7 +671,7 @@ Si ce n'est pas le cas, on utilise une transformation $g$ sur $\mu$
 
 $$g(\mu) = x\beta$$
 
-où $g$ est appelée **fonction de lien**. Cela permet de travailler avec des distribution autre que la loi normale.
+où $g$ est appelée **fonction de lien**. Cela permet de travailler avec des distributions autres que la loi normale.
 
 ---
 # La fonction de lien
@@ -784,29 +784,17 @@ La sortie indique que le contenu d'eau et la topographie sont significatifs
 
 Rappelez-vous que nous avons utilisé une transformation logit!
 
-Pour bien interpréter les coefficients du modèle, on doitla fonction 'inverse' de la function de lien ($g^{-1}$):
+Pour bien interpréter les coefficients du modèle, il faut les utiliser avec la fonction de lien inverse ( $g^{-1}$ ):
 
-<br>
-La fonction exponentielle pour obtenir les cotes : $e^x$
+$$g^{-1}(\beta_0 + \beta_1x)$$
 
-La fonction logit inverse pour obtenir les probabilités :
 
-$$logit^{-1} = \frac{1}{1 + e^{-x}}$$
+<!-- La fonction exponentielle pour obtenir les cotes : $e^x$ -->
 
----
-# Interpréter la sortie
+Dans notre exemple, la fonction $logit$ inverse est utiliser pour obtenir les probabilités :
 
-Pour le contenu d'eau sur l'échelle des cotes :
+$$logit^{-1} = \frac{1}{1 + e^{-(\beta_0 + \beta_1 WatrCont + \beta_2 TopoHummock)}}$$
 
-```{r}
-exp(logit.reg$coefficient[2])
-```
-
-Pour le contenu d'eau sur l'échelle des probabilités :
-
-```{r}
-1 / (1 + exp(-logit.reg$coefficient[2]))
-```
 
 ---
 # Pouvoir prédictif et ajustement du modèle
@@ -859,7 +847,7 @@ Nouvelle statistique - **coefficient de discrimination (D)** évalue le pouvoir 
 
 - Mesure à quel point la régression logistique est capable de bien classifier un résultat en succès ou échec
 
-Pour évaluer l'ajustement du modèle, les graphiques de diagnostique ne sont pas utiles, il vaut mieux utiliser le **test de Hosmer-Lemeshow**:
+Pour évaluer l'ajustement du modèle, les graphiques de diagnostique ne sont pas utiles, il vaut mieux utiliser le [test de Hosmer-Lemeshow](https://en.wikipedia.org/wiki/Hosmer%E2%80%93Lemeshow_test):
 
 - Compare le nombre de résultats obtenus et attendus
 - Similaire à un test de $Chi^2$
@@ -871,7 +859,7 @@ La fonction R `PseudoR2` dans le package` DescTools` permet de calculer plusieur
 
 
 ```{r, echo = -1}
-logit.reg <- glm(mites$pa ~ mites$WatrCont + mites$Topo, family = binomial(link = "logit")) # needed for the rmd presentation, or else problem with PseudoR2 environment...  
+logit.reg <- glm(mites$pa ~ mites$WatrCont + mites$Topo, family = binomial(link = "logit")) # needed for the rmd presentation, or else problem with PseudoR2 environment...
 library(DescTools)
 fit <- PseudoR2(logit.reg, which = "all")
 fit
@@ -1319,6 +1307,7 @@ pframe$pred0 <- pp$fit
 pframe$pred <- linkinv(pp$fit)
 sc <- abs(qnorm((1-0.95)/2))  ## Normal approx. to likelihood
 pframe <- transform(pframe, lwr = linkinv(pred0-sc*pp$se.fit), upr = linkinv(pred0+sc*pp$se.fit))
+# sinon, utiiser predic() avec type="response"
 
 plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'Number of F. occidentalis', xlab = 'Elevation(m)')
 lines(pframe$pred, lwd = 2)
@@ -1831,6 +1820,49 @@ En utilisant l'ensemble de données `inverts` (temps de développement larvaire 
 - Est-ce que cette relation varie selon les taxons (**effets aléatoires**)?
 - Quelle est la **meilleure famille de distributions** pour ces données?
 - Finalement, une fois que vous avez déterminé la meilleure famille de distribution, re-évaluez vos effets fixes et aléatoires.
+
+
+
+
+
+
+---
+# Solution
+
+```{R, eval = FALSE}
+# inverts <- read.csv('data/inverts.csv', header = TRUE)
+# head(inverts)
+# table(inverts$temp, inverts$feeding.type)
+#
+# mod.glm <- glm(PLD ~ temp + feeding.type, family = poisson(), data = inverts)
+# summary(mod.glm)
+# drop1(mod.glm, test = "Chisq")
+#
+# boxplot(PLD ~ temp,  data = inverts)
+# boxplot(PLD ~ feeding.type ,  data = inverts)
+#
+# boxplot(predict(mod.glm, type = "response")~inverts$temp)
+#
+# plot()
+#
+# modglm <- glm(PLD ~ temp + feeding.type, family = poisson(), data = inverts)
+
+
+#
+# r2 <- ranef(mpl1, condVar = TRUE)
+# d2 <- dotplot(r2, par.settings = pp)
+#
+#
+# plot(aggregate(PLD ~ taxon, FUN=mean, data = inverts)[,2],aggregate(PLD ~ taxon, FUN=var, data = inverts)[,2], pch = 19)
+# abline(a=0, b = 1, lty =2)
+#
+# mod.glmer <- glmer.nb(PLD ~ temp + feeding.type + (1|taxon), data = inverts)
+# mod.glm <- glm.nb(PLD ~ temp + feeding.type, family = poisson(), data = inverts)
+
+```
+
+plot(aggregate(PLD ~ taxon, FUN=var, data = inverts)[,2],aggregate(PLD ~ taxon, FUN=mean, data = inverts)[,2])
+abline(a=0, b =1, lty =2 )
 
 
 ---
