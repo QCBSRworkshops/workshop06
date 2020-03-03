@@ -1141,7 +1141,7 @@ Dans un GLM Poisson, la déviance résiduelle doit être égale au nombre de deg
 
 Quand la déviance résiduelle est supérieure au nombre de degrés de liberté résiduels, le modèle est **surdispersé**
 
-$$\phi \, = \, \frac{\text{Déviance résiduelle}}{\text{Degrés de liberté résiduels}}$$
+$$\phi ~ = ~\frac{\text{Déviance résiduelle}}{\text{Degrés de liberté résiduels}}$$
 
 Se produit lorsque la variance dans les données est plus grande que la moyenne. Dans ce cas la distribution de Poisson n'est plus appropriée (beaucoup de zéros, covariables manquantes, etc.)
 
@@ -1166,7 +1166,7 @@ $$Var(Y_I) = \phi \times \mu_i$$
 
 le **prédicteur linéaire** et la **fonction de lien** restent les même
 
-$ \phi $ est le paramètre de dispersion. Il sera estimé avant les paramètres. Corriger pour la surdispersion ne va pas affecter l'estimation des paramètres, mais leur **significativité**. En effet, les écarts-types des paramètres seront multipliés par $\sqrt{\phi}$.
+$\phi$ est le paramètre de dispersion. Il sera estimé avant les paramètres. Corriger pour la surdispersion ne va pas affecter l'estimation des paramètres, mais leur **significativité**. En effet, les écarts-types des paramètres seront multipliés par $\sqrt{\phi}$.
 
 .alert[Certaines p-values marginalement significatives peuvent devenir non significatives!]
 
