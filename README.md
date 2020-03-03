@@ -11,8 +11,9 @@ Cette série de 10 ateliers guide les participants à travers les étapes requis
 Le contenu de cet atelier a été révisé par plusieurs membres du CSBQ. Si vous souhaitez y apporter des modifications, veuillez SVP contacter les coordonnateurs actuels de la série, listés [ici](https://wiki.qcbs.ca/r).
 
 # Workshop 7: Generalized linear mixed models
-
-[![Build Status](https://travis-ci.org/QCBSRworkshops/workshop07.svg?branch=dev)](https://travis-ci.org/QCBSRworkshops/workshop07)
+[![Build Status](https://img.shields.io/travis/QCBSRworkshops/workshop07/dev?style=for-the-badge)](https://travis-ci.org/QCBSRworkshops/workshop07)
+[![](https://img.shields.io/static/v1?style=for-the-badge&label=Presentation&message=Workshop%207&color=blue)](https://qcbsrworkshops.github.io/workshop07/workshop07-en/workshop07-en.html)
+[![](https://img.shields.io/static/v1?style=for-the-badge&label=Wiki&message=Workshop%207&color=violet)](https://wiki.qcbs.ca/r_workshop7)
 
 A significant limitation of linear models is that they cannot accommodate
 response variables that do not have a normal error distribution. Most biological
@@ -24,9 +25,12 @@ concept of the link function, and how to verify assumptions of such models. We
 will also build on the previous workshop to combine knowledge on linear mixed
 models and extend it to generalized linear mixed effect models.
 
-# Atelier 7: Modèles linéaires généralisés (mixtes)
 
-[![Build Status](https://travis-ci.org/QCBSRworkshops/workshop07.svg?branch=dev)](https://travis-ci.org/QCBSRworkshops/workshop07)
+# Atelier 7: Modèles linéaires généralisés (mixtes)
+[![Build Status](https://img.shields.io/travis/QCBSRworkshops/workshop07/dev?style=for-the-badge)](https://travis-ci.org/QCBSRworkshops/workshop07)
+[![](https://img.shields.io/static/v1?style=for-the-badge&label=Présentation&message=Atelier%207&color=blue)](https://qcbsrworkshops.github.io/workshop07/workshop07-fr/workshop07-fr.html)
+[![](https://img.shields.io/static/v1?style=for-the-badge&label=Wiki&message=Atelier%207&color=violet)](https://wiki.qcbs.ca/r_atelier7)
+
 
 Les modèles linéaires généralisés sont des outils importants afin de surmonter
 un problème récurrent des modèles linéaires, c.-à-d. les variables réponses
@@ -38,20 +42,11 @@ dans l'atelier 6 afin d'introduire les modèles linéaires généralisés avec
 effets mixtes.
 
 
-# Links
+# How to contribute
 
-#### [English](https://qcbsrworkshops.github.io/workshop07/workshop07-en/workshop07-en.html)
+Guidelines are available at the following https://qcbsrworkshops.github.io/guidelines.html.
 
-#### [Français](https://qcbsrworkshops.github.io/workshop07/workshop07-fr/workshop07-fr.html)
 
-# Developers
 
-1. Set the working directory set to this folder.
-2. then use:
 
-``` r
-install.packages("remotes")
-remotes::install_github("QCBSRworkshops/qcbsRworkshops")
-library("qcbsRworkshops")
-build_workshops()
-```
+
