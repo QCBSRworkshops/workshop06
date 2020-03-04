@@ -3,8 +3,8 @@
 * Améliore le readme
 * Pour la présentation :fr:
   * simplifie certaines slides
-
+* Update template
 
 # version 0.0.1
 
-- Used Rmarkdown over Prezi for the presentaiton.
+* Use Rmarkdown over Prezi as presentation support.
