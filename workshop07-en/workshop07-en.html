@@ -41,8 +41,8 @@ class: inverse, center, middle
 
 # Why be normal?
 
-## Your data is ok;
-## it's the model that's wrong
+## Your data is OK!
+## It is the model that is wrong
 
 ---
 # Limitations of linear (mixed) models
@@ -58,25 +58,25 @@ Load dataset and fit a linear model (`lm()`):
   str(mites)
 ```
 
-The dataset that you just loaded is a subset of the 'Oribatid mite dataset'
+The dataset that you have just loaded is a subset of the 'Oribatid mite dataset':
 
 .small[
-&gt; 70 moss and mite samples
+&gt; 70 moss and mite samples;
 
-&gt; 5 environmental measurements and abundance of the mite *Galumna sp.*
+&gt; 5 environmental measurements and abundance of the mite *Galumna* sp. for each site.
 ]
 
-**Goal**: Model the abundance (`abund`), occurrence (`pa`), and proportion (`prop`) of Galumna as a function of the 5 environmental variables.
+**Goal**: Model the abundance (`abund`), occurrence (`pa`), and proportion (`prop`) of ***Galumna*** as a function of the five environmental variables.
 
 ---
 # Exploring relationships
 
-Can we see any relationship(s) between Galumna and the 5 environmental variables?
+Can we see any relationship(s) between *Galumna* and the five environmental variables?
 
 ---
 # Exploring relationships
 
-.small[Can we see any relationship(s) between Galumna and the 5 environmental variables?]
+.small[Can we see any relationship(s) between *Galumna* and the 5 environmental variables?]
 
 .pull-left2[
 
@@ -94,13 +94,14 @@ Can we see any relationship(s) between Galumna and the 5 environmental variables
 ---
 # Exploring relationships
 
-A negative relationship between `Galumna` and water `content`?
+A negative relationship between `Galumna` and `WatrCont`?
 
 
 ```r
   par(mfrow = c(1, 3), cex = 1.4)
   plot(Galumna ~ WatrCont, data = mites, xlab = 'Water content', ylab='Abundance')
-  boxplot(WatrCont ~ pa, data = mites, xlab='Presence/Absence', ylab = 'Water content')
+  boxplot(WatrCont ~ pa, 
+          data = mites, xlab='Presence/Absence', ylab = 'Water content')
   plot(prop ~ WatrCont, data = mites, xlab = 'Water content', ylab='Proportion')
 ```
 
@@ -109,7 +110,7 @@ A negative relationship between `Galumna` and water `content`?
 ---
 # Testing linearity
 
-Fit linear models to test whether `abund`, `pa`, and/or `prop` varies as a function of water content.
+Fit linear models to test whether `abund`, `pa`, and/or `prop` vary as a function of water content.
 
 --
 
@@ -123,20 +124,23 @@ Fit linear models to test whether `abund`, `pa`, and/or `prop` varies as a funct
 ```
 
 --
+.small[
 .pull-left[
 
 ```r
+# Extracting the 4th coefficient
+
 summary(lm.abund)$coefficients[, 4]
 #  (Intercept)     WatrCont 
 # 3.981563e-08 1.206117e-05
-summary(lm.abund)$coefficients[, 4]
+summary(lm.pa)$coefficients[, 4]
 #  (Intercept)     WatrCont 
-# 3.981563e-08 1.206117e-05
-summary(lm.abund)$coefficients[, 4]
+# 6.030252e-12 4.676755e-08
+summary(lm.prop)$coefficients[, 4]
 #  (Intercept)     WatrCont 
-# 3.981563e-08 1.206117e-05
+# 4.977432e-08 1.665437e-05
 ```
-]
+]]
 .pull-right[
 Significant relationship in all models!
 
@@ -147,7 +151,7 @@ Significant relationship in all models!
 # Testing linearity
 
 Significant relationship in all models! .alert[Wait a minute...]
-
+.small[
 .pull-left[
 
 ```r
@@ -157,7 +161,7 @@ abline(lm.abund)
 
 &lt;img src="workshop07-en_files/figure-html/unnamed-chunk-7-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
-
+]
 .pull-right[
 
 ```r
@@ -171,7 +175,7 @@ plot(lm.abund)
 ---
 # Testing linearity
 
-Even worse for other models (Proportion `prop`):
+Even worse for other models (proportion; `prop`):
 
 .pull-left[
 
@@ -196,7 +200,7 @@ plot(lm.prop)
 ---
 # Testing linearity
 
-Even worse for other models (Presence/Absence `pa`):
+Even worse for other models (presence-absence; `pa`):
 
 .pull-left[
 
@@ -221,21 +225,24 @@ plot(lm.pa)
 ---
 # Model assumptions
 
-Common in Ecology that assumptions of homogeneity of variance and normality are not met.
-  - Main reason why we need GLMs!
+It is common in Ecology that assumptions of homogeneity of variance and normality are not met.
 
-.comment[Let's revisit the assumptions of lm...]
+
+*GLM are very useful to deal with these issues!*
+
+
+.comment[Let us revisit the assumptions of linear models...]
 
 ---
 # Model assumptions
 
-Equation of lm:
+A linear model can be represented by:
 
 `\(y = \beta_0 + \beta_1x_i + \varepsilon\)`
 
 where:
 
-`\(y_i\)` = predicted value of response variable
+`\(y_i\)` = predicted value of a response variable
 
 `\(\beta_0\)` = intercept
 
@@ -245,42 +252,47 @@ where:
 
 `\(\varepsilon_i\)` = model residuals drawn from a normal distribution with a varying mean but a constant variance**
 
-.comment[.alert[**Key point!**] Residuals (the distance between each observation and the regression line) can be predicted by drawing random values from a normal distribution.]
+
+&gt; .comment[.alert[**Key point!**]
+
+Residuals (the distance between each observation and the regression line) can be predicted by drawing random values from a normal distribution.]
 
 ---
-# Normally distributed residuals
+# Normally Distributed Residuals
 
-Recall: Normal distributions have two parameters, `\(\mu\)` (mean) and `\(\sigma\)` (variance):
+Recall: Normal distributions have two parameters: `\(\mu\)` (mean) and `\(\sigma\)` (variance).
 
 &lt;br&gt;
+.small[
 .pull-left[
-Varing `\(\mu\)`, `\(\sigma = 5\)`
+Varying `\(\mu\)`, `\(\sigma = 5\)`
 
 &lt;img src="workshop07-en_files/figure-html/unnamed-chunk-13-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
-`\(\mu = 25\)`, varing `\(\sigma\)`
+`\(\mu = 25\)`, varying `\(\sigma\)`
 
 &lt;img src="workshop07-en_files/figure-html/unnamed-chunk-14-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
+]
 
 ---
-# Normally distributed residuals
+# Normally Distributed Residuals
 
-Another way to write the lm equation is:
+Another way to write the linear model equation is:
 
-`\(y_i \sim N(\mu = \beta_0 + \beta_1 X_i, \sigma^2)\)`
-
-&lt;br&gt;
-Which literally means that `\(y_i\)` is drawn from a normal distribution with parameters `\(\mu\)` (which depends on `\(x_i\)`) and `\(\sigma\)` (which has the same value for all `\(Y\)`s)
+`$$y_i \sim N(\mu = \beta_0 + \beta_1 X_i, \sigma^2)$$`
 
 &lt;br&gt;
-.comment[Lets predict Galumna abund as a function of water content using the `lm` we fitted earlier...]
+Which literally means that `\(y_i\)` is drawn from a normal distribution with parameters `\(\mu\)` (which depends on `\(x_i\)`) and `\(\sigma\)` (which has the same value for all `\(Y\)`s).
+
+&lt;br&gt;
+.comment[Let us predict *Galumna* abundances as a function of water content using the linear model we fitted earlier...]
 
 ---
 # Model prediction
 
-We need regression coefficients ( `\(\beta\)`) and `\(\sigma\)`:
+We need regression coefficients ( `\(\beta\)` ) and the standard deviation ( `\(\sigma\)` ):
 
 
 ```r
@@ -293,23 +305,28 @@ summary(lm.abund)$sigma
 
 What are the parameters of the normal distribution used to model `\(y\)` when water content = 300?
 
-`\(y_i \sim N(\mu = \beta_0 + \beta_1 X_i, \sigma^2)\)`
+`$$y_i \sim N(\mu = \beta_0 + \beta_1 X_i, \sigma^2)$$`
 
 --
 
-`\(\mu = 3.44 + (-0.006 x 300) = 1.63\)`
+`$$\mu = 3.44 + (-0.006 x 300) = 1.63$$`
 
-`\(\sigma = 1.51\)`
+`$$\sigma = 1.51$$`
 
 ---
 # Model prediction
+.pull-left[
+`$$y_i \sim N(\mu = \beta_0 + \beta_1 X_i, \sigma^2)$$`
+`$$\mu = 3.44 + (-0.006 x 300) = 1.63$$`
+`$$\sigma = 1.51$$`
+]
+.pull-right[
+At `\(x = 300\)`, residuals should follow a normal distribution with `\(\mu = 1.63\)` and `\(\sigma^2 = 1.51\)`.
 
-- At `\(x = 300\)`, residuals should follow a normal distribution with `\(\mu = 1.63\)` and `\(\sigma^2 = 1.51\)`.
-
-- At `\(x = 400\)`, we get `\(\mu = 1.02\)` and `\(\sigma^2 = 1.51\)`, etc.
-
+At `\(x = 400\)`, we get `\(\mu = 1.02\)` and `\(\sigma^2 = 1.51\)`, etc.
+]
 &lt;br&gt;
-Graphically, this is our model:
+- Graphically, this is our model:
 
 --
 .pull-left[
@@ -326,30 +343,30 @@ Graphically, this is our model:
 ---
 # Biological data &amp; distributions
 
-Statisticians have described a multitude of distributions that correspond to different types of data
+Statisticians have described a multitude of distributions that correspond to different types of data.
 
-A distribution provides the probability of observing each possible outcome of an experiment or survey (e.g. `\(abund = 8\)` Galumna)
+A distribution provides the probability of observing each possible outcome of an experiment or survey (e.g. `\(abund = 8\)` *Galumna* individuals).
 
 Distributions can be **discrete** (only includes integers
-or **continuous** (includes fractions)
+or **continuous** (includes fractions).
 
-All distributions have **parameters** that dictate the shape of the distribution (e.g. `\(\mu\)` and `\(\sigma^2\)` for the normal)
+All distributions have **parameters** that dictate the shape of the distribution (e.g. `\(\mu\)` and `\(\sigma^2\)` for the normal).
 
 ---
 # Biological data &amp; distributions
 
-Galumna abund follows a discrete distribution (can only take integer values).
+*Galumna* abund follows a discrete distribution (i.e. it only takes integer values).
 
 A useful distribution to model abundance data is the “Poisson” distribution:
 
-  - a discrete distribution with a single parameter, `\(\lambda\)` (lambda), which defines both the mean and the variance of the distribution:
+  - **Poisson** is a discrete distribution with a single parameter, `\(\lambda\)` (lambda), which defines both the mean and the variance of the distribution:
 
 &lt;img src="workshop07-en_files/figure-html/unnamed-chunk-16-1.png" width="1080" style="display: block; margin: auto;" /&gt;
 
 ---
 # Biological data &amp; distributions
 
-Galumna seems to follow a Poisson distribution with a low value of `\(\lambda\)`:
+*Galumna* seems to follow a Poisson distribution with a low value of `\(\lambda\)`:
 
 .pull-left[
 
@@ -370,10 +387,10 @@ Galumna seems to follow a Poisson distribution with a low value of `\(\lambda\)`
 ---
 # Biological data &amp; distributions
 
-Presence-absence takes yet another form:
+Presence-absence data takes yet another form:
 
-- only `0`s and `1`s
-- Poisson distribution would not be appropriate to model this variable
+- Only `0`s and `1`s;
+- Poisson distribution would not be appropriate to model this variable.
 
 
 ```r
@@ -387,8 +404,8 @@ Presence-absence takes yet another form:
 
 **“Bernoulli” distribution**:
 
-- Only two possible outcomes in its range: success (`1`) or failure (`0`)
-- One parameter, `\(p\)`, the probability of success
+- Only two possible outcomes in its range: success (`1`) or failure (`0`);
+- One parameter, `\(p\)`, the probability of success.
 
 &lt;br&gt;
 &lt;img src="workshop07-en_files/figure-html/unnamed-chunk-20-1.png" width="864" style="display: block; margin: auto;" /&gt;
@@ -398,35 +415,35 @@ We can use the Bernouilli distribution to calculate the probability Galumna pres
 ---
 # Biological data &amp; distributions
 
-**Binomial distribution**: When there are multiple trials (each with a success/failure), the Bernoulli distribution expands into the binomial
-- Additional parameter, n, for number of trials
-- Predicts the probability of observing a given proportion of successes, p, out of a known total number of trials, `\(n\)`
+**Binomial distribution**: When there are multiple trials (each with a success/failure), the Bernoulli distribution expands into the binomial distribution.
+- Additional parameter, `\(n\)`, for number of trials;
+- Predicts the probability of observing a given proportion of successes, `\(p\)`, out of a known total number of trials, `\(n\)`.
 
 &lt;img src="workshop07-en_files/figure-html/unnamed-chunk-21-1.png" width="1080" style="display: block; margin: auto;" /&gt;
 
 ---
 # Biological data &amp; distributions
 
-**Binomial distribution**: used to model data where the number of successes are integers and where the number of trials, n, is known.
+**Binomial distribution**: used to model data where the number of successes are integers and where the number of trials, `\(n\)`, is known.
 
-**Main difference with Poisson distribution**: the binomial has an upper limit to its range, corresponding to `n`. Consequently, it is right-skewed at low p values but left-skewed at high `p` values
+**Main difference with Poisson distribution**: the binomial has an upper limit to its range, corresponding to `\(n\)`. Consequently, it is right-skewed at low p values but left-skewed at high `\(p\)` values
 
 &lt;img src="workshop07-en_files/figure-html/unnamed-chunk-22-1.png" width="720" style="display: block; margin: auto;" /&gt;
 
 ---
 # Biological data &amp; distributions
 
-Getting back to our problem... can switch the distribution of error terms (εi) from normal to Poisson:
+Getting back to our problem... We can switch the distribution of error terms ( `\(ε_i\)` ) from normal to Poisson:
 
 `$$y_i \sim Poisson(\lambda = \beta_0 + \beta_1 x_i)$$`
 
 Problems solved!
 
-1. `\(\lambda\)` varies with `\(x\)` (water content) which means residual variance will also vary with `\(x\)`, which means that we just relaxed the homogeneity of variance assumption!
+1. `\(\lambda\)` varies with `\(x\)` (water content) which means that the residual variance will also vary with `\(x\)`. This also means that we have relaxed the homogeneity of variance assumption!
 
-2. Predicted values will now be integers instead of fractions
+2. Predicted values will now be integers instead of fractions;
 
-3. The model will never predict negative values (Poisson is strictly positive)
+3. The model will never predict negative values (Poisson is strictly positive).
 
 ---
 # Biological data &amp; distributions
@@ -446,16 +463,17 @@ class: inverse, center, middle
 ---
 # Binary variables
 
-Common response variable in ecological datasets is the binary variable: we observe a phenomenon X or its “absence”
+A common response variable in ecological datasets is the **binary variable**: we observe a phenomenon `\(X\)` or its “absence”.
 
-- Presence/Absence of a species
-- Presence/Absence of a disease
-- Success/Failure to observe behaviour
-- Survival/Death of organisms
+- Presence or absence of a species
+- Presence or absence of a disease
+- Success or failure to observe behaviour
+- Survival or death of organisms
 
-Wish to determine if `\(P/A \sim Environment\)`
+We wish to determine how `\(P/A \sim Environment\)`, for instance.
 
-.comment[Called a logistic regression or logit model]
+
+.comment[We often call this situation as a logistic regression or logit model.]
 
 ---
 # Binary variables
@@ -492,7 +510,7 @@ In `R`, binary variables are coded with `1` and `0`:
 ---
 # Binary variables
 
-Clearly not normally distributed!
+They are clearly not normally distributed!
 
 &lt;br&gt;
 
@@ -501,7 +519,7 @@ Clearly not normally distributed!
 ---
 # Binary variables
 
-Expected values can be out of the `[0,1]` range with `lm()`:
+Under a linear model, expected values can be out of the `[0,1]` range with `lm()`:
 
 &lt;br&gt;
 
@@ -510,7 +528,7 @@ Expected values can be out of the `[0,1]` range with `lm()`:
 ---
 # Probability distribution
 
-The Bernoulli distribution is well suited for binary response variables
+The Bernoulli distribution is well suited for binary response variables.
 
 &lt;br&gt;
 
@@ -537,17 +555,23 @@ The `glm()` function!
 
 &lt;br&gt;
 
-`logit.reg &lt;- glm(formula, data, family)`
+```
+logit.reg &lt;- glm(formula, data, family)
+```
 
 &lt;br&gt;
 
-To move away from traditional linear models, need to specify two things (`family`):
+Moving away from traditional linear models (`lm()`)... 
 
-1. probability distribution
+In addition to the data (of course!), we need to specify additional elements in a generalized linear model (`glm()`):
+
+1. The error distribution
 
 **AND**
 
-2. a link function
+2. the link function to be used in the model.
+
+In `glm()`, this is set within the `family` argument.
 
 ---
 # The Link Function
@@ -560,28 +584,28 @@ For a simple linear model of a normally distributed continuous response variable
 
 where
 
-- `\(\mu\)` is the expected value of the response variable
-- `\(x\)` is the model matrix (*i.e.* your data)
-- `\(\beta\)` is the vector of estimated parameters (*i.e.* the intercept &amp; slope)
+- `\(\mu\)` is the expected value of the response variable;
+- `\(x\)` is the model matrix (*i.e.* your data);
+- `\(\beta\)` is the vector of estimated parameters (*i.e.* the intercept &amp; slope).
 
 &lt;br&gt;
 
-`\(x\beta\)` is called the **linear predictor**
+`\(x\beta\)` is called the **linear predictor**.
 
 ---
 # The Link Function
 
-`\(\mu = x\beta\)` is only true for normally distributed data
+`\(\mu = x\beta\)` is only true for normally distributed data.
 
-If this is not the case, must use a transformation on the expected values `\(\mu\)`
+If this is not the case, we must use a transformation on the expected values `\(\mu\)`.
 
 `$$g(\mu) = x\beta$$`
 
-where `\(g(\mu)\)` is the link function
+where `\(g(\mu)\)` is the link function.
 
 &lt;br&gt;
 
-This allows us to relax the normality assumption
+This allows us to relax the normality assumption.
 
 ---
 # The Link Function
@@ -592,27 +616,19 @@ For binary data, the link function is called the **logit**:
 
 `$$g(\mu) = log\frac{\mu}{1-\mu}$$`
 
-`\(\mu =\)` expected values (probability that `\(Y = 1\)`)
+`\(\mu =\)` expected values (probability that `\(Y = 1\)`).
 
 &lt;br&gt;
 
-- Get the odds ( `\(\frac{\mu}{1-\mu}\)`)
-- log-transform them
-
----
-# The Link Function
-
-`$$g(\mu) = log\frac{\mu}{1-\mu}$$`
-
-- Get the odds ( `\(\frac{\mu}{1-\mu}\)`)
-- log-transform them
+The *logit* function is the logarithm of the odds ( `\(\frac{\mu}{1-\mu}\)`).
 
 &lt;br&gt;
-The odds puts our expected values on a `0` to `+Inf` scale
+The odds puts our expected values on a `0` to `+Inf` scale.
 
-The log transformation puts our expected values on a `-Inf` to `+Inf`
+The log-transformation puts our expected values on a `-Inf` to `+Inf`.
 
-![:faic](arrow-right) The expected values can now be **linearly** related to the linear predictor
+
+![:faic](arrow-right) The expected values can now be **linearly** related to the linear predictor.
 
 ---
 # Exercise 1
@@ -641,9 +657,9 @@ str(mites)
 ```
 
 ---
-# Exercise 1
+# Exercise 1 - Our first generalized linear model, together.
 
-Build a model of the presence of Galumna sp. as a function of water content and topography
+Let us build a model of the presence of *Galumna* sp. as a function of water content and topography.
 
 
 ```r
@@ -692,13 +708,14 @@ summary(logit.reg)
 ---
 # Challenge 1 ![:cube]()
 
-Using the 'bacteria' dataset, model the presence of *H. influenzae* as a function of treatment and week of test.
+Using the `bacteria` dataset, model the presence of *H. influenzae* as a function of treatment and week of test.
 
 Start with a full model and reduce it to the most parsimonious model.
 
 
 ```r
-#install.packages("MASS")
+# install.packages("MASS")
+
 library(MASS)
 data(bacteria)
 str(bacteria)
@@ -711,8 +728,14 @@ str(bacteria)
 #  $ trt : Factor w/ 3 levels "placebo","drug",..: 1 1 1 1 3 3 3 3 2 2 ...
 ```
 
+.tiny[
+&gt; Dr A. Leach tested the effects of a drug on 50 children with a history of *otitis media* in the Northern Territory of Australia. The children were randomized to the drug or the a placebo, and also to receive active encouragement to comply with taking the drug.
+
+&gt; The presence of *H. influenzae* was checked at weeks 0, 2, 4, 6 and 11: 30 of the checks were missing and are not included in this data frame.
+
+]
 ---
-# Solution ![:cube]()
+# Exercise 1 - Solution ![:cube]()
 
 
 ```r
@@ -746,9 +769,14 @@ anova(model.bact1, model.bact2, model.bact3, test = "LRT")
 ```
 
 ---
-# Interpreting the output
+# Interpreting the `glm()` coefficients
 
 Let's go back to the summary of our `logit.reg` model to see the coefficients:
+
+```r
+logit.reg &lt;- glm(pa ~ WatrCont + Topo, data=mites,
+                 family = binomial(link = "logit"))
+```
 
 
 ```r
@@ -759,28 +787,87 @@ summary(logit.reg)$coefficients
 # TopoHummock  2.09075654 0.735348234  2.843220 0.0044660283
 ```
 
-The output indicates that both water content and topography are significant
-
-.comment[But how do we interpret the slope coefficients?]
-
----
-# Interpreting the output
-
-Remember we used a logit transformation on the expected values!
-
-To properly interpret the regression parameters, we have to use a 'reverse' function:
+The output indicates that both water content and topography are significant drivers of the presence-absence variable.
 
 &lt;br&gt;
-The natural exponential function to obtain the odds: `\(e^x\)`
 
-The inverse logit function to obtain the probabilities:
+.comment[But, how do we interpret the slope coefficients?]
 
-`$$logit^{-1} = \frac{1}{1 + \frac{1}{e^x}}$$`
+---
+# Interpreting the `glm()` coefficients
+
+The direct interpretation of the coefficients in the logit model is tenuous because of the link function. If the link is *identity*, it is much easier to interpret.
+
+Let us assume that we have a binary outcome `\(y\)` and two covariates `\(x_1\)` and `\(x_2\)` (and a constant). The probability of a successful outcome ( `\(y = 1\)` ) is given by:
+
+`$$Pr(y_i = 1) = p = g^{-1(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}$$` 
+
+where `\(g^{-1}()\)` is the **inverse link function**.
+
+Now let us focus in interpreting the `\(\beta_1\)` coefficient.
+
+#### Identity link
+
+For the identity link, the interpretation is straighforward. For one-unit increase in `\(x_1\)`, `\(\beta_1\)` dictates a constant difference in the outcome. 
+
+`\(\Delta{y_i} = [\beta_0 + (x_{1i} + 1)\beta_1 + x_{2i}\beta_2] - (\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)\)`
+
+`\(\Delta{y_i} = \beta_1\)`
+
+---
+# Interpreting the `glm()` coefficients
+
+#### Logit link
+
+If a linear logistic model has been used with the two covariates `\(x_1\)` and `\(x_2\)`, we have the model:
+
+`$$log({\dfrac{p}{1-p}})=\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2$$`
+
+for a log odds of a positive response. We may also write that model as follows:
+
+`$$\dfrac{p}{1-p}=exp(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)$$`
+
+`$$Pr(yi) = \dfrac{exp(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}{1 + exp{(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}}$$`
+
+Great! Do not give up! 
+
+---
+# Interpreting the `glm()` coefficients
+
+#### Logit link
+
+Since the inverse link is nonlinear, the coefficient interpretation is difficult.
+
+Let us take a look what happens to the differences for a one-unit change to `\(x_1\)`: 
+
+`$$\Delta{y_i} = \dfrac{\exp[\beta_0 + (x_{1i} + 1)\beta_1 + x_{2i}\beta_2]}{1 + \exp{[\beta_0 + (x_{1i} + 1)\beta_1 + x_{2i}\beta_2]}} - \dfrac{\exp[\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2]}{1 + \exp{[\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2]}}$$`
+$$\Delta{y_i} = \exp{(\beta_0)}\{\exp{(\beta_1)}\} $$
+As `\(x\)` increases by one unit, the odds increase by a factor of  `\(\exp(\beta_1)\)`.
 
 ---
 # Interpreting the output
 
-On the odds scale for water content:
+###### Getting back to our `logit.reg` model!
+
+.small[
+
+```r
+logit.reg
+# 
+# Call:  glm(formula = pa ~ WatrCont + Topo, family = binomial(link = "logit"), 
+#     data = mites)
+# 
+# Coefficients:
+# (Intercept)     WatrCont  TopoHummock  
+#     4.46440     -0.01581      2.09076  
+# 
+# Degrees of Freedom: 69 Total (i.e. Null);  67 Residual
+# Null Deviance:	    91.25 
+# Residual Deviance: 48.76 	AIC: 54.76
+```
+]
+
+For a one-unit increase (or decrease) in water content, we can obtain the odds for the presence of mites.
 
 
 ```r
@@ -789,42 +876,44 @@ exp(logit.reg$coefficient[2])
 # 0.9843118
 ```
 
-On the probability scale for water content:
-
-
-```r
-1 / (1 + 1/exp(logit.reg$coefficient[2]))
-#  WatrCont 
-# 0.4960469
-```
-
 ---
-# Predictive Power and goodness of fit
 
-Get the pseudo-R², the analogue of the `\(R^2\)` for models fitted by maximum likelihood:
+# Predictive power and goodness-of-fit
+
+Recall that the `\(R^2\)` value is a measure of how well the model explains the data.
+
+In simple linear models, `\(R^2\)` can be obtained as the square of the sample correlation equation coefficient ( `\(r\)` ) between the observed outcomes and the predictive values.
+
+In some of the generalized linear models, we take different approaches.
+
+We can obtain a `\(\text{pseudo-R}^2\)`, the analogue of the `\(R^2\)` for models fitted by maximum likelihood. 
+
+We can calculate McFadden's (1973) `\(\text{pseudo-R}^2\)` in this way:
 
 `$$\text{pseudo-R}^2 = \frac{\text{null deviance - residual deviance}}{\text{null deviance}}$$`
 
 &lt;br&gt;
 
-`\(\text{pseudo-R}^2 = \text{variance explained by the model}\)`
+&gt; `\(\text{pseudo-R}^2\)` is the variance explained by the model
 
 ---
-# Predictive Power and goodness of fit
+# Predictive power and goodness-of-fit
 
-Comparing deviance of your model (residual deviance) to the deviance of a null model (null deviance)
+In `R`, we can do this as follows:
 
-The **null model** is a model without explanatory variables
+Let us compare the deviance of your model (residual deviance) to the deviance of a null model (null deviance).
 
-```R
-null.model &lt;- glm(Response.variable ~ 1, family = binomial)
+The **null deviance model** here is a model without explanatory variables.
+
+```r
+null.model &lt;- glm(response.variable ~ 1, family = binomial)
 ```
 
 ---
-# Predictive Power and goodness of fit
+# Predictive power and goodness-of-fit
 
-In R, we can extract the residual and null deviances directly from the glm object:
-
+In `R`, we can extract the residual and null deviances directly from the `glm object`:
+.small[
 
 ```r
 objects(logit.reg)
@@ -843,34 +932,52 @@ objects(logit.reg)
 
 ```r
 pseudoR2 &lt;- (logit.reg$null.deviance - logit.reg$deviance) / logit.reg$null.deviance
+
 pseudoR2
 # [1] 0.4655937
 ```
+]
+
+&lt;br&gt;
 
 .comment[Hence, the model explains 46.6% of the variability in the data]
 
 ---
-# Predictive Power and goodness of fit
+# Predictive power and goodness-of-fit
 
-The goodness of fit of the logistic regression model can be expressed by some variants of pseudo R squared statistics, most of which being based on the deviance of the model.
+An adjusted McFadden's pseudo-R2, which penalizes for the number of predictors, can be calculated as below:
 
-- Measure of how well logistic regression classifies an outcome as a success or a failure
+`\begin{equation}
+R^2_{adj} = 1 - \frac{logL(M) - K}{logL(M_{null})}
+\end{equation}`
 
-To assess goodness of fit, diagnostic plots are not useful, instead must use **Hosmer-Lemeshow test**:
+where `\(K\)` corresponds to the additional number of predictors in relation to the null model.
 
-- Compare observed and expected number of outcomes
-- Similar to a Chi square test
+The goodness of fit of the logistic regression model can be expressed by some variants of pseudo-R2 statistics, such as Maddala (1983) or Cragg and Uhler (1970) measures.
+
+When talking about *logistic regressions*, low `\(R^2\)` values are often common.
+
+One way to assess the goodness-of-fit of these models is to use the **Hosmer-Lemeshow goodness-of-fit test**.
+
+It roughly involves:
+1. Dividing the data into groups of similar size;
+2. Ordering on the predicted probability (or equivalently, the linear predictor);
+3. Comparing the observed to expected number of positive responses in each group
+4. Performing a chi-squared test on the outcome.
 
 ---
-# Exercise 2
+# Exercise 2 - Calculating the pseudo-R2
 
-The R function `PseudoR2` in the `DescTools` package allow the compute several Pseudo R2. Specifying `which = all` compute all the different statistics.
+The `DescTools::PseudoR2()` function computes several pseudo-R2.
 
 
 
 ```r
-logit.reg &lt;- glm(mites$pa ~ mites$WatrCont + mites$Topo, family = binomial(link = "logit")) # needed for the rmd presentation, or else problem with PseudoR2 environment...  
+logit.reg &lt;- glm(mites$pa ~ mites$WatrCont + mites$Topo, 
+                 family = binomial(link = "logit"))
+
 library(DescTools)
+
 fit &lt;- PseudoR2(logit.reg, which = "all")
 fit
 #        McFadden     McFaddenAdj        CoxSnell      Nagelkerke   AldrichNelson 
@@ -882,12 +989,15 @@ fit
 ```
 
 ---
-### Exercise 2: Perform a Hosmer-Lemeshow test
+### Exercise 2: Performing a Hosmer-Lemeshow goodness-of-fit test
 
+This test is assessing whether or not the observed event rates match expected event rates in subgroups of the model population.
 
+.pull-left[
 
 ```r
 library(vcdExtra)
+
 HLtest(logit.reg)
 # Hosmer and Lemeshow Goodness-of-Fit Test 
 # 
@@ -896,59 +1006,69 @@ HLtest(logit.reg)
 #  ChiSquare df   P_value
 #   3.421693  8 0.9051814
 ```
+]
+.pull-right[
+
+```r
+plot(HLtest(logit.reg))
+```
+
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-45-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
 
 
-.comment[A non significant value indicates an adequate fit!]
+.comment[A non-significant value indicates an adequate fit!]
 
 ---
 # Challenge 1 ![:cube]()
 
-1. Using the model created with bacteria dataset, assess goodness of fit and predictive power.
+1. Using the model created with `bacteria` dataset, assess goodness-of-fit and predictive power.
 
 2. Think how predictive power could be improved for this model.
 
 ---
 # Solution ![:cube]()
 
-1:
+1. Using the model created with `bacteria` dataset, assess goodness-of-fit and predictive power.
+
 
 ```r
 null.d &lt;- model.bact2$null.deviance
+
 resid.d &lt;- model.bact2$deviance
+
 bact.pseudoR2 &lt;- (null.d - resid.d) / null.d
+
 HLtest(model.bact2)
 ```
 
-2: Adding informative explanatory variables could increase the explanatory power of the model
+2. Think how predictive power could be improved for this model.
+
+*Adding informative explanatory variables could increase the explanatory power of the model.*
+
+*But, do not be afraid of non-significant results!*
 
 ---
 # Proportion data and GLM
 
-Sometimes, proportion data is more similar to logistic regression than you think...
+Sometimes, proportion data are more similar to logistic regression than you think...
 
-If we measure the number of occurrences and we know the total sample size, it is not count data!
+In discrete counts, we can, for instance, measure the number of presence of individuals in relation to the total number of populations sampled. 
 
-Suppose we measure disease prevalence in ten deer populations on 10 deer individuals per population:
+We will thus obtain a proportional number of "success" in observing individuals by dividing the counts by the total counts.
 
-
-.pull-left[
-
-`$$\frac{x\,\, \text{infected deer}}{10\,\,\text{deer}}$$`
-
-]
-
-.pull-right[
-![:faic](arrow-right) always bound between `0` and `1`!
-]
+&gt; In `glm()`, we have to provide *prior weights* if the response variable is the proportion of successes.
 
 ---
 # Exercise 3
 
-In R, we have to specify the number of times something happened and the number of times something did not happen:
+In `R`, we have to specify the number of times something happened and the number of times something did not happen:
 
 
 ```r
-prop.reg &lt;- glm(cbind(Galumna, totalabund - Galumna) ~ Topo + WatrCont, data = mites, family = binomial)
+prop.reg &lt;- glm(cbind(Galumna, totalabund - Galumna) ~ Topo + WatrCont, 
+                data = mites, 
+                family = binomial)
 ```
 
 ```r
@@ -992,12 +1112,14 @@ summary(prop.reg)
 ---
 # Exercise 3
 
-We can also code the model directly with proportions :
+We can also code the model directly with proportions:
 
 
 ```r
-prop.reg2 &lt;- glm(prop ~ Topo + WatrCont, data = mites,
-                 family = binomial, weights = totalabund)
+prop.reg2 &lt;- glm(prop ~ Topo + WatrCont, 
+                 data = mites,
+                 family = binomial, 
+                 weights = totalabund)
 ```
 
 
@@ -1011,7 +1133,7 @@ class: inverse, center, middle
 
 .large[What is count data?]
 
-Import the `faramea.csv` into R
+First, import the `faramea.csv` into `R`.
 
 
 
@@ -1019,22 +1141,22 @@ Import the `faramea.csv` into R
 faramea &lt;- read.csv('faramea.csv', header = TRUE)
 ```
 
-The number of trees of the species *Faramea occidentalis* was assessed in 43 quadrats in Barro Colorado Island (Panama). For each quadrat, environmental characteristics were also recorded such as elevation or precipitation.
+The number of trees of the species *Faramea occidentalis* was assessed in 43 quadrats in Barro Colorado Island (Panama). For each quadrat, environmental characteristics - such as elevation and precipitation - were also recorded.
 
-Let's investigate the histogram of the number of *Faramea occidentalis*
+Let's investigate the histogram of the number of *Faramea occidentalis*.
 
 ---
 # Modeling count data
 
 .large[What is count data?]
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-49-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-52-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 Count data are characterized by:
 
-- positive values: you do not count -7 individuals
-- integer values: you do not count 7.56 individuals
-- exhibits larger variance for large values
+- Positive values: you do not count -7 individuals
+- Integer values: you do not count 7.56 individuals
+- Exhibits larger variance for large values
 
 ---
 # Modeling count data
@@ -1043,14 +1165,16 @@ Count data are characterized by:
 
 Does elevation influence the abundance of *F. occidentalis*?
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-50-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-53-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
-the **Poisson distribution** seems to be the perfect choice to model this data, hence **Poisson GLMs** are usually the good way to start modeling count data.
+The **Poisson distribution** seems to adequately fit this data distribution. 
+
+We can use the Poisson family in our GLM to begin modeling count data.
 
 ---
 # The Poisson distribution
 
-The Poisson distribution specifies the probability of a discrete random variable Y and is given by:
+The Poisson distribution specifies the probability of a discrete random variable `\(Y\)` and is given by:
 
 `$$f(y, \,\mu)\, =\, Pr(Y = y)\, =\, \frac{\mu^y \times e^{-\mu}}{y!}$$`
 
@@ -1058,21 +1182,22 @@ The Poisson distribution specifies the probability of a discrete random variable
 
 **Properties**:
 
-- `\(\mu\)` is the parameter of the Poisson distribution
-- specifies the probably only for integer values
-- probability for negative values is null ( `\(P(Y&lt;0) = 0\)`)
-- mean = variance (allows for heterogeneity)
+- `\(\mu\)` is the parameter of the Poisson distribution;
+- specifies the probably only for integer values;
+- probability for negative values is null ( `\(P(Y&lt;0) = 0\)` );
+- `\(Var(Y) = \mu\)` (allows for heterogeneity).
 
 ---
 # Poisson GLM behind the scenes
 
-A Poisson GLM will model the value of µ as a function of different explanatory variables
+A Poisson GLM will model the value of `\(\mu\)` as a function of different explanatory variables.
 
 &lt;br&gt;
 
 .center[**Three steps**]
 
-**Step 1.** We assume Yi follows a Poisson distribution with mean and variance `\(\mu_i\)`
+
+**Step 1.** We assume `\(Y_i\)` follows a Poisson distribution with mean and variance `\(\mu_i\)`.
 
 `$$Y_i = Poisson(\mu_i)$$`
 
@@ -1085,34 +1210,47 @@ A Poisson GLM will model the value of µ as a function of different explanatory 
 ---
 # Poisson GLM behind the scenes
 
-**Step 2.** We specify the systematic part of the model just as in a linear model
-Interpreting the output
+**Step 2.** We specify the systematic part of the model just as in a linear model.
 
-`$$\underbrace{\alpha}_\text{One intercept} + \underbrace{\beta}_\text{slope of 'Elevation'} \times \text{Elevation}_i$$`
+`$$\underbrace{\alpha}_\text{Intercept} + \underbrace{\beta_1}_\text{slope of 'Elevation'} \times \text{Elevation}_i + \underbrace{\beta_2}_\text{slope of 'Temperature'} \times \text{Temperature}_i$$`
 
-**Step 3.** The link between the mean of `\(Y_i\)` and the systematic part is a logarithmic
+**Step 3.** The link between the mean of `\(Y_i\)` and the systematic part is a logarithmic function can be written as:
 
-`$$log(\mu_i) = \alpha + \beta \times \text{Elevation}_i$$`
+`$$log(\mu_i) = \alpha + \beta_1 \times \text{Elevation}_i + \beta_2 \times \text{Temperature}_i$$`
+.pull-left[
+.center[or]
+
+`$$\mu_i = e^{ \alpha + \beta_1 \times \text{Elevation}_i + \beta_2 \times \text{Temperature}_i}$$`
 
 .center[or]
 
-`$$\mu_i = e^{ \alpha + \beta \times \text{Elevation}_i}$$`
+`$$\mu_i = e^{\alpha} \times e^{\beta_1^{\text{Elevation}_i}} \times e^{\beta_2^{\text{Temperature}_i}}$$`
+
+]
+.small[
+This shows that the impact of each explanatory variable is multiplicative.
+Increasing Elevation by one increases μ by factor of exp( `\(\beta_\text{Elevation}\)` ). 
+
+If βj = 0 then exp(βj) = 1 and μ is not related to xj. If βj &gt; 0 then μ increases if xj increases; if βj &lt; 0 then μ decreases if xj increases.
+]
 
 ---
+
 # Fitting a Poisson GLM in R
 
 The function `glm()` allows you to specify a Poisson GLM
 
 
 ```r
-glm.poisson = glm(Faramea.occidentalis~Elevation, data=faramea, family=poisson)
+glm.poisson = glm(Faramea.occidentalis ~ Elevation, 
+                  data = faramea, family = poisson)
 ```
 
-`family` argument specify the distribution and link function
+The `family` argument specifies the distribution and link function.
 
 &lt;br&gt;
 
-As with `lm()` you can access the outputs of the model using the function `summary()`
+As with `lm()` you can access the outputs of the model using the function `summary()`:
 
 
 ```r
@@ -1166,14 +1304,14 @@ Elevation = `\(\beta\)`
 
 .pull-right2[
 &lt;br&gt;
-What about `Null deviance` and `Residual deviance`?!
+What about the *null deviance* and the *residual deviance*?
 ]
 
 
 ---
 # Parameter estimates
 
-In our model the unknown parameters are the intercept ( `\(\alpha\)`) and the slope of elevation ( `\(\beta\)`)
+In our model the unknown parameters are the intercept ( `\(\alpha\)` ) and the slope of elevation ( `\(\beta\)` )
 
 
 `$$log(\mu_i) = 1.769 - 0.0027 \times \text{Elevation}_i$$`
@@ -1186,34 +1324,61 @@ In our model the unknown parameters are the intercept ( `\(\alpha\)`) and the sl
 ---
 # The deviance
 
-Remember that to estimate the unknown parameters maximum likelihood estimation is used
+Remember that to estimate the unknown parameter maximum likelihood estimation is used.
 
-The residual deviance is defined as twice the difference between the log likelihood of a model that provides a perfect fit and the log likelihood of our model
+The residual deviance is defined as twice the difference between the log-likelihood of a model that provides a perfect fit and the log-likelihood of our model.
 
-`$$\text{Res dev} = 2 \, log(L(y;\,y)) - 2 \, log(L(y;\, \mu))$$`
+`$$\text{residual deviance} = 2 \, log(L(y;\,y)) - 2 \, log(L(y;\, \mu))$$`
 
-In a Poisson GLM, the residual deviance should equal the residual degrees of freedoms
+In a Poisson GLM, the residual deviance should be close to the residual degrees of freedoms.
+
 
 .center[.alert[388.12 &gt;&gt; 41]]
 
+&gt;Our residual deviance is much higher than the degrees of freedom of our model!
 
 ---
 # Overdispersion
 
-When the residual deviance is higher than the residual degrees of freedom we say that the model is **overdispersed**
+For a Poisson distribution, `\(var[y] = μ\)`. However, in practice the apparent
+variance of the data often exceeds `\(μ\)`, reflecting *overdispersion* in the model parameters.
+
+&lt;br&gt;
+
+Overdispersion arises because the mean `\(μ\)` innately varies,
+even when all the explanatory variables are fixed, or because the
+events that are being counted are positively correlated.
+
+&lt;br&gt; 
+
+.center[*Are you able to think of a situation in biology that can cause overdispersion?*]
+
+&lt;br&gt; 
+
+**Why should we care about overdispersion?**
+
+&gt;Tests on the explanatory variables will generally appear to be more significant and confidence intervals for the parameters will be narrower
+than warranted by the data!
+
+---
+
+# Overdispersion
+
+When the residual deviance is higher than the residual degrees of freedom we say that the model is **overdispersed**. We can calculate a overdispersion parameter ( `\(\phi\)` ): 
 
 `$$\phi \, = \, \frac{\text{Residual deviance}}{\text{Residual degrees of freedom}}$$`
 
-Occurs when the variance in the data is even higher than the mean, hence the Poisson distribution is not the best choice (many zeros, many very high values, missing covariates, etc)
+Since the Poisson GLM assumes that `\(var[y] = μ\)`, we will need to find an alternative.
+
 
 .center[.large[**Solutions**]]
 
 .pull-left[
-1: Correct for overdispersion using **quasi-Poisson GLM**
+1: Correct for overdispersion using a **quasi-Poisson** generalized linear model.
 ]
 
 .pull-right[
-2: Choose another distribution: **the negative binomial**
+2: Choose another distribution family, such as the **negative binomial**.
 ]
 
 ---
@@ -1225,26 +1390,29 @@ The variance of the distribution will account for **overdispersion**:
 
 `$$Var(Y_I) = \phi \times \mu_i$$`
 
-the **systematic part** and the **link function** remain the same
+where `\(phi\)` is the dispersion parameter.
 
-`\(phi\)` is the dispersion parameter. It will be estimated prior to estimate parameters. Correcting for overdispersion will not affect parameter estimates but will affect their **significance**. Indeed, the standard errors of the parameters are multiplied by `\(\sqrt{\phi}\)`
+The **systematic part** and the **link function** remain the same.
+
+Correcting for overdispersion will not affect parameter estimates, but will affect their **significance**. Further, the standard errors of the parameters are multiplied by `\(\sqrt{\phi}\)`.
 
 .alert[Some marginally significant p-values may no longer hold!]
 
 ---
-# Fitting a quasi-Poisson GLM in R
+# Fitting a quasi-Poisson GLM in `R`
 
-Create a new GLM using the 'quasipoisson' family or update the previous one
+Create a new `glm.object` using the '`quasipoisson`' family or update the previous one: 
 
 
 ```r
 glm.quasipoisson = glm(Faramea.occidentalis ~ Elevation, data = faramea,
                        family=quasipoisson)
+
 glm.quasipoisson = update(glm.poisson, family = quasipoisson)
 ```
 
 ---
-# Fitting a quasi-Poisson GLM in R
+# Fitting a quasi-Poisson GLM in `R`
 
 .pull-left2[
 .small[
@@ -1434,7 +1602,7 @@ lines(pframe$lwr, col = 2, lty = 3, lwd = 2)
 ```
 ]
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-60-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-63-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ---
 # Challenge 3 ![:cube]()
@@ -1503,7 +1671,7 @@ anova(glm.qp2, glm.qp, test="Chisq")
 &lt;br&gt;
 
 .center[
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-64-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-67-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 
@@ -1591,7 +1759,7 @@ The effect of nutrient availability and herbivory (**fixed effects**) on the fru
 
 The response variable is count data which suggests to that a **Poisson distribution** should be used (i.e. the variance is equal to the mean)
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-66-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-69-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 However, as we will soon see, the variance increases with the mean much more rapidly than expected under the Poisson distribution
 
@@ -1631,7 +1799,7 @@ ggplot(data = dat.tf, aes(factor(x = gna),y = log(total.fruits + 1))) +
   stat_summary(fun.y=mean, geom="point", colour = "red")
 ```
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-68-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-71-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ]
 
 .comment[Similarly, the boxplot of total fruits vs population x nutrient x clipping interaction shows a large amount of heterogeneity among populations.]
@@ -1764,7 +1932,7 @@ library(coefplot2)
 coefplot2(mpl1, ptype = "vcov", intercept = TRUE)
 ```
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-74-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-77-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 
@@ -1773,7 +1941,7 @@ coefplot2(mpl1, ptype = "vcov", intercept = TRUE)
 coefplot2(mpl1, intercept = TRUE)
 ```
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-75-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-78-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .alert[Note]: error bars are only shown for the fixed effects because glmer doesn't provide information on uncertainty of variance terms
@@ -1808,7 +1976,7 @@ grid.arrange(d2$gen, d2$popu, nrow = 1)
 
 &lt;br&gt;
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-76-1.png" width="648" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-79-1.png" width="648" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -1990,6 +2158,42 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+(function() {
+  "use strict"
+  /* Replace <script> tags in slides area to make them executable
+   *
+   * Runs after post-processing of markdown source into slides and replaces only
+   * <script>s on the last slide of continued slides using the .has-continuation
+   * class added by xaringan. Finally, any <script>s in the slides area that
+   * aren't executed are commented out.
+   */
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container:not(.has-continuation) script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+  var scriptsNotExecuted = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container.has-continuation script'
+  );
+  if (!scriptsNotExecuted.length) return;
+  for (var i = 0; i < scriptsNotExecuted.length; i++) {
+    var comment = document.createComment(scriptsNotExecuted[i].outerHTML)
+    scriptsNotExecuted[i].parentElement.replaceChild(comment, scriptsNotExecuted[i])
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
 // adds .remark-code-has-line-highlighted class to <pre> parent elements
 // of code chunks containing highlighted lines with class .remark-code-line-highlighted
 (function(d) {
@@ -2007,17 +2211,6 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   }
   preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
 })(document);</script>
-
-<script>
-(function() {
-  var links = document.getElementsByTagName('a');
-  for (var i = 0; i < links.length; i++) {
-    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
-      links[i].target = '_blank';
-    }
-  }
-})();
-</script>
 
 <script>
 slideshow._releaseMath = function(el) {

@@ -37,9 +37,14 @@ html {
 .remark-inline-code {
   background-color: #f3f3f3;
   border-radius: 5px;
-  border: 1px solid #aaa;
+  border: 1px solid #999;
   padding: 1px !important;
   font-size: 80%;
+}
+
+h1 .remark-inline-code {
+  background-color: #999;
+  border: 1px solid #f3f3f3;
 }
 
 .remark-code-line-highlighted {
