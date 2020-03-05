@@ -77,7 +77,7 @@ if (!suppressPackageStartupMessages(require(coefplot2))) {
 # Outline
 
 ### 1. Why be normal? .small[(*Your data is ok; it's the model that's wrong*)]
-### 2. GLM with binary data
+### 2. GLM with binary and proportion data
 ### 3. GLM with count data
 ### 4. GLMMs
 
@@ -674,33 +674,40 @@ For binary data, the link function is called the **logit**:
 
 <br>
 
-$$g(\mu) = log\frac{\mu}{1-\mu}$$
+$$g(p) = log\frac{p}{1-p}$$
 
 $\mu =$ expected values (probability that $Y = 1$).
 
 <br>
 
-The *logit* function is the logarithm of the odds ( $\frac{\mu}{1-\mu}$).
+The *logit* function is the logarithm of the odds $(\frac{p}{1-p})$.
 
 <br>
+
 The odds puts our expected values on a `0` to `+Inf` scale.
 
 The log-transformation puts our expected values on a `-Inf` to `+Inf`.
 
 
-![:faic](arrow-right) The expected values can now be **linearly** related to the linear predictor.
+.small[![:faic](arrow-right)] The expected values can now be **linearly** related to the linear predictor.
+
+???
+
+We can understand that as if event A has probability p of occurring, then the odds of event A occurring is the ratio of the probability that A occurs to the probability that A does not occur: p/(1−p).
+
+For example, if the probability
+that I will fail my courses  is 0.6, the odds that I will fail my courses  is 0.6/(1 − 0.6) = 1.5. This means that the probability of observing a failure in my courses is 1.5 times greater than the probability of not observing it (that is,
+1.5 × 0.4 = 0.6).
+
 
 ---
-# Exercise 1
+# Exercise 1 - Our first generalized linear model, together.
 
-Build a logistic regression model using the mites data
+Build a logistic regression model using the `mites` data
 
-```{r,eval=F}
-#setwd('...')
-mites <- read.csv("data/mites.csv", header = TRUE)
-str(mites)
+```{r, echo = TRUE}
+# setwd('...')
 
-```{r,echo=F}
 mites <- read.csv("data/mites.csv", header = TRUE)
 str(mites)
 ```
@@ -822,7 +829,7 @@ $$\dfrac{p}{1-p}=exp(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)$$
 
 $$Pr(yi) = \dfrac{exp(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}{1 + exp{(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}}$$
 
-Great! Do not give up! 
+.center[Great! Do not give up!]
 
 ---
 # Interpreting the `glm()` coefficients
@@ -854,6 +861,7 @@ For a one-unit increase (or decrease) in water content, we can obtain the odds f
 exp(logit.reg$coefficient[2])
 ```
 
+
 ---
 
 # Predictive power and goodness-of-fit
@@ -875,7 +883,39 @@ $$\text{pseudo-R}^2 = \frac{\text{null deviance - residual deviance}}{\text{null
 > $\text{pseudo-R}^2$ is the variance explained by the model
 
 ---
-# Predictive power and goodness-of-fit
+# Unit deviance, total deviance and null deviance
+
+The unit deviance is a measure of distance between $y$ and $μ$. 
+
+$${\displaystyle d(y,y)=0}$$
+$${\displaystyle d(y,\mu )>0\quad \forall y\neq \mu }$$
+
+
+The total deviance ${\displaystyle D(\mathbf {y} ,{\hat {\boldsymbol {\mu }}})}$ of a model with predictions ${\hat {\boldsymbol {\mu }}}$ of the observation $\mathbf {y}$ is the sum of its unit deviances: 
+$${\displaystyle D(\mathbf {y} ,{\hat {\boldsymbol {\mu }}})=\sum _{i}d(y_{i},{\hat {\mu }}_{i})}$$
+Now, the deviance of a model that has estimates  ${\hat {\mu }}=E[Y|{\hat {\theta }}_{0}]$ can be defined by its **likelihood**:
+$$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(y\mid {\hat {\theta }}_{s}){\big )}-\log {\big (}p(y\mid {\hat {\theta }}_{0}){\big )}{\Big )}$$
+with $\hat \theta_0$ denoting the fitted values of the parameters in the reduced model, while ${\displaystyle {\hat {\theta }}_{s}}\hat \theta_s$ denotes the fitted parameters for the saturated model.
+
+---
+# Unit deviance, total deviance and null deviance
+
+Now, the deviance of a model that has estimates  ${\hat {\mu }}=E[Y|{\hat {\theta }}_{0}]$ can be defined by its **likelihood**:
+$$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(y\mid {\hat {\theta }}_{s}){\big )}-\log {\big (}p(y\mid {\hat {\theta }}_{0}){\big )}{\Big )}$$
+with $\hat \theta_0$ denoting the fitted values of the parameters in the reduced model, while ${\displaystyle {\hat {\theta }}_{s}}\hat \theta_s$ denotes the fitted parameters for the saturated model.
+
+The **residual deviance** is defined as 2 times the log-likelihood ratio of the full model compared to the reduced model. (The function below is exactly the same as above!)
+$$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(\text{saturated model}){\big )}-\log {\big (}p(\text{reduced model}){\big )}{\Big )}$$
+And, the **null deviance** is defined  2 times the log-likelihood ratio of the full model compared to the null model (i.e. predictors are set to 1).
+
+$$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(\text{saturated model}){\big )}-\log {\big (}p(\text{null model}){\big )}{\Big )}$$
+???
+
+Under some conditions, if the proposed model describes the data nearly as well as the saturated model, then asymptotically D ∼ χ
+2 K−p, where K and p are the number of parameters in the saturated and proposed models, respectively. If the proposed model is poor, D will be larger than predicted by the χ2 K−p distribution.
+
+---
+# Total deviance and null deviance
 
 In `R`, we can do this as follows:
 
@@ -885,6 +925,12 @@ The **null deviance model** here is a model without explanatory variables.
 
 ```r
 null.model <- glm(response.variable ~ 1, family = binomial)
+```
+
+The **saturated (or full) deviance model** here is a model with all explanatory variables.
+
+```r
+full.model <- glm(response.variable ~ ., family = binomial)
 ```
 
 ---
@@ -905,20 +951,23 @@ pseudoR2
 
 <br>
 
-.comment[Hence, the model explains 46.6% of the variability in the data]
+.comment[Hence, the model explains 46.6% of the variability in the data.]
 
 ---
 # Predictive power and goodness-of-fit
 
 An adjusted McFadden's pseudo-R2, which penalizes for the number of predictors, can be calculated as below:
-
+.pull-left[
 \begin{equation}
 R^2_{adj} = 1 - \frac{logL(M) - K}{logL(M_{null})}
 \end{equation}
+]
 
+.pull-right[
 where $K$ corresponds to the additional number of predictors in relation to the null model.
+]
 
-The goodness of fit of the logistic regression model can be expressed by some variants of pseudo-R2 statistics, such as Maddala (1983) or Cragg and Uhler (1970) measures.
+The goodness-of-fit of the logistic regression model can be expressed by some variants of pseudo-R2 statistics, such as Maddala (1983) or Cragg and Uhler (1970) measures.
 
 When talking about *logistic regressions*, low $R^2$ values are often common.
 
@@ -934,7 +983,6 @@ It roughly involves:
 # Exercise 2 - Calculating the pseudo-R2
 
 The `DescTools::PseudoR2()` function computes several pseudo-R2.
-
 
 ```{r, echo = TRUE}
 logit.reg <- glm(mites$pa ~ mites$WatrCont + mites$Topo, 
@@ -963,7 +1011,6 @@ HLtest(logit.reg)
 plot(HLtest(logit.reg))
 ```
 ]
-
 
 .comment[A non-significant value indicates an adequate fit!]
 
@@ -1139,19 +1186,19 @@ $\mu_i$ corresponds to the expected number of individuals
 
 **Step 2.** We specify the systematic part of the model just as in a linear model.
 
-$$\underbrace{\alpha}_\text{Intercept} + \underbrace{\beta_1}_\text{slope of 'Elevation'} \times \text{Elevation}_i + \underbrace{\beta_2}_\text{slope of 'Temperature'} \times \text{Temperature}_i$$
+$$\underbrace{\alpha}_\text{Intercept} + \underbrace{\beta_1}_\text{slope of 'Elevation'} \times \text{Elevation}_i + \underbrace{\beta_2}_\text{slope of 'Precipitation'} \times \text{Precipitation}_i$$
 
 **Step 3.** The link between the mean of $Y_i$ and the systematic part is a logarithmic function can be written as:
 
-$$log(\mu_i) = \alpha + \beta_1 \times \text{Elevation}_i + \beta_2 \times \text{Temperature}_i$$
+$$log(\mu_i) = \alpha + \beta_1 \times \text{Elevation}_i + \beta_2 \times \text{Precipitation}_i$$
 .pull-left[
 .center[or]
 
-$$\mu_i = e^{ \alpha + \beta_1 \times \text{Elevation}_i + \beta_2 \times \text{Temperature}_i}$$
+$$\mu_i = e^{ \alpha + \beta_1 \times \text{Elevation}_i + \beta_2 \times \text{Precipitation}_i}$$
 
 .center[or]
 
-$$\mu_i = e^{\alpha} \times e^{\beta_1^{\text{Elevation}_i}} \times e^{\beta_2^{\text{Temperature}_i}}$$
+$$\mu_i = e^{\alpha} \times e^{\beta_1^{\text{Elevation}_i}} \times e^{\beta_2^{\text{Precipitation}_i}}$$
 
 ]
 .small[
@@ -1163,7 +1210,7 @@ If βj = 0 then exp(βj) = 1 and μ is not related to xj. If βj > 0 then μ inc
 
 ---
 
-# Fitting a Poisson GLM in R
+# Fitting a Poisson GLM in `R`
 
 The function `glm()` allows you to specify a Poisson GLM
 
