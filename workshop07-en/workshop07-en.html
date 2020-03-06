@@ -663,6 +663,20 @@ str(mites)
 #  $ Topo      : Factor w/ 2 levels "Blanket","Hummock": 2 2 2 2 2 2 2 1 1 2 ...
 ```
 
+???
+
+A reminder about the dataset:
+
+70 sites (rows) x 35 morphospecies (columns). The sampling units are substrate cores 5 cm in diameter and 10 cem in depth, hereafter called "cores".
+
+SubsDens: substratum density in g.L-1 of dry uncompressed matter (quantitative variable)
+
+WatrCont: water content of the substratum, in percent of volume (quantitative variable)
+
+Borcard, D., P. Legendre and P. Drapeau. 1992. Partialling out the spatial component of ecological variation. Ecology 73: 1045-1055.
+
+Borcard, D. and P. Legendre. 1994. Environmental control and spatial structure in ecological communities: an example using Oribatid mites (Acari, Oribatei). Environmental and Ecological Statistics 1: 37-53.
+
 ---
 # Exercise 1 - Our first generalized linear model, together.
 
@@ -671,13 +685,16 @@ Let us build a model of the presence of *Galumna* sp. as a function of water con
 
 ```r
 logit.reg &lt;- glm(pa ~ WatrCont + Topo, data=mites,
-family = binomial(link = "logit"))
+                 family = binomial(link = "logit"))
 ```
 
 ```r
 summary(logit.reg)
 ```
 
+???
+
+The presenter must increase focus on the `family` argument, explaining what it is. Also, refer to ?family.
 ---
 # Exercise 1
 
@@ -712,6 +729,12 @@ summary(logit.reg)
 ```
 ]
 
+???
+
+When explaining this summary show what the blocks are and recall that its structure resembles the one from `summary.lm()`, but that there are some special differences (e.g. dispersion parameter). 
+
+Deviance, coefficients and dispersion will be covered in the following slides.
+
 ---
 # Challenge 1 ![:cube]()
 
@@ -736,7 +759,10 @@ str(bacteria)
 ```
 
 .tiny[
-&gt; Dr A. Leach tested the effects of a drug on 50 children with a history of *otitis media* in the Northern Territory of Australia. The children were randomized to the drug or the a placebo, and also to receive active encouragement to comply with taking the drug.
+
+*Tests of the presence of the bacteria H. influenzae in children with otitis media in the Northern Territory of Australia.*
+
+&gt; Dr A. Leach tested the effects of a drug on 50 children with a history of *otitis media* in the Northern Territory of Australia. The children were randomized to the drug or a placebo.
 
 &gt; The presence of *H. influenzae* was checked at weeks 0, 2, 4, 6 and 11: 30 of the checks were missing and are not included in this data frame.
 
@@ -774,6 +800,16 @@ anova(model.bact1, model.bact2, model.bact3, test = "LRT")
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
+
+???
+
+LRT performs a likelihood ratio (LR) test between the models. It is obtained as in the example below.
+
+# Improve this in the future
+
+vals &lt;- (sum(residuals(base)^2) - sum(residuals(full)^2))/sum(residuals(full)^2) * full$df.residual
+
+pchisq(vals, df.diff, lower.tail = FALSE)
 
 ---
 # Interpreting the `glm()` coefficients
@@ -1188,7 +1224,7 @@ First, import the `faramea.csv` into `R`.
 faramea &lt;- read.csv('faramea.csv', header = TRUE)
 ```
 
-The number of trees of the species *Faramea occidentalis* was assessed in 43 quadrats in Barro Colorado Island (Panama). For each quadrat, environmental characteristics - such as elevation and precipitation - were also recorded.
+The number of trees of the species *Faramea occidentalis* was assessed in 43 quadrats in Barro Colorado Island (Panama). For each quadrat, environmental characteristics (such as elevation and precipitation) were also recorded.
 
 Let's investigate the histogram of the number of *Faramea occidentalis*.
 
@@ -1278,7 +1314,7 @@ A Poisson GLM will model the value of `\(\mu\)` as a function of different expla
 This shows that the impact of each explanatory variable is multiplicative.
 Increasing Elevation by one increases μ by factor of exp( `\(\beta_\text{Elevation}\)` ). 
 
-If βj = 0 then exp(βj) = 1 and μ is not related to xj. If βj &gt; 0 then μ increases if xj increases; if βj &lt; 0 then μ decreases if xj increases.
+If `\(βj = 0\)` then `\(exp(βj) = 1\)` and `\(μ\)` is not related to `\(x_j\)`. If `\(βj &gt; 0\)` then `\(μ\)` increases if `\(x_j\)` increases; if `\(βj &lt; 0\)` then `\(μ\)` decreases if `\(x_j\)` increases.
 ]
 
 ---
