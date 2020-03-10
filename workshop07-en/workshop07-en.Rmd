@@ -16,63 +16,31 @@ output:
 ---
 
 
-```{r setup, echo = F}
+```{r setup, echo = FALSE}
 knitr::opts_chunk$set(
   comment = "#",
   collapse = TRUE,
   cache = TRUE,
   warning = FALSE,
   message = FALSE,
-  fig.width=6, fig.height=6,
+  fig.width = 6, fig.height = 6,
   fig.retina = 3,
   fig.align = 'center'
 )
 mypar = list(mar = c(3,3,1,0.5), mgp = c(1.6, 0.3, 0), tck = -.02)
-```
-
-```{r, echo =F}
 options(repos=structure(c(CRAN="http://cran.r-project.org")))
 ```
 
-```{r package, echo = F}
+class: inverse, center, middle
 
-# add packages
-if (!suppressPackageStartupMessages(require(ggplot2))) {
-  install.packages("ggplot2")
-}
-if (!suppressPackageStartupMessages(require(MASS))) {
-  install.packages("MASS")
-}
-if (!suppressPackageStartupMessages(require(DescTools))) {
-  install.packages("DescTools")
-}
-if (!suppressPackageStartupMessages(require(vcdExtra))) {
-  install.packages("vcdExtra")
-}
-
-if (!suppressPackageStartupMessages(require(gridExtra))) {
-  install.packages("gridExtra")
-}
-if (!suppressPackageStartupMessages(require(lme4))) {
-  install.packages("lme4")
-}
-if (!suppressPackageStartupMessages(require(lattice))) {
-  install.packages("lattice")
-}
-if (!suppressPackageStartupMessages(require(bbmle))) {
-  install.packages("bbmle")
-}
-if (!suppressPackageStartupMessages(require(coda))) {
-  install.packages("coda")
-}
-if (!suppressPackageStartupMessages(require(reshape))) {
-  install.packages("reshape")
-}
-if (!suppressPackageStartupMessages(require(coefplot2))) {
- install.packages("coefplot2", repos = "http://www.math.mcmaster.ca/bolker/R", type="source")
-}
+```{R install_pkgs, echo = FALSE, results = "asis"}
+cat(
+  qcbsRworkshops::first_slides(7,
+    c('ggplot2', 'lme4', 'MASS', 'vcdExtra', 'bbmle', 'DescTools'))
+)
 ```
 
+--- 
 
 # Outline
 
@@ -145,7 +113,7 @@ A negative relationship between `Galumna` and `WatrCont`?
   par(mypar)
   par(mfrow = c(1, 3), cex = 1.4)
   plot(Galumna ~ WatrCont, data = mites, xlab = 'Water content', ylab='Abundance')
-  boxplot(WatrCont ~ pa, 
+  boxplot(WatrCont ~ pa,
           data = mites, xlab='Presence/Absence', ylab = 'Water content')
   plot(prop ~ WatrCont, data = mites, xlab = 'Water content', ylab='Proportion')
 ```
@@ -397,11 +365,11 @@ A useful distribution to model abundance data is the “Poisson” distribution:
 ```{r,echo=F,fig.width=15}
 x = seq(1, 50, 1)
 par(mypar);par(mfrow = c(1, 3), cex = 1.4)
-plot(x, dpois(x, lambda = 1), type = 'h', lwd = 3, 
+plot(x, dpois(x, lambda = 1), type = 'h', lwd = 3,
      xlab = '# Galumna', ylab = 'Probability', main = 'lambda = 1')
-plot(x, dpois(x, lambda = 10), type = 'h', lwd = 3, 
+plot(x, dpois(x, lambda = 10), type = 'h', lwd = 3,
      xlab = '# Galumna', ylab = 'Probability', main = 'lambda = 10')
-plot(x, dpois(x, lambda = 30), type = 'h', lwd = 3, 
+plot(x, dpois(x, lambda = 30), type = 'h', lwd = 3,
      xlab = '# Galumna', ylab = 'Probability', main = 'lambda = 30')
 ```
 
@@ -621,7 +589,7 @@ logit.reg <- glm(formula, data, family)
 
 <br>
 
-Moving away from traditional linear models (`lm()`)... 
+Moving away from traditional linear models (`lm()`)...
 
 In addition to the data (of course!), we need to specify additional elements in a generalized linear model (`glm()`):
 
@@ -753,7 +721,7 @@ summary(logit.reg)
 
 ???
 
-When explaining this summary show what the blocks are and recall that its structure resembles the one from `summary.lm()`, but that there are some special differences (e.g. dispersion parameter). 
+When explaining this summary show what the blocks are and recall that its structure resembles the one from `summary.lm()`, but that there are some special differences (e.g. dispersion parameter).
 
 Deviance, coefficients and dispersion will be covered in the following slides.
 
@@ -836,7 +804,7 @@ The direct interpretation of the coefficients in the logit model is tenuous beca
 
 Let us assume that we have a binary outcome $y$ and two covariates $x_1$ and $x_2$ (and a constant). The probability of a successful outcome ( $y = 1$ ) is given by:
 
-$$Pr(y_i = 1) = p = g^{-1(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}$$ 
+$$Pr(y_i = 1) = p = g^{-1(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}$$
 
 where $g^{-1}()$ is the **inverse link function**.
 
@@ -844,7 +812,7 @@ Now let us focus in interpreting the $\beta_1$ coefficient.
 
 #### Identity link
 
-For the identity link, the interpretation is straighforward. For one-unit increase in $x_1$, $\beta_1$ dictates a constant difference in the outcome. 
+For the identity link, the interpretation is straighforward. For one-unit increase in $x_1$, $\beta_1$ dictates a constant difference in the outcome.
 
 $\Delta{y_i} = [\beta_0 + (x_{1i} + 1)\beta_1 + x_{2i}\beta_2] - (\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)$
 
@@ -874,7 +842,7 @@ $$Pr(yi) = \dfrac{exp(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}{1 + exp{(\beta_0
 
 Since the inverse link is nonlinear, the coefficient interpretation is difficult.
 
-Let us take a look what happens to the differences for a one-unit change to $x_1$: 
+Let us take a look what happens to the differences for a one-unit change to $x_1$:
 
 $$\Delta{y_i} = \dfrac{\exp[\beta_0 + (x_{1i} + 1)\beta_1 + x_{2i}\beta_2]}{1 + \exp{[\beta_0 + (x_{1i} + 1)\beta_1 + x_{2i}\beta_2]}} - \dfrac{\exp[\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2]}{1 + \exp{[\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2]}}$$
 $$\Delta{y_i} = \exp{(\beta_0)}\{\exp{(\beta_1)}\} $$
@@ -908,7 +876,7 @@ In simple linear models, $R^2$ can be obtained as the square of the sample corre
 
 In some of the generalized linear models, we take different approaches.
 
-We can obtain a $\text{pseudo-R}^2$, the analogue of the $R^2$ for models fitted by maximum likelihood. 
+We can obtain a $\text{pseudo-R}^2$, the analogue of the $R^2$ for models fitted by maximum likelihood.
 
 We can calculate McFadden's (1973) $\text{pseudo-R}^2$ in this way:
 
@@ -921,13 +889,13 @@ $$\text{pseudo-R}^2 = \frac{\text{null deviance - residual deviance}}{\text{null
 ---
 # Unit deviance, total deviance and null deviance
 
-The unit deviance is a measure of distance between $y$ and $μ$. 
+The unit deviance is a measure of distance between $y$ and $μ$.
 
 $${\displaystyle d(y,y)=0}$$
 $${\displaystyle d(y,\mu )>0\quad \forall y\neq \mu }$$
 
 
-The total deviance ${\displaystyle D(\mathbf {y} ,{\hat {\boldsymbol {\mu }}})}$ of a model with predictions ${\hat {\boldsymbol {\mu }}}$ of the observation $\mathbf {y}$ is the sum of its unit deviances: 
+The total deviance ${\displaystyle D(\mathbf {y} ,{\hat {\boldsymbol {\mu }}})}$ of a model with predictions ${\hat {\boldsymbol {\mu }}}$ of the observation $\mathbf {y}$ is the sum of its unit deviances:
 $${\displaystyle D(\mathbf {y} ,{\hat {\boldsymbol {\mu }}})=\sum _{i}d(y_{i},{\hat {\mu }}_{i})}$$
 Now, the deviance of a model that has estimates  ${\hat {\mu }}=E[Y|{\hat {\theta }}_{0}]$ can be defined by its **likelihood**:
 $$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(y\mid {\hat {\theta }}_{s}){\big )}-\log {\big (}p(y\mid {\hat {\theta }}_{0}){\big )}{\Big )}$$
@@ -1021,7 +989,7 @@ It roughly involves:
 The `DescTools::PseudoR2()` function computes several pseudo-R2.
 
 ```{r, echo = TRUE}
-logit.reg <- glm(mites$pa ~ mites$WatrCont + mites$Topo, 
+logit.reg <- glm(mites$pa ~ mites$WatrCont + mites$Topo,
                  family = binomial(link = "logit"))
 
 library(DescTools)
@@ -1083,7 +1051,7 @@ HLtest(model.bact2)
 
 Sometimes, proportion data are more similar to logistic regression than you think...
 
-In discrete counts, we can, for instance, measure the number of presence of individuals in relation to the total number of populations sampled. 
+In discrete counts, we can, for instance, measure the number of presence of individuals in relation to the total number of populations sampled.
 
 We will thus obtain a proportional number of "success" in observing individuals by dividing the counts by the total counts.
 
@@ -1095,8 +1063,8 @@ We will thus obtain a proportional number of "success" in observing individuals 
 In `R`, we have to specify the number of times something happened and the number of times something did not happen:
 
 ```{r}
-prop.reg <- glm(cbind(Galumna, totalabund - Galumna) ~ Topo + WatrCont, 
-                data = mites, 
+prop.reg <- glm(cbind(Galumna, totalabund - Galumna) ~ Topo + WatrCont,
+                data = mites,
                 family = binomial)
 ```
 
@@ -1119,9 +1087,9 @@ summary(prop.reg)
 We can also code the model directly with proportions:
 
 ```{r}
-prop.reg2 <- glm(prop ~ Topo + WatrCont, 
+prop.reg2 <- glm(prop ~ Topo + WatrCont,
                  data = mites,
-                 family = binomial, 
+                 family = binomial,
                  weights = totalabund)
 ```
 
@@ -1177,7 +1145,7 @@ par(mypar);par(cex = 1.4)
 plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'F. occidentalis individuals', xlab = 'Elevation(m)')
 ```
 
-The **Poisson distribution** seems to adequately fit this data distribution. 
+The **Poisson distribution** seems to adequately fit this data distribution.
 
 We can use the Poisson family in our GLM to begin modeling count data.
 
@@ -1239,7 +1207,7 @@ $$\mu_i = e^{\alpha} \times e^{\beta_1^{\text{Elevation}_i}} \times e^{\beta_2^{
 ]
 .small[
 This shows that the impact of each explanatory variable is multiplicative.
-Increasing Elevation by one increases μ by factor of exp( $\beta_\text{Elevation}$ ). 
+Increasing Elevation by one increases μ by factor of exp( $\beta_\text{Elevation}$ ).
 
 If $βj = 0$ then $exp(βj) = 1$ and $μ$ is not related to $x_j$. If $βj > 0$ then $μ$ increases if $x_j$ increases; if $βj < 0$ then $μ$ decreases if $x_j$ increases.
 ]
@@ -1251,7 +1219,7 @@ If $βj = 0$ then $exp(βj) = 1$ and $μ$ is not related to $x_j$. If $βj > 0$ 
 The function `glm()` allows you to specify a Poisson GLM
 
 ```{r}
-glm.poisson = glm(Faramea.occidentalis ~ Elevation, 
+glm.poisson = glm(Faramea.occidentalis ~ Elevation,
                   data = faramea, family = poisson)
 ```
 
@@ -1333,11 +1301,11 @@ Overdispersion arises because the mean $μ$ innately varies,
 even when all the explanatory variables are fixed, or because the
 events that are being counted are positively correlated.
 
-<br> 
+<br>
 
 .center[*Are you able to think of a situation in biology that can cause overdispersion?*]
 
-<br> 
+<br>
 
 **Why should we care about overdispersion?**
 
@@ -1348,7 +1316,7 @@ than warranted by the data!
 
 # Overdispersion
 
-When the residual deviance is higher than the residual degrees of freedom we say that the model is **overdispersed**. We can calculate a overdispersion parameter ( $\phi$ ): 
+When the residual deviance is higher than the residual degrees of freedom we say that the model is **overdispersed**. We can calculate a overdispersion parameter ( $\phi$ ):
 
 $$\phi \, = \, \frac{\text{Residual deviance}}{\text{Residual degrees of freedom}}$$
 
@@ -1385,7 +1353,7 @@ Correcting for overdispersion will not affect parameter estimates, but will affe
 ---
 # Fitting a quasi-Poisson GLM in `R`
 
-Create a new `glm.object` using the '`quasipoisson`' family or update the previous one: 
+Create a new `glm.object` using the '`quasipoisson`' family or update the previous one:
 
 ```{r}
 glm.quasipoisson = glm(Faramea.occidentalis ~ Elevation, data = faramea,
@@ -1841,7 +1809,7 @@ overdisp_fun(mnb1)
 ]
 
 ---
-# Poisson-lognor mal GLMM
+# Poisson-lognormal GLMM
 
 - Another option is the **Poisson-lognormal** distribution.
 - This can be achieved simply by placing an observation-level random effect in the formula.
@@ -1865,28 +1833,43 @@ overdisp_fun(mpl1)
 .alert[Ratio now meets our criterion]
 ]
 
+
 ---
-.small[
+# Poisson-lognormal GLMM
+
 **Visualization the model parameters**: A graphical representation of the model parameters can be obtained using the `coefplot2()` function from the `coefplot2` package:
+
+--
+
+.alert[![:faic](warning) This package is not on CRAN!]
+
+```{R install_coefplot2}
+if (!require("coefplot2"))
+  install.packages("coefplot2",
+    repos = "http://www.math.mcmaster.ca/bolker/R",
+    type="source")
+library(coefplot2)
+```
+
+---
+# Poisson-lognormal GLMM
 
 .pull-left[
 ```{r, fig.height=6, fig.width=6, echo=-1}
 par(mypar);par(cex = 1.4)
-library(coefplot2)
 # Variance terms
 coefplot2(mpl1, ptype = "vcov", intercept = TRUE)
 ```
 ]
 .pull-right[
-```{r, fig.height=6, fig.width=6,echo=-1}
+```{r, fig.height = 6, fig.width = 6, echo=-1}
 par(mypar);par(cex = 1.4)
 # Fixed effects
 coefplot2(mpl1, intercept = TRUE)
 ```
 ]
 
-.alert[Note]: error bars are only shown for the fixed effects because glmer doesn't provide information on uncertainty of variance terms
-]
+.alert[Note]: error bars are only shown for the fixed effects because glmer doesn't provide information on uncertainty of variance .
 
 
 ---
@@ -2032,4 +2015,4 @@ class: inverse, center, bottom
 
 # Thank you for attending this workshop!
 
-![:scale 50%](images/QCBS_logo.png)
+![:scale 50%](images/qcbs_logo.png)

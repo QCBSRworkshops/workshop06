@@ -1,16 +1,3 @@
-cran_pkgs:
-    - MASS
-    - tidyverse
-    - gridExtra
-    - lme4
-    - lattice
-    - bbmle
-    - coda
-    - reshape
-    - DescTools
-    - vcdExtra
-
-
 repo_pkgs:
     - repo: http://www.math.mcmaster.ca/bolker/R
     - pkgname: coefplot2

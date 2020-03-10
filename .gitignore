@@ -1,3 +1,8 @@
+# do not upload pdf files nor R scripts pres
+workshop[0-1][0-9]-[ef][nr].pdf
+workshop[0-1][0-9]-[ef][nr].R
+
+*.Rproj
 assets
 *.html
 *_files

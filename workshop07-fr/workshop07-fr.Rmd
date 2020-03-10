@@ -28,52 +28,23 @@ knitr::opts_chunk$set(
   fig.align = 'center'
 )
 mypar = list(mar = c(3,3,1,0.5), mgp = c(1.6, 0.3, 0), tck = -.02)
-```
-
-```{r, echo =F}
 options(repos=structure(c(CRAN="http://cran.r-project.org")))
 ```
 
-```{r package, echo = F}
 
-# add packages
-if (!suppressPackageStartupMessages(require(ggplot2))) {
-  install.packages("ggplot2")
-}
-if (!suppressPackageStartupMessages(require(MASS))) {
-  install.packages("MASS")
-}
-if (!suppressPackageStartupMessages(require(DescTools))) {
-  install.packages("DescTools")
-}
-if (!suppressPackageStartupMessages(require(vcdExtra))) {
-  install.packages("vcdExtra")
-}
+class: inverse, center, middle
 
-if (!suppressPackageStartupMessages(require(gridExtra))) {
-  install.packages("gridExtra")
-}
-if (!suppressPackageStartupMessages(require(lme4))) {
-  install.packages("lme4")
-}
-if (!suppressPackageStartupMessages(require(lattice))) {
-  install.packages("lattice")
-}
-if (!suppressPackageStartupMessages(require(bbmle))) {
-  install.packages("bbmle")
-}
-if (!suppressPackageStartupMessages(require(coda))) {
-  install.packages("coda")
-}
-if (!suppressPackageStartupMessages(require(reshape))) {
-  install.packages("reshape")
-}
-if (!suppressPackageStartupMessages(require(coefplot2))) {
- install.packages("coefplot2", repos = "http://www.math.mcmaster.ca/bolker/R", type="source")
-}
+```{R install_pkgs, echo = FALSE, results = "asis"}
+cat(
+  qcbsRworkshops::first_slides(7,
+    c('ggplot2', 'lme4', 'MASS', 'vcdExtra', 'bbmle', 'DescTools'),
+    lang = "fr")
+)
 ```
 
-# Objectifs
+---
+
+# Objectifs d'apprentissage
 <br>
 
 ##### 1. Pourquoi être normal?
@@ -1663,13 +1634,27 @@ overdisp_fun(mpl1)
 ---
 # GLMM Poisson-lognormal
 
-.small[
 **Représentation graphique des paramètres du modèle**: Une représentation graphique des paramètres du modèle peut être obtenue en utilisant la fonction `coefplot2()`du paquet `coefplot2`:
+
+--
+
+.alert[![:faic](warning) Ce paquet n'est pas sur le CRAN!]
+
+```{R install_coefplot2}
+if (!require("coefplot2"))
+  install.packages("coefplot2",
+    repos = "http://www.math.mcmaster.ca/bolker/R",
+    type="source")
+library(coefplot2)
+```
+
+---
+# GLMM Poisson-lognormal
+
 
 .pull-left[
 ```{r, fig.height=5, fig.width=6, echo=-1}
 par(mypar);par(cex = 1.4)
-library(coefplot2)
 # Paramètres de la variance
 coefplot2(mpl1, ptype = "vcov", intercept = TRUE)
 ```
@@ -1683,7 +1668,6 @@ coefplot2(mpl1, intercept = TRUE)
 ]
 
 .alert[Note]: barres d'erreur visibles seulement pour les effets fixes parce que glmer ne nous donne pas d'informations sur l'incertitude des effets aléatoires.
-]
 
 ---
 # Visualisation des effets aléatoires
@@ -1713,11 +1697,13 @@ grid.arrange(d2$gen, d2$popu, nrow = 1)
 
 <br>
 
-```{r,echo=F,fig.width=9}
+```{r, echo= FALSE, fig.width=9}
+library(gridExtra)
+library(lattice)
 pp <- list(layout.widths=list(left.padding=0, right.padding=0),
            layout.heights=list(top.padding=0, bottom.padding=0))
 r2 <- ranef(mpl1, condVar = TRUE)
-d2 <- lattice::dotplot(r2, par.settings = pp, scales=list(x=list(cex=1.4),y=list(cex=1.3)))
+d2 <- dotplot(r2, par.settings = pp, scales=list(x=list(cex=1.4),y=list(cex=1.3)))
 grid.arrange(d2$gen, d2$popu, nrow = 1)
 ```
 
@@ -1822,10 +1808,6 @@ En utilisant l'ensemble de données `inverts` (temps de développement larvaire 
 - Finalement, une fois que vous avez déterminé la meilleure famille de distribution, re-évaluez vos effets fixes et aléatoires.
 
 
-
-
-
-
 ---
 # Solution
 
@@ -1866,7 +1848,7 @@ abline(a=0, b =1, lty =2 )
 
 
 ---
-# Ressources addionnelles sur les GLMMs
+# Ressources additionnelles sur les GLMMs
 
 **Livres** :
 
