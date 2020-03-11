@@ -315,9 +315,6 @@ Il faut donc **vérifier la normalité des résidus** et non celle la distributi
 
 
 
-
-<!-- https://fr.wikipedia.org/wiki/Loi_de_Bernoulli -->
-
 ---
 # Prédiction du modèle
 <br>
@@ -1123,7 +1120,7 @@ Se produit lorsque la variance dans les données est plus grande que la moyenne.
 ]
 
 .pull-right[
-2: Choisir une autre distribution : **la negative binomial**
+2: Choisir une autre distribution : **la [negative binomial](https://fr.wikipedia.org/wiki/Loi_binomiale_n%C3%A9gative)**
 ]
 
 ---
@@ -1686,7 +1683,6 @@ pp <- list(layout.widths=list(left.padding=0, right.padding=0),
            layout.heights=list(top.padding=0, bottom.padding=0))
 r2 <- ranef(mpl1, condVar = TRUE)
 d2 <- dotplot(r2, par.settings = pp)
-
 grid.arrange(d2$gen, d2$popu, nrow = 1)
 ```
 

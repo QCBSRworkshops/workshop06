@@ -316,6 +316,7 @@ $$\sigma = 1.51$$
 
 ---
 # Model prediction
+
 .pull-left[
 $$y_i \sim N(\mu = \beta_0 + \beta_1 X_i, \sigma^2)$$
 $$\mu = 3.44 + (-0.006 x 300) = 1.63$$
@@ -326,17 +327,20 @@ At $x = 300$, residuals should follow a normal distribution with $\mu = 1.63$ an
 
 At $x = 400$, we get $\mu = 1.02$ and $\sigma^2 = 1.51$, etc.
 ]
-<br>
-- Graphically, this is our model:
 
 --
+
 .pull-left[
-.center[
-  ![:scale 100%](images/modelPredic.png)
-]]
---
+
+- .small[Graphically, this is our model]:
+
+  ![:scale 90%](images/modelPredic.png)
+]
+
 .pull-right[
+
 **Problems**:
+
 - $\sigma^2$ is not homogeneous, yet `lm()` forces a constant $\sigma^2$
 - Predicted values should be integers
 ]
@@ -1883,11 +1887,12 @@ Difference among genotypes largely driven by genotype 34
 
 ```r
 library(gridExtra)
+library(lattice)
 # dotplot code
 pp <- list(layout.widths=list(left.padding=0, right.padding=0),
            layout.heights=list(top.padding=0, bottom.padding=0))
 r2 <- ranef(mpl1, condVar = TRUE)
-d2 <- lattice::dotplot(r2, par.settings = pp)
+d2 <- dotplot(r2, par.settings = pp)
 
 grid.arrange(d2$gen, d2$popu, nrow = 1)
 ```
@@ -1899,10 +1904,12 @@ grid.arrange(d2$gen, d2$popu, nrow = 1)
 <br>
 
 ```{r,echo=F,fig.width=9}
+library(gridExtra)
+library(lattice)
 pp <- list(layout.widths=list(left.padding=0, right.padding=0),
            layout.heights=list(top.padding=0, bottom.padding=0))
 r2 <- ranef(mpl1, condVar = TRUE)
-d2 <- lattice::dotplot(r2, par.settings = pp, scales=list(x=list(cex=1.4),y=list(cex=1.3)))
+d2 <- dotplot(r2, par.settings = pp, scales=list(x=list(cex=1.4),y=list(cex=1.3)))
 grid.arrange(d2$gen, d2$popu, nrow = 1)
 ```
 
