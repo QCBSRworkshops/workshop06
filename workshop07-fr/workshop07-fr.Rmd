@@ -1638,13 +1638,11 @@ overdisp_fun(mpl1)
 
 --
 
-.alert[![:faic](warning) Ce paquet n'est pas sur le CRAN!]
+.alert[![:faic](warning) Ce paquet n'est pas sur le CRAN! On utilise le package remotes pour l'installer depuis GitHub]
 
 ```{R install_coefplot2}
 if (!require("coefplot2"))
-  install.packages("coefplot2",
-    repos = "http://www.math.mcmaster.ca/bolker/R",
-    type="source")
+  remotes::install_github("palday/coefplot2", subdir = "pkg")
 library(coefplot2)
 ```
 

@@ -6,15 +6,14 @@ Authors@R: c(
   person("Team", "QCBS", role = c("aut", "cre"), email = "kevin.cazelles@gmail.com")
   )
 Imports:
-  MASS,
-  tidyverse,
+  bbmle,
+  DescTools,
   gridExtra,
   lme4,
   lattice,
-  bbmle,
-  DescTools,
-  vcdExtra,
+  MASS,
   qcbsRworkshops,
+  vcdExtra,
   xaringan
 Remotes:
   QCBSRworkshops/qcbsRworkshops

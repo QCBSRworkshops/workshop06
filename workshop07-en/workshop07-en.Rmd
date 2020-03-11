@@ -40,7 +40,7 @@ cat(
 )
 ```
 
---- 
+---
 
 # Outline
 
@@ -62,15 +62,15 @@ class: inverse, center, middle
 
 Load dataset and fit a linear model (`lm()`):
 
-```{r, echo=FALSE}
-  mites <- read.csv('data/mites.csv')
+```{r, echo = FALSE}
+mites <- read.csv('data/mites.csv')
 ```
 
 ```r
-  # make sure you're in the right working directory
-  mites <- read.csv('data/mites.csv')
-  head(mites)
-  str(mites)
+# make sure you're in the right working directory
+mites <- read.csv('data/mites.csv')
+head(mites)
+str(mites)
 ```
 
 The dataset that you have just loaded is a subset of the 'Oribatid mite dataset':
@@ -1841,13 +1841,11 @@ overdisp_fun(mpl1)
 
 --
 
-.alert[![:faic](warning) This package is not on CRAN!]
+.alert[![:faic](warning) This package is not on CRAN! We install it from GittHub using the remotes package.]
 
 ```{R install_coefplot2}
 if (!require("coefplot2"))
-  install.packages("coefplot2",
-    repos = "http://www.math.mcmaster.ca/bolker/R",
-    type="source")
+  remotes::install_github("palday/coefplot2", subdir = "pkg")
 library(coefplot2)
 ```
 
