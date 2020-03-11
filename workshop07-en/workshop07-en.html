@@ -24,10 +24,33 @@ class: center, middle, inverse, title-slide
 
 
 
+class: inverse, center, middle
 
+# About this workshop
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=repo&amp;message=dev&amp;color=6f42c1&amp;logo=github)](https://github.com/QCBSRworkshops/workshop07)
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=wiki&amp;message=07&amp;logo=wikipedia)](https://wiki.qcbs.ca/r_workshop7)
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=Slides&amp;message=07&amp;color=red&amp;logo=html5)](https://qcbsrworkshops.github.io/workshop07/workshop07-en/workshop07-en.html)
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=Slides&amp;message=07&amp;color=red&amp;logo=adobe-acrobat-reader)](https://qcbsrworkshops.github.io/workshop07/workshop07-en/workshop07-en.pdf)
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=script&amp;message=07&amp;color=2a50b8&amp;logo=r)](https://qcbsrworkshops.github.io/workshop07/workshop07-en/workshop07-en.R)
 
+---
 
+# Required packages
 
+* [ggplot2](https://cran.r-project.org/package=ggplot2)
+* [lme4](https://cran.r-project.org/package=lme4)
+* [MASS](https://cran.r-project.org/package=MASS)
+* [vcdExtra](https://cran.r-project.org/package=vcdExtra)
+* [bbmle](https://cran.r-project.org/package=bbmle)
+* [DescTools](https://cran.r-project.org/package=DescTools)
+
+&lt;br&gt;
+
+```R
+install.packages(c('ggplot2', 'lme4', 'MASS', 'vcdExtra', 'bbmle', 'DescTools'))
+```
+
+---
 
 # Outline
 
@@ -52,10 +75,10 @@ Load dataset and fit a linear model (`lm()`):
 
 
 ```r
-  # make sure you're in the right working directory
-  mites &lt;- read.csv('data/mites.csv')
-  head(mites)
-  str(mites)
+# make sure you're in the right working directory
+mites &lt;- read.csv('data/mites.csv')
+head(mites)
+str(mites)
 ```
 
 The dataset that you have just loaded is a subset of the 'Oribatid mite dataset':
@@ -84,7 +107,7 @@ Can we see any relationship(s) between *Galumna* and the five environmental vari
   plot(mites)
 ```
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-3-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-2-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right2[
 &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
@@ -100,12 +123,12 @@ A negative relationship between `Galumna` and `WatrCont`?
 ```r
   par(mfrow = c(1, 3), cex = 1.4)
   plot(Galumna ~ WatrCont, data = mites, xlab = 'Water content', ylab='Abundance')
-  boxplot(WatrCont ~ pa, 
+  boxplot(WatrCont ~ pa,
           data = mites, xlab='Presence/Absence', ylab = 'Water content')
   plot(prop ~ WatrCont, data = mites, xlab = 'Water content', ylab='Proportion')
 ```
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-4-1.png" width="864" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-3-1.png" width="864" style="display: block; margin: auto;" /&gt;
 
 ---
 # Testing linearity
@@ -159,7 +182,7 @@ plot(Galumna ~ WatrCont, data = mites)
 abline(lm.abund)
 ```
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-7-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-6-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 ]
 .pull-right[
@@ -169,7 +192,7 @@ par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.abund)
 ```
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-8-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-7-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -184,7 +207,7 @@ plot(prop ~ WatrCont, data = mites)
 abline(lm.prop)
 ```
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-9-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-8-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -194,7 +217,7 @@ par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.prop)
 ```
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-10-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-9-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -209,7 +232,7 @@ plot(pa ~ WatrCont, data = mites)
 abline(lm.pa)
 ```
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-11-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-10-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -219,7 +242,7 @@ par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.pa)
 ```
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-12-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-11-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -267,12 +290,12 @@ Recall: Normal distributions have two parameters: `\(\mu\)` (mean) and `\(\sigma
 .pull-left[
 Varying `\(\mu\)`, `\(\sigma = 5\)`
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-13-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-12-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 `\(\mu = 25\)`, varying `\(\sigma\)`
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-14-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-13-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 ]
 
@@ -315,6 +338,7 @@ What are the parameters of the normal distribution used to model `\(y\)` when wa
 
 ---
 # Model prediction
+
 .pull-left[
 `$$y_i \sim N(\mu = \beta_0 + \beta_1 X_i, \sigma^2)$$`
 `$$\mu = 3.44 + (-0.006 x 300) = 1.63$$`
@@ -325,17 +349,20 @@ At `\(x = 300\)`, residuals should follow a normal distribution with `\(\mu = 1.
 
 At `\(x = 400\)`, we get `\(\mu = 1.02\)` and `\(\sigma^2 = 1.51\)`, etc.
 ]
-&lt;br&gt;
-- Graphically, this is our model:
 
 --
+
 .pull-left[
-.center[
-  ![:scale 100%](images/modelPredic.png)
-]]
---
+
+- .small[Graphically, this is our model]:
+
+  ![:scale 90%](images/modelPredic.png)
+]
+
 .pull-right[
+
 **Problems**:
+
 - `\(\sigma^2\)` is not homogeneous, yet `lm()` forces a constant `\(\sigma^2\)`
 - Predicted values should be integers
 ]
@@ -361,7 +388,7 @@ A useful distribution to model abundance data is the “Poisson” distribution:
 
   - **Poisson** is a discrete distribution with a single parameter, `\(\lambda\)` (lambda), which defines both the mean and the variance of the distribution:
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-16-1.png" width="1080" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-15-1.png" width="1080" style="display: block; margin: auto;" /&gt;
 
 ---
 # Biological data &amp; distributions
@@ -374,7 +401,7 @@ A useful distribution to model abundance data is the “Poisson” distribution:
   hist(mites$Galumna)
 ```
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-17-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-16-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 
@@ -397,7 +424,7 @@ Presence-absence data takes yet another form:
   hist(mites$pa)
 ```
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-19-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-18-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ---
 # Biological data &amp; distributions
@@ -408,7 +435,7 @@ Presence-absence data takes yet another form:
 - One parameter, `\(p\)`, the probability of success.
 
 &lt;br&gt;
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-20-1.png" width="864" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-19-1.png" width="864" style="display: block; margin: auto;" /&gt;
 
 We can use the Bernouilli distribution to calculate the probability Galumna present (`1`) vs. absent (`0`)
 
@@ -419,7 +446,7 @@ We can use the Bernouilli distribution to calculate the probability Galumna pres
 - Additional parameter, `\(n\)`, for number of trials;
 - Predicts the probability of observing a given proportion of successes, `\(p\)`, out of a known total number of trials, `\(n\)`.
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-21-1.png" width="1080" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-20-1.png" width="1080" style="display: block; margin: auto;" /&gt;
 
 ---
 # Biological data &amp; distributions
@@ -428,7 +455,7 @@ We can use the Bernouilli distribution to calculate the probability Galumna pres
 
 **Main difference with Poisson distribution**: the binomial has an upper limit to its range, corresponding to `\(n\)`. Consequently, it is right-skewed at low p values but left-skewed at high `\(p\)` values
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-22-1.png" width="720" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-21-1.png" width="720" style="display: block; margin: auto;" /&gt;
 
 ---
 # Biological data &amp; distributions
@@ -514,7 +541,7 @@ They are clearly not normally distributed!
 
 &lt;br&gt;
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-25-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-24-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ---
 # Binary variables
@@ -523,7 +550,7 @@ Under a linear model, expected values can be out of the `[0,1]` range with `lm()
 
 &lt;br&gt;
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-26-1.png" width="540" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-25-1.png" width="540" style="display: block; margin: auto;" /&gt;
 
 ---
 # Probability distribution
@@ -561,7 +588,7 @@ logit.reg &lt;- glm(formula, data, family)
 
 &lt;br&gt;
 
-Moving away from traditional linear models (`lm()`)... 
+Moving away from traditional linear models (`lm()`)...
 
 In addition to the data (of course!), we need to specify additional elements in a generalized linear model (`glm()`):
 
@@ -731,7 +758,7 @@ summary(logit.reg)
 
 ???
 
-When explaining this summary show what the blocks are and recall that its structure resembles the one from `summary.lm()`, but that there are some special differences (e.g. dispersion parameter). 
+When explaining this summary show what the blocks are and recall that its structure resembles the one from `summary.lm()`, but that there are some special differences (e.g. dispersion parameter).
 
 Deviance, coefficients and dispersion will be covered in the following slides.
 
@@ -843,7 +870,7 @@ The direct interpretation of the coefficients in the logit model is tenuous beca
 
 Let us assume that we have a binary outcome `\(y\)` and two covariates `\(x_1\)` and `\(x_2\)` (and a constant). The probability of a successful outcome ( `\(y = 1\)` ) is given by:
 
-`$$Pr(y_i = 1) = p = g^{-1(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}$$` 
+`$$Pr(y_i = 1) = p = g^{-1(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}$$`
 
 where `\(g^{-1}()\)` is the **inverse link function**.
 
@@ -851,7 +878,7 @@ Now let us focus in interpreting the `\(\beta_1\)` coefficient.
 
 #### Identity link
 
-For the identity link, the interpretation is straighforward. For one-unit increase in `\(x_1\)`, `\(\beta_1\)` dictates a constant difference in the outcome. 
+For the identity link, the interpretation is straighforward. For one-unit increase in `\(x_1\)`, `\(\beta_1\)` dictates a constant difference in the outcome.
 
 `\(\Delta{y_i} = [\beta_0 + (x_{1i} + 1)\beta_1 + x_{2i}\beta_2] - (\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)\)`
 
@@ -881,7 +908,7 @@ for a log odds of a positive response. We may also write that model as follows:
 
 Since the inverse link is nonlinear, the coefficient interpretation is difficult.
 
-Let us take a look what happens to the differences for a one-unit change to `\(x_1\)`: 
+Let us take a look what happens to the differences for a one-unit change to `\(x_1\)`:
 
 `$$\Delta{y_i} = \dfrac{\exp[\beta_0 + (x_{1i} + 1)\beta_1 + x_{2i}\beta_2]}{1 + \exp{[\beta_0 + (x_{1i} + 1)\beta_1 + x_{2i}\beta_2]}} - \dfrac{\exp[\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2]}{1 + \exp{[\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2]}}$$`
 $$\Delta{y_i} = \exp{(\beta_0)}\{\exp{(\beta_1)}\} $$
@@ -930,7 +957,7 @@ In simple linear models, `\(R^2\)` can be obtained as the square of the sample c
 
 In some of the generalized linear models, we take different approaches.
 
-We can obtain a `\(\text{pseudo-R}^2\)`, the analogue of the `\(R^2\)` for models fitted by maximum likelihood. 
+We can obtain a `\(\text{pseudo-R}^2\)`, the analogue of the `\(R^2\)` for models fitted by maximum likelihood.
 
 We can calculate McFadden's (1973) `\(\text{pseudo-R}^2\)` in this way:
 
@@ -943,13 +970,13 @@ We can calculate McFadden's (1973) `\(\text{pseudo-R}^2\)` in this way:
 ---
 # Unit deviance, total deviance and null deviance
 
-The unit deviance is a measure of distance between `\(y\)` and `\(μ\)`. 
+The unit deviance is a measure of distance between `\(y\)` and `\(μ\)`.
 
 `$${\displaystyle d(y,y)=0}$$`
 `$${\displaystyle d(y,\mu )&gt;0\quad \forall y\neq \mu }$$`
 
 
-The total deviance `\({\displaystyle D(\mathbf {y} ,{\hat {\boldsymbol {\mu }}})}\)` of a model with predictions `\({\hat {\boldsymbol {\mu }}}\)` of the observation `\(\mathbf {y}\)` is the sum of its unit deviances: 
+The total deviance `\({\displaystyle D(\mathbf {y} ,{\hat {\boldsymbol {\mu }}})}\)` of a model with predictions `\({\hat {\boldsymbol {\mu }}}\)` of the observation `\(\mathbf {y}\)` is the sum of its unit deviances:
 `$${\displaystyle D(\mathbf {y} ,{\hat {\boldsymbol {\mu }}})=\sum _{i}d(y_{i},{\hat {\mu }}_{i})}$$`
 Now, the deviance of a model that has estimates  `\({\hat {\mu }}=E[Y|{\hat {\theta }}_{0}]\)` can be defined by its **likelihood**:
 `$$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(y\mid {\hat {\theta }}_{s}){\big )}-\log {\big (}p(y\mid {\hat {\theta }}_{0}){\big )}{\Big )}$$`
@@ -1057,7 +1084,7 @@ The `DescTools::PseudoR2()` function computes several pseudo-R2.
 
 
 ```r
-logit.reg &lt;- glm(mites$pa ~ mites$WatrCont + mites$Topo, 
+logit.reg &lt;- glm(mites$pa ~ mites$WatrCont + mites$Topo,
                  family = binomial(link = "logit"))
 
 library(DescTools)
@@ -1097,7 +1124,7 @@ HLtest(logit.reg)
 plot(HLtest(logit.reg))
 ```
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-44-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-43-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .comment[A non-significant value indicates an adequate fit!]
@@ -1136,7 +1163,7 @@ HLtest(model.bact2)
 
 Sometimes, proportion data are more similar to logistic regression than you think...
 
-In discrete counts, we can, for instance, measure the number of presence of individuals in relation to the total number of populations sampled. 
+In discrete counts, we can, for instance, measure the number of presence of individuals in relation to the total number of populations sampled.
 
 We will thus obtain a proportional number of "success" in observing individuals by dividing the counts by the total counts.
 
@@ -1149,8 +1176,8 @@ In `R`, we have to specify the number of times something happened and the number
 
 
 ```r
-prop.reg &lt;- glm(cbind(Galumna, totalabund - Galumna) ~ Topo + WatrCont, 
-                data = mites, 
+prop.reg &lt;- glm(cbind(Galumna, totalabund - Galumna) ~ Topo + WatrCont,
+                data = mites,
                 family = binomial)
 ```
 
@@ -1199,9 +1226,9 @@ We can also code the model directly with proportions:
 
 
 ```r
-prop.reg2 &lt;- glm(prop ~ Topo + WatrCont, 
+prop.reg2 &lt;- glm(prop ~ Topo + WatrCont,
                  data = mites,
-                 family = binomial, 
+                 family = binomial,
                  weights = totalabund)
 ```
 
@@ -1233,7 +1260,7 @@ Let's investigate the histogram of the number of *Faramea occidentalis*.
 
 .large[What is count data?]
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-51-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-50-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 Count data are characterized by:
 
@@ -1248,9 +1275,9 @@ Count data are characterized by:
 
 Does elevation influence the abundance of *F. occidentalis*?
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-52-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-51-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
-The **Poisson distribution** seems to adequately fit this data distribution. 
+The **Poisson distribution** seems to adequately fit this data distribution.
 
 We can use the Poisson family in our GLM to begin modeling count data.
 
@@ -1312,7 +1339,7 @@ A Poisson GLM will model the value of `\(\mu\)` as a function of different expla
 ]
 .small[
 This shows that the impact of each explanatory variable is multiplicative.
-Increasing Elevation by one increases μ by factor of exp( `\(\beta_\text{Elevation}\)` ). 
+Increasing Elevation by one increases μ by factor of exp( `\(\beta_\text{Elevation}\)` ).
 
 If `\(βj = 0\)` then `\(exp(βj) = 1\)` and `\(μ\)` is not related to `\(x_j\)`. If `\(βj &gt; 0\)` then `\(μ\)` increases if `\(x_j\)` increases; if `\(βj &lt; 0\)` then `\(μ\)` decreases if `\(x_j\)` increases.
 ]
@@ -1325,7 +1352,7 @@ The function `glm()` allows you to specify a Poisson GLM
 
 
 ```r
-glm.poisson = glm(Faramea.occidentalis ~ Elevation, 
+glm.poisson = glm(Faramea.occidentalis ~ Elevation,
                   data = faramea, family = poisson)
 ```
 
@@ -1432,11 +1459,11 @@ Overdispersion arises because the mean `\(μ\)` innately varies,
 even when all the explanatory variables are fixed, or because the
 events that are being counted are positively correlated.
 
-&lt;br&gt; 
+&lt;br&gt;
 
 .center[*Are you able to think of a situation in biology that can cause overdispersion?*]
 
-&lt;br&gt; 
+&lt;br&gt;
 
 **Why should we care about overdispersion?**
 
@@ -1447,7 +1474,7 @@ than warranted by the data!
 
 # Overdispersion
 
-When the residual deviance is higher than the residual degrees of freedom we say that the model is **overdispersed**. We can calculate a overdispersion parameter ( `\(\phi\)` ): 
+When the residual deviance is higher than the residual degrees of freedom we say that the model is **overdispersed**. We can calculate a overdispersion parameter ( `\(\phi\)` ):
 
 `$$\phi \, = \, \frac{\text{Residual deviance}}{\text{Residual degrees of freedom}}$$`
 
@@ -1484,7 +1511,7 @@ Correcting for overdispersion will not affect parameter estimates, but will affe
 ---
 # Fitting a quasi-Poisson GLM in `R`
 
-Create a new `glm.object` using the '`quasipoisson`' family or update the previous one: 
+Create a new `glm.object` using the '`quasipoisson`' family or update the previous one:
 
 
 ```r
@@ -1685,7 +1712,7 @@ lines(pframe$lwr, col = 2, lty = 3, lwd = 2)
 ```
 ]
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-62-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-61-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ---
 # Challenge 3 ![:cube]()
@@ -1754,7 +1781,7 @@ anova(glm.qp2, glm.qp, test="Chisq")
 &lt;br&gt;
 
 .center[
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-66-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-65-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 
@@ -1842,7 +1869,7 @@ The effect of nutrient availability and herbivory (**fixed effects**) on the fru
 
 The response variable is count data which suggests to that a **Poisson distribution** should be used (i.e. the variance is equal to the mean)
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-68-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-67-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 However, as we will soon see, the variance increases with the mean much more rapidly than expected under the Poisson distribution
 
@@ -1882,7 +1909,7 @@ ggplot(data = dat.tf, aes(factor(x = gna),y = log(total.fruits + 1))) +
   stat_summary(fun.y=mean, geom="point", colour = "red")
 ```
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-70-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-69-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ]
 
 .comment[Similarly, the boxplot of total fruits vs population x nutrient x clipping interaction shows a large amount of heterogeneity among populations.]
@@ -1975,7 +2002,7 @@ overdisp_fun(mnb1)
 ]
 
 ---
-# Poisson-lognor mal GLMM
+# Poisson-lognormal GLMM
 
 - Another option is the **Poisson-lognormal** distribution.
 - This can be achieved simply by placing an observation-level random effect in the formula.
@@ -2003,19 +2030,34 @@ overdisp_fun(mpl1)
 .alert[Ratio now meets our criterion]
 ]
 
+
 ---
-.small[
+# Poisson-lognormal GLMM
+
 **Visualization the model parameters**: A graphical representation of the model parameters can be obtained using the `coefplot2()` function from the `coefplot2` package:
+
+--
+
+.alert[![:faic](warning) This package is not on CRAN! We install it from GittHub using the remotes package.]
+
+
+```r
+if (!require("coefplot2"))
+  remotes::install_github("palday/coefplot2", subdir = "pkg")
+library(coefplot2)
+```
+
+---
+# Poisson-lognormal GLMM
 
 .pull-left[
 
 ```r
-library(coefplot2)
 # Variance terms
 coefplot2(mpl1, ptype = "vcov", intercept = TRUE)
 ```
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-76-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-75-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 
@@ -2024,11 +2066,10 @@ coefplot2(mpl1, ptype = "vcov", intercept = TRUE)
 coefplot2(mpl1, intercept = TRUE)
 ```
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-77-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-76-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
-.alert[Note]: error bars are only shown for the fixed effects because glmer doesn't provide information on uncertainty of variance terms
-]
+.alert[Note]: error bars are only shown for the fixed effects because glmer doesn't provide information on uncertainty of variance .
 
 
 ---
@@ -2044,11 +2085,12 @@ Difference among genotypes largely driven by genotype 34
 
 ```r
 library(gridExtra)
+library(lattice)
 # dotplot code
 pp &lt;- list(layout.widths=list(left.padding=0, right.padding=0),
            layout.heights=list(top.padding=0, bottom.padding=0))
 r2 &lt;- ranef(mpl1, condVar = TRUE)
-d2 &lt;- lattice::dotplot(r2, par.settings = pp)
+d2 &lt;- dotplot(r2, par.settings = pp)
 
 grid.arrange(d2$gen, d2$popu, nrow = 1)
 ```
@@ -2059,7 +2101,7 @@ grid.arrange(d2$gen, d2$popu, nrow = 1)
 
 &lt;br&gt;
 
-&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-78-1.png" width="648" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop07-en_files/figure-html/unnamed-chunk-77-1.png" width="648" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -2193,7 +2235,7 @@ class: inverse, center, bottom
 
 # Thank you for attending this workshop!
 
-![:scale 50%](images/QCBS_logo.png)
+![:scale 50%](images/qcbs_logo.png)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
