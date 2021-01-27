@@ -1,3 +1,0 @@
-repo_pkgs:
-    - repo: http://www.math.mcmaster.ca/bolker/R
-    - pkgname: coefplot2

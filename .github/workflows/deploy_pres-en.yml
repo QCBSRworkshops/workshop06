@@ -1,7 +1,7 @@
 on:
   push:
      branches:
-       - dev
+       - main
      paths:
        - pres-en/**
   repository_dispatch: 
@@ -73,7 +73,7 @@ jobs:
 # and also add secrets for an ACCESS_TOKEN
 
   checkout-and-deploy:
-   name: Checkout and deploy the presentation within the master repository
+   name: Checkout and deploy the presentation within the gh-pages repository
    runs-on: ubuntu-latest
    needs: presentation-en-job
    
@@ -95,7 +95,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BRANCH: master # The branch the action should deploy to.
+          BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: pres-en/
           TARGET_FOLDER: pres-en # The folder the action should deploy
           CLEAN: true
