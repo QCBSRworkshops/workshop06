@@ -60,7 +60,7 @@ jobs:
           print("All packages have been previously installed and fetched from cache.")}'
                   
       - name: 🧶 Render presentation
-        run: Rscript -e 'rmarkdown::render("workshop06-pres-en.Rmd")'
+        run: Rscript -e 'rmarkdown::render("workshop07-pres-en.Rmd")'
         
       - name: 🔺 Upload artifact containing the presentation
         uses: actions/upload-artifact@v1
