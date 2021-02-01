@@ -34,12 +34,44 @@ options(repos=structure(c(CRAN="http://cran.r-project.org")))
 
 class: inverse, center, middle
 
-```{R install_pkgs, echo = FALSE, results = "asis"}
-cat(
-  qcbsRworkshops::first_slides(7,
-    c('ggplot2', 'lme4', 'MASS', 'vcdExtra', 'bbmle', 'DescTools'),
-    lang = "fr")
-)
+```{r install_pkgs, message=FALSE, warning=FALSE, include=FALSE, results=0}
+# Standard procedure to check and install packages and their dependencies, if needed.
+
+list.of.packages <- c('ggplot2', 'lme4', 'MASS', 'vcdExtra', 'bbmle', 'DescTools')
+
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+
+if(length(new.packages) > 0) {
+  install.packages(new.packages, dependencies = TRUE) 
+  print(paste0("The following package was installed:", new.packages)) 
+} else if(length(new.packages) == 0) {
+    print("All packages were already installed previously")
+  }
+```
+
+# À propos de cet atelier
+
+[![badge](https://img.shields.io/static/v1?style=flat-square&label=Diapos&message=07&color=red&logo=html5)](https://qcbsrworkshops.github.io/workshop07/pres-fr/workshop07-pres-fr.html)
+[![badge](https://img.shields.io/static/v1?style=flat-square&label=livre&message=07&logo=github)](https://qcbsrworkshops.github.io/workshop07/book-fr/index.html)
+[![badge](https://img.shields.io/static/v1?style=flat-square&label=wiki&message=07&logo=wikipedia)](https://wiki.qcbs.ca/r_atelier7)
+![badge](https://img.shields.io/static/v1?style=flat-square&label=script&message=07&color=2a50b8&logo=r)
+[![badge](https://img.shields.io/static/v1?style=flat-square&label=repo&message=dev&color=6f42c1&logo=github)](https://github.com/QCBSRworkshops/workshop07) 
+
+---
+
+# Packages requis
+
+* [ggplot2](https://cran.r-project.org/package=ggplot2)
+* [lme4](https://cran.r-project.org/package=lme4)
+* [MASS](https://cran.r-project.org/package=MASS)
+* [vcdExtra](https://cran.r-project.org/package=vcdExtra)
+* [bbmle](https://cran.r-project.org/package=bbmle)
+* [DescTools](https://cran.r-project.org/package=DescTools)
+
+<br>
+
+```R
+install.packages(c('ggplot2', 'lme4', 'MASS', 'vcdExtra', 'bbmle', 'DescTools'))
 ```
 
 ---
