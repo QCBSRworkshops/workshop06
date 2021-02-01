@@ -1,0 +1,14 @@
+base
+MASS
+DescTools
+vcd
+gnm
+vcdExtra
+ggplot2
+Matrix
+lme4
+coda
+coefplot2
+gridExtra
+lattice
+bbmle
