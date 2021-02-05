@@ -14,7 +14,7 @@ Le contenu de cet atelier a été révisé par plusieurs membres du CSBQ. Si vou
 
 A significant limitation of linear models is that they cannot accommodate response variables that do not have a normal error distribution. Most biological data do not follow the assumption of normality. In this workshop, you will learn how to use generalized linear models, which are important tools to overcome the distributional assumptions of linear models. You will learn the major distributions used depending on the nature of the response variables, the concept of the link function, and how to verify assumptions of such models. 
 
-# Atelier 7: Modèles linéaires généralisés
+# Atelier 6: Modèles linéaires généralisés
 
 Les modèles linéaires généralisés sont des outils importants afin de surmonter un problème récurrent des modèles linéaires, c.-à-d. les variables réponses n'ayant pas une distribution normale des résidus. Dans cet atelier, vous apprendrez les distributions principales en fonction de la nature de la variable réponse, le concept de fonction de lien, et comment vérifier les suppositions de base de ces modèles.
 
