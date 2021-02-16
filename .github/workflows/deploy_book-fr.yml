@@ -4,6 +4,7 @@ on:
        - main
      paths:
        - book-fr/**
+       - .github/workflows/deploy_book-fr.yml
   repository_dispatch: 
     types: [pong_book]
 
