@@ -1,16 +1,16 @@
 --- 
-title: "A Minimal Book Example"
-author: "Yihui Xie"
+title: "Workshop 6: Generalized linear models"
+author: "QCBS R Workshop Series"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
-description: "This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook."
+description: "A significant limitation of linear models is that they cannot accommodate response variables that do not have a normal error distribution. Most biological data do not follow the assumption of normality. In this workshop, you will learn how to use generalized linear models, which are important tools to overcome the distributional assumptions of linear models. You will learn the major distributions used depending on the nature of the response variables, the concept of the link function, and how to verify assumptions of such models."
 ---
 
-# Prerequisites
+# About this workshop {#about}
 
 This is a _sample_ book written in **Markdown**. You can use anything that Pandoc's Markdown supports, e.g., a math equation $a^2 + b^2 = c^2$.
 

@@ -1,0 +1,3 @@
+# GLM with binary data {#binary}
+
+
