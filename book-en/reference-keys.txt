@@ -1,11 +1,6 @@
-fig:nice-fig
-tab:nice-tab
-prerequisites
+about
 intro
-workshop-6-linear-mixed-effects-models
-literature
-methods
-applications
-example-one
-example-two
-final-words
+binary
+count
+other
+credits
