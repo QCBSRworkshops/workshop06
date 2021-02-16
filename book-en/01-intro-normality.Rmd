@@ -1,3 +1,0 @@
-# Limitations of linear models {#intro}
-
-
