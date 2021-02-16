@@ -1,10 +1,8 @@
 fig:nice-fig
 tab:nice-tab
-prerequisites
+apropos
 intro
-literature
-methods
-applications
-example-one
-example-two
-final-words
+binaire
+abondance
+autre
+credits
