@@ -1,0 +1,142 @@
+# The distributions of biological data
+
+Statisticians have described a multitude of distributions that
+correspond to different types of data. A distribution provides the
+probability of observing each possible outcome of an experiment or
+survey (for example, abundance = 8 Galumna is one such \"outcome\" of a
+survey). \"Discrete\" distributions have a range that only includes
+integers, while \"continuous\" distributions have a range that also
+includes fractions (the normal distribution is an example of a
+continuous distribution). All distributions have parameters that dictate
+the shape of the distribution (for example μ and σ^2^ for the normal
+distribution). For a good overview of statistical distributions, we
+recommend that you refer to chapter 4 in Ben Bolker's *Ecological
+Models and Data in R*. Here we just discuss briefly a few distributions
+that are useful for ecologists and generalized linear modeling.
+
+We have already seen that our response variable \"Galumna abundance\"
+can only take integer values. Abundance, therefore, follows a discrete
+distribution, with no fractions in its range. A useful distribution to
+model abundance data is the \"Poisson\" distribution, named after Siméon
+Denis Poisson. The Poisson distribution is a discrete distribution with
+a single parameter, λ (lambda), which defines both the mean and the
+variance of the distribution (i.e. the mean and the variance of a
+Poisson distribution are equal). Here are 3 examples of Poisson
+distributions with different values of λ, corresponding in this case to
+the mean number of Galumna observed in a fictive set of samples:
+
+![](images/6_poisson.jpeg)
+
+Note that at low λ values (when the mean is close to zero), the
+distribution is skewed to the right, while at large λ values (large
+mean) the distribution is symmetrical. The variance increases with the
+mean, predicted values are always integers, and the range of a Poisson
+distribution is always strictly positive; all of these properties are
+useful to model count data, for example abundance of a given taxon,
+number of seeds in a plot, etc. Our variable mites\$Galumna seems to
+follow a Poisson distribution with a low value of λ (indeed, if we
+calculate the mean abundance of Galumna across all samples using the
+function mean(), we find that it is close to zero):
+
+```{r, echo = TRUE, eval = FALSE}
+hist(mites$Galumna)
+mean(mites$Galumna)
+```
+
+![](images/6_galumnahist.jpeg)
+
+Our variable mites\$pa (presence-absence) takes yet another form. It
+consists of only zeros and ones, such that a Poisson distribution would
+not be appropriate to model this variable.
+
+```{r, echo = TRUE, eval = FALSE}
+hist(mites$pa)
+```
+
+![](images/6_pa.jpeg)
+
+We need a distribution with a range that only includes two possible
+outcomes: zero or one. The \"Bernoulli\" distribution is such a
+distribution. It is often the first distribution that students of
+statistics are introduced to, for example when discussing the
+probability of obtaining the outcome \"heads\" when flipping a coin. The
+Bernoulli distribution has only one parameter, *p*, the probability of
+success (i.e. the probability of obtaining heads on a coin flip). If we
+consider that each of our samples is equivalent to a coin toss, then we
+can use the Bernouilli distribution to calculate the probability of
+obtaining the outcome \"Galumna present\" (1) vs. \"Galumna absent\"
+(0). Here are some examples of Bernoulli distributions with various
+probabilities of presence (*p*):
+
+![](images/6_bernouill.jpeg)
+
+We can calculate the number of sites where Galumna is present out of the
+total number of sites to get an idea of what *p* might be in our case:
+
+```{r, echo = TRUE, eval = FALSE}
+sum(mites$pa) / nrow(mites)
+```
+
+*p* for the variable mites\$pa is more or less 0.36, such that roughly
+twice as many sites have the outcome \"Galumna absent\" (0) than the
+outcome \"Galumna present\" (1).
+
+When there are multiple trials/coin tosses, the Bernoulli distribution
+expands into the binomial distribution, which has the additional
+parameter *n*, corresponding to the number of trials. The binomial
+distribution predicts the probability of observing a given proportion of
+successes, *p*, out of a known total number of trials, *n*.
+\"Successes\" can be anything from taxon occurrence, number of surviving
+individuals out of a sample, etc. Imagine that instead of only working
+in the Laurentians, we took 50 mite samples at each of 30 regions across
+Canada. In each sample from each region, we determine if Galumna is
+present or absent. We could model this data using a binomial
+distribution with *n* = 50 samples (i.e. \"trials\" or coin flips where
+Galumna can be either present or absent) and *p* = the average
+proportion of samples in which Galumna is present. We would have 30 data
+points, corresponding to the 30 regions. Here are some examples of
+binomial distributions with *n* = 50 and 3 different values of *p*:
+
+![](images/6_binomial.jpeg)
+
+Notice that the binomial distribution is right-skewed at low *p* values
+but left-skewed at high *p* values. This is the main difference with the
+Poisson distribution: the binomial distribution has an upper limit to
+its range, corresponding to the number of trials, *n*. Consequently, the
+binomial distribution is often used to model data where the number of
+successes are integers and where the number of trials is known. For
+example, we could use the binomial distribution to model our proportion
+data, where each individual mite in a sample could be considered a
+trial, and if the mite is a Galumna individual then the trial is a
+success. In this case, the number of trials *n* varies among our 70
+samples based on the total number of individuals in the sample, while
+*p*, the probability of success, is given by the proportion of Galumna
+in each sample.
+
+Why are we discussing all of these distributions? Because all of them
+can be used to replace the normal distribution when calculating
+predicted values in a linear model. For example, we could use the
+Poisson distribution and model our abundance data with the following
+equation:
+
+y~i~ \~ Poisson(λ = β~0~ + β~1~x~i~)
+
+Notice that λ varies as a function of x (water content), meaning that
+the residual variance will also vary with x. This means that we just
+relaxed the homogeneity of variance assumption! Also, predicted values
+will now be integers instead of fractions because they will all be drawn
+from Poisson distributions with different λ values. The model will never
+predict negative values because Poisson distributions have strictly
+positive ranges. By simply switching the distribution of error terms
+(ε~i~) from normal to Poisson, we solved most of the problems of our
+abundance linear model. This new model is [almost]{.ul} a Poisson
+generalized linear model, which basically looks like this:
+
+![](images/6_poissonglm.jpeg)
+
+Notice that probabilities of observations/predicted values (in orange,
+as for the lm model above) are now integers, and that both the variance
+and the mean of the distribution decline as λ decreases with increasing
+water content. Why is the fitted line of predicted values curved? Why is
+this called a \"generalized\" linear model? Keep reading and you'll
+find out!

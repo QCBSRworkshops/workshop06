@@ -1,0 +1,234 @@
+# Why are generalized linear models useful?
+
+To illustrate why generalized linear models are incredibly useful, it is
+best to first try to understand the limitations of linear models
+(workshop 4), which also include linear mixed effect models (workshop
+6). Let's load a dataset and try to fit some linear models.
+
+```{r, echo = TRUE, eval = FALSE}
+setwd("~/Desktop") 
+mites <- read.csv('mites.csv')
+```
+
+The dataset that you just loaded is a subset of the classic 'Oribatid
+mite dataset', which has been used in numerous texts (e.g. Borcard,
+Gillet & Legendre, *Numerical Ecology with R*), and which is available
+in the \"vegan\" library. The dataset consists of 70 moss and mite
+samples collected at University of Montreal's Station de Biologie des
+Laurentides, Saint-Hippolyte, QC. Each sample includes measurements for
+5 environmental variables and abundance data for 35 mite taxa. In the
+reduced dataset that we will be using throughout this workshop, we only
+included the 5 environmental measurements and the abundance of a single
+mite taxon, \"*Galumna sp.*\" Our goal will be to model the abundance,
+occurrence (presence/absence), and proportion of Galumna as a function
+of the 5 environmental variables: therefore, we also created a
+presence/absence variable and a proportion variable for Galumna.
+
+```{r, echo = TRUE, eval = FALSE}
+head(mites)
+str(mites)
+
+# 70 mite communities sampled from moss cores collected at the Station de Biologie des Laurentides, QC.
+# For each core/sample, the following data is provided:
+# $Galumna: abundance of mite genus 'Galumna'
+# $pa: presence (1) or absence (0) of Galumna, irrespective of abundance
+# $totalabund: total abundance of mites of all species
+# $prop: proportion of Galumna in the mite community. i.e. Galumna/totalabund
+# $SubsDens: substrate density
+# $WatrCont: water content
+# $Substrate: type of substrate.
+# $Shrub: abundance of shrubs. Coded as a factor.
+# $Topo: microtopography. blanket or hummock.
+```
+
+Can we see any relationship between Galumna and environmental variables?
+
+```{r, echo = TRUE, eval = FALSE}
+plot(mites)
+```
+
+![](images/6_spm.jpg){width="800"}
+
+There seems to be a negative relationship between Galumna abundance and
+water content (WatrCont). Occurence (presence/absence; pa) and
+proportion (prop) also seem to be negatively correlated with WatrCont.
+
+We can take a closer look by specifically plotting those 3 response
+variables as a function of WatrCont:
+
+```{r, echo = TRUE, eval = FALSE}
+par(mfrow=c(1,3)) #divide plot area in 1 row and 3 columns to have 3 plots in same figure
+plot(Galumna ~ WatrCont, data = mites, xlab = 'Water content', ylab='Abundance')
+boxplot(WatrCont ~ pa, data = mites, xlab='Presence/Absence', ylab = 'Water     content')
+plot(prop ~ WatrCont, data = mites, xlab = 'Water content', ylab='Proportion')
+par(mfrow=c(1,1)) #resets to default setting
+```
+
+![](images/6_3plot.jpeg){width="600"}
+
+Indeed, Galumna seems to vary negatively as a function of WatrCont, i.e.
+Galumna seems to prefer dryer sites.
+
+Fit linear models (function 'lm') to test whether these relationships
+are statistically significant.
+
+```{r, echo = TRUE, eval = FALSE}
+lm.abund <- lm(Galumna ~ WatrCont, data = mites)
+summary(lm.abund)
+lm.pa <- lm(pa ~ WatrCont, data = mites)
+summary(lm.pa)
+lm.prop <- lm(prop ~ WatrCont, data = mites)
+summary(lm.prop)
+```
+
+Yes, there is a strong and significant relationship for all 3 response
+variables!
+
+Wait a minute... Lets validate these models to make sure that we
+respect assumptions of linear models, starting with the abundance model.
+
+```{r, echo = TRUE, eval = FALSE}
+plot(Galumna ~ WatrCont, data = mites)
+abline(lm.abund)
+```
+
+![](images/6_lm1.jpeg)
+
+The model does not fit well. It predicts negative abundance values when
+WatrCont exceeds 600, which does not make any sense. Also, the model
+does poorly at predicting high abundance values at low values of
+WatrCont.
+
+```{r, echo = TRUE, eval = FALSE}
+plot(lm.abund)
+```
+
+![](images/6_diagplots.jpeg)
+
+Diagnostic plots show that the data/model violate assumptions of
+homogeneity of variance (the graph on the left shows that residuals are
+larger at higher fitted values) and normality (the graph on the right
+indicates that residuals are not distributed as expected from a normal
+distribution, i.e. many points are far from predicted values given by
+the dotted line). Therefore, we need to reject this model, and can't
+use it to conclude that Galumna abundance varies as a function of water
+content. Looking at diagnostic plots for the presence-absence model and
+the proportion model also indicate that these models are inappropriate:
+
+```{r, echo = TRUE, eval = FALSE}
+#Proportion
+plot(prop ~ WatrCont, data = mites)
+abline(lm.prop)
+plot(lm.prop)
+#Presence/Absence
+plot(pa ~ WatrCont, data = mites)
+abline(lm.pa)
+plot(lm.pa)
+```
+
+It is quite common with biological datasets that assumptions of
+homogeneity of variance (homoscedasticity) and normality are not met.
+These two assumptions are the main problem with linear models, and the
+main reason why we need generalized linear models. Lets revisit the
+basic equation for a linear model to better understand where these
+assumptions come from. The equation for a linear model is:
+
+y~i~ = β~0~ + β~1~x~i~ + ε~i~, where:
+
+-   y~i~ is the predicted value for the response variable,
+-   β~0~ is the intercept of the regression line between y and x,
+-   β~1~ is the slope of the regression line between y and x,
+-   x~i~ is the value for the explanatory variable,
+-   ε~i~ are the residuals of the model, which are drawn from a normal
+    distribution with a varying mean but a constant variance.
+
+This last point about ε~i~ is important. This is where assumptions of
+normality and homoscedasticity originate. It means that the residuals
+(the distance between each observation and the regression line) can be
+predicted by drawing random values from a normal distribution. Recall
+that all normal distributions have two parameters, μ (the mean of the
+distribution) and σ^2^ (the variance of the distribution):
+
+![](images/6_normal_params.jpeg)
+
+In a linear model, μ changes based on values of x (the predictor
+variable), but σ^2^ has the same value for all values of Y. Indeed,
+another equation to represent linear models is:
+
+y~i~ \~ *N*(μ = β~0~ + β~1~x~i~, σ^2^),
+
+which literally means that any given observation (y~i~) is drawn from a
+normal distribution with parameters μ (which depends on the value of
+x~i~) and σ^2^.
+
+Predict Galumna abundance at a water content = 300 using this equation
+and the linear model that we fitted earlier. You will need values for
+β~0~ and β~1~ (regression coefficients) and ε~i~ (the deviation of
+observed values from the regression line)
+
+```{r, echo = TRUE, eval = FALSE}
+coef(lm.abund)
+#(Intercept)     WatrCont
+#3.439348672 -0.006044788
+```
+
+This model predicts that for a water content value of, say, 300, we
+should obtain a Galumna abundance of 1.63:
+
+3.44 + (-0.006 x 300) = 1.63.
+
+That is the expected abundance if there was no residual. To get our
+predicted values, we need to add ε~i~. This is where we use the normal
+distribution. For x = 300, our model predicts that ε~i~ should follow a
+normal distribution with mean = 1.63. We can find the σ^2^ value for our
+abundance model by extracting it from the model summary:
+
+```{r, echo = TRUE, eval = FALSE}
+summary(lm.abund)$sigma
+```
+
+We find that sigma is roughly 1.51. We now have all the coefficients
+that we need to model Galumna abundance. At a water content of 300,
+residuals should follow a normal distribution with parameters μ = 1.63
+and σ^2^ = 1.51.
+
+At a water content of 400, residuals ε~i~ should follow a normal
+distribution with parameters μ = 3.44 + (-0.006 x 400) = 1.02 and σ^2^ =
+1.51, etc. Each y~i~ value is modeled using a different normal
+distribution, with a mean that depends on x~i~. The variance of all of
+those normal distributions (σ^2^), however, is the same. Function lm()
+finds the optimal σ^2^ value that minimizes the total residual sum of
+square and uses it for all normal distributions used to model y.
+Graphically, this looks like this:
+
+![](images/6_lm_assump.jpeg)
+
+The four normal distributions on this graph represent the probability of
+observing a given Galumna abundance for 4 different water content
+values. The mean of the normal distribution varies as a function of
+water content (hence μ decreases with water content), but σ^2^ is always
+1.51 (i.e. the variance is homogeneous across all values of x). This
+model is inappropriate for at least two reasons:
+
+1 Values are on average farther from the regression line at low water
+content values. That is, there is more residual variance around the
+predicted values for low values of x, such that ε~i~ varies as a
+function of x, thus violating the assumption of homoscedasticity. It
+makes no sense to use a constant value of σ^2^: the normal distributions
+used to predict y at low values of x should ideally be wider (have a
+larger σ^2^) than normal distributions used to predict y at large x
+values, but linear models do not permit this.
+
+2 It makes no sense to use a normal distribution to predict y based on
+x. Our response variable is abundance, which can only take integer
+values. Yet, at water content = 300, the abundance value that our model
+predicts to be the most probable is 1.63! We know that the probability
+of observing 1.63 individuals at water content = 300 is actually zero,
+as is the probability of observing any fraction (non-integers). Our
+predicted values should be modeled using a distribution that only
+predicts integers, rather than a continuous distribution like the normal
+distribution. This is a very common problem, as biological data often
+follows one of the myriad other statistical distributions besides the
+normal distribution.
+
+Generalized linear models can solve these two problems. Keep reading!

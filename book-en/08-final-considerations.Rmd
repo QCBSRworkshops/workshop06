@@ -1,0 +1,9 @@
+# (PART\*) Final considerations {-}
+
+# Summary
+
+GLMs are a powerful statistical tecnhique for ...
+
+In the next workshop, you will see ...
+
+# Additional resources
