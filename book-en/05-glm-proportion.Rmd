@@ -1,6 +1,6 @@
 # (PART\*) GLMs with proportion data {-}
 
-# How would this work with proportion data?
+# Binomial GLMs
 
 Proportion data are more similar to binary data than you might think!
 Suppose you're in the field to estimate the prevalence of a disease
