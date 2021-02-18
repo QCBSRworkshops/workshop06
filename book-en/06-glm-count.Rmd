@@ -23,7 +23,7 @@ We can see that there are only positive and integer values. Given these
 specificities, the Poisson distribution, described above, seems to be
 the perfect choice to model this data.
 
-## Poisson GLMs {-}
+## Poisson GLMs
 
 As we saw above, the Poisson distribution is particularly relevant to
 model count data because it:
@@ -157,7 +157,7 @@ be developed below:
 -   correct for it by doing a **quasi-Poisson GLM**
 -   choose another distribution such as the **negative binomial**
 
-## quasi-Poisson GLMs {-}
+# quasi-Poisson GLMs
 
 The principle behind a quasi-Poisson GLM is very simple; the
 overdispersion parameter (φ) is added to the expected variance equation:
@@ -231,7 +231,7 @@ GLMs and dealing with overdispersion:
     to follow a F distribution with *p*~2~-*p*~1~ and n-*p*~2~ degrees
     of freedom.
 
-## Negative binomial GLMs {-}
+# Negative binomial GLMs
 
 GLM with a negative binomial (NB) distribution are favored when
 overdispersion is extreme. The NB distribution contains an additional
@@ -311,7 +311,7 @@ the variance of the NB distribution. Its standard error is also
 provided, but care is needed with its use as the interval is not
 symmetric and we are testing on the boundary.
 
-### Plotting the final GLM to the data
+## Plotting the final GLM to the data
 
 The NB GLMs appear to be the best fit to our data. We can plot the
 relationship between the abundance of Faramea occidentalis and
@@ -335,7 +335,7 @@ We can see that the number of *Faramea occidentalis* significantly
 decreases with elevation. However, the confidence envelope of the NB
 model is large at low elevation.
 
-## Conclusion on GLMs with count data
+# Conclusion on GLMs with count data
 
 All the GLMs introduced (Poisson, quasi-Poisson and NB) to model count
 data use the same log-linear mean function (log(*µ*) = **X**.*β*), but
