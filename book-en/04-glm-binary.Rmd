@@ -53,7 +53,7 @@ fitted(model.glm)
 # All values are bound between 0 and 1.
 ```
 
-# The link function
+## The link function
 
 To move away from the traditional linear model and to avoid its biases,
 we need to specify two things when using a logistic regression: a
@@ -137,7 +137,7 @@ logit.reg <- glm(pa ~ WatrCont + Topo, data = mites, family = binomial)
 summary(logit.reg)
 ```
 
-## Challenge 1
+### Challenge 1
 
 Using the `bacteria` dataset (from the `MASS` package), model the
 presence of *H. influenzae* as a function of treatment and week of test.
@@ -161,7 +161,7 @@ anova(model.bact1, model.bact2, model.bact3, test = 'LRT')
 #Based on these results, we select model #2 as the best candidate to model these data.
 ```
 
-# Interpreting the output of a logistic regression
+## Interpreting the output of a logistic regression
 
 The output of the previous logistic regression indicates that both water
 content and topography are significant, but how do we interpret the
@@ -243,7 +243,7 @@ observing *Galumna* sp. when the topography is Hummock.
 # We obtained the same result without using the exp() function!
 ```
 
-# Predictive power and goodness-of-fit assessment
+## Predictive power and goodness-of-fit
 
 An easy and intuitive way to evaluate the predictive power of your model
 is to compare its deviance to the deviance of a null model. Deviance can
@@ -337,7 +337,7 @@ HLtest(object = fit)
 # We can consider it as appropriate for the data.
 ```
 
-## Challenge 2
+### Challenge 2
 
 Assess goodness-of-fit and predictive power of the `model.bact2` model. How can you improve the predictive power of this model?
 
@@ -359,7 +359,7 @@ HLtest(Rsq(model.bact2))
 
 Predictive power could be increased by including more relevant explanatory varibles. 
 
-# Plotting results
+## Plotting results
 
 Once we've created a model and verified its validity, we can plot the
 results to show how the response variable is related to some explanatory

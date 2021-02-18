@@ -23,7 +23,7 @@ We can see that there are only positive and integer values. Given these
 specificities, the Poisson distribution, described above, seems to be
 the perfect choice to model this data.
 
-## Poisson GLMs
+# Poisson GLMs
 
 As we saw above, the Poisson distribution is particularly relevant to
 model count data because it:
@@ -95,7 +95,7 @@ summary(glm.poisson)$coefficients[1,1]
 summary(glm.poisson)$coefficients[2,1]
 ```
 
-### Model validation and the problem of overdispersion
+## The problem of overdispersion
 
 An important aspect of the summary can be found in the last lines.
 
