@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 How would this work with proportion data? | Workshop 6: Generalized linear models</title>
+  <meta name="description" content="Generalized linear models in R" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 How would this work with proportion data? | Workshop 6: Generalized linear models" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
+  <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
+  <meta property="og:description" content="Generalized linear models in R" />
+  <meta name="github-repo" content="qcbsRworkshops/workshop06" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 How would this work with proportion data? | Workshop 6: Generalized linear models" />
+  
+  <meta name="twitter:description" content="Generalized linear models in R" />
+  <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
+
+<meta name="author" content="Developed and maintained by the contributors of the QCBS R Workshop Series" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
+<link rel="prev" href="a-glm-with-binary-variables.html"/>
+<link rel="next" href="summary.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="assets/qcbs-style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="./"><img src="assets/images/csbq_logo_gray_accueil.png"></a></li>
+<link rel="icon" type="image/png" href="assets/images/favicon.ico"/>
+
+<li class="divider"></li>
+<li class="part"><span><b>QCBS R Workshop Series</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#code-of-conduct"><i class="fa fa-check"></i><b>0.1</b> Code of conduct</a><ul>
+<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#expected-behaviour"><i class="fa fa-check"></i><b>0.1.1</b> Expected behaviour</a></li>
+<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#unacceptable-behaviour"><i class="fa fa-check"></i><b>0.1.2</b> Unacceptable behaviour</a></li>
+</ul></li>
+<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributors"><i class="fa fa-check"></i><b>0.2</b> Contributors</a></li>
+<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contributing"><i class="fa fa-check"></i><b>0.3</b> Contributing</a></li>
+</ul></li>
+<li class="part"><span><b>Generalized linear models in <code>R</code></b></span></li>
+<li class="chapter" data-level="1" data-path="learning-objectives.html"><a href="learning-objectives.html"><i class="fa fa-check"></i><b>1</b> Learning objectives</a></li>
+<li class="chapter" data-level="2" data-path="preparing-for-the-workshop.html"><a href="preparing-for-the-workshop.html"><i class="fa fa-check"></i><b>2</b> Preparing for the workshop</a></li>
+<li class="chapter" data-level="3" data-path="why-are-generalized-linear-models-useful.html"><a href="why-are-generalized-linear-models-useful.html"><i class="fa fa-check"></i><b>3</b> Why are generalized linear models useful?</a></li>
+<li class="chapter" data-level="4" data-path="the-distributions-of-biological-data.html"><a href="the-distributions-of-biological-data.html"><i class="fa fa-check"></i><b>4</b> The distributions of biological data</a></li>
+<li class="part"><span><b>GLMs with binary data</b></span></li>
+<li class="chapter" data-level="5" data-path="a-glm-with-binary-variables.html"><a href="a-glm-with-binary-variables.html"><i class="fa fa-check"></i><b>5</b> A GLM with binary variables</a><ul>
+<li class="chapter" data-level="5.1" data-path="a-glm-with-binary-variables.html"><a href="a-glm-with-binary-variables.html#the-concept-of-the-link-function"><i class="fa fa-check"></i><b>5.1</b> The concept of the link function</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="a-glm-with-binary-variables.html"><a href="a-glm-with-binary-variables.html#challenge-1"><i class="fa fa-check"></i><b>5.1.1</b> Challenge 1</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="a-glm-with-binary-variables.html"><a href="a-glm-with-binary-variables.html#interpreting-the-output-of-a-logistic-regression"><i class="fa fa-check"></i><b>5.2</b> Interpreting the output of a logistic regression</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="a-glm-with-binary-variables.html"><a href="a-glm-with-binary-variables.html#predictive-power-and-goodness-of-fit-assessment"><i class="fa fa-check"></i><b>5.2.1</b> Predictive power and goodness-of-fit assessment</a></li>
+<li class="chapter" data-level="5.2.2" data-path="a-glm-with-binary-variables.html"><a href="a-glm-with-binary-variables.html#challenge-2"><i class="fa fa-check"></i><b>5.2.2</b> Challenge 2</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="a-glm-with-binary-variables.html"><a href="a-glm-with-binary-variables.html#plotting-results"><i class="fa fa-check"></i><b>5.3</b> Plotting results</a></li>
+</ul></li>
+<li class="part"><span><b>GLMs with proportion data</b></span></li>
+<li class="chapter" data-level="6" data-path="how-would-this-work-with-proportion-data.html"><a href="how-would-this-work-with-proportion-data.html"><i class="fa fa-check"></i><b>6</b> How would this work with proportion data?</a></li>
+<li class="part"><span><b>GLMs with count data</b></span><ul>
+<li class="chapter" data-level="" data-path="how-would-this-work-with-proportion-data.html"><a href="how-would-this-work-with-proportion-data.html#poisson-glms"><i class="fa fa-check"></i>Poisson GLMs</a><ul>
+<li class="chapter" data-level="6.0.1" data-path="how-would-this-work-with-proportion-data.html"><a href="how-would-this-work-with-proportion-data.html#model-validation-and-the-problem-of-overdispersion"><i class="fa fa-check"></i><b>6.0.1</b> Model validation and the problem of overdispersion</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="how-would-this-work-with-proportion-data.html"><a href="how-would-this-work-with-proportion-data.html#quasi-poisson-glms"><i class="fa fa-check"></i>quasi-Poisson GLMs</a></li>
+<li class="chapter" data-level="" data-path="how-would-this-work-with-proportion-data.html"><a href="how-would-this-work-with-proportion-data.html#negative-binomial-glms"><i class="fa fa-check"></i>Negative binomial GLMs</a><ul>
+<li class="chapter" data-level="6.0.2" data-path="how-would-this-work-with-proportion-data.html"><a href="how-would-this-work-with-proportion-data.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>6.0.2</b> Plotting the final GLM to the data</a></li>
+</ul></li>
+<li class="chapter" data-level="6.1" data-path="how-would-this-work-with-proportion-data.html"><a href="how-would-this-work-with-proportion-data.html#conclusion-on-glms-with-count-data"><i class="fa fa-check"></i><b>6.1</b> Conclusion on GLMs with count data</a></li>
+</ul></li>
+<li class="part"><span><b>Other distributions</b></span></li>
+<li class="part"><span><b>Final considerations</b></span></li>
+<li class="chapter" data-level="7" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>7</b> Summary</a></li>
+<li class="chapter" data-level="8" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>8</b> Additional resources</a></li>
+<li class="chapter" data-level="9" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>9</b> References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/qcbsRworkshops" target="blank">QCBS R Workshop Series</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Workshop 6: Generalized linear models</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<!------------------------ Hero Image Container --------------------------> 
+
+<head>
+  <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=10.0,initial-scale=1.0">
+  <script src="https://kit.fontawesome.com/6a26f47516.js"></script>
+  <script src="assets/qcbs-hideOutput.js"></script>
+  <link href="assets/qcbs-style.css" rel="stylesheet">
+</head>
+
+
+
+<div class="hero-image-container"> 
+  <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
+</div>
+<div id="how-would-this-work-with-proportion-data" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> How would this work with proportion data?</h1>
+<p>Proportion data are more similar to binary data than you might think!
+Suppose you’re in the field to estimate the prevalence of a disease
+within wild populations of white-tailed deer along an environmental
+gradient of resource availability. You sample ten individuals in ten
+different populations to have an estimate of disease prevalence. Your
+data sheet has ten lines with the following information: population ID
+and number of individuals with the disease. At first sight, it seems you
+have count data, but this is inaccurate because you know how many
+individuals were sampled in each population. In fact, you have
+proportion data: it is the number of individuals with the disease out of
+ten sampled individuals. If you remember what you’ve read in the
+section on distributions, you should choose a binomial distribution to
+model these data. Let’s illustrate this with an example:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="how-would-this-work-with-proportion-data.html#cb26-1"></a><span class="co"># Let’s generate some data based on the deer example: We</span></span>
+<span id="cb26-2"><a href="how-would-this-work-with-proportion-data.html#cb26-2"></a><span class="co"># randomly choose a number between 1 and 10 for the number of</span></span>
+<span id="cb26-3"><a href="how-would-this-work-with-proportion-data.html#cb26-3"></a><span class="co"># infected deer.  Ten deers were sampled in ten populations.</span></span>
+<span id="cb26-4"><a href="how-would-this-work-with-proportion-data.html#cb26-4"></a><span class="co"># Resource availability is an index to characterise the</span></span>
+<span id="cb26-5"><a href="how-would-this-work-with-proportion-data.html#cb26-5"></a><span class="co"># habitat.</span></span>
+<span id="cb26-6"><a href="how-would-this-work-with-proportion-data.html#cb26-6"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb26-7"><a href="how-would-this-work-with-proportion-data.html#cb26-7"></a>n.infected &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">size =</span> <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb26-8"><a href="how-would-this-work-with-proportion-data.html#cb26-8"></a>n.total &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dt">x =</span> <span class="dv">10</span>, <span class="dt">times =</span> <span class="dv">10</span>)</span>
+<span id="cb26-9"><a href="how-would-this-work-with-proportion-data.html#cb26-9"></a>res.avail &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">mean =</span> <span class="dv">10</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb26-10"><a href="how-would-this-work-with-proportion-data.html#cb26-10"></a><span class="co"># Next, let’s build the model. Notice how the proportion data</span></span>
+<span id="cb26-11"><a href="how-would-this-work-with-proportion-data.html#cb26-11"></a><span class="co"># is specified.  We have to specify the number of cases where</span></span>
+<span id="cb26-12"><a href="how-would-this-work-with-proportion-data.html#cb26-12"></a><span class="co"># disease was detected and the number of cases where the</span></span>
+<span id="cb26-13"><a href="how-would-this-work-with-proportion-data.html#cb26-13"></a><span class="co"># disease was not detected.</span></span>
+<span id="cb26-14"><a href="how-would-this-work-with-proportion-data.html#cb26-14"></a>prop.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="kw">cbind</span>(n.infected, n.total <span class="op">-</span><span class="st"> </span>n.infected) <span class="op">~</span><span class="st"> </span>res.avail, </span>
+<span id="cb26-15"><a href="how-would-this-work-with-proportion-data.html#cb26-15"></a>    <span class="dt">family =</span> binomial)</span>
+<span id="cb26-16"><a href="how-would-this-work-with-proportion-data.html#cb26-16"></a><span class="kw">summary</span>(prop.reg)</span>
+<span id="cb26-17"><a href="how-would-this-work-with-proportion-data.html#cb26-17"></a><span class="co"># If your data is directly transformed into proportions, here</span></span>
+<span id="cb26-18"><a href="how-would-this-work-with-proportion-data.html#cb26-18"></a><span class="co"># is the way to do it in R: Let&#39;s first create a vector of</span></span>
+<span id="cb26-19"><a href="how-would-this-work-with-proportion-data.html#cb26-19"></a><span class="co"># proportions</span></span>
+<span id="cb26-20"><a href="how-would-this-work-with-proportion-data.html#cb26-20"></a>prop.infected &lt;-<span class="st"> </span>n.infected<span class="op">/</span>n.total</span>
+<span id="cb26-21"><a href="how-would-this-work-with-proportion-data.html#cb26-21"></a><span class="co"># We have to specify the &#39;weights&#39; argument in the glm</span></span>
+<span id="cb26-22"><a href="how-would-this-work-with-proportion-data.html#cb26-22"></a><span class="co"># function to indicate the number of trials per site</span></span>
+<span id="cb26-23"><a href="how-would-this-work-with-proportion-data.html#cb26-23"></a>prop.reg2 &lt;-<span class="st"> </span><span class="kw">glm</span>(prop.infected <span class="op">~</span><span class="st"> </span>res.avail, <span class="dt">family =</span> binomial, </span>
+<span id="cb26-24"><a href="how-would-this-work-with-proportion-data.html#cb26-24"></a>    <span class="dt">weights =</span> n.total)</span>
+<span id="cb26-25"><a href="how-would-this-work-with-proportion-data.html#cb26-25"></a><span class="kw">summary</span>(prop.reg2)</span>
+<span id="cb26-26"><a href="how-would-this-work-with-proportion-data.html#cb26-26"></a><span class="co"># The summaries of both prop.reg and prop.reg2 are identical!</span></span></code></pre></div>
+
+</div>
+
+
+
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="how-would-this-work-with-proportion-data.html#cb27-1"></a>faramea &lt;-<span class="st"> </span><span class="kw">read.csv</span>(‘faramea.csv’, <span class="dt">header =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<p>In this dataset, the number of trees of the species <em>Faramea
+occidentalis</em> was measured in 43 quadrats in Barro Colorada Island in
+Panama. For each quadrat, environmental characteristics were also
+recorded such as elevation or precipitation. Let’s take a look at the
+number of <em>Faramea occidentalis</em> found at each quadrat.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="how-would-this-work-with-proportion-data.html#cb28-1"></a><span class="kw">hist</span>(faramea<span class="op">$</span>Faramea.occidentalis, <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">45</span>, <span class="dv">1</span>), <span class="dt">xlab =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Number of &quot;</span>, </span>
+<span id="cb28-2"><a href="how-would-this-work-with-proportion-data.html#cb28-2"></a>    <span class="kw">italic</span>(Faramea <span class="op">~</span><span class="st"> </span>occidentalis))), <span class="dt">ylab =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;&quot;</span>, </span>
+<span id="cb28-3"><a href="how-would-this-work-with-proportion-data.html#cb28-3"></a>    <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>)</span></code></pre></div>
+<p><img src="images/plot_faramea_abd.png" class="align-center" width="500" /></p>
+<p>We can see that there are only positive and integer values. Given these
+specificities, the Poisson distribution, described above, seems to be
+the perfect choice to model this data.</p>
+<div id="poisson-glms" class="section level2 unnumbered">
+<h2>Poisson GLMs</h2>
+<p>As we saw above, the Poisson distribution is particularly relevant to
+model count data because it:</p>
+<ul>
+<li>specifies the probably only for integer values</li>
+<li>P(y&lt;0) = 0, hence the probability of any negative value is null</li>
+<li>the mean-variance relationship allows for heterogeneity (e.g. when
+variance generally increases with the mean)</li>
+</ul>
+<p>In this example, we want to test whether elevation (a continuous
+explanatory variable) influences <em>Faramea occidentalis</em> abundance.
+Hence, a Poisson GLM (i.e. a simple Poisson regression) seems to be a
+good choice to model the number of <em>Faramea occidentalis</em> as a function
+of elevation. Poisson GLMs are usually a good way to start modeling
+count data.</p>
+<p><img src="images//plot_faramea_vs_elevation.png" class="align-center" width="400" /></p>
+<p><strong>But what does a Poisson GLM do?</strong><br />
+It assumes that the response variables y<sub>i</sub> have been generated by a
+Poisson distribution with mean and variance <em>µ</em><sub>i</sub>.</p>
+<p>Y<sub>i</sub> ∼ Poisson(<em>µ</em><sub>i</sub>)</p>
+<p>with E(Y<sub>i</sub>) = Var(Y<sub>i</sub>) = <em>µ</em><sub>i</sub></p>
+<p>Recall from above that <em>µ</em><sub>i</sub> can be replaced the systematic model<br />
+Y<sub>i</sub> ~ Poisson(β<sub>0</sub> + β<sub>1</sub>X<sub>i</sub>)</p>
+<p>A systematic part is used as a linear combination of unknown parameters
+<em>β</em> representing the effects of different explanatory variables. <strong>X</strong>
+is the covariate matrix (which does not include an intercept term in
+this example). This systemtatic part is define as:</p>
+<p><em>β</em><sub>0</sub> + <strong>X</strong><sub>i</sub>.<em>β</em></p>
+<p>The mean of the distribution <em>µ</em><sub>i</sub> is related to the systematic part
+using a logarithm link function. As a result, the relationship between
+the mean and the linear predictor is log-linear.</p>
+<ul>
+<li>log(<em>µ</em><sub>i</sub>) = <em>β</em><sub>0</sub> + <strong>X</strong><sub>i</sub>.<em>β</em></li>
+</ul>
+<p>or</p>
+<ul>
+<li><em>µ</em><sub>i</sub> = exp(<em>β</em><sub>0</sub> + <strong>X</strong><sub>i</sub>.<em>β</em>)</li>
+</ul>
+<p>The Poisson distribution gives you the probability that a particular
+Y<sub>i</sub> value is observed for a given mean <em>µ</em><sub>i</sub> = exp(<em>β</em><sub>0</sub> +
+<strong>X</strong><sub>i</sub>.<em>β</em>). In this model, the unknown parameters are included in the
+vector of regression coefficients <em>β</em> (plus the intercept <em>β</em><sub>0</sub>) and
+can be estimated using maximum-likelihood (ML) estimation.</p>
+<p>Fitting a Poisson GLM in R requires only setting <em>family = poisson</em> in
+the function glm(). By default the link function is log.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="how-would-this-work-with-proportion-data.html#cb29-1"></a>glm.poisson =<span class="st"> </span><span class="kw">glm</span>(Faramea.occidentalis <span class="op">~</span><span class="st"> </span>Elevation, <span class="dt">data =</span> faramea, </span>
+<span id="cb29-2"><a href="how-would-this-work-with-proportion-data.html#cb29-2"></a>    <span class="dt">family =</span> poisson)</span>
+<span id="cb29-3"><a href="how-would-this-work-with-proportion-data.html#cb29-3"></a><span class="kw">summary</span>(glm.poisson)</span></code></pre></div>
+<p>The output is similar to a ‘<strong>lm</strong>’ output (see workshop 4) and gives
+you the parameter estimates which can also be retrieved using other
+functions:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="how-would-this-work-with-proportion-data.html#cb30-1"></a><span class="co"># intercept</span></span>
+<span id="cb30-2"><a href="how-would-this-work-with-proportion-data.html#cb30-2"></a><span class="kw">summary</span>(glm.poisson)<span class="op">$</span>coefficients[<span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb30-3"><a href="how-would-this-work-with-proportion-data.html#cb30-3"></a><span class="co"># slope of elevation</span></span>
+<span id="cb30-4"><a href="how-would-this-work-with-proportion-data.html#cb30-4"></a><span class="kw">summary</span>(glm.poisson)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">1</span>]</span></code></pre></div>
+<div id="model-validation-and-the-problem-of-overdispersion" class="section level3">
+<h3><span class="header-section-number">6.0.1</span> Model validation and the problem of overdispersion</h3>
+<p>An important aspect of the summary can be found in the last lines.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="how-would-this-work-with-proportion-data.html#cb31-1"></a><span class="kw">summary</span>(glm.poisson)</span>
+<span id="cb31-2"><a href="how-would-this-work-with-proportion-data.html#cb31-2"></a><span class="co"># Null deviance: 414.81 on 42 degrees of freedom Residual</span></span>
+<span id="cb31-3"><a href="how-would-this-work-with-proportion-data.html#cb31-3"></a><span class="co"># deviance: 388.12 on 41 degrees of freedom</span></span></code></pre></div>
+<p>Remember that ML estimation is used to estimate the parameters. In the
+goodness-of-fit section we mentioned that the deviance was a ML
+equivalent of the sum of squares in linear models. Here, the null
+deviance and the residual deviance are equivalent to the total sum of
+squares and the residual sum of squares respectively. The residual
+deviance is defined as twice the difference between the log likelihood
+of a model that provides a perfect fit to the data (a saturated model)
+and the log likelihood of the model. If our model is correct the
+asymptotic distribution of the residual deviance is approximated using
+χ² distribution with <em>n</em>-<em>p</em>-1 degrees of freedom (computed as
+<em>n</em>-<em>p</em>-1, where <em>n</em> is the number of observations and <em>p</em> the number of
+covariates). This implies that residual deviance should be equal to the
+residual degrees of freedom. In our example, the residual deviance
+equals 388.12 while we have 41 (43-1-1) degrees of freedom. This former
+is greater to the former by 9.5 times, the model is then
+<strong>overdispersed</strong>.</p>
+<p><strong>Overdispersion</strong> As a consequence overdispersion can be computed for
+any model using the parameter φ:</p>
+<pre><code>                      φ = residual deviance / residual degrees of freedom
+* φ &lt; 1 indicates underdispersion
+* φ = 1 indicates no overdispersion
+* φ &gt; 1 indicates overdispersion</code></pre>
+<p>Why does a Poisson GLM exhibit overdispersion? This arises when the
+variance of the data is higher than expected from the Poisson
+distribution. This frequently occurs when data includes many zeros
+and/or many very high values. Looking back at the distribution of our
+data (above) suggests that our data contains many zero preventing us to
+use a Poisson GLM. Overdispersion may also result from missing
+covariates, missing interaction terms or presence of strong outliers,
+preventing us from using a Poisson GLM.</p>
+<p>The Poisson distribution can account only partially for heterogeneity in
+the data due to the mean variance relationship, but in some cases
+variance increases even higher than the mean. Computing the mean and the
+variance of our dataset suggests this is occurring:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="how-would-this-work-with-proportion-data.html#cb33-1"></a><span class="kw">mean</span>(faramea<span class="op">$</span>Faramea.occidentalis)</span>
+<span id="cb33-2"><a href="how-would-this-work-with-proportion-data.html#cb33-2"></a><span class="kw">var</span>(faramea<span class="op">$</span>Faramea.occidentalis)</span></code></pre></div>
+<p>In practice, Poissons GLM are useful for describing the mean <em>µ</em><sub>i</sub> but
+underestimates the variance in the data, making all model-based tests
+too liberal! There are two ways of dealing with overdispersion and will
+be developed below:</p>
+<ul>
+<li>correct for it by doing a <strong>quasi-Poisson GLM</strong></li>
+<li>choose another distribution such as the <strong>negative binomial</strong></li>
+</ul>
+</div>
+</div>
+<div id="quasi-poisson-glms" class="section level2 unnumbered">
+<h2>quasi-Poisson GLMs</h2>
+<p>The principle behind a quasi-Poisson GLM is very simple; the
+overdispersion parameter (φ) is added to the expected variance equation:</p>
+<p>E(Y<sub>i</sub>) = <em>µ</em><sub>i</sub></p>
+<p>Var(Y<sub>i</sub>) = φ.<em>µ</em><sub>i</sub></p>
+<p>The systematic part and the link function remains the same. The
+difference is that φ will first be estimated to correct the model.
+Parameter Estimates will be the same but the standard errors of the
+parameters are multiplied by √φ, in other terms, some marginally
+significant p-values may no longer hold.</p>
+<p>In R, The ‘<strong>quasipoisson</strong>’ family object can be used to deal with
+count data exhibiting overdispersion (the ‘<strong>quasibinomial</strong>’ family
+object can do the same for binomial data). The fitted φ value will be
+returned in the summary of the GLM. There are two ways to perform this
+GLM:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="how-would-this-work-with-proportion-data.html#cb34-1"></a><span class="co"># Option 1, fit a new quasi-Poisson GLM</span></span>
+<span id="cb34-2"><a href="how-would-this-work-with-proportion-data.html#cb34-2"></a>glm.quasipoisson =<span class="st"> </span><span class="kw">glm</span>(Faramea.occidentalis <span class="op">~</span><span class="st"> </span>Elevation, <span class="dt">data =</span> faramea, </span>
+<span id="cb34-3"><a href="how-would-this-work-with-proportion-data.html#cb34-3"></a>    <span class="dt">family =</span> quasipoisson)</span>
+<span id="cb34-4"><a href="how-would-this-work-with-proportion-data.html#cb34-4"></a><span class="co"># Option 2, build from the previous model and update it:</span></span>
+<span id="cb34-5"><a href="how-would-this-work-with-proportion-data.html#cb34-5"></a>glm.quasipoisson =<span class="st"> </span><span class="kw">update</span>(glm.poisson, <span class="dt">family =</span> quasipoisson)</span>
+<span id="cb34-6"><a href="how-would-this-work-with-proportion-data.html#cb34-6"></a><span class="co"># output</span></span>
+<span id="cb34-7"><a href="how-would-this-work-with-proportion-data.html#cb34-7"></a><span class="kw">summary</span>(glm.quasipoisson)</span></code></pre></div>
+<p>If you look at the summary of the model you will see that φ is estimated
+as 15.97. We then made a good choice by updating the model to account
+for overdispersion. However if we look at P-values we can note that
+elevation is no longer significant. Yet, 15.97 is quite a lot of
+overdispersion, and in general quasi-Poisson GLMs will be favoured when
+φ is included between 1 and 15 though these limits are arbitrary. When
+overdispersion is higher than 15-20 we recommend moving to the negative
+binomial. For the sake of pedagogy, we will consider that we are not
+happy with this model to fit a final negative-binomial GLM to our data.</p>
+<p>Two other points are important to keep in mind when using quasi-Poisson
+GLMs and dealing with overdispersion:</p>
+<ul>
+<li><strong>quasi-Poisson GLMs do not have AIC scores.</strong> An important aspect
+is that quasi-Poisson GLMs do not correspond to models with fully
+specified likelihoods and rely on quasi-ML estimation (i.e.
+pseudolikelihood). One consequence is that quasi-Poisson GLMs do not
+have AIC scores for model comparisons. However, variants of AIC have
+been developed to deal with this situation (e.g. quasi-AIC).</li>
+</ul>
+<!-- -->
+<ul>
+<li><strong>Overdispersion affects model comparison.</strong> Indeed overdispersion
+also influences the comparison of two nested models and has to be
+taken into account when φ is known. For instance, let’s assume that
+we want to compare GLM1, with <em>p</em><sub>1</sub> parameters to GLM2, with <em>p</em><sub>2</sub>
+parameters, such that GLM1 is nested within GLM2 and <em>p</em><sub>2</sub> &gt;
+<em>p</em><sub>1</sub>. Model comparison is achieved based on a generalized
+likelihood ratio test, which can be written as a function of the
+difference of deviances between the two GLMs, D<sub>1</sub> and D<sub>2</sub>
+respectively. If Overdispersion is known, deviances have to be
+scaled (i.e. corrected) accordingly as D* = D/φ. The final test
+will be based on the criterion D<sub>1</sub>* - D*<sub>2</sub> which is assumed to
+follow a χ² distribution with <em>p</em><sub>2</sub>-<em>p</em><sub>1</sub> degrees of freedom when
+GLM1 is correct.</li>
+<li>In some cases φ is not known. For instance, this occurs when you run
+a GLM with a normal error distribution. In that case, φ can be
+estimated <em>a posteriori</em> using the residual deviance of the larger
+model so the criterion becomes
+<span class="math display">\[(D~1~-D~2~)/(*p*~2~-*p*~1~)\]</span>/<span class="math display">\[D~2~/(*n*-*p*~2~)\]</span> and is assumed
+to follow a F distribution with <em>p</em><sub>2</sub>-<em>p</em><sub>1</sub> and n-<em>p</em><sub>2</sub> degrees
+of freedom.</li>
+</ul>
+</div>
+<div id="negative-binomial-glms" class="section level2 unnumbered">
+<h2>Negative binomial GLMs</h2>
+<p>GLM with a negative binomial (NB) distribution are favored when
+overdispersion is extreme. The NB distribution contains an additional
+parameter <em>k</em>, particularly handy for count data containing a
+preponderance of zeros. Before we go into R stuff, we should see what
+lies behind a negative binomial GLM. A NB distribution is actually a
+combination of two distributions: a Poisson distribution and a gamma
+distribution. The NB distribution first assumes that a discrete random
+variable is Poisson distributed but its mean, <em>µ</em> is assumed to follow a
+gamma distribution. The mixture between the Poisson and gamma
+distributions can be simplified into a density function specific to the
+NB which has two parameters <em>µ</em> and <em>k</em>.</p>
+<p>Y ~ NB(<em>µ</em>, <em>k</em>)</p>
+<p>E(Y) = <em>µ</em> and Var(Y) = <em>µ</em> + <em>µ</em>²<em>/k</em></p>
+<p>Here, we can see how overdispersion will be accounted for by NB
+distribution in GLMs. The second term of the variance determines the
+amount of overdispersion. In fact, it is indirectly determined by <em>k</em>,
+where <em>k</em> is also called the dispersion parameter. If <em>k</em> is large
+(relative to <em>μ</em>²), the second term, <em>µ</em>²<em>/k</em> approximates 0, and the
+variance of Y is <em>μ</em>. In such cases the NB converges to the Poisson
+distribution and you might as well use a Poisson distribution. The
+smaller <em>k</em>, the larger the overdispersion. Just like with others GLMs,
+a NB GLM is specified following the fundamental three steps. It first
+assumes that Y<sub>i</sub> is negative binomial distributed with mean <em>μ</em><sub>i</sub> and
+parameter <em>k</em>.</p>
+<p>Y<sub>i</sub> ∼ NB(<em>µ</em><sub>i</sub>, <em>k</em>)</p>
+<p>E(Y<sub>i</sub>) = <em>µ</em><sub>i</sub> and Var(Y<sub>i</sub>) = <em>µ</em><sub>i</sub> + <em>µ</em><sub>i</sub>²<em>/k</em></p>
+<p>The two last steps define the systematic part and the link function
+between the mean of Yi and the predictor function. In NB GLMs the link
+function is logarithmic ensuring that fitted values are always positive.</p>
+<ul>
+<li>log(<em>µ</em><sub>i</sub>) = <em>β</em><sub>0</sub> + <strong>X</strong><sub>i</sub>.<em>β</em></li>
+</ul>
+<p>or</p>
+<ul>
+<li><em>µ</em><sub>i</sub> = exp(<em>β</em><sub>0</sub> + <strong>X</strong><sub>i</sub>.<em>β</em>)</li>
+</ul>
+<p>NB is not in the glm() function so you need to install and load the MASS
+library. You do not remember if you already installed this package? No
+problem, you can use the following function:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="how-would-this-work-with-proportion-data.html#cb35-1"></a><span class="kw">ifelse</span>(<span class="kw">length</span>(<span class="kw">which</span>(<span class="kw">installed.packages</span>() <span class="op">==</span><span class="st"> &quot;MASS&quot;</span>)) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, {</span>
+<span id="cb35-2"><a href="how-would-this-work-with-proportion-data.html#cb35-2"></a>    <span class="kw">print</span>(<span class="st">&quot;MASS not installed. Installing... &quot;</span>)</span>
+<span id="cb35-3"><a href="how-would-this-work-with-proportion-data.html#cb35-3"></a>    <span class="kw">install.packages</span>(<span class="st">&quot;MASS&quot;</span>)</span>
+<span id="cb35-4"><a href="how-would-this-work-with-proportion-data.html#cb35-4"></a>}, <span class="kw">print</span>(<span class="st">&quot;MASS already installed&quot;</span>))</span></code></pre></div>
+<p>Alternatively, if you know that this package is not installed you can
+directly use the command</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="how-would-this-work-with-proportion-data.html#cb36-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;MASS&quot;</span>)</span></code></pre></div>
+<p>and remember to load the package</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="how-would-this-work-with-proportion-data.html#cb37-1"></a><span class="kw">library</span>(<span class="st">&quot;MASS&quot;</span>)</span></code></pre></div>
+<p>The negative binomial GLM can be build using the glm.nb() function:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="how-would-this-work-with-proportion-data.html#cb38-1"></a>glm.negbin =<span class="st"> </span><span class="kw">glm.nb</span>(Faramea.occidentalis <span class="op">~</span><span class="st"> </span>Elevation, <span class="dt">data =</span> faramea)</span>
+<span id="cb38-2"><a href="how-would-this-work-with-proportion-data.html#cb38-2"></a><span class="kw">summary</span>(glm.negbin)</span></code></pre></div>
+<p>The summary is similar to other GLMs summaries (e.g. Poisson GLMs),
+though we now have a parameter theta, which stands for parameter <em>k</em> in
+the variance of the NB distribution. Its standard error is also
+provided, but care is needed with its use as the interval is not
+symmetric and we are testing on the boundary.</p>
+<div id="plotting-the-final-glm-to-the-data" class="section level3">
+<h3><span class="header-section-number">6.0.2</span> Plotting the final GLM to the data</h3>
+<p>The NB GLMs appear to be the best fit to our data. We can plot the
+relationship between the abundance of Faramea occidentalis and
+elevation.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="how-would-this-work-with-proportion-data.html#cb39-1"></a><span class="co"># plot the observed data</span></span>
+<span id="cb39-2"><a href="how-would-this-work-with-proportion-data.html#cb39-2"></a><span class="kw">plot</span>(faramea<span class="op">$</span>Elevation, faramea<span class="op">$</span>Faramea.occidentalis, <span class="dt">xlab =</span> <span class="st">&quot;Elevation (m)&quot;</span>, </span>
+<span id="cb39-3"><a href="how-would-this-work-with-proportion-data.html#cb39-3"></a>    <span class="dt">ylab =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Number of&quot;</span>, <span class="st">&quot;  &quot;</span>, <span class="kw">italic</span>(Faramea <span class="op">~</span><span class="st"> </span></span>
+<span id="cb39-4"><a href="how-would-this-work-with-proportion-data.html#cb39-4"></a><span class="st">        </span>occidentalis))), <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">col =</span> <span class="kw">rgb</span>(<span class="dv">4</span>, <span class="dv">139</span>, <span class="dv">154</span>, <span class="dv">150</span>, </span>
+<span id="cb39-5"><a href="how-would-this-work-with-proportion-data.html#cb39-5"></a>        <span class="dt">maxColorValue =</span> <span class="dv">255</span>))</span>
+<span id="cb39-6"><a href="how-would-this-work-with-proportion-data.html#cb39-6"></a></span>
+<span id="cb39-7"><a href="how-would-this-work-with-proportion-data.html#cb39-7"></a><span class="co"># pull values for intercept and beta from the summary and put</span></span>
+<span id="cb39-8"><a href="how-would-this-work-with-proportion-data.html#cb39-8"></a><span class="co"># them in the exponential equation</span></span>
+<span id="cb39-9"><a href="how-would-this-work-with-proportion-data.html#cb39-9"></a><span class="kw">curve</span>(<span class="kw">exp</span>(<span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">1</span>, <span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">2</span>, </span>
+<span id="cb39-10"><a href="how-would-this-work-with-proportion-data.html#cb39-10"></a>    <span class="dv">1</span>] <span class="op">*</span><span class="st"> </span>x), <span class="dt">from =</span> <span class="kw">range</span>(faramea<span class="op">$</span>Elevation)[<span class="dv">1</span>], <span class="dt">to =</span> <span class="kw">range</span>(faramea<span class="op">$</span>Elevation)[<span class="dv">2</span>], </span>
+<span id="cb39-11"><a href="how-would-this-work-with-proportion-data.html#cb39-11"></a>    <span class="dt">add =</span> T, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&quot;orangered&quot;</span>)</span>
+<span id="cb39-12"><a href="how-would-this-work-with-proportion-data.html#cb39-12"></a></span>
+<span id="cb39-13"><a href="how-would-this-work-with-proportion-data.html#cb39-13"></a><span class="co"># pull the standard error as well to plot the equations for</span></span>
+<span id="cb39-14"><a href="how-would-this-work-with-proportion-data.html#cb39-14"></a><span class="co"># confidence envelope</span></span>
+<span id="cb39-15"><a href="how-would-this-work-with-proportion-data.html#cb39-15"></a><span class="kw">curve</span>(<span class="kw">exp</span>(<span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">1</span>, <span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">1</span>, </span>
+<span id="cb39-16"><a href="how-would-this-work-with-proportion-data.html#cb39-16"></a>    <span class="dv">2</span>] <span class="op">+</span><span class="st"> </span><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">1</span>] <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span></span>
+<span id="cb39-17"><a href="how-would-this-work-with-proportion-data.html#cb39-17"></a><span class="st">    </span><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">2</span>]), <span class="dt">from =</span> <span class="kw">range</span>(faramea<span class="op">$</span>Elevation)[<span class="dv">1</span>], </span>
+<span id="cb39-18"><a href="how-would-this-work-with-proportion-data.html#cb39-18"></a>    <span class="dt">to =</span> <span class="kw">range</span>(faramea<span class="op">$</span>Elevation)[<span class="dv">2</span>], <span class="dt">add =</span> T, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&quot;orangered&quot;</span>)</span>
+<span id="cb39-19"><a href="how-would-this-work-with-proportion-data.html#cb39-19"></a><span class="kw">curve</span>(<span class="kw">exp</span>(<span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">1</span>, <span class="dv">1</span>] <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">1</span>, </span>
+<span id="cb39-20"><a href="how-would-this-work-with-proportion-data.html#cb39-20"></a>    <span class="dv">2</span>] <span class="op">+</span><span class="st"> </span><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">1</span>] <span class="op">*</span><span class="st"> </span>x <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span></span>
+<span id="cb39-21"><a href="how-would-this-work-with-proportion-data.html#cb39-21"></a><span class="st">    </span><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">2</span>]), <span class="dt">from =</span> <span class="kw">range</span>(faramea<span class="op">$</span>Elevation)[<span class="dv">1</span>], </span>
+<span id="cb39-22"><a href="how-would-this-work-with-proportion-data.html#cb39-22"></a>    <span class="dt">to =</span> <span class="kw">range</span>(faramea<span class="op">$</span>Elevation)[<span class="dv">2</span>], <span class="dt">add =</span> T, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&quot;orangered&quot;</span>)</span></code></pre></div>
+<p><img src="images/nb_glm_fit_to_faramea.png" class="align-center" width="450" /></p>
+<p>We can see that the number of <em>Faramea occidentalis</em> significantly
+decreases with elevation. However, the confidence envelope of the NB
+model is large at low elevation.</p>
+</div>
+</div>
+<div id="conclusion-on-glms-with-count-data" class="section level2">
+<h2><span class="header-section-number">6.1</span> Conclusion on GLMs with count data</h2>
+<p>All the GLMs introduced (Poisson, quasi-Poisson and NB) to model count
+data use the same log-linear mean function (log(<em>µ</em>) = <strong>X</strong>.<em>β</em>), but
+make different assumptions about the remaining likelihood. Quasi-Poisson
+and NB are favored to deal with overdispersion. However, in some cases
+the data may contains too many zeros and zero-augmented models can be
+useful as they extend the mean function by modifying (typically,
+increasing) the likelihood of zero counts (e.g. zero-inflated Poisson
+<span class="math display">\[ZIP\]</span>).</p>
+
+</div>
+</div>
+
+
+
+<li>When the response variable consists of percentages or proportions
+that do not arise from successes and failures from <em>n</em> yes/no
+experiments (Bernoulli experiment), it is not possible to use the
+binomial distribution. In this case, it is often advised to perform
+a <strong>logit transformation</strong> of the data and use a lm(m). See this
+<a href="http://onlinelibrary.wiley.com/doi/10.1890/10-0340.1/abstract">interesting
+article</a>.</li>
+<li>For data that can be appear normally distributed after a
+log-transformation, it can be advisable to use a <strong>log-normal
+distribution</strong> in a glm instead of log-transforming the data.</li>
+<li>A <strong>Gamma distribution</strong> can also be used. It is similar to a
+log-normal distribution, but is more versatile.</li>
+<li>The <strong>Tweedie distribution</strong> is a versatile family of distributions
+that is useful for data with a mix of zeros and positive values (not
+necessarily counts). See the <a href="https://cran.r-project.org/web/packages/tweedie/index.html">R Tweedie
+package</a>.</li>
+<li>When the data comprise an excess number of zeros, that arise from a
+different process than the process that generates the counts, the
+<strong>zero-inflated</strong> Poisson or zero-inflated negative binomial
+distributions should be used. These methods are available, in the
+<a href="http://glmmadmb.r-forge.r-project.org/">glmmADMB package</a>, among
+others.</li>
+</ul>
+
+</div>
+
+
+
+<hr>
+<center> 
+  <div class="footer">
+      All the content of the workshop series is under a <a href="https://creativecommons.org/licenses/by-nc/2.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+  </div>
+</center>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="a-glm-with-binary-variables.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="summary.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

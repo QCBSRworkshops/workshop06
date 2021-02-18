@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 9 References | Workshop 6: Generalized linear models</title>
+  <title>Chapter 2 Preparing for the workshop | Workshop 6: Generalized linear models</title>
   <meta name="description" content="Generalized linear models in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 9 References | Workshop 6: Generalized linear models" />
+  <meta property="og:title" content="Chapter 2 Preparing for the workshop | Workshop 6: Generalized linear models" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 9 References | Workshop 6: Generalized linear models" />
+  <meta name="twitter:title" content="Chapter 2 Preparing for the workshop | Workshop 6: Generalized linear models" />
   
   <meta name="twitter:description" content="Generalized linear models in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="additional-resources.html"/>
-
+<link rel="prev" href="learning-objectives.html"/>
+<link rel="next" href="why-are-generalized-linear-models-useful.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -209,16 +209,39 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
-<div id="references" class="section level1">
-<h1><span class="header-section-number">Chapter 9</span> References</h1>
+<div id="preparing-for-the-workshop" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> Preparing for the workshop</h1>
+<p>To prepare for this workshop, you must do the following steps:</p>
+<p>Download the R script and data required for this workshop:</p>
+<ul>
+<li><a href="http://qcbs.ca/wiki/_media/glmm_e.r">R Script</a></li>
+<li><a href="http://qcbs.ca/wiki/_media/mites.csv">Mites</a></li>
+<li><a href="http://qcbs.ca/wiki/_media/faramea.csv">Faramea</a></li>
+</ul>
+<p>Make sure to load the following packages (see how in the R script):</p>
+<ul>
+<li><a href="https://cran.r-project.org/package=ggplot2">ggplot2</a></li>
+<li><a href="https://cran.r-project.org/package=lme4">lme4</a></li>
+<li><a href="https://cran.r-project.org/package=MASS">MASS</a></li>
+<li><a href="https://cran.r-project.org/package=vcdExtra">vcdExtra</a></li>
+<li><a href="https://cran.r-project.org/package=bbmle">bbmle</a></li>
+<li><a href="https://cran.r-project.org/package=DescTools">DescTools</a></li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="preparing-for-the-workshop.html#cb1-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;ggplot2&quot;</span>)</span>
+<span id="cb1-2"><a href="preparing-for-the-workshop.html#cb1-2"></a><span class="kw">install.packages</span>(<span class="st">&quot;lme4&quot;</span>)</span>
+<span id="cb1-3"><a href="preparing-for-the-workshop.html#cb1-3"></a><span class="kw">install.packages</span>(<span class="st">&quot;MASS&quot;</span>)</span>
+<span id="cb1-4"><a href="preparing-for-the-workshop.html#cb1-4"></a><span class="kw">install.packages</span>(<span class="st">&quot;vcdExtra&quot;</span>)</span>
+<span id="cb1-5"><a href="preparing-for-the-workshop.html#cb1-5"></a><span class="kw">install.packages</span>(<span class="st">&quot;bbmle&quot;</span>)</span>
+<span id="cb1-6"><a href="preparing-for-the-workshop.html#cb1-6"></a><span class="kw">install.packages</span>(<span class="st">&quot;DescTools&quot;</span>)</span>
+<span id="cb1-7"><a href="preparing-for-the-workshop.html#cb1-7"></a></span>
+<span id="cb1-8"><a href="preparing-for-the-workshop.html#cb1-8"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb1-9"><a href="preparing-for-the-workshop.html#cb1-9"></a><span class="kw">library</span>(lme4)</span>
+<span id="cb1-10"><a href="preparing-for-the-workshop.html#cb1-10"></a><span class="kw">library</span>(MASS)</span>
+<span id="cb1-11"><a href="preparing-for-the-workshop.html#cb1-11"></a><span class="kw">library</span>(vcdExtra)</span>
+<span id="cb1-12"><a href="preparing-for-the-workshop.html#cb1-12"></a><span class="kw">library</span>(bbmle)</span>
+<span id="cb1-13"><a href="preparing-for-the-workshop.html#cb1-13"></a><span class="kw">library</span>(DescTools)</span></code></pre></div>
 
 </div>
-
-
-
-
-
-
 <hr>
 <center> 
   <div class="footer">
@@ -230,8 +253,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="additional-resources.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="learning-objectives.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="why-are-generalized-linear-models-useful.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
