@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 11 quasi-Poisson GLMs | Workshop 6: Generalized linear models</title>
+  <title>Chapter 8 quasi-Poisson GLMs | Workshop 6: Generalized linear models</title>
   <meta name="description" content="Generalized linear models in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 11 quasi-Poisson GLMs | Workshop 6: Generalized linear models" />
+  <meta property="og:title" content="Chapter 8 quasi-Poisson GLMs | Workshop 6: Generalized linear models" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 11 quasi-Poisson GLMs | Workshop 6: Generalized linear models" />
+  <meta name="twitter:title" content="Chapter 8 quasi-Poisson GLMs | Workshop 6: Generalized linear models" />
   
   <meta name="twitter:description" content="Generalized linear models in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -30,7 +30,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="binomial-glms.html"/>
+<link rel="prev" href="poisson-glms.html"/>
 <link rel="next" href="negative-binomial-glms.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -148,32 +148,32 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3" data-path="why-are-generalized-linear-models-useful.html"><a href="why-are-generalized-linear-models-useful.html"><i class="fa fa-check"></i><b>3</b> Why are generalized linear models useful?</a></li>
 <li class="chapter" data-level="4" data-path="the-distributions-of-biological-data.html"><a href="the-distributions-of-biological-data.html"><i class="fa fa-check"></i><b>4</b> The distributions of biological data</a></li>
 <li class="part"><span><b>GLMs with binary data</b></span></li>
-<li class="chapter" data-level="5" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html"><i class="fa fa-check"></i><b>5</b> Binomial GLMs (Bernouilli)</a></li>
-<li class="chapter" data-level="6" data-path="the-link-function.html"><a href="the-link-function.html"><i class="fa fa-check"></i><b>6</b> The link function</a><ul>
-<li class="chapter" data-level="6.1" data-path="the-link-function.html"><a href="the-link-function.html#challenge-1"><i class="fa fa-check"></i><b>6.1</b> Challenge 1</a></li>
+<li class="chapter" data-level="5" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html"><i class="fa fa-check"></i><b>5</b> Binomial GLMs (Bernouilli)</a><ul>
+<li class="chapter" data-level="5.1" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#the-link-function"><i class="fa fa-check"></i><b>5.1</b> The link function</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#challenge-1"><i class="fa fa-check"></i><b>5.1.1</b> Challenge 1</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="interpreting-the-output-of-a-logistic-regression.html"><a href="interpreting-the-output-of-a-logistic-regression.html"><i class="fa fa-check"></i><b>7</b> Interpreting the output of a logistic regression</a></li>
-<li class="chapter" data-level="8" data-path="predictive-power-and-goodness-of-fit-assessment.html"><a href="predictive-power-and-goodness-of-fit-assessment.html"><i class="fa fa-check"></i><b>8</b> Predictive power and goodness-of-fit assessment</a><ul>
-<li class="chapter" data-level="8.1" data-path="predictive-power-and-goodness-of-fit-assessment.html"><a href="predictive-power-and-goodness-of-fit-assessment.html#challenge-2"><i class="fa fa-check"></i><b>8.1</b> Challenge 2</a></li>
+<li class="chapter" data-level="5.2" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#interpreting-the-output-of-a-logistic-regression"><i class="fa fa-check"></i><b>5.2</b> Interpreting the output of a logistic regression</a></li>
+<li class="chapter" data-level="5.3" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#predictive-power-and-goodness-of-fit"><i class="fa fa-check"></i><b>5.3</b> Predictive power and goodness-of-fit</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#challenge-2"><i class="fa fa-check"></i><b>5.3.1</b> Challenge 2</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="plotting-results.html"><a href="plotting-results.html"><i class="fa fa-check"></i><b>9</b> Plotting results</a></li>
+<li class="chapter" data-level="5.4" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#plotting-results"><i class="fa fa-check"></i><b>5.4</b> Plotting results</a></li>
+</ul></li>
 <li class="part"><span><b>GLMs with proportion data</b></span></li>
-<li class="chapter" data-level="10" data-path="binomial-glms.html"><a href="binomial-glms.html"><i class="fa fa-check"></i><b>10</b> Binomial GLMs</a></li>
-<li class="part"><span><b>GLMs with count data</b></span><ul>
-<li class="chapter" data-level="10.1" data-path="binomial-glms.html"><a href="binomial-glms.html#poisson-glms"><i class="fa fa-check"></i><b>10.1</b> Poisson GLMs</a><ul>
-<li class="chapter" data-level="10.1.1" data-path="binomial-glms.html"><a href="binomial-glms.html#model-validation-and-the-problem-of-overdispersion"><i class="fa fa-check"></i><b>10.1.1</b> Model validation and the problem of overdispersion</a></li>
+<li class="chapter" data-level="6" data-path="binomial-glms.html"><a href="binomial-glms.html"><i class="fa fa-check"></i><b>6</b> Binomial GLMs</a></li>
+<li class="part"><span><b>GLMs with count data</b></span></li>
+<li class="chapter" data-level="7" data-path="poisson-glms.html"><a href="poisson-glms.html"><i class="fa fa-check"></i><b>7</b> Poisson GLMs</a><ul>
+<li class="chapter" data-level="7.1" data-path="poisson-glms.html"><a href="poisson-glms.html#the-problem-of-overdispersion"><i class="fa fa-check"></i><b>7.1</b> The problem of overdispersion</a></li>
 </ul></li>
+<li class="chapter" data-level="8" data-path="quasi-poisson-glms.html"><a href="quasi-poisson-glms.html"><i class="fa fa-check"></i><b>8</b> quasi-Poisson GLMs</a></li>
+<li class="chapter" data-level="9" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html"><i class="fa fa-check"></i><b>9</b> Negative binomial GLMs</a><ul>
+<li class="chapter" data-level="9.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>9.1</b> Plotting the final GLM to the data</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="quasi-poisson-glms.html"><a href="quasi-poisson-glms.html"><i class="fa fa-check"></i><b>11</b> quasi-Poisson GLMs</a></li>
-<li class="chapter" data-level="12" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html"><i class="fa fa-check"></i><b>12</b> Negative binomial GLMs</a><ul>
-<li class="chapter" data-level="12.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>12.1</b> Plotting the final GLM to the data</a></li>
-</ul></li>
-<li class="chapter" data-level="13" data-path="conclusion-on-glms-with-count-data.html"><a href="conclusion-on-glms-with-count-data.html"><i class="fa fa-check"></i><b>13</b> Conclusion on GLMs with count data</a></li>
+<li class="chapter" data-level="10" data-path="conclusion-on-glms-with-count-data.html"><a href="conclusion-on-glms-with-count-data.html"><i class="fa fa-check"></i><b>10</b> Conclusion on GLMs with count data</a></li>
 <li class="part"><span><b>Other distributions</b></span></li>
 <li class="part"><span><b>Final considerations</b></span></li>
-<li class="chapter" data-level="14" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>14</b> Summary</a></li>
-<li class="chapter" data-level="15" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>15</b> Additional resources</a></li>
-<li class="chapter" data-level="16" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>16</b> References</a></li>
+<li class="chapter" data-level="11" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>11</b> Summary</a></li>
+<li class="chapter" data-level="12" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>12</b> Additional resources</a></li>
+<li class="chapter" data-level="13" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>13</b> References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/qcbsRworkshops" target="blank">QCBS R Workshop Series</a></li>
 
@@ -209,7 +209,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
 <div id="quasi-poisson-glms" class="section level1">
-<h1><span class="header-section-number">Chapter 11</span> quasi-Poisson GLMs</h1>
+<h1><span class="header-section-number">Chapter 8</span> quasi-Poisson GLMs</h1>
 <p>The principle behind a quasi-Poisson GLM is very simple; the
 overdispersion parameter (φ) is added to the expected variance equation:</p>
 <p>E(Y<sub>i</sub>) = <em>µ</em><sub>i</sub></p>
@@ -285,7 +285,7 @@ of freedom.</li>
           </div>
         </div>
       </div>
-<a href="binomial-glms.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="poisson-glms.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="negative-binomial-glms.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
