@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 16 References | Workshop 6: Generalized linear models</title>
+  <title>Chapter 6 The link function | Workshop 6: Generalized linear models</title>
   <meta name="description" content="Generalized linear models in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 16 References | Workshop 6: Generalized linear models" />
+  <meta property="og:title" content="Chapter 6 The link function | Workshop 6: Generalized linear models" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 16 References | Workshop 6: Generalized linear models" />
+  <meta name="twitter:title" content="Chapter 6 The link function | Workshop 6: Generalized linear models" />
   
   <meta name="twitter:description" content="Generalized linear models in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="additional-resources.html"/>
-
+<link rel="prev" href="binomial-glms-bernouilli.html"/>
+<link rel="next" href="interpreting-the-output-of-a-logistic-regression.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -208,16 +208,100 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
-<div id="references" class="section level1">
-<h1><span class="header-section-number">Chapter 16</span> References</h1>
-
+<div id="the-link-function" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> The link function</h1>
+<p>To move away from the traditional linear model and to avoid its biases,
+we need to specify two things when using a logistic regression: a
+distribution for the residuals of the model and a link function for the
+expected values. We already presented the Bernoulli distribution in the
+previous section so let’s have a look at what the link function is.</p>
+<p>In the case of a simple linear model of a normally distributed
+continuous response variable, the following equation gives the expected
+values:</p>
+<p><em>μ</em> = <em>Xβ</em></p>
+<p>where <em>μ</em> is the expected value of the response variable, <em>X</em> is the
+model matrix (<em>i.e.</em> representing your data) and <em>β</em> corresponds to the
+parameters we estimate from the data (<em>i.e.</em> the intercept and the
+slope). The right-hand side of this equation is called the linear
+predictor. In mathematical terms, it is the matrix product of the model
+matrix <em>X</em> of a statistical model and the vector of estimated parameters
+<em>β</em>. Let’s have a look at this in R:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="the-link-function.html#cb16-1"></a><span class="co"># Load the CO2 dataset. We used it during workshop 4!</span></span>
+<span id="cb16-2"><a href="the-link-function.html#cb16-2"></a><span class="kw">data</span>(CO2)</span>
+<span id="cb16-3"><a href="the-link-function.html#cb16-3"></a><span class="kw">head</span>(CO2)</span>
+<span id="cb16-4"><a href="the-link-function.html#cb16-4"></a><span class="co"># Build a linear model of plant CO2 uptake as a function of</span></span>
+<span id="cb16-5"><a href="the-link-function.html#cb16-5"></a><span class="co"># CO2 ambient concentration</span></span>
+<span id="cb16-6"><a href="the-link-function.html#cb16-6"></a>model.CO2 &lt;-<span class="st"> </span><span class="kw">lm</span>(uptake <span class="op">~</span><span class="st"> </span>conc, <span class="dt">data =</span> CO2)</span>
+<span id="cb16-7"><a href="the-link-function.html#cb16-7"></a><span class="co"># Extract the design matrix of the model with the</span></span>
+<span id="cb16-8"><a href="the-link-function.html#cb16-8"></a><span class="co"># model.matrix() function.</span></span>
+<span id="cb16-9"><a href="the-link-function.html#cb16-9"></a>X &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(model.CO2)</span>
+<span id="cb16-10"><a href="the-link-function.html#cb16-10"></a><span class="co"># And the estimated coefficients.</span></span>
+<span id="cb16-11"><a href="the-link-function.html#cb16-11"></a>B &lt;-<span class="st"> </span>model.CO2<span class="op">$</span>coefficients</span>
+<span id="cb16-12"><a href="the-link-function.html#cb16-12"></a><span class="co"># Let’s multiply both X and B matrices to obtain the linear</span></span>
+<span id="cb16-13"><a href="the-link-function.html#cb16-13"></a><span class="co"># predictor.  The &#39;%*%&#39; symbol indicates that it is a matrix</span></span>
+<span id="cb16-14"><a href="the-link-function.html#cb16-14"></a><span class="co"># product.</span></span>
+<span id="cb16-15"><a href="the-link-function.html#cb16-15"></a>XB &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>B</span>
+<span id="cb16-16"><a href="the-link-function.html#cb16-16"></a><span class="co"># Compare the values of XB to the values obtained with the</span></span>
+<span id="cb16-17"><a href="the-link-function.html#cb16-17"></a><span class="co"># predict() function.  All statements should be TRUE.  We use</span></span>
+<span id="cb16-18"><a href="the-link-function.html#cb16-18"></a><span class="co"># the round() function so that all elements have 5 digits.</span></span>
+<span id="cb16-19"><a href="the-link-function.html#cb16-19"></a><span class="kw">round</span>(<span class="kw">fitted</span>(model.CO2), <span class="dt">digits =</span> <span class="dv">5</span>) <span class="op">==</span><span class="st"> </span><span class="kw">round</span>(XB, <span class="dt">digits =</span> <span class="dv">5</span>)</span></code></pre></div>
+<p>When using a simple linear model with a normally distributed response
+variable, the linear predictor is directly equal to the expected values
+of the model. But, what if our response variable is not normally
+distributed? If that is the case, we have to use a transformation on the
+expected values, <em>i.e.</em> a link function. A link function can be
+understood as a transformation of the expected values so that it can be
+<strong>linearly related</strong> to the linear predictor:</p>
+<p><em>g</em>(<em>μ</em>) = <em>Xβ</em></p>
+<p>where <em>g</em>(<em>μ</em>) is the link function for the expected values. This allows
+us to relax the normality assumption. In the case of a binary response
+variable, the link function is called the logit function and is given
+by:</p>
+<p>logit(<em>μ</em>) = log (<em>μ</em> / 1-<em>μ</em>) = <em>Xβ</em></p>
+<p>where <em>μ</em> represents expected values (<em>i.e.</em> the probability that Y = 1
+because we observed the presence of a species, disease, success, or some
+other event). The ratio <em>μ</em> / 1-<em>μ</em> represents the odds that some
+outcome occured and it transforms the expected values into continuous
+values from 0 to infinity. If we have a 0.8 probability of observing
+species X, then our odds are 4 times more likely to observe the species
+than to not observe it: 0.8/(1-0.8) = 4. The log transformation, called
+the log odds, allows values to be spread across -infinity to infinity.
+Hence, the logit function took the expected values of a model and
+transformed them into continuous values without boundaries. The expected
+values can now be directly related to a linear predictor. This is why we
+still call this model a generalized <strong>linear</strong> model even though the
+plot of our response variable as a function of some explanatory variable
+doesn’t look like a “straight line”!</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="the-link-function.html#cb17-1"></a><span class="co"># Let’s build a regression model of the presence/absence of a</span></span>
+<span id="cb17-2"><a href="the-link-function.html#cb17-2"></a><span class="co"># mite species (Galumna sp.)  as a function of water content</span></span>
+<span id="cb17-3"><a href="the-link-function.html#cb17-3"></a><span class="co"># and topography.  To do this, we need to use the glm()</span></span>
+<span id="cb17-4"><a href="the-link-function.html#cb17-4"></a><span class="co"># function and specify the family argument.</span></span>
+<span id="cb17-5"><a href="the-link-function.html#cb17-5"></a>logit.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Topo, <span class="dt">data =</span> mites, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
+<span id="cb17-6"><a href="the-link-function.html#cb17-6"></a><span class="co"># The logit function is the default for the binomial</span></span>
+<span id="cb17-7"><a href="the-link-function.html#cb17-7"></a><span class="co"># distribution, so it is not necessary to include it in the</span></span>
+<span id="cb17-8"><a href="the-link-function.html#cb17-8"></a><span class="co"># &#39;family&#39; argument:</span></span>
+<span id="cb17-9"><a href="the-link-function.html#cb17-9"></a>logit.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Topo, <span class="dt">data =</span> mites, <span class="dt">family =</span> binomial)</span>
+<span id="cb17-10"><a href="the-link-function.html#cb17-10"></a><span class="kw">summary</span>(logit.reg)</span></code></pre></div>
+<div id="challenge-1" class="section level2">
+<h2><span class="header-section-number">6.1</span> Challenge 1</h2>
+<p>Using the <code>bacteria</code> dataset (from the <code>MASS</code> package), model the
+presence of <em>H. influenzae</em> as a function of treatment and week of test.
+Start with a full model and reduce it to the most parsimonious model.</p>
+<p>Challenge 1: Solution</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="the-link-function.html#cb18-1"></a>model.bact1 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>trt <span class="op">*</span><span class="st"> </span>week, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="st">&quot;logit&quot;</span>), </span>
+<span id="cb18-2"><a href="the-link-function.html#cb18-2"></a>    <span class="dt">data =</span> bacteria)</span>
+<span id="cb18-3"><a href="the-link-function.html#cb18-3"></a>model.bact2 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>trt <span class="op">+</span><span class="st"> </span>week, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="st">&quot;logit&quot;</span>), </span>
+<span id="cb18-4"><a href="the-link-function.html#cb18-4"></a>    <span class="dt">data =</span> bacteria)</span>
+<span id="cb18-5"><a href="the-link-function.html#cb18-5"></a>model.bact3 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>week, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="st">&quot;logit&quot;</span>), <span class="dt">data =</span> bacteria)</span>
+<span id="cb18-6"><a href="the-link-function.html#cb18-6"></a><span class="kw">anova</span>(model.bact1, model.bact2, model.bact3, <span class="dt">test =</span> <span class="st">&quot;LRT&quot;</span>)</span>
+<span id="cb18-7"><a href="the-link-function.html#cb18-7"></a><span class="co"># Analysis of Deviance Table Model 1: y ~ trt * week Model 2:</span></span>
+<span id="cb18-8"><a href="the-link-function.html#cb18-8"></a><span class="co"># y ~ trt + week Model 3: y ~ week Resid. Df Resid. Dev Df</span></span>
+<span id="cb18-9"><a href="the-link-function.html#cb18-9"></a><span class="co"># Deviance Pr(&gt;Chi) 1 214 203.12 2 216 203.81 -2 -0.6854</span></span>
+<span id="cb18-10"><a href="the-link-function.html#cb18-10"></a><span class="co"># 0.70984 3 218 210.91 -2 -7.1026 0.02869 * Based on these</span></span>
+<span id="cb18-11"><a href="the-link-function.html#cb18-11"></a><span class="co"># results, we select model #2 as the best candidate to model</span></span>
+<span id="cb18-12"><a href="the-link-function.html#cb18-12"></a><span class="co"># these data.</span></span></code></pre></div>
 </div>
-
-
-
-
-
-
+</div>
 <hr>
 <center> 
   <div class="footer">
@@ -229,8 +313,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="additional-resources.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="binomial-glms-bernouilli.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="interpreting-the-output-of-a-logistic-regression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

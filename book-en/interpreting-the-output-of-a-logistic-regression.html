@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 16 References | Workshop 6: Generalized linear models</title>
+  <title>Chapter 7 Interpreting the output of a logistic regression | Workshop 6: Generalized linear models</title>
   <meta name="description" content="Generalized linear models in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 16 References | Workshop 6: Generalized linear models" />
+  <meta property="og:title" content="Chapter 7 Interpreting the output of a logistic regression | Workshop 6: Generalized linear models" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 16 References | Workshop 6: Generalized linear models" />
+  <meta name="twitter:title" content="Chapter 7 Interpreting the output of a logistic regression | Workshop 6: Generalized linear models" />
   
   <meta name="twitter:description" content="Generalized linear models in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="additional-resources.html"/>
-
+<link rel="prev" href="the-link-function.html"/>
+<link rel="next" href="predictive-power-and-goodness-of-fit-assessment.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -208,16 +208,72 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
-<div id="references" class="section level1">
-<h1><span class="header-section-number">Chapter 16</span> References</h1>
-
+<div id="interpreting-the-output-of-a-logistic-regression" class="section level1">
+<h1><span class="header-section-number">Chapter 7</span> Interpreting the output of a logistic regression</h1>
+<p>The output of the previous logistic regression indicates that both water
+content and topography are significant, but how do we interpret the
+slope coefficients? Remember that we applied a transformation on our
+expected values (<em>i.e.</em> the probability that Y = 1) so we have to use a
+reverse function to properly interpret the results. We can use the
+natural exponential function <code>ex</code> to obtain the odds of probability of
+success for each explanatory variable.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="interpreting-the-output-of-a-logistic-regression.html#cb19-1"></a><span class="co"># Obtaining the odds of the slope.  Use the &#39;exp()&#39; function</span></span>
+<span id="cb19-2"><a href="interpreting-the-output-of-a-logistic-regression.html#cb19-2"></a><span class="co"># to put the coefficients back on the odds scale.</span></span>
+<span id="cb19-3"><a href="interpreting-the-output-of-a-logistic-regression.html#cb19-3"></a><span class="co"># Mathematically, this line of code corresponds to: exp(model</span></span>
+<span id="cb19-4"><a href="interpreting-the-output-of-a-logistic-regression.html#cb19-4"></a><span class="co"># coefficients) = exp(log(μ / (1 - μ)) = u / (1 - μ) This</span></span>
+<span id="cb19-5"><a href="interpreting-the-output-of-a-logistic-regression.html#cb19-5"></a><span class="co"># corresponds to an odds ratio!</span></span>
+<span id="cb19-6"><a href="interpreting-the-output-of-a-logistic-regression.html#cb19-6"></a><span class="kw">exp</span>(logit.reg<span class="op">$</span>coefficients[<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>])</span>
+<span id="cb19-7"><a href="interpreting-the-output-of-a-logistic-regression.html#cb19-7"></a><span class="co"># WatrCont TopoHummock 0.9843118 8.0910340 To obtain</span></span>
+<span id="cb19-8"><a href="interpreting-the-output-of-a-logistic-regression.html#cb19-8"></a><span class="co"># confidence intervals on the odds scale:</span></span>
+<span id="cb19-9"><a href="interpreting-the-output-of-a-logistic-regression.html#cb19-9"></a><span class="kw">exp</span>(<span class="kw">confint</span>(logit.reg)[<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>, ])</span>
+<span id="cb19-10"><a href="interpreting-the-output-of-a-logistic-regression.html#cb19-10"></a><span class="co"># 2.5 % 97.5 % WatrCont 0.9741887 0.9919435 TopoHummock</span></span>
+<span id="cb19-11"><a href="interpreting-the-output-of-a-logistic-regression.html#cb19-11"></a><span class="co"># 2.0460547 38.6419693</span></span></code></pre></div>
+<p>Note that the odds values here are considered when all other parameters
+are kept constant. The topography parameter value is 8.09. It means that
+the probability of observing <em>Galumna</em> sp. is 8.09 times more likely
+when the topography is hummock compared to blanket.</p>
+<p>When the odds value is smaller than 1, interpretation is a little bit
+more complicated. When this is the case, we have to take the inverse
+value (<em>i.e.</em> 1 divided by the odds) to facilitate interpretation. The
+interpretation is then how <strong>LESS</strong> likely it is to observe the event of
+interest. For water content, the odds is 0.984. The inverse is 1 / 0.984
+= 1.0159. This means that a one-unit increase in water content decreases
+the likelihood of observing <em>Galumna</em> sp. by 1.0159. We can also
+substract 1 from the odds value to obtain a percentage: (1.0159 - 1) *
+100 = 1.59% decrease in probability of observing <em>Galumna</em> sp. with a
+one-unit increase in water content. To convince ourselves that it is an
+appropriate interpretation, we can plot the presence of <em>Galumna</em> sp. as
+a function of water content. We see that, on average, <em>Galumna</em> sp.
+presence is higher at lower water content than its “absence”.</p>
+<p><img src="images/galumna_pa.png" width="400" /></p>
+<p>When the parameter estimate is between 0 and 1 on the odds scales, it
+indicates a negative relationship between the response variable and the
+explanatory variable. If the parameter is greater than 1, it indicates a
+positive relationship between the response variable and the explanatory
+variable. If the confidence interval includes 1, it indicates that the
+variable is not significant. Remember that a value of 1 on the odds
+scale means that the probability of Y = 1 is the same as the probability
+of Y = 0 (<em>i.e.</em> when p = 0.5, 0.5/(1-0.5) = 1).</p>
+<p>If you want to obtain the probabilities instead of the odds for each
+explanatory variable, the inverse logit function is what you need:</p>
+<p>logit<sup>-1</sup> = 1/(1+1/exp(x))</p>
+<p>where x is the parameter to transform from log odds to the probability
+scale. The parameter estimate of topography in our <code>logit.reg</code> model is
+2.091, which is on the log odds scale. So, the probability value is
+given by:</p>
+<p>1/(1+1/exp(2.091)) = 0.89 which is the same as 1/(1+1/8.09). Remember
+that the value 8.09 is on the odds scale. We have a 0.89 probability of
+observing <em>Galumna</em> sp. when the topography is Hummock.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="interpreting-the-output-of-a-logistic-regression.html#cb20-1"></a><span class="co"># Let&#39;s start with our odds ratio for topography from the logit.reg model:</span></span>
+<span id="cb20-2"><a href="interpreting-the-output-of-a-logistic-regression.html#cb20-2"></a>µ<span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>µ) =<span class="st"> </span><span class="fl">8.09</span></span>
+<span id="cb20-3"><a href="interpreting-the-output-of-a-logistic-regression.html#cb20-3"></a><span class="co"># Let&#39;s rearrange this to isolate µ</span></span>
+<span id="cb20-4"><a href="interpreting-the-output-of-a-logistic-regression.html#cb20-4"></a>µ =<span class="st"> </span><span class="fl">8.09</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>µ) =<span class="st"> </span><span class="fl">8.09</span> <span class="op">-</span><span class="st"> </span><span class="fl">8.09</span>µ</span>
+<span id="cb20-5"><a href="interpreting-the-output-of-a-logistic-regression.html#cb20-5"></a><span class="fl">8.09</span>µ <span class="op">+</span><span class="st"> </span>µ =<span class="st"> </span><span class="fl">8.09</span></span>
+<span id="cb20-6"><a href="interpreting-the-output-of-a-logistic-regression.html#cb20-6"></a>µ(<span class="fl">8.09</span> <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) =<span class="st"> </span><span class="fl">8.09</span></span>
+<span id="cb20-7"><a href="interpreting-the-output-of-a-logistic-regression.html#cb20-7"></a>µ =<span class="st"> </span><span class="fl">8.09</span> <span class="op">/</span><span class="st"> </span>(<span class="fl">8.09</span> <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</span>
+<span id="cb20-8"><a href="interpreting-the-output-of-a-logistic-regression.html#cb20-8"></a>µ =<span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="fl">8.09</span>)) =<span class="st"> </span><span class="fl">0.89</span></span>
+<span id="cb20-9"><a href="interpreting-the-output-of-a-logistic-regression.html#cb20-9"></a><span class="co"># We obtained the same result without using the exp() function!</span></span></code></pre></div>
 </div>
-
-
-
-
-
-
 <hr>
 <center> 
   <div class="footer">
@@ -229,8 +285,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="additional-resources.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="the-link-function.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="predictive-power-and-goodness-of-fit-assessment.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

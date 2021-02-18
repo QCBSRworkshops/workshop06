@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 16 References | Workshop 6: Generalized linear models</title>
+  <title>Chapter 11 quasi-Poisson GLMs | Workshop 6: Generalized linear models</title>
   <meta name="description" content="Generalized linear models in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 16 References | Workshop 6: Generalized linear models" />
+  <meta property="og:title" content="Chapter 11 quasi-Poisson GLMs | Workshop 6: Generalized linear models" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 16 References | Workshop 6: Generalized linear models" />
+  <meta name="twitter:title" content="Chapter 11 quasi-Poisson GLMs | Workshop 6: Generalized linear models" />
   
   <meta name="twitter:description" content="Generalized linear models in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="additional-resources.html"/>
-
+<link rel="prev" href="binomial-glms.html"/>
+<link rel="next" href="negative-binomial-glms.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -208,16 +208,72 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
-<div id="references" class="section level1">
-<h1><span class="header-section-number">Chapter 16</span> References</h1>
-
+<div id="quasi-poisson-glms" class="section level1">
+<h1><span class="header-section-number">Chapter 11</span> quasi-Poisson GLMs</h1>
+<p>The principle behind a quasi-Poisson GLM is very simple; the
+overdispersion parameter (φ) is added to the expected variance equation:</p>
+<p>E(Y<sub>i</sub>) = <em>µ</em><sub>i</sub></p>
+<p>Var(Y<sub>i</sub>) = φ.<em>µ</em><sub>i</sub></p>
+<p>The systematic part and the link function remains the same. The
+difference is that φ will first be estimated to correct the model.
+Parameter Estimates will be the same but the standard errors of the
+parameters are multiplied by √φ, in other terms, some marginally
+significant p-values may no longer hold.</p>
+<p>In R, The ‘<strong>quasipoisson</strong>’ family object can be used to deal with
+count data exhibiting overdispersion (the ‘<strong>quasibinomial</strong>’ family
+object can do the same for binomial data). The fitted φ value will be
+returned in the summary of the GLM. There are two ways to perform this
+GLM:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="quasi-poisson-glms.html#cb34-1"></a><span class="co"># Option 1, fit a new quasi-Poisson GLM</span></span>
+<span id="cb34-2"><a href="quasi-poisson-glms.html#cb34-2"></a>glm.quasipoisson =<span class="st"> </span><span class="kw">glm</span>(Faramea.occidentalis <span class="op">~</span><span class="st"> </span>Elevation, <span class="dt">data =</span> faramea, </span>
+<span id="cb34-3"><a href="quasi-poisson-glms.html#cb34-3"></a>    <span class="dt">family =</span> quasipoisson)</span>
+<span id="cb34-4"><a href="quasi-poisson-glms.html#cb34-4"></a><span class="co"># Option 2, build from the previous model and update it:</span></span>
+<span id="cb34-5"><a href="quasi-poisson-glms.html#cb34-5"></a>glm.quasipoisson =<span class="st"> </span><span class="kw">update</span>(glm.poisson, <span class="dt">family =</span> quasipoisson)</span>
+<span id="cb34-6"><a href="quasi-poisson-glms.html#cb34-6"></a><span class="co"># output</span></span>
+<span id="cb34-7"><a href="quasi-poisson-glms.html#cb34-7"></a><span class="kw">summary</span>(glm.quasipoisson)</span></code></pre></div>
+<p>If you look at the summary of the model you will see that φ is estimated
+as 15.97. We then made a good choice by updating the model to account
+for overdispersion. However if we look at P-values we can note that
+elevation is no longer significant. Yet, 15.97 is quite a lot of
+overdispersion, and in general quasi-Poisson GLMs will be favoured when
+φ is included between 1 and 15 though these limits are arbitrary. When
+overdispersion is higher than 15-20 we recommend moving to the negative
+binomial. For the sake of pedagogy, we will consider that we are not
+happy with this model to fit a final negative-binomial GLM to our data.</p>
+<p>Two other points are important to keep in mind when using quasi-Poisson
+GLMs and dealing with overdispersion:</p>
+<ul>
+<li><strong>quasi-Poisson GLMs do not have AIC scores.</strong> An important aspect
+is that quasi-Poisson GLMs do not correspond to models with fully
+specified likelihoods and rely on quasi-ML estimation (i.e.
+pseudolikelihood). One consequence is that quasi-Poisson GLMs do not
+have AIC scores for model comparisons. However, variants of AIC have
+been developed to deal with this situation (e.g. quasi-AIC).</li>
+</ul>
+<!-- -->
+<ul>
+<li><strong>Overdispersion affects model comparison.</strong> Indeed overdispersion
+also influences the comparison of two nested models and has to be
+taken into account when φ is known. For instance, let’s assume that
+we want to compare GLM1, with <em>p</em><sub>1</sub> parameters to GLM2, with <em>p</em><sub>2</sub>
+parameters, such that GLM1 is nested within GLM2 and <em>p</em><sub>2</sub> &gt;
+<em>p</em><sub>1</sub>. Model comparison is achieved based on a generalized
+likelihood ratio test, which can be written as a function of the
+difference of deviances between the two GLMs, D<sub>1</sub> and D<sub>2</sub>
+respectively. If Overdispersion is known, deviances have to be
+scaled (i.e. corrected) accordingly as D* = D/φ. The final test
+will be based on the criterion D<sub>1</sub>* - D*<sub>2</sub> which is assumed to
+follow a χ² distribution with <em>p</em><sub>2</sub>-<em>p</em><sub>1</sub> degrees of freedom when
+GLM1 is correct.</li>
+<li>In some cases φ is not known. For instance, this occurs when you run
+a GLM with a normal error distribution. In that case, φ can be
+estimated <em>a posteriori</em> using the residual deviance of the larger
+model so the criterion becomes
+<span class="math display">\[(D~1~-D~2~)/(*p*~2~-*p*~1~)\]</span>/<span class="math display">\[D~2~/(*n*-*p*~2~)\]</span> and is assumed
+to follow a F distribution with <em>p</em><sub>2</sub>-<em>p</em><sub>1</sub> and n-<em>p</em><sub>2</sub> degrees
+of freedom.</li>
+</ul>
 </div>
-
-
-
-
-
-
 <hr>
 <center> 
   <div class="footer">
@@ -229,8 +285,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="additional-resources.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="binomial-glms.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="negative-binomial-glms.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

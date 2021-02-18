@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 16 References | Workshop 6: Generalized linear models</title>
+  <title>Chapter 9 Plotting results | Workshop 6: Generalized linear models</title>
   <meta name="description" content="Generalized linear models in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 16 References | Workshop 6: Generalized linear models" />
+  <meta property="og:title" content="Chapter 9 Plotting results | Workshop 6: Generalized linear models" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 16 References | Workshop 6: Generalized linear models" />
+  <meta name="twitter:title" content="Chapter 9 Plotting results | Workshop 6: Generalized linear models" />
   
   <meta name="twitter:description" content="Generalized linear models in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="additional-resources.html"/>
-
+<link rel="prev" href="predictive-power-and-goodness-of-fit-assessment.html"/>
+<link rel="next" href="binomial-glms.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -208,13 +208,21 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
-<div id="references" class="section level1">
-<h1><span class="header-section-number">Chapter 16</span> References</h1>
+<div id="plotting-results" class="section level1">
+<h1><span class="header-section-number">Chapter 9</span> Plotting results</h1>
+<p>Once we’ve created a model and verified its validity, we can plot the
+results to show how the response variable is related to some explanatory
+variables. One way to graphically summarise the data is by plotting both
+the response variable and the expected values as a function of some
+predictor. Here is an example with the <code>ggplot2</code> package. See <a href="r_workshop3">workshop
+3</a> for more information on this package.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="plotting-results.html#cb25-1"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb25-2"><a href="plotting-results.html#cb25-2"></a><span class="kw">ggplot</span>(mites, <span class="kw">aes</span>(<span class="dt">x =</span> WatrCont, <span class="dt">y =</span> pa)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">stat_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>, </span>
+<span id="cb25-3"><a href="plotting-results.html#cb25-3"></a>    <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Water content&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb25-4"><a href="plotting-results.html#cb25-4"></a><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Probability of presence&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Probability of presence of Galumna sp. as a function of water content&quot;</span>)</span></code></pre></div>
+<p><img src="images//logistic_regression_plot.png" width="500" /></p>
 
 </div>
-
-
-
 
 
 
@@ -229,8 +237,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="additional-resources.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="predictive-power-and-goodness-of-fit-assessment.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="binomial-glms.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

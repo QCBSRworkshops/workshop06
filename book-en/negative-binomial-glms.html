@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 16 References | Workshop 6: Generalized linear models</title>
+  <title>Chapter 12 Negative binomial GLMs | Workshop 6: Generalized linear models</title>
   <meta name="description" content="Generalized linear models in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 16 References | Workshop 6: Generalized linear models" />
+  <meta property="og:title" content="Chapter 12 Negative binomial GLMs | Workshop 6: Generalized linear models" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 16 References | Workshop 6: Generalized linear models" />
+  <meta name="twitter:title" content="Chapter 12 Negative binomial GLMs | Workshop 6: Generalized linear models" />
   
   <meta name="twitter:description" content="Generalized linear models in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="additional-resources.html"/>
-
+<link rel="prev" href="quasi-poisson-glms.html"/>
+<link rel="next" href="conclusion-on-glms-with-count-data.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -208,16 +208,97 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
-<div id="references" class="section level1">
-<h1><span class="header-section-number">Chapter 16</span> References</h1>
-
+<div id="negative-binomial-glms" class="section level1">
+<h1><span class="header-section-number">Chapter 12</span> Negative binomial GLMs</h1>
+<p>GLM with a negative binomial (NB) distribution are favored when
+overdispersion is extreme. The NB distribution contains an additional
+parameter <em>k</em>, particularly handy for count data containing a
+preponderance of zeros. Before we go into R stuff, we should see what
+lies behind a negative binomial GLM. A NB distribution is actually a
+combination of two distributions: a Poisson distribution and a gamma
+distribution. The NB distribution first assumes that a discrete random
+variable is Poisson distributed but its mean, <em>µ</em> is assumed to follow a
+gamma distribution. The mixture between the Poisson and gamma
+distributions can be simplified into a density function specific to the
+NB which has two parameters <em>µ</em> and <em>k</em>.</p>
+<p>Y ~ NB(<em>µ</em>, <em>k</em>)</p>
+<p>E(Y) = <em>µ</em> and Var(Y) = <em>µ</em> + <em>µ</em>²<em>/k</em></p>
+<p>Here, we can see how overdispersion will be accounted for by NB
+distribution in GLMs. The second term of the variance determines the
+amount of overdispersion. In fact, it is indirectly determined by <em>k</em>,
+where <em>k</em> is also called the dispersion parameter. If <em>k</em> is large
+(relative to <em>μ</em>²), the second term, <em>µ</em>²<em>/k</em> approximates 0, and the
+variance of Y is <em>μ</em>. In such cases the NB converges to the Poisson
+distribution and you might as well use a Poisson distribution. The
+smaller <em>k</em>, the larger the overdispersion. Just like with others GLMs,
+a NB GLM is specified following the fundamental three steps. It first
+assumes that Y<sub>i</sub> is negative binomial distributed with mean <em>μ</em><sub>i</sub> and
+parameter <em>k</em>.</p>
+<p>Y<sub>i</sub> ∼ NB(<em>µ</em><sub>i</sub>, <em>k</em>)</p>
+<p>E(Y<sub>i</sub>) = <em>µ</em><sub>i</sub> and Var(Y<sub>i</sub>) = <em>µ</em><sub>i</sub> + <em>µ</em><sub>i</sub>²<em>/k</em></p>
+<p>The two last steps define the systematic part and the link function
+between the mean of Yi and the predictor function. In NB GLMs the link
+function is logarithmic ensuring that fitted values are always positive.</p>
+<ul>
+<li>log(<em>µ</em><sub>i</sub>) = <em>β</em><sub>0</sub> + <strong>X</strong><sub>i</sub>.<em>β</em></li>
+</ul>
+<p>or</p>
+<ul>
+<li><em>µ</em><sub>i</sub> = exp(<em>β</em><sub>0</sub> + <strong>X</strong><sub>i</sub>.<em>β</em>)</li>
+</ul>
+<p>NB is not in the glm() function so you need to install and load the MASS
+library. You do not remember if you already installed this package? No
+problem, you can use the following function:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="negative-binomial-glms.html#cb35-1"></a><span class="kw">ifelse</span>(<span class="kw">length</span>(<span class="kw">which</span>(<span class="kw">installed.packages</span>() <span class="op">==</span><span class="st"> &quot;MASS&quot;</span>)) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, {</span>
+<span id="cb35-2"><a href="negative-binomial-glms.html#cb35-2"></a>    <span class="kw">print</span>(<span class="st">&quot;MASS not installed. Installing... &quot;</span>)</span>
+<span id="cb35-3"><a href="negative-binomial-glms.html#cb35-3"></a>    <span class="kw">install.packages</span>(<span class="st">&quot;MASS&quot;</span>)</span>
+<span id="cb35-4"><a href="negative-binomial-glms.html#cb35-4"></a>}, <span class="kw">print</span>(<span class="st">&quot;MASS already installed&quot;</span>))</span></code></pre></div>
+<p>Alternatively, if you know that this package is not installed you can
+directly use the command</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="negative-binomial-glms.html#cb36-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;MASS&quot;</span>)</span></code></pre></div>
+<p>and remember to load the package</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="negative-binomial-glms.html#cb37-1"></a><span class="kw">library</span>(<span class="st">&quot;MASS&quot;</span>)</span></code></pre></div>
+<p>The negative binomial GLM can be build using the glm.nb() function:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="negative-binomial-glms.html#cb38-1"></a>glm.negbin =<span class="st"> </span><span class="kw">glm.nb</span>(Faramea.occidentalis <span class="op">~</span><span class="st"> </span>Elevation, <span class="dt">data =</span> faramea)</span>
+<span id="cb38-2"><a href="negative-binomial-glms.html#cb38-2"></a><span class="kw">summary</span>(glm.negbin)</span></code></pre></div>
+<p>The summary is similar to other GLMs summaries (e.g. Poisson GLMs),
+though we now have a parameter theta, which stands for parameter <em>k</em> in
+the variance of the NB distribution. Its standard error is also
+provided, but care is needed with its use as the interval is not
+symmetric and we are testing on the boundary.</p>
+<div id="plotting-the-final-glm-to-the-data" class="section level2">
+<h2><span class="header-section-number">12.1</span> Plotting the final GLM to the data</h2>
+<p>The NB GLMs appear to be the best fit to our data. We can plot the
+relationship between the abundance of Faramea occidentalis and
+elevation.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="negative-binomial-glms.html#cb39-1"></a><span class="co"># plot the observed data</span></span>
+<span id="cb39-2"><a href="negative-binomial-glms.html#cb39-2"></a><span class="kw">plot</span>(faramea<span class="op">$</span>Elevation, faramea<span class="op">$</span>Faramea.occidentalis, <span class="dt">xlab =</span> <span class="st">&quot;Elevation (m)&quot;</span>, </span>
+<span id="cb39-3"><a href="negative-binomial-glms.html#cb39-3"></a>    <span class="dt">ylab =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Number of&quot;</span>, <span class="st">&quot;  &quot;</span>, <span class="kw">italic</span>(Faramea <span class="op">~</span><span class="st"> </span></span>
+<span id="cb39-4"><a href="negative-binomial-glms.html#cb39-4"></a><span class="st">        </span>occidentalis))), <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">col =</span> <span class="kw">rgb</span>(<span class="dv">4</span>, <span class="dv">139</span>, <span class="dv">154</span>, <span class="dv">150</span>, </span>
+<span id="cb39-5"><a href="negative-binomial-glms.html#cb39-5"></a>        <span class="dt">maxColorValue =</span> <span class="dv">255</span>))</span>
+<span id="cb39-6"><a href="negative-binomial-glms.html#cb39-6"></a></span>
+<span id="cb39-7"><a href="negative-binomial-glms.html#cb39-7"></a><span class="co"># pull values for intercept and beta from the summary and put</span></span>
+<span id="cb39-8"><a href="negative-binomial-glms.html#cb39-8"></a><span class="co"># them in the exponential equation</span></span>
+<span id="cb39-9"><a href="negative-binomial-glms.html#cb39-9"></a><span class="kw">curve</span>(<span class="kw">exp</span>(<span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">1</span>, <span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">2</span>, </span>
+<span id="cb39-10"><a href="negative-binomial-glms.html#cb39-10"></a>    <span class="dv">1</span>] <span class="op">*</span><span class="st"> </span>x), <span class="dt">from =</span> <span class="kw">range</span>(faramea<span class="op">$</span>Elevation)[<span class="dv">1</span>], <span class="dt">to =</span> <span class="kw">range</span>(faramea<span class="op">$</span>Elevation)[<span class="dv">2</span>], </span>
+<span id="cb39-11"><a href="negative-binomial-glms.html#cb39-11"></a>    <span class="dt">add =</span> T, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&quot;orangered&quot;</span>)</span>
+<span id="cb39-12"><a href="negative-binomial-glms.html#cb39-12"></a></span>
+<span id="cb39-13"><a href="negative-binomial-glms.html#cb39-13"></a><span class="co"># pull the standard error as well to plot the equations for</span></span>
+<span id="cb39-14"><a href="negative-binomial-glms.html#cb39-14"></a><span class="co"># confidence envelope</span></span>
+<span id="cb39-15"><a href="negative-binomial-glms.html#cb39-15"></a><span class="kw">curve</span>(<span class="kw">exp</span>(<span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">1</span>, <span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">1</span>, </span>
+<span id="cb39-16"><a href="negative-binomial-glms.html#cb39-16"></a>    <span class="dv">2</span>] <span class="op">+</span><span class="st"> </span><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">1</span>] <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span></span>
+<span id="cb39-17"><a href="negative-binomial-glms.html#cb39-17"></a><span class="st">    </span><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">2</span>]), <span class="dt">from =</span> <span class="kw">range</span>(faramea<span class="op">$</span>Elevation)[<span class="dv">1</span>], </span>
+<span id="cb39-18"><a href="negative-binomial-glms.html#cb39-18"></a>    <span class="dt">to =</span> <span class="kw">range</span>(faramea<span class="op">$</span>Elevation)[<span class="dv">2</span>], <span class="dt">add =</span> T, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&quot;orangered&quot;</span>)</span>
+<span id="cb39-19"><a href="negative-binomial-glms.html#cb39-19"></a><span class="kw">curve</span>(<span class="kw">exp</span>(<span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">1</span>, <span class="dv">1</span>] <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">1</span>, </span>
+<span id="cb39-20"><a href="negative-binomial-glms.html#cb39-20"></a>    <span class="dv">2</span>] <span class="op">+</span><span class="st"> </span><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">1</span>] <span class="op">*</span><span class="st"> </span>x <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span></span>
+<span id="cb39-21"><a href="negative-binomial-glms.html#cb39-21"></a><span class="st">    </span><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">2</span>]), <span class="dt">from =</span> <span class="kw">range</span>(faramea<span class="op">$</span>Elevation)[<span class="dv">1</span>], </span>
+<span id="cb39-22"><a href="negative-binomial-glms.html#cb39-22"></a>    <span class="dt">to =</span> <span class="kw">range</span>(faramea<span class="op">$</span>Elevation)[<span class="dv">2</span>], <span class="dt">add =</span> T, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&quot;orangered&quot;</span>)</span></code></pre></div>
+<p><img src="images/nb_glm_fit_to_faramea.png" class="align-center" width="450" /></p>
+<p>We can see that the number of <em>Faramea occidentalis</em> significantly
+decreases with elevation. However, the confidence envelope of the NB
+model is large at low elevation.</p>
 </div>
-
-
-
-
-
-
+</div>
 <hr>
 <center> 
   <div class="footer">
@@ -229,8 +310,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="additional-resources.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="quasi-poisson-glms.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="conclusion-on-glms-with-count-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

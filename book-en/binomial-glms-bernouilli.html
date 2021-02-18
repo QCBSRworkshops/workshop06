@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 16 References | Workshop 6: Generalized linear models</title>
+  <title>Chapter 5 Binomial GLMs (Bernouilli) | Workshop 6: Generalized linear models</title>
   <meta name="description" content="Generalized linear models in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 16 References | Workshop 6: Generalized linear models" />
+  <meta property="og:title" content="Chapter 5 Binomial GLMs (Bernouilli) | Workshop 6: Generalized linear models" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 16 References | Workshop 6: Generalized linear models" />
+  <meta name="twitter:title" content="Chapter 5 Binomial GLMs (Bernouilli) | Workshop 6: Generalized linear models" />
   
   <meta name="twitter:description" content="Generalized linear models in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="additional-resources.html"/>
-
+<link rel="prev" href="the-distributions-of-biological-data.html"/>
+<link rel="next" href="the-link-function.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -208,16 +208,55 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
-<div id="references" class="section level1">
-<h1><span class="header-section-number">Chapter 16</span> References</h1>
-
+<div id="binomial-glms-bernouilli" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> Binomial GLMs (Bernouilli)</h1>
+<p>A common response variable in ecological datasets is the binary
+variable: we observe a phenomenon X or its “absence”. For example,
+species presence/absence is frequently recorded in ecological monitoring
+studies. We usually wish to determine whether a species’ presence is
+affected by some environmental variables. Other examples include the
+presence/absence of a disease within a wild population, the
+success/failure to record a specific behaviour, and the survival/death
+of organisms. A regression that has a binary response variable is one of
+many generalized linear models and is called a logistic regression or a
+logit model.</p>
+<p>In R, presence (or success, survival…) is usually coded as 1 and
+absence (or failure, death…) as 0. A logistic regression (or any other
+generalized linear model) is performed with the <code>glm()</code> function. This
+function is different from the basic <code>lm()</code> as it allows one to specify
+a statistical distribution other than the normal distribution. We’ve
+already seen that binary variables are not normally distributed (<em>i.e.</em>
+we see a peak at 0 and a peak at 1 and nothing in between). Like we have
+seen in the previous section, the Bernoulli distribution is well suited
+for binary response variables. The mean of this distribution is the
+probability <em>p</em> of observing an outcome and the variance is <em>p</em>*(1 -
+<em>p</em>). The (1 - <em>p</em>) term represents the probability of <strong>not</strong> observing
+an outcome. In R, we specify the distribution with the <code>family</code>
+argument. For the logistic regression, we code it as:
+<code>family='binomial</code>’. Remember that the Bernoulli distribution is a
+special case of the binomial distribution when the number of repetitions
+is 1: R will “understand” that it is a Bernoulli distribution.</p>
+<p>When predicting the probability of observing some phenomenon Y, which is
+a binary variable, the expected values should be bound between 0 and 1:
+that’s the range of a probability value! If we use a basic linear model
+to relate a binary response variable to various explanatory variables,
+we might obtain fitted values outside of the <span class="math display">\[0,1\]</span> range, which is
+nonsensical. The following example will help you understand why a basic
+linear model is inappropriate here. The next subsection will show you
+how to avoid this problem with a link function. Briefly, a link function
+is used to linearize the relationship between predicted values of the
+response variable and the linear predictor (see next subsection).</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="binomial-glms-bernouilli.html#cb15-1"></a>model.lm &lt;-<span class="st"> </span><span class="kw">lm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Topo, <span class="dt">data =</span> mites)</span>
+<span id="cb15-2"><a href="binomial-glms-bernouilli.html#cb15-2"></a><span class="kw">fitted</span>(model.lm)</span>
+<span id="cb15-3"><a href="binomial-glms-bernouilli.html#cb15-3"></a><span class="co"># The &#39;fitted()&#39; function gives us expected values for the</span></span>
+<span id="cb15-4"><a href="binomial-glms-bernouilli.html#cb15-4"></a><span class="co"># response variable.  Some values are lower than 0, which</span></span>
+<span id="cb15-5"><a href="binomial-glms-bernouilli.html#cb15-5"></a><span class="co"># does not make sense for a logistic regression.  Let’s try</span></span>
+<span id="cb15-6"><a href="binomial-glms-bernouilli.html#cb15-6"></a><span class="co"># the same model with a binomial distribution instead.</span></span>
+<span id="cb15-7"><a href="binomial-glms-bernouilli.html#cb15-7"></a><span class="co"># Notice the &#39;family&#39; argument to specify the distribution.</span></span>
+<span id="cb15-8"><a href="binomial-glms-bernouilli.html#cb15-8"></a>model.glm &lt;-<span class="st"> </span><span class="kw">glm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Topo, <span class="dt">data =</span> mites, <span class="dt">family =</span> binomial)</span>
+<span id="cb15-9"><a href="binomial-glms-bernouilli.html#cb15-9"></a><span class="kw">fitted</span>(model.glm)</span>
+<span id="cb15-10"><a href="binomial-glms-bernouilli.html#cb15-10"></a><span class="co"># All values are bound between 0 and 1.</span></span></code></pre></div>
 </div>
-
-
-
-
-
-
 <hr>
 <center> 
   <div class="footer">
@@ -229,8 +268,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="additional-resources.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="the-distributions-of-biological-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="the-link-function.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

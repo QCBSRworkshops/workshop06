@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 16 References | Workshop 6: Generalized linear models</title>
+  <title>Chapter 8 Predictive power and goodness-of-fit assessment | Workshop 6: Generalized linear models</title>
   <meta name="description" content="Generalized linear models in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 16 References | Workshop 6: Generalized linear models" />
+  <meta property="og:title" content="Chapter 8 Predictive power and goodness-of-fit assessment | Workshop 6: Generalized linear models" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 16 References | Workshop 6: Generalized linear models" />
+  <meta name="twitter:title" content="Chapter 8 Predictive power and goodness-of-fit assessment | Workshop 6: Generalized linear models" />
   
   <meta name="twitter:description" content="Generalized linear models in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="additional-resources.html"/>
-
+<link rel="prev" href="interpreting-the-output-of-a-logistic-regression.html"/>
+<link rel="next" href="plotting-results.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -208,16 +208,95 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
-<div id="references" class="section level1">
-<h1><span class="header-section-number">Chapter 16</span> References</h1>
-
+<div id="predictive-power-and-goodness-of-fit-assessment" class="section level1">
+<h1><span class="header-section-number">Chapter 8</span> Predictive power and goodness-of-fit assessment</h1>
+<p>An easy and intuitive way to evaluate the predictive power of your model
+is to compare its deviance to the deviance of a null model. Deviance can
+be understood as a generalisation of the residual sum of squares when
+models are estimated by maximum likelihood (i.e. it is how parameters
+are estimated in GLM). This allows us to compute a pseudo-R<sup>2</sup>
+statistic, which is analogous to the coefficient of determination R<sup>2</sup>
+in ordinary least square regression (i.e. the basic method for linear
+models). The null model is a model without any explanatory variable. Its
+notation in R is:
+<code>null.model &lt;- glm(Response.variable ~ 1, family = binomial)</code>. The
+generic formula to compute a pseudo-R<sup>2</sup> is given by:</p>
+<p>Pseudo-R<sup>2</sup> = (null deviance – residual deviance) / null deviance</p>
+<p>where “null deviance” is the deviance of the null model and “residual
+deviance” is the deviance of the model of interest. The difference is
+divided by the null deviance so that the result is bound between 0 and
+1.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb21-1"></a><span class="co"># Residual and null deviances are already stored in the glm object.</span></span>
+<span id="cb21-2"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb21-2"></a><span class="kw">objects</span>(logit.reg)</span>
+<span id="cb21-3"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb21-3"></a>pseudoR2 &lt;-<span class="st"> </span>(logit.reg<span class="op">$</span>null.deviance – logit.reg<span class="op">$</span>deviance) <span class="op">/</span><span class="st"> </span>logit.reg<span class="op">$</span>null.deviance</span>
+<span id="cb21-4"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb21-4"></a>pseudoR2</span>
+<span id="cb21-5"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb21-5"></a><span class="co"># [1]  0.4655937</span></span></code></pre></div>
+<p>Hence, the model explains 46.6% of the variability in the data.</p>
+<p>Recently, <a href="http://www.tandfonline.com/doi/abs/10.1198/tast.2009.08210#.VFpKZYcc4ow">Tjur
+(2009)</a>
+proposed a new statistic, the coefficient of discrimination (<em>D</em>), to
+evaluate the predictive power of logistic regression models.
+Intuitively, <em>D</em> is a measure of how well a logistic regression can
+classify an outcome as a success or a failure. In mathematical terms, it
+is the difference between the means of expected probability values for
+successes (<em>i.e.</em> Y =1) and failures (<em>i.e.</em> Y = 0):</p>
+<p>&lt;m&gt;D = overline{π}_1 - overline{π}_0&lt;/m&gt;</p>
+<p>where &lt;m&gt;overline{π}_1&lt;/m&gt; is the mean of expected probability
+values when the outcome is observed and &lt;m&gt;overline{π}_0&lt;/m&gt; is the
+mean of expected probability values when the outcome is not observed. A
+<em>D</em> value close to 1 indicates that the model gives a high probability
+of observing an outcome to cases where the outcome was actually observed
+and a low probability of observing an outcome to cases where the outcome
+was not observed. A <em>D</em> value close to 0 indicates that the model is not
+efficient at discriminating between the occurrences and “non
+occurrences” of an outcome. The following code shows how to obtain <em>D</em>
+and how to plot the histograms of &lt;m&gt;overline{π}_1&lt;/m&gt; and
+&lt;m&gt;overline{π}_0&lt;/m&gt;.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb22-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;binomTools&quot;</span>)</span>
+<span id="cb22-2"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb22-2"></a><span class="kw">library</span>(<span class="st">&quot;binomTools&quot;</span>)</span>
+<span id="cb22-3"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb22-3"></a><span class="co"># The Rsq function computes several fit indices, including</span></span>
+<span id="cb22-4"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb22-4"></a><span class="co"># the coefficient of discrimination.  For information on the</span></span>
+<span id="cb22-5"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb22-5"></a><span class="co"># other fit indices, see Tjur (2009).  The plot shows the</span></span>
+<span id="cb22-6"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb22-6"></a><span class="co"># distribution of expected values when the outcome is</span></span>
+<span id="cb22-7"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb22-7"></a><span class="co"># observed and not observed.  Ideally, the overlap between</span></span>
+<span id="cb22-8"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb22-8"></a><span class="co"># the two histograms should be small.</span></span>
+<span id="cb22-9"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb22-9"></a>fit &lt;-<span class="st"> </span><span class="kw">Rsq</span>(<span class="dt">object =</span> logit.reg)</span>
+<span id="cb22-10"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb22-10"></a>fit</span>
+<span id="cb22-11"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb22-11"></a><span class="co"># R-square measures and the coefficient of discrimination,</span></span>
+<span id="cb22-12"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb22-12"></a><span class="co"># &#39;D&#39;: R2mod R2res R2cor D 0.5205221 0.5024101 0.5025676</span></span>
+<span id="cb22-13"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb22-13"></a><span class="co"># 0.5114661 Number of binomial observations: 70 Number of</span></span>
+<span id="cb22-14"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb22-14"></a><span class="co"># binary observation: 70 Average group size: 1</span></span>
+<span id="cb22-15"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb22-15"></a><span class="kw">plot</span>(fit, <span class="dt">which =</span> <span class="st">&quot;hist&quot;</span>)</span></code></pre></div>
+<p>To assess the goodness-of-fit of a logistic regression, the diagnostic
+plots (see workshop 4) are not useful. Instead, you can do a
+<a href="http://en.wikipedia.org/wiki/Hosmer-Lemeshow_test">Hosmer-Lemeshow
+test</a> to evaluate
+whether your model is appropriate. This test separates the expected
+values (ordered from smallest to largest) in groups of approximately
+equal size. Ten is usually the recommended group number. In each group,
+we compare the observed and expected number of outcomes. It is similar
+to a chi-square test with G - 2 degrees of freedom (G is the number of
+groups). In R, this test is available in the <code>binomTools</code> package.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb23-1"></a>fit &lt;-<span class="st"> </span><span class="kw">Rsq</span>(<span class="dt">object =</span> logit.reg)</span>
+<span id="cb23-2"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb23-2"></a><span class="kw">HLtest</span>(<span class="dt">object =</span> fit)</span>
+<span id="cb23-3"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb23-3"></a><span class="co"># The p value is 0.9051814. Hence, we do not reject the</span></span>
+<span id="cb23-4"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb23-4"></a><span class="co"># model.  We can consider it as appropriate for the data.</span></span></code></pre></div>
+<div id="challenge-2" class="section level2">
+<h2><span class="header-section-number">8.1</span> Challenge 2</h2>
+<p>Assess goodness-of-fit and predictive power of the <code>model.bact2</code> model. How can you improve the predictive power of this model?</p>
+<p>Challenge 2: Solution</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb24-1"></a>null.d &lt;-<span class="st"> </span>model.bact2<span class="op">$</span>null.deviance</span>
+<span id="cb24-2"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb24-2"></a>resid.d &lt;-<span class="st"> </span>model.bact2<span class="op">$</span>deviance</span>
+<span id="cb24-3"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb24-3"></a>bact.pseudoR2 &lt;-<span class="st"> </span>(null.d <span class="op">-</span><span class="st"> </span>resid.d)<span class="op">/</span>null.d</span>
+<span id="cb24-4"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb24-4"></a>bact.pseudoR2</span>
+<span id="cb24-5"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb24-5"></a><span class="co"># 0.0624257 This is very low!</span></span>
+<span id="cb24-6"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb24-6"></a><span class="kw">library</span>(binomTools)</span>
+<span id="cb24-7"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb24-7"></a><span class="kw">HLtest</span>(<span class="kw">Rsq</span>(model.bact2))</span>
+<span id="cb24-8"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb24-8"></a><span class="co"># Chi-square statistic: 7.812347 with 8 df P-value: 0.4520122</span></span>
+<span id="cb24-9"><a href="predictive-power-and-goodness-of-fit-assessment.html#cb24-9"></a><span class="co"># Fit is adequate.</span></span></code></pre></div>
+<p>Predictive power could be increased by including more relevant explanatory varibles.</p>
 </div>
-
-
-
-
-
-
+</div>
 <hr>
 <center> 
   <div class="footer">
@@ -229,8 +308,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="additional-resources.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="interpreting-the-output-of-a-logistic-regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="plotting-results.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
