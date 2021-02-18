@@ -1,0 +1,24 @@
+# (PART\*) Other distributions {-}
+
+-   When the response variable consists of percentages or proportions
+    that do not arise from successes and failures from *n* yes/no
+    experiments (Bernoulli experiment), it is not possible to use the
+    binomial distribution. In this case, it is often advised to perform
+    a **logit transformation** of the data and use a lm(m). See this
+    [interesting
+    article](http://onlinelibrary.wiley.com/doi/10.1890/10-0340.1/abstract).
+-   For data that can be appear normally distributed after a
+    log-transformation, it can be advisable to use a **log-normal
+    distribution** in a glm instead of log-transforming the data.
+-   A **Gamma distribution** can also be used. It is similar to a
+    log-normal distribution, but is more versatile.
+-   The **Tweedie distribution** is a versatile family of distributions
+    that is useful for data with a mix of zeros and positive values (not
+    necessarily counts). See the [R Tweedie
+    package](https://cran.r-project.org/web/packages/tweedie/index.html).
+-   When the data comprise an excess number of zeros, that arise from a
+    different process than the process that generates the counts, the
+    **zero-inflated** Poisson or zero-inflated negative binomial
+    distributions should be used. These methods are available, in the
+    [glmmADMB package](http://glmmadmb.r-forge.r-project.org/), among
+    others.

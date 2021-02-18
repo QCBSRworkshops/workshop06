@@ -1,0 +1,40 @@
+# (PART\*) GLMs with proportion data {-}
+
+# How would this work with proportion data?
+
+Proportion data are more similar to binary data than you might think!
+Suppose you're in the field to estimate the prevalence of a disease
+within wild populations of white-tailed deer along an environmental
+gradient of resource availability. You sample ten individuals in ten
+different populations to have an estimate of disease prevalence. Your
+data sheet has ten lines with the following information: population ID
+and number of individuals with the disease. At first sight, it seems you
+have count data, but this is inaccurate because you know how many
+individuals were sampled in each population. In fact, you have
+proportion data: it is the number of individuals with the disease out of
+ten sampled individuals. If you remember what you've read in the
+section on distributions, you should choose a binomial distribution to
+model these data. Let's illustrate this with an example:
+
+```{r, echo = TRUE, eval = FALSE}
+# Let’s generate some data based on the deer example:
+# We randomly choose a number between 1 and 10 for the number of infected deer.
+# Ten deers were sampled in ten populations.
+# Resource availability is an index to characterise the habitat.
+set.seed(123)
+n.infected <- sample(x = 1:10, size = 10, replace = TRUE)
+n.total <- rep(x = 10, times = 10)
+res.avail <- rnorm(n = 10, mean = 10, sd = 1)
+# Next, let’s build the model. Notice how the proportion data is specified.
+# We have to specify the number of cases where disease was detected
+# and the number of cases where the disease was not detected.
+prop.reg <- glm(cbind(n.infected, n.total - n.infected) ~ res.avail, family = binomial)
+summary(prop.reg)
+# If your data is directly transformed into proportions, here is the way to do it in R:
+# Let's first create a vector of proportions
+prop.infected <- n.infected / n.total
+# We have to specify the "weights" argument in the glm function to indicate the number of trials per site
+prop.reg2 <- glm(prop.infected ~ res.avail, family = binomial, weights = n.total)
+summary(prop.reg2)
+# The summaries of both prop.reg and prop.reg2 are identical!
+```
