@@ -214,11 +214,26 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div id="autres-distributions" class="section level1">
 <h1><span class="header-section-number">Chapitre 11</span> Autres distributions</h1>
 <ul>
-<li>Lorsque la variable de réponse est constituée de pourcentages ou de proportions qui ne viennent pas des succès et des échecs de <em>n</em> oui/non (expérience de Bernoulli), il n’est pas possible d’utiliser une distribution binomiale. Dans ce cas, il est souvent conseillé d’effectuer une <strong>transformation logit</strong> des données et utiliser un lm(m). Voir cet <a href="http://onlinelibrary.wiley.com/doi/10.1890/10-0340.1/abstract">article intéressant sur ce sujet</a>.</li>
-<li>Pour les données qui peuvent apparaître normalement distribuées après une transformation log, il peut être conseillé d’utiliser un <strong>log-normal distribution</strong> dans un glm au lieu de transformer les données en log.</li>
-<li>Une <strong>distribution gamma</strong> peut également être utilisée. Elle est similaire à une distribution log-normale, mais est plus polyvalente.</li>
-<li>La <strong>distribution Tweedie</strong> est une famille de distributions polyvalentes qui est utile pour les données comportant un mélange de zéros et de valeurs positives (pas nécessairement des abondances). Voir le <a href="https://cran.r-project.org/web/packages/tweedie/index.html">paquet R Tweedie</a>.</li>
-<li>Lorsque les données comportent un nombre excessif de zéros, qui proviennent d’un processus différent de celui qui génère les comptages, il convient d’utiliser des distributions “<strong>zero-inflated</strong>” Poisson ou binomial négatif “<strong>zero-inflated</strong>”. Ces méthodes sont disponibles, dans le <a href="http://glmmadmb.r-forge.r-project.org/">paquet glmmADMB</a>, parmi d’autres.</li>
+<li>Lorsque la variable réponse est constituée de pourcentages ou de proportions
+qui ne surviennent pas de succès et échecs de <em>n</em> oui/non (expérience de Bernouilli)
+il n’est pas possible d’utiliser une distribution binomiale. Dans ce cas, il
+est souvent conseillé d’effectuer une <strong>transformation logit</strong> des données
+et d’utiliser un modèle linéaire (mixte). Voir cet
+<a href="http://onlinelibrary.wiley.com/doi/10.1890/10-0340.1/abstract">article</a>.</li>
+<li>Pour des données qui semblent distribuées normalement après une transformation log,
+log-transformation, il est parfois préférable d’utiliser une <strong>distribution log-normale</strong>
+dans un GLM, au lieu de transformer les données en log.</li>
+<li>Une <strong>distribution gamma</strong> peut également être utilisée. Elle est similaire
+à une distribution log-normale, mais est plus polyvalente.</li>
+<li>La <strong>distribution Tweedie</strong> est une famille de distributions polyvalentes
+qui est utile pour les données comportant un mélange de zéros et de valeurs
+positives (pas nécessairement des abondances). Voir le
+<a href="https://cran.r-project.org/web/packages/tweedie/index.html">paquet R Tweedie</a>.</li>
+<li>Lorsque les données comportent un nombre excessif de zéros, qui proviennent
+d’un processus différent de celui qui génère les comptages, il convient
+d’utiliser des distributions “<strong>zero-inflated</strong>” Poisson ou binomial négatif
+“<strong>zero-inflated</strong>”. Ces méthodes sont disponibles, dans le
+<a href="http://glmmadmb.r-forge.r-project.org/">paquet glmmADMB</a>, parmi d’autres.</li>
 </ul>
 
 </div>
