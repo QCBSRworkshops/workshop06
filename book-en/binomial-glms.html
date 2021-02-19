@@ -31,7 +31,7 @@
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
 <link rel="prev" href="binomial-glms-bernouilli.html"/>
-<link rel="next" href="poisson-glms.html"/>
+<link rel="next" href="what-can-we-do-with-count-data.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -161,19 +161,21 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="part"><span><b>GLMs with proportion data</b></span></li>
 <li class="chapter" data-level="6" data-path="binomial-glms.html"><a href="binomial-glms.html"><i class="fa fa-check"></i><b>6</b> Binomial GLMs</a></li>
 <li class="part"><span><b>GLMs with count data</b></span></li>
-<li class="chapter" data-level="7" data-path="poisson-glms.html"><a href="poisson-glms.html"><i class="fa fa-check"></i><b>7</b> Poisson GLMs</a><ul>
-<li class="chapter" data-level="7.1" data-path="poisson-glms.html"><a href="poisson-glms.html#the-problem-of-overdispersion"><i class="fa fa-check"></i><b>7.1</b> The problem of overdispersion</a></li>
+<li class="chapter" data-level="7" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html"><i class="fa fa-check"></i><b>7</b> What can we do with count data?</a></li>
+<li class="chapter" data-level="8" data-path="poisson-glms.html"><a href="poisson-glms.html"><i class="fa fa-check"></i><b>8</b> Poisson GLMs</a><ul>
+<li class="chapter" data-level="8.1" data-path="poisson-glms.html"><a href="poisson-glms.html#the-problem-of-overdispersion"><i class="fa fa-check"></i><b>8.1</b> The problem of overdispersion</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="quasi-poisson-glms.html"><a href="quasi-poisson-glms.html"><i class="fa fa-check"></i><b>8</b> quasi-Poisson GLMs</a></li>
-<li class="chapter" data-level="9" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html"><i class="fa fa-check"></i><b>9</b> Negative binomial GLMs</a><ul>
-<li class="chapter" data-level="9.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>9.1</b> Plotting the final GLM to the data</a></li>
+<li class="chapter" data-level="9" data-path="quasi-poisson-glms.html"><a href="quasi-poisson-glms.html"><i class="fa fa-check"></i><b>9</b> quasi-Poisson GLMs</a></li>
+<li class="chapter" data-level="10" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html"><i class="fa fa-check"></i><b>10</b> Negative binomial GLMs</a><ul>
+<li class="chapter" data-level="10.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>10.1</b> Plotting the final GLM to the data</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="conclusion-on-glms-with-count-data.html"><a href="conclusion-on-glms-with-count-data.html"><i class="fa fa-check"></i><b>10</b> Conclusion on GLMs with count data</a></li>
+<li class="chapter" data-level="11" data-path="conclusion-on-glms-with-count-data.html"><a href="conclusion-on-glms-with-count-data.html"><i class="fa fa-check"></i><b>11</b> Conclusion on GLMs with count data</a></li>
 <li class="part"><span><b>Other distributions</b></span></li>
+<li class="chapter" data-level="12" data-path="other-distributions.html"><a href="other-distributions.html"><i class="fa fa-check"></i><b>12</b> Other distributions</a></li>
 <li class="part"><span><b>Final considerations</b></span></li>
-<li class="chapter" data-level="11" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>11</b> Summary</a></li>
-<li class="chapter" data-level="12" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>12</b> Additional resources</a></li>
-<li class="chapter" data-level="13" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>13</b> References</a></li>
+<li class="chapter" data-level="13" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>13</b> Summary</a></li>
+<li class="chapter" data-level="14" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>14</b> Additional resources</a></li>
+<li class="chapter" data-level="15" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>15</b> References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/qcbsRworkshops" target="blank">QCBS R Workshop Series</a></li>
 
@@ -254,20 +256,6 @@ model these data. Let’s illustrate this with an example:</p>
 
 
 
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="binomial-glms.html#cb27-1"></a>faramea &lt;-<span class="st"> </span><span class="kw">read.csv</span>(‘faramea.csv’, <span class="dt">header =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
-<p>In this dataset, the number of trees of the species <em>Faramea
-occidentalis</em> was measured in 43 quadrats in Barro Colorada Island in
-Panama. For each quadrat, environmental characteristics were also
-recorded such as elevation or precipitation. Let’s take a look at the
-number of <em>Faramea occidentalis</em> found at each quadrat.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="binomial-glms.html#cb28-1"></a><span class="kw">hist</span>(faramea<span class="op">$</span>Faramea.occidentalis, <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">45</span>, <span class="dv">1</span>), <span class="dt">xlab =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Number of &quot;</span>, </span>
-<span id="cb28-2"><a href="binomial-glms.html#cb28-2"></a>    <span class="kw">italic</span>(Faramea <span class="op">~</span><span class="st"> </span>occidentalis))), <span class="dt">ylab =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;&quot;</span>, </span>
-<span id="cb28-3"><a href="binomial-glms.html#cb28-3"></a>    <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>)</span></code></pre></div>
-<p><img src="images/plot_faramea_abd.png" class="align-center" width="500" /></p>
-<p>We can see that there are only positive and integer values. Given these
-specificities, the Poisson distribution, described above, seems to be
-the perfect choice to model this data.</p>
-</div>
 <hr>
 <center> 
   <div class="footer">
@@ -280,7 +268,7 @@ the perfect choice to model this data.</p>
         </div>
       </div>
 <a href="binomial-glms-bernouilli.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="poisson-glms.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="what-can-we-do-with-count-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

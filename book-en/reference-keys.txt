@@ -15,12 +15,14 @@ predictive-power-and-goodness-of-fit
 challenge-2
 plotting-results
 binomial-glms
+what-can-we-do-with-count-data
 poisson-glms
 the-problem-of-overdispersion
 quasi-poisson-glms
 negative-binomial-glms
 plotting-the-final-glm-to-the-data
 conclusion-on-glms-with-count-data
+other-distributions
 summary
 additional-resources
 references

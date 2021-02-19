@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 15 References | Workshop 6: Generalized linear models</title>
+  <title>Chapter 7 What can we do with count data? | Workshop 6: Generalized linear models</title>
   <meta name="description" content="Generalized linear models in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 15 References | Workshop 6: Generalized linear models" />
+  <meta property="og:title" content="Chapter 7 What can we do with count data? | Workshop 6: Generalized linear models" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 15 References | Workshop 6: Generalized linear models" />
+  <meta name="twitter:title" content="Chapter 7 What can we do with count data? | Workshop 6: Generalized linear models" />
   
   <meta name="twitter:description" content="Generalized linear models in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="additional-resources.html"/>
-
+<link rel="prev" href="binomial-glms.html"/>
+<link rel="next" href="poisson-glms.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -210,16 +210,23 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
-<div id="references" class="section level1">
-<h1><span class="header-section-number">Chapter 15</span> References</h1>
-
+<div id="what-can-we-do-with-count-data" class="section level1">
+<h1><span class="header-section-number">Chapter 7</span> What can we do with count data?</h1>
+<p>To illustrate count data we will use a new dataset called faramea.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="what-can-we-do-with-count-data.html#cb27-1"></a>faramea &lt;-<span class="st"> </span><span class="kw">read.csv</span>(‘faramea.csv’, <span class="dt">header =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<p>In this dataset, the number of trees of the species <em>Faramea
+occidentalis</em> was measured in 43 quadrats in Barro Colorada Island in
+Panama. For each quadrat, environmental characteristics were also
+recorded such as elevation or precipitation. Let’s take a look at the
+number of <em>Faramea occidentalis</em> found at each quadrat.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="what-can-we-do-with-count-data.html#cb28-1"></a><span class="kw">hist</span>(faramea<span class="op">$</span>Faramea.occidentalis, <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">45</span>, <span class="dv">1</span>), <span class="dt">xlab =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Number of &quot;</span>, </span>
+<span id="cb28-2"><a href="what-can-we-do-with-count-data.html#cb28-2"></a>    <span class="kw">italic</span>(Faramea <span class="op">~</span><span class="st"> </span>occidentalis))), <span class="dt">ylab =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;&quot;</span>, </span>
+<span id="cb28-3"><a href="what-can-we-do-with-count-data.html#cb28-3"></a>    <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>)</span></code></pre></div>
+<p><img src="images/plot_faramea_abd.png" class="align-center" width="500" /></p>
+<p>We can see that there are only positive and integer values. Given these
+specificities, the Poisson distribution, described above, seems to be
+the perfect choice to model this data.</p>
 </div>
-
-
-
-
-
-
 <hr>
 <center> 
   <div class="footer">
@@ -231,8 +238,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="additional-resources.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="binomial-glms.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="poisson-glms.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
