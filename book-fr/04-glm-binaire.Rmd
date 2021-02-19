@@ -58,7 +58,7 @@ fitted(model.glm)
 # Toutes les valeurs sont comprises entre 0 et 1.
 ```
 
-# La fonction de lien
+## La fonction de lien
 
 Afin d'éviter les biais reliés aux modèles linéaires de base, nous
 avons besoin de spécifier deux choses : une distribution statistique
@@ -145,7 +145,7 @@ logit.reg <- glm(pa ~ WatrCont + Topo, data = mites, family = binomial)
 summary(logit.reg)
 ```
 
-## Défi 1
+### Défi 1
 
 En utilisant le jeu de données `bacteria` (du paquet `MASS`), modélisez
 la présence de *H. influenzae* en fonction du traitement (`trt`) et de
@@ -171,7 +171,7 @@ anova(model.bact1, model.bact2, model.bact3, test = 'LRT')
 # comme le modèle représentant le mieux le jeu de données.
 ```
 
-# Interpréter la sortie d'une régression logistique
+## Interpréter la sortie d'une régression logistique
 
 La sortie du modèle de régression logistique indique que les deux
 variables explicatives (`WatrCont` et `Topo`) sont significatives, mais
@@ -258,7 +258,7 @@ que la valeur 8.09 est sur l'échelle des cotes. On a une probabilité de
 # On obtient le même résultat sans utiliser la fonction logit inverse !
 ```
 
-# Pouvoir prédictif et validation du modèle
+## Pouvoir prédictif et validation du modèle
 
 Une façon simple et intuitive d'estimer le pouvoir explicatif d'un GLM
 est de comparer la déviance du modèle à celle d'un modèle nul. La
@@ -356,7 +356,7 @@ HLtest(object = fit)
 # L'ajustement du modèle est bon.
 ```
 
-## Défi 2
+### Défi 2
 
 Évaluez l'ajustement et le pouvoir prédictif du modèle `model.bact2`.
 Comment pouvez-vous améliorer le pouvoir prédictif du modèle ?
@@ -380,7 +380,7 @@ HLtest(Rsq(model.bact2))
 Le pouvoir prédictif pourrait être augmenté en incluant plus de
 variables explicatives.
 
-# Représentation graphique des résultats
+## Représentation graphique des résultats
 
 Lorsque le modèle a été validé, il peut être utile de représenter les
 résultats graphiquement afin de voir comment la variable est influencée
