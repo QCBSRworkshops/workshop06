@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Atelier 6: Modèles linéaires généralisés en R</title>
+  <title>Chapitre 11 quasi-Poisson GLMs | Atelier 6: Modèles linéaires généralisés en R</title>
   <meta name="description" content="Modèles linéaires généralisés en R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Atelier 6: Modèles linéaires généralisés en R" />
+  <meta property="og:title" content="Chapitre 11 quasi-Poisson GLMs | Atelier 6: Modèles linéaires généralisés en R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Atelier 6: Modèles linéaires généralisés en R" />
+  <meta name="twitter:title" content="Chapitre 11 quasi-Poisson GLMs | Atelier 6: Modèles linéaires généralisés en R" />
   
   <meta name="twitter:description" content="Modèles linéaires généralisés en R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="objectifs-dapprentissage.html"/>
+<link rel="prev" href="glm-avec-une-distribution-binomiale.html"/>
+<link rel="next" href="negative-binomial-glms.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -208,75 +208,75 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
-<div id="header">
-<h1 class="title">Atelier 6: Modèles linéaires généralisés en <code>R</code></h1>
-<h2 class="subtitle"><em>Série d’ateliers R du CSBQ</em></h2>
-<p class="author"><em>Développé et entretenu par les contributeurs et les contributrices de la Série d’ateliers R du CSBQ<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</em></p>
-<p class="date"><em>2021-02-19 18:35:19</em></p>
-</div>
-<div id="préface" class="section level1 unnumbered">
-<h1>Préface</h1>
-<p>La <strong>Série d’ateliers R du CSBQ</strong> est une série de 10 ateliers qui guide les participants à travers les étapes nécessaires à l’utilisation de R pour un large éventail d’analyses statistiques pertinentes pour la recherche en biologie et en écologie. Ces ateliers en accès libre ont été créés par des membres du CSBQ, à la fois pour les membres du CSBQ et pour la communauté au sens large.</p>
-<p>Le contenu de cet atelier a été revu par plusieurs membres du CSBQ. Si vous souhaitez suggérer des modifications, veuillez contacter les coordinateurs de la série actuelle, dont la liste figure sur la page principale de Github</p>
-<div id="code-de-conduite" class="section level2">
-<h2><span class="header-section-number">0.1</span> Code de conduite</h2>
-<p>La Série d’ateliers R du CSBQ et le Symposium R du CSBQ sont des lieux dédiés à fournir un environnement accueillant et favorable à toutes les personnes, indépendamment de leurs origines ou de leur identité.</p>
-<p>Les participants, les présentateurs et les organisateurs de la série d’ateliers et d’autres activités connexes acceptent le présent code de conduite lorsqu’ils assistent à des activités liées aux ateliers.</p>
-<p>Nous ne tolérons pas les comportements irrespectueux ou qui excluent, intimident ou gênent les autres.</p>
-<p>Nous ne tolérons pas la discrimination ou le harcèlement fondés sur des caractéristiques telles que, mais sans s’y limiter, l’identité et l’expression du genre, l’orientation sexuelle, le handicap, l’apparence physique, la taille du corps, la citoyenneté, la nationalité, les origines ethniques ou sociales, la grossesse, le statut familial, les informations génétiques, la religion ou les convictions (ou l’absence de celles-ci), l’appartenance à une minorité nationale, la propriété, l’âge, l’éducation, le statut socio-économique, les choix techniques et le niveau d’expérience.</p>
-<p>Il s’applique à tous les espaces gérés par l’atelier ou affiliés à celui-ci, y compris, mais sans s’y limiter, les ateliers, les listes de diffusion et les forums en ligne tels que GitHub, Slack et Twitter.</p>
-<div id="comportement-attendu" class="section level3">
-<h3><span class="header-section-number">0.1.1</span> Comportement attendu</h3>
-<p>Tous les participants sont tenus de faire preuve de respect et de courtoisie envers les autres. Toutes les interactions doivent être professionnelles, quelle que soit la plateforme utilisée : en ligne ou en personne.</p>
-<p>Afin de favoriser un environnement d’apprentissage positif et professionnel, nous encourageons les types de comportements suivants dans tous les événements et plates-formes des ateliers :</p>
+<div id="quasi-poisson-glms" class="section level1">
+<h1><span class="header-section-number">Chapitre 11</span> quasi-Poisson GLMs</h1>
+<p>GLM avec une correction "quasi" Poisson</p>
+<p>Le principe d’un GLM avec une correction "quasi" Poisson est très
+simple; le paramètre de surdispersion (φ) est ajouté dans l’équation
+qui spécifie la variance du modèle :</p>
+<p>E(Y<sub>i</sub>) = <em>µ</em><sub>i</sub></p>
+<p>Var(Y<sub>i</sub>) = φ.<em>µ</em><sub>i</sub></p>
+<p>Le prédicteur linéaire, ainsi que la fonction de lien (log) restent les
+mêmes. La seule différence est que φ va être estimé afin de corriger le
+modèle. Les estimations des paramètres seront eux aussi inchangés, mais
+leurs écarts-types seront multiplés par √φ. Ainsi, certains paramètres
+qui étaient marginalement significatifs peuvent ne plus le rester.</p>
+<p>Dans R, la famille ‘<strong>quasipoisson</strong>’ peut être utilisée pour traiter
+ces problèmes de surdispersion (de la même manière la famille
+<strong>quasibinomial</strong>’ peut être utilisée). L’estimation de φ sera donné
+dans le résumé du modèle GLM quasi Poisson. Nous pouvons ajuster ce
+modèle de deux manières différentes :</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="quasi-poisson-glms.html#cb34-1"></a><span class="co"># Option 1, nous ajustons un nouveau modèle GLM quasi-Poisson</span></span>
+<span id="cb34-2"><a href="quasi-poisson-glms.html#cb34-2"></a>glm.quasipoisson =<span class="st"> </span><span class="kw">glm</span>(Faramea.occidentalis <span class="op">~</span><span class="st"> </span>Elevation, <span class="dt">data =</span> faramea, </span>
+<span id="cb34-3"><a href="quasi-poisson-glms.html#cb34-3"></a>    <span class="dt">family =</span> quasipoisson)</span>
+<span id="cb34-4"><a href="quasi-poisson-glms.html#cb34-4"></a><span class="co"># Option 2, nous actualisons le modèle précédent :</span></span>
+<span id="cb34-5"><a href="quasi-poisson-glms.html#cb34-5"></a>glm.quasipoisson =<span class="st"> </span><span class="kw">update</span>(glm.poisson, <span class="dt">family =</span> quasipoisson)</span>
+<span id="cb34-6"><a href="quasi-poisson-glms.html#cb34-6"></a><span class="co"># regardons le résumé</span></span>
+<span id="cb34-7"><a href="quasi-poisson-glms.html#cb34-7"></a><span class="kw">summary</span>(glm.quasipoisson)</span></code></pre></div>
+<p>En examinant le résumé du modèle nous pouvons voir que φ est estimé à
+15.97. Nous avons donc eu raison de corriger le modèle afin de prendre
+en compte la surdispersion. Par contre, si nous regardons la
+significativité du coefficient de regression associé à l’élévation,
+nous remarquons qu’il n’est plus significatif. Cependant, 15.97
+indique que la surdispersion est forte et en général un GLM
+quasi-Poisson est favorisé lorsque φ est compris entre 1 et 15. Dans un
+soucis pédagogique, nous allons considérer que nous ne sommes pas
+satisfait avec ce modèle et que nous voulons maintenant ajuster une
+distribution binomiale négative à nos données.</p>
+<p>Deux points sont importants à garder en tête lorsque vous utilisez un
+GLM quasi-Poisson afin de corriger la surdispersion :</p>
 <ul>
-<li>Utiliser un langage accueillant et inclusif ;</li>
-<li>Respecter les différents points de vue et expériences ;</li>
-<li>Accepter avec grâce les critiques constructives ;</li>
-<li>Se concentrer sur ce qui est le mieux pour la communauté ;</li>
-<li>Faire preuve de courtoisie et de respect envers les autres membres de la communauté.</li>
+<li>** Les GLMs quasi-Poisson n’ont pas d’AIC.** En effet, la
+vraisemblance d’un modèle GLM quasi-Poisson ne peut pas être
+spécifiée et s’appuie sur une procédure de pseudo-maximum de
+vraisemblance. Par conséquence les GLMs quasi-Poisson n’ont pas
+d’AIC, et ce critère ne peut pas être utilisé afin de comparer
+différents modèles. Toutefois des alternatives ont été developpées
+pour gérer cette situation (e.g. quasi-AIC).</li>
 </ul>
-</div>
-<div id="comportements-inacceptables" class="section level3">
-<h3><span class="header-section-number">0.1.2</span> Comportements inacceptables</h3>
-<p>Voici quelques exemples de comportements inacceptables de la part des participants à tout événement ou plateforme d’atelier :</p>
+<!-- -->
 <ul>
-<li>les commentaires écrits ou verbaux qui ont pour effet d’exclure des personnes sur la base de leur appartenance à un groupe spécifique ;</li>
-<li>faire craindre à quelqu’un pour sa sécurité, par exemple en le harcelant ou en l’intimidant ;</li>
-<li>des menaces ou des propos violents dirigés contre une autre personne ;</li>
-<li>l’affichage d’images sexuelles ou violentes ;</li>
-<li>l’attention sexuelle non désirée ;</li>
-<li>les contacts physiques non consensuels ou non désirés ;</li>
-<li>des insultes ou des rabais ;</li>
-<li>les blagues sexistes, racistes, homophobes, transphobes, incapables ou d’exclusion ;</li>
-<li>l’incitation à la violence, au suicide ou à l’automutilation ;</li>
-<li>la poursuite de l’interaction (y compris la photographie ou l’enregistrement) avec une personne après qu’on - lui a demandé d’arrêter ;</li>
-<li>la publication d’une communication privée sans consentement.</li>
+<li>** La surdispersion influence la comparaison de modèles.** En
+effet, la surdispersion influence la comparaison de deux modèles
+emboités et doit donc être prise en considération. Par exemple,
+considérons que nous voulons comparer le modèle GLM1, qui contient
+<em>p</em><sub>1</sub> paramètres avec le modèle GLM2, qui contient <em>p</em><sub>2</sub>
+paramètres. GLM1 est emboité dans GLM2 et <em>p</em><sub>2</sub> &gt; <em>p</em><sub>1</sub>. La
+comparaison des deux modèles est basées sur le test du rapport des
+vraisemblances des deux modèles, D<sub>1</sub> et D<sub>2</sub> respectivement. Si la
+surdispersion est connue, les déviances doivent être corrigées de
+manière approprié selon D* = D/φ, et le test final sera basé sur le
+critère D<sub>1</sub>* - D*<sub>2</sub> qui est supposé être distributé selon une
+distribution du χ² avec <em>p</em><sub>2</sub>-<em>p</em><sub>1</sub> degrés de liberté lorsque le
+modèle GLM1 est correct.</li>
+<li>Mais dans certain cas φ n’est pas connu. Par exemple, lorsque vous
+spécifiez un GLM avec un distribution normale. Dans ce cas, φ peut
+être estimé <em>a posteriori</em> en utilisant la déviance résiduelle du
+plus gros modèle de telle sorte que le critière de comparaison
+devienne <span class="math display">\[(D~1~-D~2~)/(*p*~2~-*p*~1~)\]</span>/<span class="math display">\[D~2~/(*n*-*p*~2~)\]</span>. Ce
+critère est supposé suivre une distribution F avec <em>p</em><sub>2</sub>-<em>p</em><sub>1</sub> et
+n-<em>p</em><sub>2</sub> degrés de liberté.</li>
 </ul>
-</div>
-</div>
-<div id="contributeurs-et-contributrices" class="section level2">
-<h2><span class="header-section-number">0.2</span> Contributeurs et contributrices</h2>
-<p>Développé à l’origine par :
-Cédric Frenette Dussault, Vincent Fugère, Thomas Lamy, Zofia Taranu</p>
-<p>A contribué à modifier la présentation :</p>
-<p>Contribution avec des changements à la documentation écrite :</p>
-<p>Contribution en signalant des problèmes et en suggérant des modifications :</p>
-</div>
-<div id="contribuez-à-la-série" class="section level2">
-<h2><span class="header-section-number">0.3</span> Contribuez à la série!</h2>
-<p>En construction.</p>
-
-</div>
-</div>
-
-
-
-<div class="footnotes">
-<hr />
-<ol start="1">
-<li id="fn1"><p>La Série d’ateliers R du CSBQ fait partie du <a href="https://www.qcbs.ca">Centre de la science de la biodiversité du Québec</a>, et est maintenue par les coordonnateurs et les coordonnatrices de la série, et les membres étudiants diplômés, postdoctoraux et professionnels de la recherche. <strong>La liste des contributeurs et des contributrices de cet atelier sont accessibles<a href="lien">ici</a></strong><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-</ol>
 </div>
 <hr>
 <center> 
@@ -289,8 +289,8 @@ Cédric Frenette Dussault, Vincent Fugère, Thomas Lamy, Zofia Taranu</p>
           </div>
         </div>
       </div>
-
-<a href="objectifs-dapprentissage.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="glm-avec-une-distribution-binomiale.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="negative-binomial-glms.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
