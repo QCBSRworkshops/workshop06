@@ -1,5 +1,7 @@
 # (PART\*) Other distributions {-}
 
+# Other distributions
+
 -   When the response variable consists of percentages or proportions
     that do not arise from successes and failures from *n* yes/no
     experiments (Bernoulli experiment), it is not possible to use the

@@ -1,5 +1,7 @@
 # (PART\*) GLMs with count data {-}
 
+# What can we do with count data?
+
 To illustrate count data we will use a new dataset called faramea.
 
 ```{r, echo = TRUE, eval = FALSE}

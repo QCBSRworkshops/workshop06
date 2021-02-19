@@ -1,5 +1,7 @@
 # (PART\*) GLM avec des données d'abondance {-}
 
+# Que avec des données d'abondance?
+
 Afin d'illustrer l'utilisation des GLMs avec des données d'abondance,
 nous allons utiliser un nouveau jeux de données; faramea.
 
