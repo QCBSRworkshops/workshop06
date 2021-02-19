@@ -15,12 +15,14 @@ pouvoir-prédictif-et-validation-du-modèle
 défi-2
 représentation-graphique-des-résultats
 glm-avec-une-distribution-binomiale
+que-avec-des-données-dabondance
 glm-avec-une-distribution-de-poisson
 la-validation-du-modèle-et-le-problème-de-la-surdispersion
 quasi-poisson-glms
 negative-binomial-glms
 représentation-graphique-du-modèle-final
 conclusion-on-glms-with-count-data
+autres-distributions
 sommaire
 ressources-additionnelles
 réferences
