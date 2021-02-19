@@ -1,0 +1,46 @@
+# (PART\*) Modèles linéaires généralisés en `R` {-}
+
+# Objectifs d'apprentissage
+
+**Résumé:** Les modèles linéaires généralisés sont des outils importants
+afin de surmonter un problème récurrent des modèles linéaires, c.-à-d.
+les variables de réponse n'ayant pas une distribution normale des
+résidus. Dans cet atelier, vous apprendrez les distributions principales
+en fonction de la nature de la variable de réponse, le concept de
+fonction de lien, et comment vérifier les suppositions de base de ces
+modèles.
+
+*Inclure les objectifs d'apprentissage.*
+
+# Préparez-vous pour cet atelier
+
+**Téléchargez le script R et les données pour cet atelier:**
+
+-   [script R](http://qcbs.ca/wiki/_media/glmm_f.r)
+-   [Mites](http://qcbs.ca/wiki/_media/mites.csv)
+-   [Faramea](http://qcbs.ca/wiki/_media/faramea.csv)
+
+**Télechargez les paquets R pour cet atelier:**
+
+-    [ggplot2](https://cran.r-project.org/package=ggplot2) 
+-    [lme4](https://cran.r-project.org/package=lme4) 
+-    [MASS](https://cran.r-project.org/package=MASS) 
+-    [vcdExtra](https://cran.r-project.org/package=vcdExtra) 
+-    [bbmle](https://cran.r-project.org/package=bbmle)
+-    [DescTools](https://cran.r-project.org/package=DescTools)
+
+```{r, echo = TRUE, eval = FALSE}
+install.packages("ggplot2")
+install.packages("lme4")
+install.packages("MASS")
+install.packages("vcdExtra")
+install.packages("bbmle")
+install.packages("DescTools")
+
+library(ggplot2)
+library(lme4)
+library(MASS)
+library(vcdExtra)
+library(bbmle)
+library(DescTools)
+```
