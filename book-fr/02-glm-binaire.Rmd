@@ -1,1 +1,0 @@
-# GLM avec variable binaire {#binaire}
