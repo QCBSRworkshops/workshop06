@@ -1,4 +1,4 @@
-# Quel est utilité des modèles linéaires généralisés?
+# Quel est l'utilité des modèles linéaires généralisés?
 
 Pour illustrer l'utilité des modèles linéaires généralisés (GLMs en
 anglais), il est important de d'abord comprendre les limites des

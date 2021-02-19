@@ -1,0 +1,10 @@
+# (PART\*) Considérations finales {-}
+
+# Sommaire
+
+Les GLMs constituent une puissante méthode d'analyse pour ...
+
+
+Lors du prochain atelier, vous verrez comment ...
+
+# Ressources additionnelles
