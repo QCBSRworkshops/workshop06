@@ -1424,6 +1424,8 @@ Correcting for overdispersion will not affect parameter estimates, but will affe
 .alert[Some marginally significant p-values may no longer hold!]
 
 ---
+exclude: true
+
 # Fitting a quasi-Poisson GLM in `R`
 
 Create a new `glm.object` using the '`quasipoisson`' family or update the previous one:
@@ -1436,6 +1438,8 @@ glm.quasipoisson = update(glm.poisson, family = quasipoisson)
 ```
 
 ---
+exclude: true
+
 # Fitting a quasi-Poisson GLM in `R`
 
 .pull-left2[
@@ -1461,6 +1465,8 @@ $$\sqrt{\phi} = 4$$
 ]
 
 ---
+exclude: true
+
 # Fitting a quasi-Poisson GLM in R
 
 Try also deviance analysis to test for the effect of Elevation
