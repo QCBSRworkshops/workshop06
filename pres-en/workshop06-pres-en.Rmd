@@ -1101,6 +1101,25 @@ We will thus obtain a proportional number of "success" in observing individuals 
 > In `glm()`, we have to provide *prior weights* if the response variable is the proportion of successes.
 
 ---
+# Proportion data and GLM
+
+Proportions can be modeled by providing both the number of "successes" and *prior weights* in the function
+```{r}
+prop.reg <- glm(cbind(Galumna, totalabund - Galumna) ~ Topo + WatrCont,
+                data = mites,
+                family = binomial)
+```
+
+The weights can also be set explicitly in `glm()`
+```{r}
+prop.reg2 <- glm(prop ~ Topo + WatrCont,
+                 data = mites,
+                 family = binomial,
+                 weights = totalabund)
+```
+---
+exclude: true
+
 # Exercise 3
 
 In `R`, we have to specify the number of times something happened and the number of times something did not happen:
@@ -1116,6 +1135,8 @@ summary(prop.reg)
 ```
 
 ---
+exclude: true
+
 # Exercise 3
 
 .small[
@@ -1125,6 +1146,8 @@ summary(prop.reg)
 ]
 
 ---
+exclude: true
+
 # Exercise 3
 
 We can also code the model directly with proportions:
