@@ -1681,6 +1681,11 @@ mites <- read.csv("data/mites.csv", header = TRUE)
 mites <- read.csv("data/mites.csv", header = TRUE)
 ```
 
+???
+
+This is a breakout activity with groups of 3-4 people and a time limit of 10 minutes
+Don't forget to show tips on the next slide.
+
 ---
 # Challenge 3: tips ![:cube]()
 
