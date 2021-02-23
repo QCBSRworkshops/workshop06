@@ -592,6 +592,8 @@ mtext(expression(symbol("\256")), at = 3, side = 1, line = -2.2, cex = 6, col = 
 ```
 
 ---
+exclude: true
+
 # Probability distribution
 
 The Bernoulli distribution is well suited for binary response variables.
