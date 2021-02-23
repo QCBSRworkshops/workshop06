@@ -1270,7 +1270,27 @@ Count data are characterized by:
 
 Does elevation influence the abundance of *F. occidentalis*?
 
-```{r, echo=F,fig.height=4.6}
+```{r, echo=F,fig.height=4.0}
+par(mypar);par(cex = 1.4)
+plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'F. occidentalis individuals', xlab = 'Elevation(m)')
+```
+
+.small[What type of distribution best fits this data?
+1. Bernoulli   
+2. Normal    
+3. Poisson
+4. Binomial
+]
+
+???
+
+This is a singe choice poll question. The correct answer is 3. Poisson
+---
+.large[How to model count data?]
+
+Does elevation influence the abundance of *F. occidentalis*?
+
+```{r, echo=F,fig.height=4.0}
 par(mypar);par(cex = 1.4)
 plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'F. occidentalis individuals', xlab = 'Elevation(m)')
 ```
