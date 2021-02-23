@@ -560,6 +560,8 @@ print(dat)
 ]
 
 ---
+exlude:true
+
 # Binary variables
 
 They are clearly not normally distributed!
