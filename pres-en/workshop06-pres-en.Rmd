@@ -1027,6 +1027,24 @@ In `R`, we can extract the residual and null deviances directly from the `glm ob
 ```{r}
 objects(logit.reg)
 ```
+]
+
+--
+
+Using the deviance values available from the `logit.reg` object what is the pseudo $R^2$ value?
+
+???
+
+Instruct participants to write some code based on the learning about deviances to manually calculate $R^2$ and write their answer in the chat
+
+---
+# Predictive power and goodness-of-fit
+
+In `R`, we can extract the residual and null deviances directly from the `glm object`:
+.small[
+```{r}
+objects(logit.reg)
+```
 
 ```{r}
 pseudoR2 <- (logit.reg$null.deviance - logit.reg$deviance) / logit.reg$null.deviance
