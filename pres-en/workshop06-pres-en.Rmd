@@ -1128,6 +1128,10 @@ plot(HLtest(logit.reg))
 
 2. Think how predictive power could be improved for this model.
 
+???
+
+Run this exercise as a breakout room activity with groups of 3-4 with a time limit of 5 minutes
+
 ---
 # Solution ![:cube]()
 
