@@ -369,6 +369,44 @@ At $x = 400$, we get $\mu = 1.02$ and $\sigma^2 = 1.51$, etc.
   ![:scale 90%](images/modelPredic.png)
 ]
 
+--
+
+.pull-right[
+
+**What are some problems with this model?**:
+
+1. The slope does not follow the trend in the observation
+2. the $\mu$ (mean) estimates are incorrect
+3. The $\sigma^2$ (variance) is considered homogeneous
+4. The normal distribution is continuous but observations are discrete
+]
+
+???
+
+Perform a multiple choice poll with participants.
+Correct answers are 3 and 4
+
+---
+# Model prediction
+
+.pull-left[
+$$y_i \sim N(\mu = \beta_0 + \beta_1 X_i, \sigma^2)$$
+$$\mu = 3.44 + (-0.006 x 300) = 1.63$$
+$$\sigma = 1.51$$
+]
+.pull-right[
+At $x = 300$, residuals should follow a normal distribution with $\mu = 1.63$ and $\sigma^2 = 1.51$.
+
+At $x = 400$, we get $\mu = 1.02$ and $\sigma^2 = 1.51$, etc.
+]
+
+.pull-left[
+
+- .small[Graphically, this is our model]:
+
+  ![:scale 90%](images/modelPredic.png)
+]
+
 .pull-right[
 
 **Problems**:
