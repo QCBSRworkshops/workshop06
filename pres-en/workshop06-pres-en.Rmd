@@ -998,6 +998,8 @@ pseudoR2
 .comment[Hence, the model explains 46.6% of the variability in the data.]
 
 ---
+exclude: true
+
 # Predictive power and goodness-of-fit
 
 An adjusted McFadden's pseudo-R2, which penalizes for the number of predictors, can be calculated as below:
