@@ -1500,6 +1500,8 @@ $$Var(Y_i) = \mu_i + \frac{\mu^2_i}{k}$$
 
 
 ---
+exclude: true
+
 # Fitting a negative binomial in R
 
 NB is not in the `glm()` function so you need to install and charge the `MASS` package
@@ -1517,6 +1519,7 @@ summary(glm.negbin)
 ```
 
 ---
+exclude: true
 
 .pull-left2[
 .small[
@@ -1531,6 +1534,8 @@ summary(glm.negbin)
 ]
 
 ---
+exclude: true
+
 # Plotting the final GLM model
 
 **Step 1** Plot the data and the use estimates of the parameters to draw model line
@@ -1556,6 +1561,8 @@ $$\text{Upper limit} = e^{[\alpha - 1.96 \times SE_{\alpha}] + [\beta - 1.96 \ti
 $$\text{Upper limit} = e^{[\alpha + 1.96 \times SE_{\alpha}] + [\beta + 1.96 \times SE_{\beta}] \times \text{Elevation}_i}$$
 
 ---
+exclude: true
+
 .small[
 ```{r,eval=F}
 pp <- predict(glm.negbin, newdata = data.frame(Elevation = 1:800), se.fit = TRUE)
