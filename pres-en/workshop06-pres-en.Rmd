@@ -1026,7 +1026,7 @@ It roughly involves:
 4. Performing a chi-squared test on the outcome.
 
 ---
-# Exercise 2 - Calculating the pseudo-R2
+# Predictive power and goodness-of-fit
 
 The `DescTools::PseudoR2()` function computes several pseudo-R2.
 
@@ -1041,6 +1041,7 @@ fit
 ```
 
 ---
+exclude: true
 ### Exercise 2: Performing a Hosmer-Lemeshow goodness-of-fit test
 
 This test is assessing whether or not the observed event rates match expected event rates in subgroups of the model population.
