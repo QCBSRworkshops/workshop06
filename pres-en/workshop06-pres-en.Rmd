@@ -1482,6 +1482,9 @@ anova(null.model, glm.quasipoisson, test = "Chisq")
 
 .center[![:scale 80%](images/dispParam.png)]
 
+???
+
+A quasi-Poisson GLM can correct for some overdispersion but if too high a different distribution might be better
 ---
 # Negative binomial GLM
 
