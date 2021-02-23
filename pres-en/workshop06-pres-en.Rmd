@@ -1325,8 +1325,13 @@ Elevation = $\beta$
 What about the *null deviance* and the *residual deviance*?
 ]
 
+???
+
+Note: Point out that the resiudal deviance of 388.12 is much higher than residual degrees of freedom of 41 indicating overdispersion
 
 ---
+exclude: true
+
 # Parameter estimates
 
 In our model the unknown parameters are the intercept ( $\alpha$ ) and the slope of elevation ( $\beta$ )
@@ -1340,6 +1345,8 @@ $$\mu_i = e^{1.769 - 0.0027 \times \text{Elevation}_i}$$
 
 
 ---
+exclude: true
+
 # The deviance
 
 Remember that to estimate the unknown parameter maximum likelihood estimation is used.
