@@ -826,6 +826,10 @@ str(bacteria)
 
 > The presence of *H. influenzae* was checked at weeks 0, 2, 4, 6 and 11: 30 of the checks were missing and are not included in this data frame.
 
+???
+
+This is a breakout room activity. Assign groups of 3-4 into breakout rooms and give them each 5 minutes to collaboratively write the code
+
 ]
 ---
 # Exercise 1 - Solution ![:cube]()
