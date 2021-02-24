@@ -386,6 +386,35 @@ Graphiquement, notre modèle ressemble à :
 
 --
 .pull-right[
+
+**Quelles sont les problèmes avec ce modèle?**
+
+1. La pente ne suit pas les observations
+2. Les $\mu$ (moyennes) sont incorrectes
+3. Les $\sigma^2$ (variances) sont considerés homogènes
+4. Le distribution normal est continu mais les observations sont discètes
+]
+
+---
+# Prédiction du modèle
+
+- Lorsque $x_i = 300$, $Y_i$ suit une distribution normale avec $\mu = 1.63$ et $\sigma^2 = 1.51$.
+
+- Lorsque $x_i = 400$, $Y_i$ suit une distribution normale avec $\mu = 1.02$ et $\sigma^2 = 1.51$, etc.
+
+
+<br>
+Graphiquement, notre modèle ressemble à :
+
+--
+.pull-left[
+.center[
+  ![:scale 100%](images/modelPredic.png)
+]]
+
+--
+.pull-right[
+
 **Problèmes**:
 - $\sigma^2$ n'est pas homogène, mais `lm()` nous contraint d'utiliser toujours la même valeur de $\sigma^2$,
 - Les valeurs estimées devraient être des nombres entiers.
@@ -565,6 +594,8 @@ print(dat)
 ]
 
 ---
+exclude: true
+
 # Variables binaires
 
 
@@ -594,6 +625,8 @@ mtext(expression(symbol("\256")), at = 3, side = 1, line = -2.2, cex = 6, col = 
 ```
 
 ---
+exclude: true
+
 # Distribution de probabilité
 
 La distribution de Bernoulli est adaptée pour des variables réponses binaires
@@ -746,6 +779,10 @@ data(bacteria)
 str(bacteria)
 ```
 
+???
+
+Ceci est un exercise de groupe. Les groupes sont de 3-4 personnes et le duree est de 5 minutes.
+
 ---
 # Solution ![:cube]()
 
@@ -830,6 +867,14 @@ objects(logit.reg)
 ---
 # Pouvoir prédictif et ajustement du modèle
 
+En utilisant les déviances de l'objet `logit.reg` c'est quoi le valeur du pseudo `R^2`?
+
+???
+
+Instruire aux participants de répondre au question dans l'appel Zoom au coordinateur(e)
+---
+# Pouvoir prédictif et ajustement du modèle
+
 Dans R, nous pouvons extraire les déviances résiduelles et nulles directement à partir de l'objet glm :
 
 ```{r}
@@ -865,6 +910,8 @@ fit
 ```
 
 ---
+exclude: true
+
 # Exercice 2: Faites le test de Hosmer-Lemeshow
 
 ```{r}
@@ -874,7 +921,6 @@ HLtest(logit.reg)
 
 .comment[Une valeur non significative indique un ajustement adéquat!]
 
-
 ---
 # Défi 2 ![:cube]()
 <br>
@@ -883,6 +929,10 @@ HLtest(logit.reg)
 1. En utilisant le modèle créé avec le jeu de données 'bacteria', évaluez le pouvoir prédictif et l'ajustement de ce modèle.
 
 2. Comment faire pour améliorer le pouvoir explicatif du modèle?
+
+???
+
+Cette exercise est fait dans un breakout room avec des groupes de 3-4 pour un durée de 5 minutes
 
 ---
 # Solution ![:cube]()
@@ -917,6 +967,22 @@ $$\frac{x\,\, \text{infected deer}}{10\,\,\text{deer}}$$
 ]
 
 ---
+# GLM et données de proportions
+
+Les proportions peuvent être codés en fournissant le nombre de succès et d'échec
+```{r}
+prop.reg <- glm(cbind(Galumna, totalabund - Galumna) ~ Topo + WatrCont, data = mites, family = binomial)
+```
+
+On peut aussi coder les proportions directement
+```{r}
+prop.reg2 <- glm(prop ~ Topo + WatrCont, data = mites,
+                 family = binomial, weights = totalabund)
+```
+
+---
+exclude: true
+
 # Exercice 3
 
 Dans R, on doit spécifier le nombre de fois qu'un événement s'est produit et le nombre de fois qu'un événement ne s'est pas produit:
@@ -930,6 +996,8 @@ summary(prop.reg)
 ```
 
 ---
+exclude: true
+
 # Exercice 3
 
 .small[
@@ -939,6 +1007,8 @@ summary(prop.reg)
 ]
 
 ---
+exclude: true
+
 # Exercice 3
 
 On peut coder le modèle directement avec les proportions:
@@ -1007,6 +1077,24 @@ plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'Nombre de F. occid
 ```
 
 ---
+# Modéliser des données d'abondance
+
+```{r, echo=F,fig.height=5}
+par(mypar);par(cex = 1.4)
+plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'Nombre de F. occidentalis', xlab = 'Élevation(m)')
+```
+
+Quelle distribution modèle le mieux ces observationsÉ
+1. Bernoulli
+2. Normale
+3. Poisson
+4. Binomial
+
+???
+
+Ceci est un question à un choix.
+---
+
 # Modéliser des données d'abondance
 
 .large[Comment modéliser des données d'abondance?]
@@ -1108,8 +1196,13 @@ Intercept = $\alpha$
 Qu'en est-il de `Null deviance` et `Residual deviance`?!
 ]
 
+???
+
+Mentionner que la déviance résiduelle de 388.12 est beaucoup plus élevée que les degrés de liberté résiduels de 41 ce qui indique le surdispersion
 
 ---
+exclude: true
+
 # Estimation des paramètres
 
 Dans notre modèle, les paramètres à estimer sont l'ordonnée à l'origine ( $\alpha$ ) et le coefficient de régression de l'élevation ( $\beta$ )
@@ -1123,6 +1216,8 @@ $$\mu_i = e^{1.769 - 0.0027 \times \text{Élevation}_i}$$
 
 
 ---
+exclude: true
+
 # La déviance
 
 Rappelez vous que pour estimer les paramètres inconnus, l'estimation par maximum de vraisemblance est utilisée
@@ -1170,6 +1265,8 @@ $\phi$ est le paramètre de dispersion. Il sera estimé avant les paramètres. C
 .alert[Certaines p-values marginalement significatives peuvent devenir non significatives!]
 
 ---
+exclude: true
+
 # Ajuster un GLM quasi-Poisson sous R
 
 Créez un nouveau GLM à l'aide de la famille 'quasipoisson' ou actualisez le modèle précédent:
@@ -1181,6 +1278,8 @@ glm.quasipoisson = update(glm.poisson, family = quasipoisson)
 ```
 
 ---
+exclude: true
+
 # Ajuster un GLM quasi-Poisson sous R
 
 .pull-left2[
@@ -1206,6 +1305,8 @@ $$\sqrt{\phi} = 4$$
 ]
 
 ---
+exclude: true
+
 # Ajuster un GLM quasi-Poisson sous R
 
 Testons l'effet de l'élévation par une analyse de déviance :
@@ -1353,6 +1454,10 @@ mites <- read.csv("data/mites.csv", header = TRUE)
 ```{r,eval=F}
 mites <- read.csv("mites.csv", header = TRUE)
 ```
+
+???
+
+Cette exercies est fait en breakout room avec des equipes de 3-4 pour une duree de 10 minutes
 
 ---
 # Défi 3 : conseils ![:cube]()

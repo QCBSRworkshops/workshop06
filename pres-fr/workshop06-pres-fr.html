@@ -379,6 +379,35 @@ Graphiquement, notre modèle ressemble à :
 
 --
 .pull-right[
+
+**Quelles sont les problèmes avec ce modèle?**
+
+1. La pente ne suit pas les observations
+2. Les `\(\mu\)` (moyennes) sont incorrectes
+3. Les `\(\sigma^2\)` (variances) sont considerés homogènes
+4. Le distribution normal est continu mais les observations sont discètes
+]
+
+---
+# Prédiction du modèle
+
+- Lorsque `\(x_i = 300\)`, `\(Y_i\)` suit une distribution normale avec `\(\mu = 1.63\)` et `\(\sigma^2 = 1.51\)`.
+
+- Lorsque `\(x_i = 400\)`, `\(Y_i\)` suit une distribution normale avec `\(\mu = 1.02\)` et `\(\sigma^2 = 1.51\)`, etc.
+
+
+&lt;br&gt;
+Graphiquement, notre modèle ressemble à :
+
+--
+.pull-left[
+.center[
+  ![:scale 100%](images/modelPredic.png)
+]]
+
+--
+.pull-right[
+
 **Problèmes**:
 - `\(\sigma^2\)` n'est pas homogène, mais `lm()` nous contraint d'utiliser toujours la même valeur de `\(\sigma^2\)`,
 - Les valeurs estimées devraient être des nombres entiers.
@@ -545,6 +574,8 @@ Dans `R`, on code une variable binaire avec `1` et `0`:
 ]
 
 ---
+exclude: true
+
 # Variables binaires
 
 
@@ -562,6 +593,8 @@ Les valeurs prédites peuvent se trouver hors de l'intervalle `[0,1]` avec `lm()
 &lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-25-1.png" width="540" style="display: block; margin: auto;" /&gt;
 
 ---
+exclude: true
+
 # Distribution de probabilité
 
 La distribution de Bernoulli est adaptée pour des variables réponses binaires
@@ -760,6 +793,10 @@ str(bacteria)
 #  $ trt : Factor w/ 3 levels "placebo","drug",..: 1 1 1 1 3 3 3 3 2 2 ...
 ```
 
+???
+
+Ceci est un exercise de groupe. Les groupes sont de 3-4 personnes et le duree est de 5 minutes.
+
 ---
 # Solution ![:cube]()
 
@@ -875,6 +912,14 @@ objects(logit.reg)
 ---
 # Pouvoir prédictif et ajustement du modèle
 
+En utilisant les déviances de l'objet `logit.reg` c'est quoi le valeur du pseudo `R^2`?
+
+???
+
+Instruire aux participants de répondre au question dans l'appel Zoom au coordinateur(e)
+---
+# Pouvoir prédictif et ajustement du modèle
+
 Dans R, nous pouvons extraire les déviances résiduelles et nulles directement à partir de l'objet glm :
 
 
@@ -918,6 +963,8 @@ fit
 ```
 
 ---
+exclude: true
+
 # Exercice 2: Faites le test de Hosmer-Lemeshow
 
 
@@ -934,7 +981,6 @@ HLtest(logit.reg)
 
 .comment[Une valeur non significative indique un ajustement adéquat!]
 
-
 ---
 # Défi 2 ![:cube]()
 &lt;br&gt;
@@ -943,6 +989,10 @@ HLtest(logit.reg)
 1. En utilisant le modèle créé avec le jeu de données 'bacteria', évaluez le pouvoir prédictif et l'ajustement de ce modèle.
 
 2. Comment faire pour améliorer le pouvoir explicatif du modèle?
+
+???
+
+Cette exercise est fait dans un breakout room avec des groupes de 3-4 pour un durée de 5 minutes
 
 ---
 # Solution ![:cube]()
@@ -978,6 +1028,24 @@ Supposons qu'on mesure la prévalence d'une maladie sur dix cerfs dans 10 popula
 ]
 
 ---
+# GLM et données de proportions
+
+Les proportions peuvent être codés en fournissant le nombre de succès et d'échec
+
+```r
+prop.reg &lt;- glm(cbind(Galumna, totalabund - Galumna) ~ Topo + WatrCont, data = mites, family = binomial)
+```
+
+On peut aussi coder les proportions directement
+
+```r
+prop.reg2 &lt;- glm(prop ~ Topo + WatrCont, data = mites,
+                 family = binomial, weights = totalabund)
+```
+
+---
+exclude: true
+
 # Exercice 3
 
 Dans R, on doit spécifier le nombre de fois qu'un événement s'est produit et le nombre de fois qu'un événement ne s'est pas produit:
@@ -992,6 +1060,8 @@ summary(prop.reg)
 ```
 
 ---
+exclude: true
+
 # Exercice 3
 
 .small[
@@ -1026,6 +1096,8 @@ summary(prop.reg)
 ]
 
 ---
+exclude: true
+
 # Exercice 3
 
 On peut coder le modèle directement avec les proportions:
@@ -1065,7 +1137,7 @@ Examinons maintenant à quoi ressemble la distribution du nombre d'arbres par tr
 
 .large[Que sont des données d'abondance?]
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-47-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-49-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ---
 # Modéliser des données d'abondance
@@ -1085,9 +1157,24 @@ Les données d'abondance sont charactérisées par:
 
 L'élévation influence-t-elle l'abondance de *F. occidentalis*?
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-48-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-50-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ---
+# Modéliser des données d'abondance
+
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-51-1.png" width="432" style="display: block; margin: auto;" /&gt;
+
+Quelle distribution modèle le mieux ces observationsÉ
+1. Bernoulli
+2. Normale
+3. Poisson
+4. Binomial
+
+???
+
+Ceci est un question à un choix.
+---
+
 # Modéliser des données d'abondance
 
 .large[Comment modéliser des données d'abondance?]
@@ -1215,8 +1302,13 @@ Intercept = `\(\alpha\)`
 Qu'en est-il de `Null deviance` et `Residual deviance`?!
 ]
 
+???
+
+Mentionner que la déviance résiduelle de 388.12 est beaucoup plus élevée que les degrés de liberté résiduels de 41 ce qui indique le surdispersion
 
 ---
+exclude: true
+
 # Estimation des paramètres
 
 Dans notre modèle, les paramètres à estimer sont l'ordonnée à l'origine ( `\(\alpha\)` ) et le coefficient de régression de l'élevation ( `\(\beta\)` )
@@ -1230,6 +1322,8 @@ Dans notre modèle, les paramètres à estimer sont l'ordonnée à l'origine ( `
 
 
 ---
+exclude: true
+
 # La déviance
 
 Rappelez vous que pour estimer les paramètres inconnus, l'estimation par maximum de vraisemblance est utilisée
@@ -1277,6 +1371,8 @@ le **prédicteur linéaire** et la **fonction de lien** restent les même
 .alert[Certaines p-values marginalement significatives peuvent devenir non significatives!]
 
 ---
+exclude: true
+
 # Ajuster un GLM quasi-Poisson sous R
 
 Créez un nouveau GLM à l'aide de la famille 'quasipoisson' ou actualisez le modèle précédent:
@@ -1289,6 +1385,8 @@ glm.quasipoisson = update(glm.poisson, family = quasipoisson)
 ```
 
 ---
+exclude: true
+
 # Ajuster un GLM quasi-Poisson sous R
 
 .pull-left2[
@@ -1338,6 +1436,8 @@ summary(glm.quasipoisson)
 ]
 
 ---
+exclude: true
+
 # Ajuster un GLM quasi-Poisson sous R
 
 Testons l'effet de l'élévation par une analyse de déviance :
@@ -1486,7 +1586,7 @@ lines(pframe$lwr, col = 2, lty = 3, lwd = 2)
 ```
 ]
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-58-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-61-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ---
 # Défi 3 ![:cube]()
@@ -1503,6 +1603,10 @@ Utilisez le jeu de données `mites`! Modélisez l'abondance de l'espèce *Galumn
 ```r
 mites &lt;- read.csv("mites.csv", header = TRUE)
 ```
+
+???
+
+Cette exercies est fait en breakout room avec des equipes de 3-4 pour une duree de 10 minutes
 
 ---
 # Défi 3 : conseils ![:cube]()
@@ -1556,7 +1660,7 @@ anova(glm.qp2, glm.qp, test="Chisq")
 &lt;br&gt;
 
 .center[
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-62-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-65-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 
