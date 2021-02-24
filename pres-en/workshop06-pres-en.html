@@ -361,6 +361,44 @@ At `\(x = 400\)`, we get `\(\mu = 1.02\)` and `\(\sigma^2 = 1.51\)`, etc.
   ![:scale 90%](images/modelPredic.png)
 ]
 
+--
+
+.pull-right[
+
+**What are some problems with this model?**:
+
+1. The slope does not follow the trend in the observation
+2. the `\(\mu\)` (mean) estimates are incorrect
+3. The `\(\sigma^2\)` (variance) is considered homogeneous
+4. The normal distribution is continuous but observations are discrete
+]
+
+???
+
+Perform a multiple choice poll with participants.
+Correct answers are 3 and 4
+
+---
+# Model prediction
+
+.pull-left[
+`$$y_i \sim N(\mu = \beta_0 + \beta_1 X_i, \sigma^2)$$`
+`$$\mu = 3.44 + (-0.006 x 300) = 1.63$$`
+`$$\sigma = 1.51$$`
+]
+.pull-right[
+At `\(x = 300\)`, residuals should follow a normal distribution with `\(\mu = 1.63\)` and `\(\sigma^2 = 1.51\)`.
+
+At `\(x = 400\)`, we get `\(\mu = 1.02\)` and `\(\sigma^2 = 1.51\)`, etc.
+]
+
+.pull-left[
+
+- .small[Graphically, this is our model]:
+
+  ![:scale 90%](images/modelPredic.png)
+]
+
 .pull-right[
 
 **Problems**:
@@ -537,6 +575,8 @@ In `R`, binary variables are coded with `1` and `0`:
 ]
 
 ---
+exlude:true
+
 # Binary variables
 
 They are clearly not normally distributed!
@@ -555,6 +595,8 @@ Under a linear model, expected values can be out of the `[0,1]` range with `lm()
 &lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-25-1.png" width="540" style="display: block; margin: auto;" /&gt;
 
 ---
+exclude: true
+
 # Probability distribution
 
 The Bernoulli distribution is well suited for binary response variables.
@@ -794,6 +836,10 @@ str(bacteria)
 &gt; Dr A. Leach tested the effects of a drug on 50 children with a history of *otitis media* in the Northern Territory of Australia. The children were randomized to the drug or a placebo.
 
 &gt; The presence of *H. influenzae* was checked at weeks 0, 2, 4, 6 and 11: 30 of the checks were missing and are not included in this data frame.
+
+???
+
+This is a breakout room activity. Assign groups of 3-4 into breakout rooms and give them each 5 minutes to collaboratively write the code
 
 ]
 ---
@@ -1039,6 +1085,35 @@ objects(logit.reg)
 # [25] "rank"              "residuals"         "terms"            
 # [28] "weights"           "xlevels"           "y"
 ```
+]
+
+--
+
+Using the deviance values available from the `logit.reg` object what is the pseudo `\(R^2\)` value?
+
+???
+
+Instruct participants to write some code based on the learning about deviances to manually calculate `\(R^2\)` and write their answer in the chat
+
+---
+# Predictive power and goodness-of-fit
+
+In `R`, we can extract the residual and null deviances directly from the `glm object`:
+.small[
+
+```r
+objects(logit.reg)
+#  [1] "aic"               "boundary"          "call"             
+#  [4] "coefficients"      "contrasts"         "control"          
+#  [7] "converged"         "data"              "deviance"         
+# [10] "df.null"           "df.residual"       "effects"          
+# [13] "family"            "fitted.values"     "formula"          
+# [16] "iter"              "linear.predictors" "method"           
+# [19] "model"             "null.deviance"     "offset"           
+# [22] "prior.weights"     "qr"                "R"                
+# [25] "rank"              "residuals"         "terms"            
+# [28] "weights"           "xlevels"           "y"
+```
 
 
 ```r
@@ -1054,6 +1129,8 @@ pseudoR2
 .comment[Hence, the model explains 46.6% of the variability in the data.]
 
 ---
+exclude: true
+
 # Predictive power and goodness-of-fit
 
 An adjusted McFadden's pseudo-R2, which penalizes for the number of predictors, can be calculated as below:
@@ -1080,7 +1157,7 @@ It roughly involves:
 4. Performing a chi-squared test on the outcome.
 
 ---
-# Exercise 2 - Calculating the pseudo-R2
+# Predictive power and goodness-of-fit
 
 The `DescTools::PseudoR2()` function computes several pseudo-R2.
 
@@ -1102,6 +1179,7 @@ fit
 ```
 
 ---
+exclude: true
 ### Exercise 2: Performing a Hosmer-Lemeshow goodness-of-fit test
 
 This test is assessing whether or not the observed event rates match expected event rates in subgroups of the model population.
@@ -1126,7 +1204,7 @@ HLtest(logit.reg)
 plot(HLtest(logit.reg))
 ```
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-43-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-44-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .comment[A non-significant value indicates an adequate fit!]
@@ -1137,6 +1215,10 @@ plot(HLtest(logit.reg))
 1. Using the model created with `bacteria` dataset, assess goodness-of-fit and predictive power.
 
 2. Think how predictive power could be improved for this model.
+
+???
+
+Run this exercise as a breakout room activity with groups of 3-4 with a time limit of 5 minutes
 
 ---
 # Solution ![:cube]()
@@ -1172,6 +1254,27 @@ We will thus obtain a proportional number of "success" in observing individuals 
 &gt; In `glm()`, we have to provide *prior weights* if the response variable is the proportion of successes.
 
 ---
+# Proportion data and GLM
+
+Proportions can be modeled by providing both the number of "successes" and *prior weights* in the function
+
+```r
+prop.reg &lt;- glm(cbind(Galumna, totalabund - Galumna) ~ Topo + WatrCont,
+                data = mites,
+                family = binomial)
+```
+
+The weights can also be set explicitly in `glm()`
+
+```r
+prop.reg2 &lt;- glm(prop ~ Topo + WatrCont,
+                 data = mites,
+                 family = binomial,
+                 weights = totalabund)
+```
+---
+exclude: true
+
 # Exercise 3
 
 In `R`, we have to specify the number of times something happened and the number of times something did not happen:
@@ -1188,6 +1291,8 @@ summary(prop.reg)
 ```
 
 ---
+exclude: true
+
 # Exercise 3
 
 .small[
@@ -1222,6 +1327,8 @@ summary(prop.reg)
 ]
 
 ---
+exclude: true
+
 # Exercise 3
 
 We can also code the model directly with proportions:
@@ -1262,7 +1369,7 @@ Let's investigate the histogram of the number of *Faramea occidentalis*.
 
 .large[What is count data?]
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-50-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-53-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 Count data are characterized by:
 
@@ -1277,7 +1384,24 @@ Count data are characterized by:
 
 Does elevation influence the abundance of *F. occidentalis*?
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-51-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-54-1.png" width="432" style="display: block; margin: auto;" /&gt;
+
+.small[What type of distribution best fits this data?
+1. Bernoulli   
+2. Normal    
+3. Poisson
+4. Binomial
+]
+
+???
+
+This is a singe choice poll question. The correct answer is 3. Poisson
+---
+.large[How to model count data?]
+
+Does elevation influence the abundance of *F. occidentalis*?
+
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-55-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 The **Poisson distribution** seems to adequately fit this data distribution.
 
@@ -1419,8 +1543,13 @@ Elevation = `\(\beta\)`
 What about the *null deviance* and the *residual deviance*?
 ]
 
+???
+
+Note: Point out that the resiudal deviance of 388.12 is much higher than residual degrees of freedom of 41 indicating overdispersion
 
 ---
+exclude: true
+
 # Parameter estimates
 
 In our model the unknown parameters are the intercept ( `\(\alpha\)` ) and the slope of elevation ( `\(\beta\)` )
@@ -1434,6 +1563,8 @@ In our model the unknown parameters are the intercept ( `\(\alpha\)` ) and the s
 
 
 ---
+exclude: true
+
 # The deviance
 
 Remember that to estimate the unknown parameter maximum likelihood estimation is used.
@@ -1511,6 +1642,8 @@ Correcting for overdispersion will not affect parameter estimates, but will affe
 .alert[Some marginally significant p-values may no longer hold!]
 
 ---
+exclude: true
+
 # Fitting a quasi-Poisson GLM in `R`
 
 Create a new `glm.object` using the '`quasipoisson`' family or update the previous one:
@@ -1524,6 +1657,8 @@ glm.quasipoisson = update(glm.poisson, family = quasipoisson)
 ```
 
 ---
+exclude: true
+
 # Fitting a quasi-Poisson GLM in `R`
 
 .pull-left2[
@@ -1573,6 +1708,8 @@ summary(glm.quasipoisson)
 ]
 
 ---
+exclude: true
+
 # Fitting a quasi-Poisson GLM in R
 
 Try also deviance analysis to test for the effect of Elevation
@@ -1596,6 +1733,9 @@ anova(null.model, glm.quasipoisson, test = "Chisq")
 
 .center[![:scale 80%](images/dispParam.png)]
 
+???
+
+A quasi-Poisson GLM can correct for some overdispersion but if too high a different distribution might be better
 ---
 # Negative binomial GLM
 
@@ -1611,6 +1751,8 @@ Negative binomial GLMs are favor when overdispersion is high
 
 
 ---
+exclude: true
+
 # Fitting a negative binomial in R
 
 NB is not in the `glm()` function so you need to install and charge the `MASS` package
@@ -1629,6 +1771,7 @@ summary(glm.negbin)
 ```
 
 ---
+exclude: true
 
 .pull-left2[
 .small[
@@ -1672,6 +1815,8 @@ summary(glm.negbin)
 ]
 
 ---
+exclude: true
+
 # Plotting the final GLM model
 
 **Step 1** Plot the data and the use estimates of the parameters to draw model line
@@ -1697,6 +1842,8 @@ summary(glm.negbin)$coefficients[2, 2]
 `$$\text{Upper limit} = e^{[\alpha + 1.96 \times SE_{\alpha}] + [\beta + 1.96 \times SE_{\beta}] \times \text{Elevation}_i}$$`
 
 ---
+exclude: true
+
 .small[
 
 ```r
@@ -1714,7 +1861,7 @@ lines(pframe$lwr, col = 2, lty = 3, lwd = 2)
 ```
 ]
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-61-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-65-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ---
 # Challenge 3 ![:cube]()
@@ -1730,6 +1877,11 @@ Use the `mites` dataset! Model the abundance of the species Galumna as a functio
 ```r
 mites &lt;- read.csv("data/mites.csv", header = TRUE)
 ```
+
+???
+
+This is a breakout activity with groups of 3-4 people and a time limit of 10 minutes
+Don't forget to show tips on the next slide.
 
 ---
 # Challenge 3: tips ![:cube]()
@@ -1783,7 +1935,7 @@ anova(glm.qp2, glm.qp, test="Chisq")
 &lt;br&gt;
 
 .center[
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-65-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-69-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 
