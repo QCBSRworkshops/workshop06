@@ -61,7 +61,10 @@ jobs:
           print(paste0("The following package was installed:", new.packages))} else 
           if(length(new.packages) == 0) {
           print("All packages have been previously installed and fetched from cache.")}'
-                  
+
+      - name: 💻 Install stringi from source
+        run: Rscript -e 'install.packages("stringi", type="source")'
+        
       - name: 🧶 Render presentation
         run: Rscript -e 'rmarkdown::render("workshop06-pres-en.Rmd")'
         
