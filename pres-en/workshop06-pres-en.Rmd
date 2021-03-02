@@ -1557,19 +1557,6 @@ plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'F. occidentalis in
 ???
 
 This is a singe choice poll question. The correct answer is 3. Poisson
----
-## How to model count data?
-
-Does elevation influence the abundance of *F. occidentalis*?
-
-```{r, echo=F,fig.height=4.0}
-par(mypar);par(cex = 1.4)
-plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'F. occidentalis individuals', xlab = 'Elevation(m)')
-```
-
-The **Poisson distribution** seems to adequately fit this data distribution.
-
-We can use the Poisson family in our GLM to begin modeling count data.
 
 ---
 # The Poisson distribution
