@@ -38,7 +38,7 @@ options(repos=structure(c(CRAN="http://cran.r-project.org")))
 ```{r install_pkgs, message=FALSE, warning=FALSE, include=FALSE, results=0}
 # Standard procedure to check and install packages and their dependencies, if needed.
 
-list.of.packages <- c('ggplot2', 'lme4', 'MASS', 'vcdExtra', 'bbmle', 'DescTools')
+list.of.packages <- c('ggplot2', 'MASS', 'vcdExtra', 'bbmle', 'DescTools')
 
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 
@@ -69,7 +69,6 @@ In addition to the earliest RStudio and R versions, this workshop requires the f
 .pull-left[
 
 1. [ggplot2](https://cran.r-project.org/package=ggplot2)
-2. [lme4](https://cran.r-project.org/package=lme4)
 3. [MASS](https://cran.r-project.org/package=MASS)
 4. [vcdExtra](https://cran.r-project.org/package=vcdExtra)
 5. [bbmle](https://cran.r-project.org/package=bbmle)
@@ -83,10 +82,9 @@ To install them from CRAN, run:
 
 ```{r eval = FALSE}
 install.packages(c("ggplot2", 
-                   "lme4",
                    'MASS', 
-                   'vcdExtra', 
-                   'bbmle', 
+                   'vcdExtra',
+                   'bbmle',
                    'DescTools')
                  )
 ```
