@@ -14,7 +14,7 @@ output:
       highlightLines: true
       highlightStyle: github
 ---
-
+class: inverse, center, middle
 
 ```{r setup, echo = FALSE}
 knitr::opts_chunk$set(
@@ -27,16 +27,18 @@ knitr::opts_chunk$set(
   fig.retina = 3,
   fig.align = 'center'
 )
-mypar = list(mar = c(3,3,1,0.5), mgp = c(1.6, 0.3, 0), tck = -.02)
+
+mypar = list(mar = c(3, 3, 1, 0.5), 
+             mgp = c(1.6, 0.3, 0), 
+             tck = -.02)
+
 options(repos=structure(c(CRAN="http://cran.r-project.org")))
 ```
-
-class: inverse, center, middle
 
 ```{r install_pkgs, message=FALSE, warning=FALSE, include=FALSE, results=0}
 # Standard procedure to check and install packages and their dependencies, if needed.
 
-list.of.packages <- c('ggplot2', 'lme4', 'MASS', 'vcdExtra', 'bbmle', 'DescTools')
+list.of.packages <- c('ggplot2', 'MASS', 'vcdExtra', 'bbmle', 'DescTools')
 
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 
@@ -44,8 +46,10 @@ if(length(new.packages) > 0) {
   install.packages(new.packages, dependencies = TRUE) 
   print(paste0("The following package was installed:", new.packages)) 
 } else if(length(new.packages) == 0) {
-    print("All packages were already installed previously")
-  }
+  print("All packages have been previously installed.")
+}
+# Load all required libraries at once
+lapply(list.of.packages, require, character.only = TRUE, quietly = TRUE)
 ```
 
 # About this workshop
@@ -60,132 +64,401 @@ if(length(new.packages) > 0) {
 
 # Required packages
 
-* [ggplot2](https://cran.r-project.org/package=ggplot2)
-* [lme4](https://cran.r-project.org/package=lme4)
-* [MASS](https://cran.r-project.org/package=MASS)
-* [vcdExtra](https://cran.r-project.org/package=vcdExtra)
-* [bbmle](https://cran.r-project.org/package=bbmle)
-* [DescTools](https://cran.r-project.org/package=DescTools)
+In addition to the earliest RStudio and R versions, this workshop requires the following packages:
+
+.pull-left[
+
+1. [ggplot2](https://cran.r-project.org/package=ggplot2)
+3. [MASS](https://cran.r-project.org/package=MASS)
+4. [vcdExtra](https://cran.r-project.org/package=vcdExtra)
+5. [bbmle](https://cran.r-project.org/package=bbmle)
+6. [DescTools](https://cran.r-project.org/package=DescTools)
+]
 
 <br>
 
-```R
-install.packages(c('ggplot2', 'lme4', 'MASS', 'vcdExtra', 'bbmle', 'DescTools'))
+.pull-right[
+To install them from CRAN, run:
+
+```{r eval = FALSE}
+install.packages(c("ggplot2", 
+                   'MASS', 
+                   'vcdExtra',
+                   'bbmle',
+                   'DescTools')
+                 )
 ```
+]
 
 ---
 
-# Outline
+## Learning objectives
 
-### 1. Why be normal? .small[(*Your data is ok; it's the model that's wrong*)]
-### 2. GLM with binary and proportion data
-### 3. GLM with count data
+1. Distinguish generalized linear models from general linear models (including many of their equations!).
+
+2. Identify situations for when the use of generalized linear models is appropriate.
+
+3. Test assumptions for generalized linear models.
+
+4. Implement and execute generalized linear models in binary, proportion and count data.
+
+5. Validate, interprete and visualise results of generalized linear models.
+
+<br>
+
+.center[.alert[Important]
+
+<br>
+This workshop will build up your knowledge on models along side with some of their important equations. *Do not run to the mountains!* This will be achieve progressively and you will feel proud of yourself after!
+
+]
 
 ---
 class: inverse, center, middle
 
-# Why be normal?
+# Preface
 
-## Your data is OK!
-## It is the model that is wrong
+### Reviewing linear models
 
 ---
-# Limitations of linear (mixed) models
+# Answering research questions through modelling
 
-Load dataset and fit a linear model (`lm()`):
+Much of our research focuses on investigating how patterns we observe can be explained by predictive variables.
 
-```{r, echo = FALSE}
-mites <- read.csv('data/mites.csv')
-```
+We are often looking for a function $f$ that can explain a response variable ($Y$) *in terms of* one ($X_1$) or many other predictors ($X_2$, $X_3$, $...$ , $X_n$):
 
-```r
-# make sure you're in the right working directory
-mites <- read.csv('data/mites.csv')
-head(mites)
-str(mites)
-```
+$$Y = f(X_1)$$
+--
+The combination of predictive variables we have sampled will *never* fully explain $Y$. Because of this, there is always *unpredictable disturbance* in our models, i.e. the error $\epsilon$. As such, the error is an irrevocable part of our function:
 
-The dataset that you have just loaded is a subset of the 'Oribatid mite dataset':
+$$Y = f(X_1, \epsilon)$$
+--
+In [Workshop 4](), we have learned how to use **general linear models** as $f(\cdot)$ to describe the relationship between variables. They were:
 
-.small[
-> 70 moss and mite samples;
-
-> 5 environmental measurements and abundance of the mite *Galumna* sp. for each site.
+.center[
+.pull-left[
+.pull-left[
+$t$-test
+]
+.pull-right[
+ANOVA
+]
+]
+.pull-right[
+.pull-left[
+Linear regression
+]
+.pull-right[
+ANCOVA
+]
+]
 ]
 
-**Goal**: Model the abundance (`abund`), occurrence (`pa`), and proportion (`prop`) of ***Galumna*** as a function of the five environmental variables.
+---
+# Revisiting linear models
+
+In [Workshop 4](), we have learned how to use **general linear models** as $f(\cdot)$ to describe the relationship between variables.
+
+The general form of our function $Y = f(X_1)$ as a linear function can be represented by:
+
+$$Y = \beta_0 + \beta_1X_i + \varepsilon$$
+
+where:
+
+$Y_i$ is thepredicted value of a response variable
+
+$\beta_0$ is the *unknown coefficient* **intercept**
+
+$\beta_1$ is the *unknown coefficient* **slope**
+
+$X_i$ is the value for the explanatory variable
+
+$\varepsilon_i$ is the model residual drawn from a normal distribution with a varying mean but a constant variance.
 
 ---
-# Exploring relationships
+# Revisiting linear models and their assumptions
 
-Can we see any relationship(s) between *Galumna* and the five environmental variables?
+We have also learned that **linear models** only produce unbiased estimators (i.e. are only reliable) if they follow certain assumptions. Most importantly:
+
+1\. The population can be described by a linear relationship:
+
+$$Y = \beta_0 + \beta_1X_i + \varepsilon$$
+
+2\. The error term $\varepsilon$ has the same variance given any value of the explanatory variable (i.e. homoskedasticity), and the error terms are not correlated across observations (i.e. no autocorrelation):
+
+.pull-left[
+$$\mathbb{V}{\rm ar} (\epsilon_i | \mathbf{X} ) = \sigma^2_\epsilon,\ \forall i = 1,..,N$$
+]
+
+.pull-right[
+$$\mathbb{C}{\rm ov} (\epsilon_i, \epsilon_j) = 0,\ i \neq j$$
+]
+
+3\. And, the residuals are normal:
+
+$$\boldsymbol{\varepsilon} | \mathbf{X} \sim \mathcal{N} \left( \mathbf{0}, \sigma^2_\epsilon \mathbf{I} \right)$$
+--
+
+.center[**WHY SO MANY EQUATIONS?**]
+
+--
+.small[
+.center[*Wait! Do not lose hope! They are necessary and we will explain why!*]
+]
+---
+## What do we mean by:
+
+.pull-left[
+1. The population can be described by a linear relationship:
+
+$$Y = \beta_0 + \beta_1X_i + \varepsilon$$
+
+2.  Homoskedasticity and no autocorrelation:
+
+
+$$\mathbb{V}{\rm ar} (\epsilon_i | \mathbf{X} ) = \sigma^2_\epsilon,\ \forall i = 1,..,N$$
+$$\mathbb{C}{\rm ov} (\epsilon_i, \epsilon_j) = 0,\ i \neq j$$
+
+3. And, the residuals are normal:
+
+$$\boldsymbol{\varepsilon} | \mathbf{X} \sim \mathcal{N} \left( \mathbf{0}, \sigma^2_\epsilon \mathbf{I} \right)$$
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+# Set the coefficients:
+N = 50
+beta_0 = 1
+beta_1 = 0.5
+# Generate sample data:
+x <- 0:N
+#
+e <- rnorm(mean = 0, sd = 1.5, n = length(x))
+y <- beta_0 + beta_1 * x + e
+# Plot the data
+#
+#
+plot(x, y)
+
+# The unknown DGP:
+y_dgp <- beta_0 + beta_1 * x
+
+# Plot the Unknown Population regression:
+lines(x = x, y = y_dgp, col = "darkgreen", lty = 2)
+
+legend(x = 0, y = 25,
+       legend = c(expression(paste("Y = ", beta[0] + beta[1] * X))),
+       lty = c(2, 1), lwd = c(1, 1), pch = c(NA, NA), col = c("darkgreen", "blue"))
+```
+
+]
+
+???
+Note: Improved versions of this workshop should include the lines describing the error estimates, and showing their distribution. For now, the presenter can help participants with this abstraction.
 
 ---
-# Exploring relationships
 
-.small[Can we see any relationship(s) between *Galumna* and the 5 environmental variables?]
+# An example with general models
+
+Let us use our prior knowledge on general linear models to explore the relationship between variables within the *Oribatid mite dataset*.
+
+.pull-left3[
+Let us begin by loading this dataset:
+
+.small[
+```{r, echo = TRUE, eval = FALSE}
+mites <- read.csv('data/mites.csv', 
+                  stringsAsFactors = TRUE)
+```
+
+
+```{r, echo = FALSE}
+# Pay attention to the directory.
+mites <- read.csv('data/mites.csv', stringsAsFactors = TRUE)
+
+```
+]
+]
+
+.pull-right3[
+And, exploring it using:
+```{r echo = TRUE, eval = FALSE}
+str(mites)
+# also try head(mites)
+```
+]
+
+<br> 
+
+<br> 
+
+<br>
+
+.small[
+
+```{r echo = FALSE, eval = TRUE}
+str(mites)
+
+# also try head(mites)
+```
+
+]
+
+.small[
+
+The Oribatid mite dataset has **70 observations with moss and mite samples**, and **5 environmental** measurements and abundance for *Galumna* sp. for each site.
+
+]
+
+---
+
+# Which potential questions can we make?
+
+**Question**: *Could the abundance, occurrence or proportion of Galumna sp. be predicted by environmental features?*
+
+.pull-left[
+Response variables:
+1. Occurrence: `pa` 
+2. Abundance: `Galumna`
+3. Relative Frequency or Proportion: `prop`
+]
+
+.pull-right[
+Predictive variables:
+1. Substract Density: `SubsDens`
+2. Water Content: `WatrCont`
+3. Substrate: `Substrate`
+4. Shrubs Nearby: `Shrub`
+5. Topography: `Topo`
+]
+
+--
+
+**To answer our question**: *We can develop models! So many options!*
+
+.pull-left[
+$\text{Abundance} = f(\text{Water content}, \epsilon)$
+
+$\text{Proportion} = f(\text{Water content}, \epsilon)$
+
+$\text{Occurrence} = f(\text{Substrate}, \epsilon)$
+
+$\text{Abundance} = f(\text{Topography}, \epsilon)$
+]
+
+.pull-right[
+$\text{Occurrence} = f(\text{Shrubs Nearby}, \epsilon)$
+
+$\text{Relative Frequency} = f(\text{Topography}, \epsilon)$
+
+$\text{Occurrence} = f(\text{Substract Density}, \epsilon)$
+
+$\text{Abundance} = f(\text{Substrate}, \epsilon)$
+]
+
+---
+exclude: true
+
+# Where do we begin?
+
+.small[Can we see a relationship between *Galumna* and any of the five environmental variables?]
 
 .pull-left2[
-```{r,echo = -1}
-  par(mypar)
-  plot(mites)
+```{r, echo = FALSE, fig.width=8, fig.height=8}
+par(mypar)
+plot(mites)
 ```
 ]
 .pull-right2[
 <br><br><br><br><br>
-`Galumna` vs `WatrCont`?!
+
+```{r eval=FALSE}
+plot(mites)
+```
+
+What about...
+
+`Galumna` $vs$ `WatrCont`?!
 ]
 
 ---
 # Exploring relationships
 
-A negative relationship between `Galumna` and `WatrCont`?
+Do Galumna's community values (abundance, occurrence and relative frequency) vary as a function of water content?
 
-```{r,fig.width=12,fig.height=4.5,echo=-1}
-  par(mypar)
-  par(mfrow = c(1, 3), cex = 1.4)
-  plot(Galumna ~ WatrCont, data = mites, xlab = 'Water content', ylab='Abundance')
-  boxplot(WatrCont ~ pa,
-          data = mites, xlab='Presence/Absence', ylab = 'Water content')
-  plot(prop ~ WatrCont, data = mites, xlab = 'Water content', ylab='Proportion')
+.small[
+```{r,fig.width=12,fig.height=4,echo=-1}
+par(mypar)
+par(mfrow = c(1, 3), cex = 1.4)
+plot(Galumna ~ WatrCont, data = mites, xlab = 'Water content', ylab='Abundance')
+boxplot(WatrCont ~ pa,
+        data = mites, xlab='Presence/Absence', ylab = 'Water content')
+plot(prop ~ WatrCont, data = mites, xlab = 'Water content', ylab='Proportion')
 ```
+]
 
 ---
-# Testing linearity
+# Using linear models
 
-Fit linear models to test whether `abund`, `pa`, and/or `prop` vary as a function of water content.
-
---
-```{r, eval = -c(2, 4, 6)}
-  lm.abund <- lm(Galumna ~ WatrCont, data = mites)
-  summary(lm.abund)
-  lm.pa <- lm(pa ~ WatrCont, data = mites)
-  summary(lm.pa)
-  lm.prop <- lm(prop ~ WatrCont, data = mites)
-  summary(lm.prop)
-```
+Let us use (general) linear models to test whether `Galumna`, `pa`, and/or `prop` vary as a function of `WatrCont`:
 
 --
 .small[
+.pull-left3[
+```{r, eval = -c(2, 5, 8)}
+lm.abund <- lm(Galumna ~ WatrCont, data = mites)
+summary(lm.abund)
+
+lm.pa <- lm(pa ~ WatrCont, data = mites)
+summary(lm.pa)
+
+lm.prop <- lm(prop ~ WatrCont, data = mites)
+summary(lm.prop)
+```
+]
+
+.pull-right3[
+$\text{Galumna} = f(\text{Water content}, \epsilon)$
+
+<br>
+$\text{Occurrence} = f(\text{Water content}, \epsilon)$
+
+<br>
+$\text{Proportion} = f(\text{Water content}, \epsilon)$
+]
+]
+
+--
+
+.small[
 .pull-left[
 ```{r}
-# Extracting the 4th coefficient
+# Extracting the Pr(>|t|)
 
 summary(lm.abund)$coefficients[, 4]
 summary(lm.pa)$coefficients[, 4]
 summary(lm.prop)$coefficients[, 4]
 ```
-]]
+]
+]
+.center[
 .pull-right[
-Significant relationship in all models!
+<br> <br>
+All models are significant!
 
-.alert[But...]
+<br>
+
+.alert[But...] **what about the assumptions?**
+]
 ]
 
 ---
-# Testing linearity
+# Using linear models: assumptions
 
-Significant relationship in all models! .alert[Wait a minute...]
+.alert[Wait a minute...]
+
 .small[
 .pull-left[
 ```{r,echo=-1}
@@ -204,9 +477,9 @@ plot(lm.abund)
 ]
 
 ---
-# Testing linearity
+# Using linear models: assumptions
 
-Even worse for other models (proportion; `prop`):
+They look very bad for `lm(prop ~ WaterCont)`:
 
 .pull-left[
 ```{r,echo=-1}
@@ -225,9 +498,9 @@ plot(lm.prop)
 ]
 
 ---
-# Testing linearity
+# Using linear models: assumptions
 
-Even worse for other models (presence-absence; `pa`):
+And, also bad `lm(pa ~ WaterCont)`:
 
 .pull-left[
 ```{r,echo=-1}
@@ -246,51 +519,25 @@ plot(lm.pa)
 ]
 
 ---
-# Model assumptions
+# Recalling linear models: assumptions
 
-It is common in Ecology that assumptions of homogeneity of variance and normality are not met.
-
-
-*GLM are very useful to deal with these issues!*
-
-
-.comment[Let us revisit the assumptions of linear models...]
-
----
-# Model assumptions
-
-A linear model can be represented by:
-
-$y = \beta_0 + \beta_1x_i + \varepsilon$
-
-where:
-
-$y_i$ = predicted value of a response variable
-
-$\beta_0$ = intercept
-
-$\beta_1$ = slope
-
-$x_i$ = explanatory variable
-
-$\varepsilon_i$ = model residuals drawn from a normal distribution with a varying mean but a constant variance**
-
-
-> .comment[.alert[**Key point!**]
-
-Residuals (the distance between each observation and the regression line) can be predicted by drawing random values from a normal distribution.]
-
----
-# Normally Distributed Residuals
-
-Recall: Normal distributions have two parameters: $\mu$ (mean) and $\sigma$ (variance).
-
-<br>
 .small[
 .pull-left[
+
+Remember our simple linear model?
+
+$$Y_i = \beta_0 + \beta_1X_i + \varepsilon$$
+It can also be written as this:
+
+$$Y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$
+
+with $N(\cdot)$ meaning that $Y_i$ is drawn from a **normal distribution** with parameters $\mu$ (mean; which depends on $x_i$) and $\sigma$ (variance; which has the same value for all $Y_i$s).
+]
+
+.pull-right[
 Varying $\mu$, $\sigma = 5$
 
-```{r,echo=F}
+```{r, echo = F, fig.width = 3, fig.height = 3}
 x = seq(1, 50, 0.1)
 par(mypar);par(cex = 1.4)
 plot(x, dnorm(x, mean = 20, sd = 5), type = 'l', lwd = 3, xlab = '# galumna', ylab = 'Probability')
@@ -298,11 +545,9 @@ points(x, dnorm(x, mean = 25, sd = 5), type = 'l', lwd = 3, col = 2)
 points(x, dnorm(x, mean = 30, sd = 5), type = 'l', lwd = 3, col = 4)
 legend('topleft', legend = c('20', '25', '30'), lty = 1, col = 1:3, bty = 'n', lwd = 2, cex = 1.1)
 ```
-]
-.pull-right[
-$\mu = 25$, varying $\sigma$
 
-```{r,echo=F}
+$\mu = 25$, varying $\sigma$
+```{r, echo=F, fig.width = 3, fig.height = 3}
 x = seq(1, 50, 0.1)
 par(mypar);par(cex = 1.4)
 plot(x, dnorm(x, mean = 25, sd = 5), type = 'l', lwd = 3, xlab = '# galumna', ylab = 'Probability')
@@ -314,45 +559,47 @@ legend('topleft', legend = c('5', '7.5', '10'), lty = 1, col = 1:3, bty = 'n', l
 ]
 
 ---
-# Normally Distributed Residuals
 
-Another way to write the linear model equation is:
-
-$$y_i \sim N(\mu = \beta_0 + \beta_1 X_i, \sigma^2)$$
-
-<br>
-Which literally means that $y_i$ is drawn from a normal distribution with parameters $\mu$ (which depends on $x_i$) and $\sigma$ (which has the same value for all $Y$s).
-
-<br>
-.comment[Let us predict *Galumna* abundances as a function of water content using the linear model we fitted earlier...]
-
----
 # Model prediction
 
-We need regression coefficients ( $\beta$ ) and the standard deviation ( $\sigma$ ):
+Remember that we aim at estimating the *unknown coefficients* $\beta_0$ and $\beta_1$, so that a line effectively predicting every value of $Y$ as a function of $X$ can be drawn!
 
-```{r}
+$$Y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$
+
+We can obtain the parameters $\mu$ and $\sigma^2$ for a normal distribution corresponding to our equation!
+
+
+To obtain the coefficients from our models, we can use the function `coef()`:
+
+.pull-left[
+```{r coefs-lmabund}
 coef(lm.abund)
+```
+]
+
+.pull-right[
+```{r sigma-lmabund}
 summary(lm.abund)$sigma
 ```
+]
 
-What are the parameters of the normal distribution used to model $y$ when water content = 300?
-
-$$y_i \sim N(\mu = \beta_0 + \beta_1 X_i, \sigma^2)$$
+What are the parameters of the normal distribution used to model $Y$ when water content is $300$?
 
 --
 
-$$\mu = 3.44 + (-0.006 x 300) = 1.63$$
+.center[
+$\mu = 3.44 + (-0.006 \times 300) = 1.63$   and    $\sigma^2 = 1.51$
+]
 
-$$\sigma = 1.51$$
+i.e. randomly drawn $Y$ values when water content is $300$ should be in average $1.63$ and have variance $1.51$. 
 
 ---
 # Model prediction
 
 .pull-left[
-$$y_i \sim N(\mu = \beta_0 + \beta_1 X_i, \sigma^2)$$
-$$\mu = 3.44 + (-0.006 x 300) = 1.63$$
-$$\sigma = 1.51$$
+$$y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$
+$$\mu = 3.44 + (-0.006 \times 300) +\varepsilon= 1.63$$
+$$\sigma^2 = 1.51$$
 ]
 .pull-right[
 At $x = 300$, residuals should follow a normal distribution with $\mu = 1.63$ and $\sigma^2 = 1.51$.
@@ -364,9 +611,11 @@ At $x = 400$, we get $\mu = 1.02$ and $\sigma^2 = 1.51$, etc.
 
 .pull-left[
 
-- .small[Graphically, this is our model]:
+.small[We can represent this model as]:
 
-  ![:scale 90%](images/modelPredic.png)
+.center[
+![:scale 90%](images/modelPredic.png)
+]
 ]
 
 --
@@ -384,15 +633,15 @@ At $x = 400$, we get $\mu = 1.02$ and $\sigma^2 = 1.51$, etc.
 ???
 
 Perform a multiple choice poll with participants.
-Correct answers are 3 and 4
+Correct answers are 3 and 4.
 
 ---
 # Model prediction
 
 .pull-left[
-$$y_i \sim N(\mu = \beta_0 + \beta_1 X_i, \sigma^2)$$
-$$\mu = 3.44 + (-0.006 x 300) = 1.63$$
-$$\sigma = 1.51$$
+$$y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$
+$$\mu = 3.44 + (-0.006 \times 300) +\varepsilon= 1.63$$
+$$\sigma^2 = 1.51$$
 ]
 .pull-right[
 At $x = 300$, residuals should follow a normal distribution with $\mu = 1.63$ and $\sigma^2 = 1.51$.
@@ -402,39 +651,70 @@ At $x = 400$, we get $\mu = 1.02$ and $\sigma^2 = 1.51$, etc.
 
 .pull-left[
 
-- .small[Graphically, this is our model]:
+.small[We can represent this model as]:
 
-  ![:scale 90%](images/modelPredic.png)
+.center[
+![:scale 90%](images/modelPredic.png)
+]
 ]
 
 .pull-right[
 
 **Problems**:
 
-- $\sigma^2$ is not homogeneous, yet `lm()` forces a constant $\sigma^2$
-- Predicted values should be integers
+3\. $\sigma^2$ is not homogeneous, yet `lm()` forces a constant $\sigma^2$
+
+4\. Predicted values should be integers
+]
+
+
+---
+## What do we do now? Transform?
+
+Very often, data will not "behave" and will violate the assumptions we have seen, showing evidence for **non-normality** and/or **heteroskedasticity**.
+
+We have been told to **transform** our data using logarithmic, square-root, and consine transformations.
+
+--
+
+.pull-left[
+But, transformations not always work and come with a few drawbacks:
+
+1. They change the response variable (!), making interpretation challenging;
+2. They may not simulateneously improve linearity and homogeneity of variance; 
+3. The boundaries of the sample space change.
+
+]
+
+.pull-right[
+For instance, our simple linear model:
+
+$$Y_i = \beta_0 + \beta_1X_i + \varepsilon$$
+looks like this. under a log-transform:
+$$E(\log{Y_i}) = \beta_0 + \beta_1X_i $$
+
+*It seems undesirable to interpret that for every $300$ units increase in water content, Galumna abundance takes the form of $\log(1.63).$*
 ]
 
 ---
-# Biological data & distributions
+# Plus, normal distributions are not the only ones!
 
-Statisticians have described a multitude of distributions that correspond to different types of data.
+Statisticians have described a multitude of distributions to describe different types of data.
 
 A distribution provides the probability of observing each possible outcome of an experiment or survey (e.g. $abund = 8$ *Galumna* individuals).
 
-Distributions can be **discrete** (only includes integers
-or **continuous** (includes fractions).
+Distributions can be **discrete** (only include integers), **continuous** (including fractions) and be limited to a given range or domain (e.g., $0$ to $1$, $0$ to $+\infty$, $-\infty$ to $+\infty$).
 
-All distributions have **parameters** that dictate the shape of the distribution (e.g. $\mu$ and $\sigma^2$ for the normal).
+All distributions can be broken down into **parameters** that dictate their shapes (e.g. $\mu$ and $\sigma^2$ for the Normal).
 
 ---
-# Biological data & distributions
+# Biological data & distributions: Poisson
 
-*Galumna* abund follows a discrete distribution (i.e. it only takes integer values).
+*Galumna* `abund` follows a discrete distribution (i.e. it only takes integer values).
 
 A useful distribution to model abundance data is the “Poisson” distribution:
 
-  - **Poisson** is a discrete distribution with a single parameter, $\lambda$ (lambda), which defines both the mean and the variance of the distribution:
+- **Poisson** is a discrete distribution with a single parameter, $\lambda$ (lambda), which defines both the mean and the variance of the distribution:
 
 ```{r,echo=F,fig.width=15}
 x = seq(1, 50, 1)
@@ -448,7 +728,7 @@ plot(x, dpois(x, lambda = 30), type = 'h', lwd = 3,
 ```
 
 ---
-# Biological data & distributions
+# Biological data & distributions: Poisson
 
 *Galumna* seems to follow a Poisson distribution with a low value of $\lambda$:
 
@@ -466,9 +746,9 @@ plot(x, dpois(x, lambda = 30), type = 'h', lwd = 3,
 ---
 # Biological data & distributions
 
-Presence-absence data takes yet another form:
+Presence-absence data takes another form:
 
-- Only `0`s and `1`s;
+- Only $0$ and $1$;
 - Poisson distribution would not be appropriate to model this variable.
 
 ```{r,fig.height=5,echo=-1}
@@ -477,7 +757,7 @@ Presence-absence data takes yet another form:
 ```
 
 ---
-# Biological data & distributions
+# Biological data & distributions: Bernoulli
 
 **“Bernoulli” distribution**:
 
@@ -492,7 +772,7 @@ Presence-absence data takes yet another form:
   barplot(setNames(c(.1, .9), c('absent (0)', 'present (1)')), ylim = c(0, 1), xlab = 'pa', ylab = 'probability', main = 'p = 0.9')
 ```
 
-We can use the Bernouilli distribution to calculate the probability Galumna present (`1`) vs. absent (`0`)
+We can use the Bernouilli distribution to calculate the probability Galumna present (`1`) vs. absent (`0`).
 
 ---
 # Biological data & distributions
@@ -510,7 +790,7 @@ plot(x, dbinom(x, size = 50, prob = 0.9), type = 'h', lwd = 3, xlab = '# galumna
 ```
 
 ---
-# Biological data & distributions
+# Biological data & distributions: Binomial
 
 **Binomial distribution**: used to model data where the number of successes are integers and where the number of trials, $n$, is known.
 
@@ -524,226 +804,204 @@ plot(x, dpois(x, lambda = 30), type = 'h', lwd = 3, xlab = '# galumna', ylab = '
 ```
 
 ---
-# Biological data & distributions
+# Modelling with other distributions
 
-Getting back to our problem... We can switch the distribution of error terms ( $ε_i$ ) from normal to Poisson:
+*Getting back to our problem... what do we do if we have other distributions?*
 
-$$y_i \sim Poisson(\lambda = \beta_0 + \beta_1 x_i)$$
+<br>
 
-Problems solved!
+.center[We can attempt using **generalized linear models**!]
 
-1. $\lambda$ varies with $x$ (water content) which means that the residual variance will also vary with $x$. This also means that we have relaxed the homogeneity of variance assumption!
+<br>
 
-2. Predicted values will now be integers instead of fractions;
+In `R`, this means that we will move away from the (general) linear models function `lm()` and begin using the `glm()` function!
 
-3. The model will never predict negative values (Poisson is strictly positive).
 
 ---
-# Biological data & distributions
+# Generalized Linear Models
 
-This is **almost** a Poisson GLM, which looks like this:
+A **generalized linear model** is made of a **linear predictor**:
 
-.center[![:scale 90%](images/poisPred.png)]
+$$\underbrace{g(\mu_i)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}~+~\underbrace{\epsilon}_{Error}$$
+and,
 
-Probabilities (in orange) are now integers, and both the variance and the mean of the distribution decline as $\lambda$ decreases with increasing water content.
+1. a **link** function $g(\mu_i)$ that **transforms the expected value** of $Y$ and describes how the mean $E(Y_i) = \mu_i$ depends on the linear predictor
 
+$$g(\mu_i) = ηi$$
+
+2\. a **variance** function that describows how the variance $\text{var}(Y_i)$ depends on the mean
+
+$$\text{var}(Y_i) = \phi V(\mu)$$
+where the **dispersion parameter** $phi$ is a constant.
+
+---
+# General linear models as a GLM
+
+So, for our **general linear model** with $\epsilon ∼ N(0, σ^2)$ and $Y_i \sim{} N(\mu_i, \sigma^2)$, we have the same linear predictor:
+
+
+$$\underbrace{g(\mu_i)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}~+~\underbrace{\epsilon}_{Error}$$
+the **identity** link function
+$$g(\mu_i) = \mu_i$$
+and, the variance function
+
+$$V(\mu_i) = 1$$
+
+<br>
+
+.center[*Wow! This is equivalent to the normal linear model that we have learned before!*]
+
+---
+# `glm()`
+
+In `R`, we can fit generalized linear models using the `glm()` function, which is similar to the `lm()` function: 
+.pull-left2[
+```{r, eval = FALSE, echo = TRUE}
+glm(formula, 
+    family = gaussian(link = "identity"), 
+    data,
+    ...)
+``` 
+]
+.pull-right2[
+```{r, eval = FALSE, echo = TRUE}
+lm(formula, 
+    data,
+    ...)
+#
+``` 
+
+]
+
+<br>
+
+with the `family` argument taking the names of the **link function** (inside `link`) and, the **variance function**.
+
+This approach is extendable to other distribution families! 
+
+--
+
+| Distribution of $Y$ | Link function name | Link function | Model      | `R` |
+|---------------------|--------------------|---------------|------------|-----|
+| Normal              | Identity           | $g(\mu) = \mu$  | $\mu = \mathbf{X} \boldsymbol{\beta}$ | `gaussian(link="identity")` | 
+| Binomial            | Logit              | $g(\mu) = \log\left(\dfrac{\mu}{1-\mu}\right)$  | $\log\left(\dfrac{\mu}{1-\mu}\right) = \mathbf{X} \boldsymbol{\beta}$ | `binomial(link="logit")`| 
+| Poisson              | Log           | $g(\mu) = \log(\mu)$ | $-\mu^{-1} = \mathbf{X} \boldsymbol{\beta}$ | `poisson(link="log")`|
+| Exponential              | Negative Inverse           | $g(\mu) = -\mu^{-1}$  | $\log(\mu) = \mathbf{X} \boldsymbol{\beta}$ | `Gamma(link="inverse")` |
 
 ---
 class: inverse, center, middle
 
 # GLM with binary data
+## Generalized linear models
 
 ---
 # Binary variables
 
-A common response variable in ecological datasets is the **binary variable**: we observe a phenomenon $X$ or its “absence”.
+A common response variable in ecological datasets is the **binary variable**. 
 
-- Presence or absence of a species
-- Presence or absence of a disease
-- Success or failure to observe behaviour
-- Survival or death of organisms
+We observe a phenomenon $Y$ or its “absence”:
 
-We wish to determine how $P/A \sim Environment$, for instance.
+- Presence or absence of a species;
+- Presence or absence of a disease;
+- Success or failure to observe behaviour;
+- Survival or death of organisms.
 
+<br>
 
-.comment[We often call this situation as a logistic regression or logit model.]
+As usual, we are interested in questions such as how species occurrences vary in function of the environment?
+
+$$\text{Occurrences} = f(\text{Environment})$$
 
 ---
 # Binary variables
 
-In `R`, binary variables are coded with `1` and `0`:
+Under a linear model, expected values can be out of the `[0, 1]` range with `lm()`:
 
-```{r,echo=F}
-Site <- LETTERS[1:6]
-Presence <- c(1, 0, 1, 1, 0, 1)
-dat = data.frame(Site, Presence)
+<br>
+```{r, eval = FALSE, echo = TRUE}
+lm(Pres ~ ExpVar)
 ```
 
 <br>
 
 .pull-left[
-.right[
-```{r, echo=F}
-print(dat)
-```
-]]
-.pull-right[
- <br>
-
- 1 = Presence
-
- <br>
-
- 0 = Absence
-]
-
----
-exlude:true
-
-# Binary variables
-
-They are clearly not normally distributed!
-
-<br>
-
-```{r,echo=F,fig.width=7, fig.height=6}
-par(mypar);par(cex = 1.4)
-hist(Presence)
-```
-
----
-# Binary variables
-
-Under a linear model, expected values can be out of the `[0,1]` range with `lm()`:
-
-<br>
-
-```{r,echo=F,fig.width=7.5, fig.height=5.6}
+```{r,echo=F,fig.width=5, fig.height=5}
 Pres <- c(rep(1, 40), rep(0, 40))
 rnor <- function(x) rnorm(1, mean = ifelse(x == 1, 12.5, 7.5), sd = 2)
 ExpVar <- sapply(Pres, rnor)
 par(mypar);par(cex = 1.4)
-plot(ExpVar, Pres, ylim = c(-.5, 1.5), xlab = 'Explanatory variable', ylab = 'Presence', main = 'Binary variables and fitted values with lm()', pch = 16)
+plot(ExpVar, Pres, ylim = c(-.5, 1.5), xlab = 'Explanatory variable', ylab = 'Presence', main = 'Binary variables and fitted values', pch = 16)
 abline(lm(Pres ~ ExpVar), col = 'orange', lwd = 2)
 mtext(expression(symbol("\255")), at = 1.25, side = 4, line = 0.1, cex = 6, col = 'blue')
 mtext(expression(symbol("\256")), at = 3, side = 1, line = -2.2, cex = 6, col = 'blue')
 ```
+]
 
----
-exclude: true
-
-# Probability distribution
-
-The Bernoulli distribution is well suited for binary response variables.
-
-<br>
-
-.pull-left[.right[
-
-$E(Y) = p$
-
-<br>
-
-$Var(Y) = p \times (1 - p)$
-
-]]
 .pull-right[
+```{r,echo=F,fig.width=7, fig.height=6}
+par(mypar);par(cex = 1.4)
+hist(Pres)
+```
 
-![:faic](arrow-right) **Mean of distribution** .small[Probability $p$ of observing an outcome]
-
-![:faic](arrow-right) **Variance of distribution** .small[Variance decreases as $p$ is close to `0` or `1`]
 ]
 
 ---
-# Logistic regression
+# GLM with binomial data: logit link
 
-The `glm()` function!
+A **generalized linear model** is made of a **linear predictor**:
 
-<br>
+$$\underbrace{g(\mu_i)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}~+~\underbrace{\epsilon}_{Error}$$
 
-```
-logit.reg <- glm(formula, data, family)
-```
-
-<br>
-
-Moving away from traditional linear models (`lm()`)...
-
-In addition to the data (of course!), we need to specify additional elements in a generalized linear model (`glm()`):
-
-1. The error distribution
-
-**AND**
-
-2. the link function to be used in the model.
-
-In `glm()`, this is set within the `family` argument.
-
----
-# The Link Function
-
-For a simple linear model of a normally distributed continuous response variable, the equation for the expected values is:
-
-<br>
-
-$$\mu = x\beta$$
-
-where
-
-- $\mu$ is the expected value of the response variable;
-- $x$ is the model matrix (*i.e.* your data);
-- $\beta$ is the vector of estimated parameters (*i.e.* the intercept & slope).
-
-<br>
-
-$x\beta$ is called the **linear predictor**.
-
----
-# The Link Function
-
-$\mu = x\beta$ is only true for normally distributed data.
-
-If this is not the case, we must use a transformation on the expected values $\mu$.
-
-$$g(\mu) = x\beta$$
-
-where $g(\mu)$ is the link function.
-
-<br>
-
-This allows us to relax the normality assumption.
-
----
-# The Link Function
-
-For binary data, the link function is called the **logit**:
-
-<br>
+For binary or binomial data, the link function is called the **logit**:
 
 $$g(p) = log\frac{p}{1-p}$$
 
-$\mu =$ expected values (probability that $Y = 1$).
-
-<br>
+with $\mu$ being the expected values (probability that $Y = 1$).
 
 The *logit* function is the logarithm of the odds $(\frac{p}{1-p})$.
-
-<br>
 
 The odds puts our expected values on a `0` to `+Inf` scale.
 
 The log-transformation puts our expected values on a `-Inf` to `+Inf`.
 
-
-.small[![:faic](arrow-right)] The expected values can now be **linearly** related to the linear predictor.
+*The expected values are now **linearly** related to the linear predictor.*
 
 ???
 
 We can understand that as if event A has probability p of occurring, then the odds of event A occurring is the ratio of the probability that A occurs to the probability that A does not occur: p/(1−p).
 
-For example, if the probability
-that I will fail my courses  is 0.6, the odds that I will fail my courses  is 0.6/(1 − 0.6) = 1.5. This means that the probability of observing a failure in my courses is 1.5 times greater than the probability of not observing it (that is,
+For example, if the probability that I will fail my courses  is 0.6, the odds that I will fail my courses  is 0.6/(1 − 0.6) = 1.5. This means that the probability of observing a failure in my courses is 1.5 times greater than the probability of not observing it (that is,
 1.5 × 0.4 = 0.6).
+
+---
+# GLM for binary data: logit link
+
+A reminder about our `glm()` function: 
+
+```{r, eval = FALSE, echo = TRUE}
+glm(formula, 
+    family = ???, 
+    data,
+    ...)
+``` 
+
+--
+
+| Distribution of $Y$ | Link function name | Link function | Model      | `R` |
+|---------------------|--------------------|---------------|------------|-----|
+| Normal              | Identity           | $g(\mu) = \mu$  | $\mu = \mathbf{X} \boldsymbol{\beta}$ | `gaussian(link="identity")` | 
+| Binomial            | Logit              | $g(\mu) = \log\left(\dfrac{\mu}{1-\mu}\right)$  | $\log\left(\dfrac{\mu}{1-\mu}\right) = \mathbf{X} \boldsymbol{\beta}$ | `binomial(link="logit")`| 
+| Poisson              | Log           | $g(\mu) = \log(\mu)$ | $-\mu^{-1} = \mathbf{X} \boldsymbol{\beta}$ | `poisson(link="log")`|
+| Exponential              | Negative Inverse           | $g(\mu) = -\mu^{-1}$  | $\log(\mu) = \mathbf{X} \boldsymbol{\beta}$ | `Gamma(link="inverse")` |
+
+--
+
+```{r, eval = FALSE, echo = TRUE}
+glm(formula, 
+    family = binomial(link = "logit"), # this is also known as logistic
+    data,
+    ...)
+```
 
 
 ---
@@ -778,7 +1036,7 @@ Borcard, D. and P. Legendre. 1994. Environmental control and spatial structure i
 Let us build a model of the presence of *Galumna* sp. as a function of water content and topography.
 
 ```{r}
-logit.reg <- glm(pa ~ WatrCont + Topo, data=mites,
+logit.reg <- glm(pa ~ WatrCont + Topo, data = mites,
                  family = binomial(link = "logit"))
 ```
 ```{r,eval=F}
@@ -787,7 +1045,7 @@ summary(logit.reg)
 
 ???
 
-The presenter must increase focus on the `family` argument, explaining what it is. Also, refer to ?family.
+The presenter must highlight the `family` argument, explaining what it is. Also, refer to ?family.
 ---
 # Exercise 1
 
@@ -806,25 +1064,19 @@ Deviance, coefficients and dispersion will be covered in the following slides.
 ---
 # Challenge 1 ![:cube]()
 
-Using the `bacteria` dataset, model the presence of *H. influenzae* as a function of treatment and week of test.
-
-Start with a full model and reduce it to the most parsimonious model.
+Using the `bacteria` dataset, model the presence of *H. influenzae* as a function of treatment and week of test. Start with a full model and reduce it to the most parsimonious model.
 
 ```{r}
-# install.packages("MASS")
-
 library(MASS)
-data(bacteria)
-str(bacteria)
+data(bacteria); str(bacteria)
 ```
 
-.tiny[
 
 *Tests of the presence of the bacteria H. influenzae in children with otitis media in the Northern Territory of Australia.*
 
-> Dr A. Leach tested the effects of a drug on 50 children with a history of *otitis media* in the Northern Territory of Australia. The children were randomized to the drug or a placebo.
+*Dr A. Leach tested the effects of a drug on 50 children with a history of otitis media in the Northern Territory of Australia. The children were randomized to the drug or a placebo.*
 
-> The presence of *H. influenzae* was checked at weeks 0, 2, 4, 6 and 11: 30 of the checks were missing and are not included in this data frame.
+*The presence of H. influenzae was checked at weeks 0, 2, 4, 6 and 11: 30 of the checks were missing and are not included in this data frame.*
 
 ???
 
@@ -832,7 +1084,7 @@ This is a breakout room activity. Assign groups of 3-4 into breakout rooms and g
 
 ]
 ---
-# Exercise 1 - Solution ![:cube]()
+# Challenge 1 - Solution ![:cube]()
 
 ```{r}
 model.bact1 <- glm(y ~ trt * week, data = bacteria, family = binomial)
@@ -877,9 +1129,10 @@ The output indicates that both water content and topography are significant driv
 
 <br>
 
-.comment[But, how do we interpret the slope coefficients?]
+.center[.comment[But, how do we interpret the slope coefficients in `glm()`?]]
 
 ---
+
 # Interpreting the `glm()` coefficients
 
 The direct interpretation of the coefficients in the logit model is tenuous because of the link function. If the link is *identity*, it is much easier to interpret.
@@ -890,13 +1143,13 @@ $$Pr(y_i = 1) = p = g^{-1(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}$$
 
 where $g^{-1}()$ is the **inverse link function**.
 
-Now let us focus in interpreting the $\beta_1$ coefficient.
+Now, let us focus in interpreting the $\beta_1$ coefficient.
 
 #### Identity link
 
 For the identity link, the interpretation is straighforward. For one-unit increase in $x_1$, $\beta_1$ dictates a constant difference in the outcome.
 
-$\Delta{y_i} = [\beta_0 + (x_{1i} + 1)\beta_1 + x_{2i}\beta_2] - (\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)$
+$\Delta{y_i} = [\beta_0 + (\color{red}{x_{1i} + 1})\beta_1 + x_{2i}\beta_2] - (\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)$
 
 $\Delta{y_i} = \beta_1$
 
@@ -926,11 +1179,12 @@ Since the inverse link is nonlinear, the coefficient interpretation is difficult
 
 Let us take a look what happens to the differences for a one-unit change to $x_1$:
 
-$$\Delta{y_i} = \dfrac{\exp[\beta_0 + (x_{1i} + 1)\beta_1 + x_{2i}\beta_2]}{1 + \exp{[\beta_0 + (x_{1i} + 1)\beta_1 + x_{2i}\beta_2]}} - \dfrac{\exp[\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2]}{1 + \exp{[\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2]}}$$
+$$\Delta{y_i} = \dfrac{\exp[\beta_0 + (\color{red}{x_{1i} + 1})\beta_1 + x_{2i}\beta_2]}{1 + \exp{[\beta_0 + (\color{red}{x_{1i} + 1})\beta_1 + x_{2i}\beta_2]}} - \dfrac{\exp[\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2]}{1 + \exp{[\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2]}}$$
 $$\Delta{y_i} = \exp{(\beta_0)}\{\exp{(\beta_1)}\} $$
 As $x$ increases by one unit, the odds increase by a factor of  $\exp(\beta_1)$.
 
 ---
+
 # Interpreting the output
 
 ###### Getting back to our `logit.reg` model!
@@ -966,9 +1220,10 @@ $$\text{pseudo-R}^2 = \frac{\text{null deviance - residual deviance}}{\text{null
 
 <br>
 
-> $\text{pseudo-R}^2$ is the variance explained by the model
+> $\text{pseudo-R}^2$ is the variance explained by the model.
 
 ---
+
 # Unit deviance, total deviance and null deviance
 
 The unit deviance is a measure of distance between $y$ and $μ$.
@@ -976,9 +1231,12 @@ The unit deviance is a measure of distance between $y$ and $μ$.
 $${\displaystyle d(y,y)=0}$$
 $${\displaystyle d(y,\mu )>0\quad \forall y\neq \mu }$$
 
+--
 
 The total deviance ${\displaystyle D(\mathbf {y} ,{\hat {\boldsymbol {\mu }}})}$ of a model with predictions ${\hat {\boldsymbol {\mu }}}$ of the observation $\mathbf {y}$ is the sum of its unit deviances:
 $${\displaystyle D(\mathbf {y} ,{\hat {\boldsymbol {\mu }}})=\sum _{i}d(y_{i},{\hat {\mu }}_{i})}$$
+--
+
 Now, the deviance of a model that has estimates  ${\hat {\mu }}=E[Y|{\hat {\theta }}_{0}]$ can be defined by its **likelihood**:
 $$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(y\mid {\hat {\theta }}_{s}){\big )}-\log {\big (}p(y\mid {\hat {\theta }}_{0}){\big )}{\Big )}$$
 with $\hat \theta_0$ denoting the fitted values of the parameters in the reduced model, while ${\displaystyle {\hat {\theta }}_{s}}\hat \theta_s$ denotes the fitted parameters for the saturated model.
@@ -995,6 +1253,7 @@ $$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(\text{saturated model}){\big )}-\lo
 And, the **null deviance** is defined  2 times the log-likelihood ratio of the full model compared to the null model (i.e. predictors are set to 1).
 
 $$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(\text{saturated model}){\big )}-\log {\big (}p(\text{null model}){\big )}{\Big )}$$
+
 ???
 
 Under some conditions, if the proposed model describes the data nearly as well as the saturated model, then asymptotically D ∼ χ
@@ -1058,7 +1317,6 @@ pseudoR2
 .comment[Hence, the model explains 46.6% of the variability in the data.]
 
 ---
-exclude: true
 
 # Predictive power and goodness-of-fit
 
@@ -1073,9 +1331,22 @@ R^2_{adj} = 1 - \frac{logL(M) - K}{logL(M_{null})}
 where $K$ corresponds to the additional number of predictors in relation to the null model.
 ]
 
-The goodness-of-fit of the logistic regression model can be expressed by some variants of pseudo-R2 statistics, such as Maddala (1983) or Cragg and Uhler (1970) measures.
+The goodness-of-fit of logistic regression models can be expressed by variants of pseudo-R2 statistics, such as Maddala (1983) or Cragg and Uhler (1970) measures.
 
 When talking about *logistic regressions*, low $R^2$ values are often common.
+
+The `DescTools::PseudoR2()` function computes several pseudo-R2.
+
+```{r, echo = TRUE}
+logit.reg <- glm(mites$pa ~ mites$WatrCont + mites$Topo,
+                 family = binomial(link = "logit"))
+
+DescTools::PseudoR2(logit.reg, which = "all")
+```
+
+---
+exclude: true
+### Exercise 2: Performing a Hosmer-Lemeshow goodness-of-fit test
 
 One way to assess the goodness-of-fit of these models is to use the **Hosmer-Lemeshow goodness-of-fit test**.
 
@@ -1084,25 +1355,6 @@ It roughly involves:
 2. Ordering on the predicted probability (or equivalently, the linear predictor);
 3. Comparing the observed to expected number of positive responses in each group
 4. Performing a chi-squared test on the outcome.
-
----
-# Predictive power and goodness-of-fit
-
-The `DescTools::PseudoR2()` function computes several pseudo-R2.
-
-```{r, echo = TRUE}
-logit.reg <- glm(mites$pa ~ mites$WatrCont + mites$Topo,
-                 family = binomial(link = "logit"))
-
-library(DescTools)
-
-fit <- PseudoR2(logit.reg, which = "all")
-fit
-```
-
----
-exclude: true
-### Exercise 2: Performing a Hosmer-Lemeshow goodness-of-fit test
 
 This test is assessing whether or not the observed event rates match expected event rates in subgroups of the model population.
 
@@ -1122,7 +1374,7 @@ plot(HLtest(logit.reg))
 .comment[A non-significant value indicates an adequate fit!]
 
 ---
-# Challenge 1 ![:cube]()
+# Challenge 2 ![:cube]()
 
 1. Using the model created with `bacteria` dataset, assess goodness-of-fit and predictive power.
 
@@ -1133,7 +1385,7 @@ plot(HLtest(logit.reg))
 Run this exercise as a breakout room activity with groups of 3-4 with a time limit of 5 minutes
 
 ---
-# Solution ![:cube]()
+# Challenge 2 - Solution ![:cube]()
 
 1. Using the model created with `bacteria` dataset, assess goodness-of-fit and predictive power.
 
@@ -1285,8 +1537,31 @@ plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'F. occidentalis in
 ???
 
 This is a singe choice poll question. The correct answer is 3. Poisson
+
 ---
+# Modeling count data
+
 .large[How to model count data?]
+
+Does elevation influence the abundance of *F. occidentalis*?
+
+```{r, echo=F,fig.height=4.0}
+par(mypar);par(cex = 1.4)
+plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'F. occidentalis individuals', xlab = 'Elevation(m)')
+```
+
+.small[What type of distribution best fits this data?
+1. Bernoulli   
+2. Normal    
+3. **Poisson**
+4. Binomial
+]
+
+???
+
+This is a singe choice poll question. The correct answer is 3. Poisson
+---
+## How to model count data?
 
 Does elevation influence the abundance of *F. occidentalis*?
 
@@ -1366,7 +1641,7 @@ If $βj = 0$ then $exp(βj) = 1$ and $μ$ is not related to $x_j$. If $βj > 0$ 
 
 # Fitting a Poisson GLM in `R`
 
-The function `glm()` allows you to specify a Poisson GLM
+The function `glm()` allows you to specify a Poisson GLM.
 
 ```{r}
 glm.poisson = glm(Faramea.occidentalis ~ Elevation,
@@ -1388,10 +1663,13 @@ summary(glm.poisson)
 
 .pull-left2[
 .small[
-```{r}
+
+```{r, output.lines=12}
 summary(glm.poisson)
 ```
-]]
+
+]
+]
 
 .pull-right2[
 Estimates:
@@ -1411,14 +1689,14 @@ What about the *null deviance* and the *residual deviance*?
 
 ???
 
-Note: Point out that the resiudal deviance of 388.12 is much higher than residual degrees of freedom of 41 indicating overdispersion
+Note: Point out that the resiudal deviance of 388.12 is much higher than residual degrees of freedom of 41 indicating overdispersion.
 
 ---
-exclude: true
+exclude: false
 
 # Parameter estimates
 
-In our model the unknown parameters are the intercept ( $\alpha$ ) and the slope of elevation ( $\beta$ )
+In our model the unknown parameters are the intercept ( $\alpha$ ) and the slope of elevation ( $\beta$ ):
 
 
 $$log(\mu_i) = 1.769 - 0.0027 \times \text{Elevation}_i$$
@@ -1429,7 +1707,7 @@ $$\mu_i = e^{1.769 - 0.0027 \times \text{Elevation}_i}$$
 
 
 ---
-exclude: true
+exclude: false
 
 # The deviance
 
@@ -1499,7 +1777,7 @@ $$E(Y_i) = \mu_i$$
 
 $$Var(Y_I) = \phi \times \mu_i$$
 
-where $phi$ is the dispersion parameter.
+where $\phi$ (*phi*) is the dispersion parameter.
 
 The **systematic part** and the **link function** remain the same.
 
@@ -1508,7 +1786,7 @@ Correcting for overdispersion will not affect parameter estimates, but will affe
 .alert[Some marginally significant p-values may no longer hold!]
 
 ---
-exclude: true
+exclude: false
 
 # Fitting a quasi-Poisson GLM in `R`
 
@@ -1522,7 +1800,7 @@ glm.quasipoisson = update(glm.poisson, family = quasipoisson)
 ```
 
 ---
-exclude: true
+exclude: false
 
 # Fitting a quasi-Poisson GLM in `R`
 
@@ -1549,7 +1827,7 @@ $$\sqrt{\phi} = 4$$
 ]
 
 ---
-exclude: true
+exclude: false
 
 # Fitting a quasi-Poisson GLM in R
 
@@ -1572,19 +1850,21 @@ A quasi-Poisson GLM can correct for some overdispersion but if too high a differ
 ---
 # Negative binomial GLM
 
-Negative binomial GLMs are favor when overdispersion is high
+Negative binomial GLMs are favoured when overdispersion is high:
 
-- It has **two parameters** $\mu$ and $k$. $k$ controls for the dispersion parameter (smaller $k$ indicates higher dispersion)
-- It corresponds to a combination of two distributions (**Poisson** and **gamma**)
-- It assumes that the $Y_i$ are Poisson distributed with the mean $\mu$ assumed to follow a gamma distribution!
+- It has **two parameters** $\mu$ and $k$, where $k$ controls for the dispersion parameter (smaller $k$ indicates higher dispersion);
+- It corresponds to a combination of two distributions (**Poisson** and **Gamma**);
+- It assumes that the $Y_i$ are Poisson distributed with the mean $\mu$ assumed to follow a Gamma distribution!
+
+The predicted values follow as:
 
 $$E(Y_i) = \mu_i$$
+and the variance function:
 
 $$Var(Y_i) = \mu_i + \frac{\mu^2_i}{k}$$
 
 
 ---
-exclude: true
 
 # Fitting a negative binomial in R
 
@@ -1595,7 +1875,7 @@ install.packages('MASS')
 ```
 
 ```{r}
-glm.negbin = glm.nb(Faramea.occidentalis ~ Elevation, data = faramea)
+glm.negbin <- glm.nb(Faramea.occidentalis ~ Elevation, data = faramea)
 ```
 
 ```r
@@ -1603,7 +1883,6 @@ summary(glm.negbin)
 ```
 
 ---
-exclude: true
 
 .pull-left2[
 .small[
@@ -1618,7 +1897,6 @@ summary(glm.negbin)
 ]
 
 ---
-exclude: true
 
 # Plotting the final GLM model
 
@@ -1645,8 +1923,6 @@ $$\text{Upper limit} = e^{[\alpha - 1.96 \times SE_{\alpha}] + [\beta - 1.96 \ti
 $$\text{Upper limit} = e^{[\alpha + 1.96 \times SE_{\alpha}] + [\beta + 1.96 \times SE_{\beta}] \times \text{Elevation}_i}$$
 
 ---
-exclude: true
-
 .small[
 ```{r,eval=F}
 pp <- predict(glm.negbin, newdata = data.frame(Elevation = 1:800), se.fit = TRUE)
@@ -1707,7 +1983,7 @@ This is a breakout activity with groups of 3-4 people and a time limit of 10 min
 Don't forget to show tips on the next slide.
 
 ---
-# Challenge 3: tips ![:cube]()
+# Challenge 3: Tips ![:cube]()
 
 Drop each term in turn and compare the full model with a nested model using the command:
 
@@ -1722,7 +1998,7 @@ anova(MyGLM, MyGLM2, test = "Chi")
 ```
 
 ---
-# Challenge 3: solution ![:cube]()
+# Challenge 3: Solution ![:cube]()
 
 .small[
 ```{r}
@@ -1742,7 +2018,7 @@ anova(glm.qp2, glm.qp, test="Chisq")
 
 
 ---
-# Challenge 3: solution ![:cube]()
+# Challenge 3: Solution ![:cube]()
 
 <br>
 
@@ -1767,8 +2043,10 @@ par(mypar);par(cex = 1.4)
 plot(mites$WatrCont, mites$Galumna,
       ylab = 'Number of Galumna', xlab = 'Water content of the substrate (g/L)')
 lines(pframe$pred, lwd = 2)
-lines(pframe$upr, col = 2, lty = 3, lwd = 2)
-lines(pframe$lwr, col = 2, lty = 3, lwd = 2)
+lines(pframe$upr, col = 2, 
+      lty = 3, lwd = 2)
+lines(pframe$lwr, col = 2, 
+      lty = 3, lwd = 2)
 ```
 ]
 
@@ -1784,7 +2062,7 @@ lines(pframe$lwr, col = 2, lty = 3, lwd = 2)
 
 
 ---
-# Additional GLMM resources
+# Additional GLM resources
 
 **Books**:
 
@@ -1802,3 +2080,34 @@ class: inverse, center, bottom
 # Thank you for attending this workshop!
 
 ![:scale 50%](images/qcbs_logo.png)
+
+
+---
+exclude: true
+
+.center[We can use GLM!]
+
+We can switch the distribution of error terms ($ε_i$) from Normal to Poisson:
+$$Y_i \sim \color{red}N(\mu = \beta_0 + \beta_1 X_i +\varepsilon)$$
+
+$$y_i \sim \color{red}{Poisson}(\lambda = \beta_0 + \beta_1 x_i +\varepsilon)$$
+where:
+
+1. $\lambda$ varies with $X$ (e.g., water content), with the residual variance also varying with $X$. (This also means that we have relaxed the assumption of homogeneity of variances!)
+
+2. Predicted values are now be integers instead of fractions;
+
+3. The model will never predict negative values (Poisson is strictly positive).
+
+---
+exclude: true
+
+# Biological data & distributions
+
+This is **almost** a Poisson GLM, which looks like this:
+
+.center[![:scale 90%](images/poisPred.png)]
+
+Probabilities (in orange) are now integers, and both the variance and the mean of the distribution decline as $\lambda$ decreases with increasing water content.
+
+

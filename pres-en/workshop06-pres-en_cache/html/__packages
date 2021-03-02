@@ -1,6 +1,8 @@
 base
+ggplot2
 MASS
-DescTools
 vcd
 gnm
 vcdExtra
+bbmle
+DescTools
