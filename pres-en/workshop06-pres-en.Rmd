@@ -109,7 +109,7 @@ install.packages(c("ggplot2",
 .center[.alert[Important]
 
 <br>
-This workshop will build up your knowledge on models along side with some of their important equations. *Do not run to the mountains!* This will be achieve progressively and you will feel proud of yourself after!
+This workshop will build up your knowledge on models along side with some of their important equations. *Do not run to the mountains!* This will be achieved progressively and you will feel proud of yourself after!
 
 ]
 
@@ -125,7 +125,7 @@ class: inverse, center, middle
 
 Much of our research focuses on investigating how patterns we observe can be explained by predictive variables.
 
-We are often looking for a function $f$ that can explain a response variable ($Y$) *in terms of* one ($X_1$) or many other predictors ($X_2$, $X_3$, $...$ , $X_n$):
+We are often looking for a function $f$ that can explain a response variable ( $Y$ ) *in terms of* one ( $X_1$ ) or many other predictors ( $X_2$, $X_3$, $...$ , $X_n$ ):
 
 $$Y = f(X_1)$$
 --
@@ -198,11 +198,8 @@ $$\mathbb{C}{\rm ov} (\epsilon_i, \epsilon_j) = 0,\ i \neq j$$
 
 $$\boldsymbol{\varepsilon} | \mathbf{X} \sim \mathcal{N} \left( \mathbf{0}, \sigma^2_\epsilon \mathbf{I} \right)$$
 --
-
-.center[**WHY SO MANY EQUATIONS?**]
-
---
 .small[
+.center[**WHY SO MANY EQUATIONS?**]
 .center[*Wait! Do not lose hope! They are necessary and we will explain why!*]
 ]
 ---
@@ -1338,8 +1335,8 @@ When talking about *logistic regressions*, low $R^2$ values are often common.
 The `DescTools::PseudoR2()` function computes several pseudo-R2.
 
 ```{r, echo = TRUE}
-logit.reg <- glm(mites$pa ~ mites$WatrCont + mites$Topo,
-                 family = binomial(link = "logit"))
+logit.reg <- glm(pa ~ WatrCont + Topo, 
+                 data = mites, family = binomial(link = "logit"))
 
 DescTools::PseudoR2(logit.reg, which = "all")
 ```
