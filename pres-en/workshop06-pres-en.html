@@ -1898,7 +1898,6 @@ glm.quasipoisson = update(glm.poisson, family = quasipoisson)
 ```
 
 ---
-exclude: false
 
 # Fitting a quasi-Poisson GLM in `R`
 
@@ -1949,7 +1948,7 @@ summary(glm.quasipoisson)
 ]
 
 ---
-exclude: false
+
 
 # Fitting a quasi-Poisson GLM in R
 
@@ -2198,7 +2197,7 @@ anova(glm.qp2, glm.qp, test="Chisq")
 
 **Websites**:
 
-- GLMM for ecologists (http://glmm.wikidot.com) .small[.comment[A great website on GLMM with a Q&amp;A section!]]
+- GLMM for Ecologists (http://glmm.wikidot.com) .small[.comment[A great website on GLMM with a Q&amp;A section!]]
 
 
 ---
@@ -2207,35 +2206,6 @@ class: inverse, center, bottom
 # Thank you for attending this workshop!
 
 ![:scale 50%](images/qcbs_logo.png)
-
-
----
-exclude: true
-
-.center[We can use GLM!]
-
-We can switch the distribution of error terms ($ε_i$) from Normal to Poisson:
-`$$Y_i \sim \color{red}N(\mu = \beta_0 + \beta_1 X_i +\varepsilon)$$`
-
-`$$y_i \sim \color{red}{Poisson}(\lambda = \beta_0 + \beta_1 x_i +\varepsilon)$$`
-where:
-
-1. `\(\lambda\)` varies with `\(X\)` (e.g., water content), with the residual variance also varying with `\(X\)`. (This also means that we have relaxed the assumption of homogeneity of variances!)
-
-2. Predicted values are now be integers instead of fractions;
-
-3. The model will never predict negative values (Poisson is strictly positive).
-
----
-exclude: true
-
-# Biological data &amp; distributions
-
-This is **almost** a Poisson GLM, which looks like this:
-
-.center[![:scale 90%](images/poisPred.png)]
-
-Probabilities (in orange) are now integers, and both the variance and the mean of the distribution decline as `\(\lambda\)` decreases with increasing water content.
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
