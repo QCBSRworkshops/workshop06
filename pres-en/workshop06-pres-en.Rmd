@@ -66,18 +66,14 @@ lapply(list.of.packages, require, character.only = TRUE, quietly = TRUE)
 
 In addition to the earliest RStudio and R versions, this workshop requires the following packages:
 
-.pull-left[
-
 1. [ggplot2](https://cran.r-project.org/package=ggplot2)
 3. [MASS](https://cran.r-project.org/package=MASS)
 4. [vcdExtra](https://cran.r-project.org/package=vcdExtra)
 5. [bbmle](https://cran.r-project.org/package=bbmle)
 6. [DescTools](https://cran.r-project.org/package=DescTools)
-]
 
 <br>
 
-.pull-right[
 To install them from CRAN, run:
 
 ```{r eval = FALSE}
@@ -88,7 +84,6 @@ install.packages(c("ggplot2",
                    'DescTools')
                  )
 ```
-]
 
 ---
 
@@ -132,8 +127,10 @@ $$Y = f(X_1)$$
 The combination of predictive variables we have sampled will *never* fully explain $Y$. Because of this, there is always *unpredictable disturbance* in our models, i.e. the error $\epsilon$. As such, the error is an irrevocable part of our function:
 
 $$Y = f(X_1, \epsilon)$$
---
-In [Workshop 4](), we have learned how to use **general linear models** as $f(\cdot)$ to describe the relationship between variables. They were:
+---
+# Revisiting linear models
+
+In [Workshop 4](https://qcbsrworkshops.github.io/workshop04/pres-en/workshop04-pres-en.html#1), we have learned how to use **general linear models** as $f(\cdot)$ to describe the relationship between variables. They were:
 
 .center[
 .pull-left[
@@ -157,7 +154,7 @@ ANCOVA
 ---
 # Revisiting linear models
 
-In [Workshop 4](), we have learned how to use **general linear models** as $f(\cdot)$ to describe the relationship between variables.
+In [Workshop 4](https://qcbsrworkshops.github.io/workshop04/pres-en/workshop04-pres-en.html#1), we have learned how to use **general linear models** as $f(\cdot)$ to describe the relationship between variables.
 
 The general form of our function $Y = f(X_1)$ as a linear function can be represented by:
 
@@ -197,7 +194,8 @@ $$\mathbb{C}{\rm ov} (\epsilon_i, \epsilon_j) = 0,\ i \neq j$$
 3\. And, the residuals are normal:
 
 $$\boldsymbol{\varepsilon} | \mathbf{X} \sim \mathcal{N} \left( \mathbf{0}, \sigma^2_\epsilon \mathbf{I} \right)$$
---
+---
+<br><br><br><br><br><br><br><br><br>
 .small[
 .center[**WHY SO MANY EQUATIONS?**]
 .center[*Wait! Do not lose hope! They are necessary and we will explain why!*]
@@ -476,7 +474,7 @@ plot(lm.abund)
 ---
 # Using linear models: assumptions
 
-They look very bad for `lm(prop ~ WaterCont)`:
+They look very bad for `lm(prop ~ WatrCont)`:
 
 .pull-left[
 ```{r,echo=-1}
@@ -497,7 +495,7 @@ plot(lm.prop)
 ---
 # Using linear models: assumptions
 
-And, also bad `lm(pa ~ WaterCont)`:
+And, also bad `lm(pa ~ WatrCont)`:
 
 .pull-left[
 ```{r,echo=-1}
@@ -670,7 +668,7 @@ At $x = 400$, we get $\mu = 1.02$ and $\sigma^2 = 1.51$, etc.
 
 Very often, data will not "behave" and will violate the assumptions we have seen, showing evidence for **non-normality** and/or **heteroskedasticity**.
 
-We have been told to **transform** our data using logarithmic, square-root, and consine transformations.
+We have been told to **transform** our data using logarithmic, square-root, and cosine transformations.
 
 --
 
@@ -687,16 +685,16 @@ But, transformations not always work and come with a few drawbacks:
 For instance, our simple linear model:
 
 $$Y_i = \beta_0 + \beta_1X_i + \varepsilon$$
-looks like this. under a log-transform:
+looks like this under a log-transform:
 $$E(\log{Y_i}) = \beta_0 + \beta_1X_i $$
 
 *It seems undesirable to interpret that for every $300$ units increase in water content, Galumna abundance takes the form of $\log(1.63).$*
 ]
 
 ---
-# Plus, normal distributions are not the only ones!
+# Plus, normal distributions are not the only options!
 
-Statisticians have described a multitude of distributions to describe different types of data.
+Statisticians have described a [multitude of distributions](https://www.causascientia.org/math_stat/Dists/Compendium.pdf) to describe different types of data.
 
 A distribution provides the probability of observing each possible outcome of an experiment or survey (e.g. $abund = 8$ *Galumna* individuals).
 
@@ -772,7 +770,7 @@ Presence-absence data takes another form:
 We can use the Bernouilli distribution to calculate the probability Galumna present (`1`) vs. absent (`0`).
 
 ---
-# Biological data & distributions
+# Biological data & distributions: Binomial
 
 **Binomial distribution**: When there are multiple trials (each with a success/failure), the Bernoulli distribution expands into the binomial distribution.
 - Additional parameter, $n$, for number of trials;
@@ -1017,7 +1015,7 @@ str(mites)
 
 A reminder about the dataset:
 
-70 sites (rows) x 35 morphospecies (columns). The sampling units are substrate cores 5 cm in diameter and 10 cem in depth, hereafter called "cores".
+70 sites (rows) x 35 morphospecies (columns). The sampling units are substrate cores 5 cm in diameter and 10 cm in depth, hereafter called "cores".
 
 SubsDens: substratum density in g.L-1 of dry uncompressed matter (quantitative variable)
 
@@ -1350,7 +1348,7 @@ One way to assess the goodness-of-fit of these models is to use the **Hosmer-Lem
 It roughly involves:
 1. Dividing the data into groups of similar size;
 2. Ordering on the predicted probability (or equivalently, the linear predictor);
-3. Comparing the observed to expected number of positive responses in each group
+3. Comparing the observed to expected number of positive responses in each group;
 4. Performing a chi-squared test on the outcome.
 
 This test is assessing whether or not the observed event rates match expected event rates in subgroups of the model population.
@@ -1852,7 +1850,7 @@ $$Var(Y_i) = \mu_i + \frac{\mu^2_i}{k}$$
 
 # Fitting a negative binomial in R
 
-NB is not in the `glm()` function so you need to install and charge the `MASS` package
+NB is not in the `glm()` function so you need to install and charge the `MASS` package.
 
 ```r
 install.packages('MASS')
