@@ -127,8 +127,7 @@ $$Y = f(X_1)$$
 The combination of predictive variables we have sampled will *never* fully explain $Y$. Because of this, there is always *unpredictable disturbance* in our models, i.e. the error $\epsilon$. As such, the error is an irrevocable part of our function:
 
 $$Y = f(X_1, \epsilon)$$
----
-# Revisiting linear models
+--
 
 In [Workshop 4](https://qcbsrworkshops.github.io/workshop04/pres-en/workshop04-pres-en.html#1), we have learned how to use **general linear models** as $f(\cdot)$ to describe the relationship between variables. They were:
 
@@ -675,11 +674,15 @@ We have been told to **transform** our data using logarithmic, square-root, and 
 .pull-left[
 But, transformations not always work and come with a few drawbacks:
 
-1. They change the response variable (!), making interpretation challenging;
-2. They may not simulateneously improve linearity and homogeneity of variance; 
-3. The boundaries of the sample space change.
+**1.**  They change the response variable (!), making interpretation challenging;  
+
+**2.**  They may not simulateneously improve linearity and homogeneity of variance;  
+
+**3.**  The boundaries of the sample space change.
 
 ]
+
+--
 
 .pull-right[
 For instance, our simple linear model:
@@ -1239,12 +1242,11 @@ with $\hat \theta_0$ denoting the fitted values of the parameters in the reduced
 ---
 # Unit deviance, total deviance and null deviance
 
-Now, the deviance of a model that has estimates  ${\hat {\mu }}=E[Y|{\hat {\theta }}_{0}]$ can be defined by its **likelihood**:
-$$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(y\mid {\hat {\theta }}_{s}){\big )}-\log {\big (}p(y\mid {\hat {\theta }}_{0}){\big )}{\Big )}$$
-with $\hat \theta_0$ denoting the fitted values of the parameters in the reduced model, while ${\displaystyle {\hat {\theta }}_{s}}\hat \theta_s$ denotes the fitted parameters for the saturated model.
-
 The **residual deviance** is defined as 2 times the log-likelihood ratio of the full model compared to the reduced model. (The function below is exactly the same as above!)
 $$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(\text{saturated model}){\big )}-\log {\big (}p(\text{reduced model}){\big )}{\Big )}$$
+
+--
+
 And, the **null deviance** is defined  2 times the log-likelihood ratio of the full model compared to the null model (i.e. predictors are set to 1).
 
 $$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(\text{saturated model}){\big )}-\log {\big (}p(\text{null model}){\big )}{\Big )}$$
@@ -1261,11 +1263,15 @@ In `R`, we can do this as follows:
 
 Let us compare the deviance of your model (residual deviance) to the deviance of a null model (null deviance).
 
+--
+
 The **null deviance model** here is a model without explanatory variables.
 
 ```r
 null.model <- glm(response.variable ~ 1, family = binomial)
 ```
+
+--
 
 The **saturated (or full) deviance model** here is a model with all explanatory variables.
 
@@ -1377,7 +1383,7 @@ plot(HLtest(logit.reg))
 
 1. Using the model created with `bacteria` dataset, assess goodness-of-fit and predictive power.
 
-2. Think how predictive power could be improved for this model.
+2. Think of how we could improve predictive power for this model.
 
 ???
 
@@ -1397,6 +1403,8 @@ bact.pseudoR2 <- (null.d - resid.d) / null.d
 
 HLtest(model.bact2)
 ```
+
+--
 
 2. Think how predictive power could be improved for this model.
 
