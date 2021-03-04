@@ -54,10 +54,10 @@ lapply(list.of.packages, require, character.only = TRUE, quietly = TRUE)
 
 # À propos de cet atelier
 
-[![badge](https://img.shields.io/static/v1?style=flat-square&label=Diapos&message=07&color=red&logo=html5)](https://qcbsrworkshops.github.io/workshop06/pres-fr/workshop06-pres-fr.html)
-[![badge](https://img.shields.io/static/v1?style=flat-square&label=livre&message=07&logo=github)](https://qcbsrworkshops.github.io/workshop06/book-fr/index.html)
-[![badge](https://img.shields.io/static/v1?style=flat-square&label=wiki&message=07&logo=wikipedia)](https://wiki.qcbs.ca/r_atelier6)
-![badge](https://img.shields.io/static/v1?style=flat-square&label=script&message=07&color=2a50b8&logo=r)
+[![badge](https://img.shields.io/static/v1?style=flat-square&label=Diapos&message=06&color=red&logo=html5)](https://qcbsrworkshops.github.io/workshop06/pres-fr/workshop06-pres-fr.html)
+[![badge](https://img.shields.io/static/v1?style=flat-square&label=livre&message=06&logo=github)](https://qcbsrworkshops.github.io/workshop06/book-fr/index.html)
+[![badge](https://img.shields.io/static/v1?style=flat-square&label=wiki&message=06&logo=wikipedia)](https://wiki.qcbs.ca/r_atelier6)
+![badge](https://img.shields.io/static/v1?style=flat-square&label=script&message=06&color=2a50b8&logo=r)
 [![badge](https://img.shields.io/static/v1?style=flat-square&label=repo&message=dev&color=6f42c1&logo=github)](https://github.com/QCBSRworkshops/workshop06) 
 
 ---
@@ -210,16 +210,16 @@ $$\boldsymbol{\varepsilon} | \mathbf{X} \sim \mathcal{N} \left( \mathbf{0}, \sig
 ## Qu'est-ce qu'on veut dire par:
 
 .pull-left[
-1. La population peut être décrite par une relation linéaire:
+1\. La population peut être décrite par une relation linéaire:
 
 $$Y = \beta_0 + \beta_1X_i + \varepsilon$$
 
-2.  Homoscédasticité et aucune autocorrélation
+2\.  Homoscédasticité et aucune autocorrélation
 
 $$\mathbb{V}{\rm ar} (\epsilon_i | \mathbf{X} ) = \sigma^2_\epsilon,\ \forall i = 1,..,N$$
 $$\mathbb{C}{\rm ov} (\epsilon_i, \epsilon_j) = 0,\ i \neq j$$
 
-3. Et, les résidus suivent une distribution normale:
+3\. Et, les résidus suivent une distribution normale:
 
 $$\boldsymbol{\varepsilon} | \mathbf{X} \sim \mathcal{N} \left( \mathbf{0}, \sigma^2_\epsilon \mathbf{I} \right)$$
 
@@ -266,6 +266,7 @@ Commençons en chargeant les données :
 # Vérifiez votre répertoire de travail
 mites <- read.csv('data/mites.csv', 
                   stringsAsFactors = TRUE)
+#
 ```
 ]
 .pull-right3[
@@ -273,6 +274,7 @@ Et ensuite les explorer:
 ```{r echo = TRUE, eval = FALSE}
 str(mites)
 # essayez aussi head(mites)
+#
 #
 ```
 ]
@@ -291,14 +293,17 @@ Il s'agit d'une partie du jeu de données classique des
 # Quelles questions pouvons-nous poser?
 
 **Question**: *Est-ce que l'environnement permet de prédire l'abondance, l'occurrence, ou la proportion de Galumna sp.?*
-.small[
+
 .pull-left[
+.small[
 Variables réponses:
 1. Occurrence: `pa` 
 2. Abondance: `Galumna`
 3. Proportion ou fréquence relative: `prop`
 ]
+]
 .pull-right[
+.small[
 Variables prédictives:
 1. Densité du substrat: `SubsDens`
 2. Contenu en eau (du sol): `WatrCont`
@@ -516,31 +521,26 @@ $$Y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$
 avec $N(\cdot)$, c'est-à-dire que $Y_i$ est échantillonné d'une **distribution normale**avec les paramètres $\mu$ (moyenne; qui dépend de $x_i$) et $\sigma$ (variance; qui a la même valeur pour tous les $Y_i$s).
 ]
 
-**Rappel** : La distribution normale a deux paramètres, $\mu$ (moyenne) et $\sigma$ (variance)
-
-<br>
-.pull-left[
+.pull-right[
 3 valeurs pour $\mu$, $\sigma = 5$
 
-```{r, echo=FALSE}
+```{r, echo = F, fig.width = 3, fig.height = 3}
 x = seq(1, 50, 0.1)
 par(mypar);par(cex = 1.4)
 plot(x, dnorm(x, mean = 20, sd = 5), type = 'l', lwd = 3, xlab = '# galumna', ylab = 'Probabilité')
 points(x, dnorm(x, mean = 25, sd = 5), type = 'l', lwd = 3, col = 2)
 points(x, dnorm(x, mean = 30, sd = 5), type = 'l', lwd = 3, col = 4)
-legend('topleft', legend = c('20', '25', '30'), lty = 1, col = c(1, 2, 4), bty = 'n', lwd = 2, cex = 1.1)
+#legend('topleft', legend = c('20', '25', '30'), lty = 1, col = c(1, 2, 4), bty = 'n', lwd = 2, cex = 1.1)
 ```
-]
-.pull-right[
-$\mu = 25$, 3 valeurs pour $\sigma$
 
-```{r, echo=FALSE}
+$\mu = 25$, 3 valeurs pour $\sigma$
+```{r, echo = F, fig.width = 3, fig.height = 3}
 par(mypar);par(cex = 1.4)
 x = seq(1, 50, 0.1)
 plot(x, dnorm(x, mean = 25, sd = 5), type = 'l', lwd = 3, xlab = '# galumna', ylab = 'Probabilité')
 points(x, dnorm(x, mean = 25, sd = 7.5), type = 'l', lwd = 3, col = 2)
 points(x, dnorm(x, mean = 25, sd = 10), type = 'l', lwd = 3, col = 4)
-legend('topleft', legend = c('5', '7.5', '10'), lty = 1, col = c(1, 2, 4), bty = 'n', lwd = 2, cex = 1.1)
+#legend('topleft', legend = c('5', '7.5', '10'), lty = 1, col = c(1, 2, 4), bty = 'n', lwd = 2, cex = 1.1)
 ```
 ]
 ]
@@ -596,15 +596,16 @@ Lorsque $x_i = 400$, $Y_i$ suit une distribution normale avec $\mu = 1.02$ et $\
 
 --
 
-.pull-left[ .small[
-Graphiquement, notre modèle ressemble à :
+.pull-left[
+
+.small[Graphiquement, notre modèle ressemble à:]
+
 .center[
-![:scale=50%](images/modelPredic.png)
+![:scale 90%](images/modelPredic.png)
 ]
 ]
 
----
-# Prédiction du modèle
+--
 
 .pull-right[
 
@@ -639,11 +640,10 @@ Lorsque $x_i = 400$, $Y_i$ suit une distribution normale avec $\mu = 1.02$ et $\
 
 .pull-left[
 
-.small[
-Graphiquement, notre modèle ressemble à :
+.small[Graphiquement, notre modèle ressemble à:]
 
 .center[
-![:scale 50%](images/modelPredic.png)
+![:scale 90%](images/modelPredic.png)
 ]
 ]
 
@@ -670,9 +670,9 @@ On se fait souvent dire qu'il faut **transformer** nos données en utilisant des
 .pull-left[
 Mais, les transformations ne règlent pas toujours le problème, et viennent avec quelques inconvénients:
 
-1. Elles changent la variable réponse, ce qui peut compliquer l'interprétation;
-2. Elles ne peuvent pas toujours améliorer la linéarité et l'homogénité de la variance en même temps;
-3. Les limites de l'espace d'échantillonage change.
+1\. Elles changent la variable réponse, ce qui peut compliquer l'interprétation;
+2\. Elles ne peuvent pas toujours améliorer la linéarité et l'homogénité de la variance en même temps;
+3\. Les limites de l'espace d'échantillonage change.
 
 ]
 
@@ -965,7 +965,7 @@ On peut comprendre que si l'évènement A a une probabilité p de se produire, l
 Par exemple, si j'ai une probabilité de 0.6 pour échouer à mon cours, la chance que j'échouerai mon cours est 0.6/(1 − 0.6) = 1.5. Donc, la probabilité d'observer un échec est 1.5 fois plus grand que la probabilité de ne pas en observer (donc, 1.5 × 0.4 = 0.6).
 
 ---
-# GLM vec données binomiales: lien logit
+# GLM avec données binomiales: lien logit
 
 Un rappel de la fonction `glm()`: 
 
@@ -1060,7 +1060,6 @@ En utilisant le jeu de données `bacteria`, spécifiez un modèle de la présenc
 
 Commencez avec un modèle complet et trouvez le modèle le plus parcimonieux.
 
-
 ```{r}
 library(MASS)
 data(bacteria)
@@ -1069,15 +1068,17 @@ str(bacteria)
 
 *Tests de la présence de la bactérie H. influenzae dans les enfants avec une otite moyenne dans le Territoire du Nord de l'Australie*
 
-*Dr A. Leach a testé les effets d'un un médicament sur 50 enfants ayant des antécédents d'otite moyenne dans le Territoire du Nord de l'Australie. Les enfants ont été choisis aléatoirement pour recevoir le médicament ou un placebo.*
-
-*La présence de H. influenzae a été contrôlée aux semaines 0, 2, 4, 6 et 11 : 30 de ces contrôles étaient manquants et ne sont pas inclus dans ce jeu de données.*
-
 ]
 
 ???
 
 Ceci est un exercise de groupe. Formez des groupes de 3-4 personnes dans des salles de réunion et donnez-leur 5 minutes pour écrire le code en collaboration.
+
+Plus d'infos sur le jeu de données:
+
+Dr A. Leach a testé les effets d'un un médicament sur 50 enfants ayant des antécédents d'otite moyenne dans le Territoire du Nord de l'Australie. Les enfants ont été choisis aléatoirement pour recevoir le médicament ou un placebo.
+
+La présence de H. influenzae a été contrôlée aux semaines 0, 2, 4, 6 et 11 : 30 de ces contrôles étaient manquants et ne sont pas inclus dans ce jeu de données.
 
 ---
 # Défi 1 - Solution ![:cube]()
@@ -1208,9 +1209,9 @@ Dans les modèles linéaires simples, $R^2$ peut être obtenu comme le carré du
 
 Dans certains des modèles linéaires généralisés, nous adoptons d'autres approches.
 
-Nous pouvons obtenir un [$\text{pseudo-R}^2$](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-what-are-pseudo-r-squareds/), un concept analogue au $R^2$ pour les modèles estimés par maximisation de la vraisemblance.
+Nous pouvons obtenir un [ $\text{pseudo-R}^2$ ](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-what-are-pseudo-r-squareds/), un concept analogue au $R^2$ pour les modèles estimés par maximisation de la vraisemblance.
 
-Nous pouvons calculer le $ \text{pseudo-R}^2 $ de McFadden (1973) :
+Nous pouvons calculer le $\text{pseudo-R}^2$ de McFadden (1973) :
 
 $$\text{pseudo-R}^2 = \frac{\text{déviance nulle - déviance résiduelle}}{\text{déviance nulle}}$$
 
@@ -1221,34 +1222,36 @@ $\text{pseudo-R}^2 \text{est la variance expliquée par le modèle}$
 ---
 # Déviance unitaire, totale et nulle
 
+.small[
 La déviance unitaire est une mesure de la distance entre $y$ et $μ$.
 
 $${\displaystyle d(y,y)=0}$$
 $${\displaystyle d(y,\mu )>0\quad \forall y\neq \mu }$$
+]
 
 --
 
+.small[
 La déviance totale ${\displaystyle D(\mathbf {y} ,{\hat {\boldsymbol {\mu }}})}$ d'un modèle avec prédictions ${\hat {\boldsymbol {\mu }}}$ de l'observation $\mathbf {y}$ est la somme de ses déviances unitaires: 
 
 $${\displaystyle D(\mathbf {y},{\hat {\boldsymbol {\mu }}})=\sum _{i}d(y_{i},{\hat {\mu }}_{i})}$$
+]
 
---
+---
+# Déviance unitaire, totale et nulle
 
-Maintenant, la déviance d'un modèle qui a des estimations ${\hat{\mu}}=E[Y|{\hat {\theta}}_{0}]$ peut être définie par sa **vraisemblance** :
+Maintenant, la déviance d'un modèle qui a des estimations ${\hat {\mu }}=E[Y|{\hat {\theta }}_{0}]$ peut être définie par sa **vraisemblance** ("*likelihood*"):
 
-$$D(y,{\hat{\mu}})=2{\Big(}\log{\big(}p(y\mid{\hat{\theta}}_{s}){\big)}-\log{\big (}p(y\mid{\hat {\theta }}_{0}){\big )}{\Big)}$$
+$$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(y\mid {\hat {\theta }}_{s}){\big )}-\log {\big (}p(y\mid {\hat {\theta }}_{0}){\big )}{\Big )}$$
 avec $\hat \theta_0$ indiquant les valeurs ajustées des paramètres dans le modèle réduit, tandis que ${\displaystyle {\hat {\theta}}_{s}}\hat \theta_s$ indique les paramètres ajustés pour le modèle saturé.
 
 ---
 # Déviance unitaire, totale et nulle
 
-Maintenant, la déviance d'un modèle qui a des estimations ${\hat {\mu }=E[Y|{\hat {\theta}}_{0}]$ peut être définie par sa **vraisemblance** :
-$$D(y,{\hat {\mu }})=2{\Gros (}\log (}big (}p(y\mid{\theta}}_{s}){\big )}-\log (}p(y\mid{\theta}_{0}){\big )}{\Big )}$$
-avec $\hat \theta_0$ indiquant les valeurs ajustées des paramètres dans le modèle réduit, tandis que ${\displaystyle {\hat {\theta}}_{s}}\hat \theta_s$ indique les paramètres ajustés pour le modèle saturé.
-
 La **déviance résiduelle** est définie comme 2 fois le logarithme du ratio de vraisemblance du modèle complet par rapport au modèle réduit. (La fonction ci-dessous est exactement la même que ci-dessus !)
+
 $$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(\text{modèle saturé}){\big )}-\log {\big (}p(\text{modèle réduit}){\big )}{\Big )}$$
-Et, la **déviation nulle** est définie comme 2 fois le logarithme du rapport de vraisemblance du modèle complet par rapport au modèle nul (c'est-à-dire que les prédicteurs sont fixés à 1).
+Et, la **déviation nulle** est définie comme 2 fois le logarithme du ratio de vraisemblance du modèle complet par rapport au modèle nul (où les prédicteurs sont fixés à 1).
 
 $$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(\text{modèle saturé}){\big )}-\log {\big (}p(\text{modèle nul}){\big )}{\Big )}$$
 
@@ -1325,6 +1328,9 @@ La qualité d'ajustement des modèles de régression logistique peut être expri
 
 Lorsqu'on parle de *régressions logistiques*, les valeurs faibles de $R^2$ sont souvent courantes.
 
+---
+# Pouvoir prédictif et ajustement du modèle
+
 La fonction `DescTools::PseudoR2()` calcule plusieurs pseudo-R2.
 
 La fonction R `DescTools::PseudoR2()` permet de calculer plusieurs pseudo-R2. En spécifiant `which = all`, calculez toutes les statistiques en même temps.
@@ -1332,7 +1338,6 @@ La fonction R `DescTools::PseudoR2()` permet de calculer plusieurs pseudo-R2. En
 ```{r, echo = TRUE}
 logit.reg <- glm(pa ~ WatrCont + Topo, 
                  data = mites, family = binomial(link = "logit"))
-
 DescTools::PseudoR2(logit.reg, which = "all")
 ```
 
@@ -1547,8 +1552,6 @@ Ceci est un question de sondage à un choix. La réponse est 3. Poisson.
 ---
 # Modéliser des données d'abondance
 
-.large[Comment modéliser des données d'abondance?]
-
 L'élévation influence-t-elle l'abondance de *F. occidentalis*?
 
 ```{r, echo=F,fig.height=4.0}
@@ -1607,7 +1610,7 @@ $$\underbrace{\alpha}_\text{One intercept} + \underbrace{\beta}_\text{slope of '
 **Étape 3.** La fonction de lien entre la moyenne de $Y_i$ et la partie systématique est une fonction logarithmique et est écrite comme suit:
 
 .pull-left[
-
+<br>
 $$log(\mu_i) = \alpha + \beta \times \text{Elevation}_i$$
 .center[ou]
 
