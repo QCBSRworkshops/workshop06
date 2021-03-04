@@ -1245,28 +1245,23 @@ $\text{pseudo-R}^2 \text{est la variance expliquée par le modèle}$
 ---
 # Déviance unitaire, totale et nulle
 
-.small[
 La déviance unitaire est une mesure de la distance entre $y$ et $μ$.
 
 $${\displaystyle d(y,y)=0}$$
 $${\displaystyle d(y,\mu )>0\quad \forall y\neq \mu }$$
-]
 
 --
 
-.small[
 La déviance totale ${\displaystyle D(\mathbf {y} ,{\hat {\boldsymbol {\mu }}})}$ d'un modèle avec prédictions ${\hat {\boldsymbol {\mu }}}$ de l'observation $\mathbf {y}$ est la somme de ses déviances unitaires: 
 
 $${\displaystyle D(\mathbf {y},{\hat {\boldsymbol {\mu }}})=\sum _{i}d(y_{i},{\hat {\mu }}_{i})}$$
-]
 
----
-# Déviance unitaire, totale et nulle
+--
 
-Maintenant, la déviance d'un modèle qui a des estimations ${\hat {\mu }}=E[Y|{\hat {\theta }}_{0}]$ peut être définie par sa **vraisemblance** ("*likelihood*"):
+Maintenant, la déviance d'un modèle avec des prédictions ${\hat {\mu }}=E[Y|{\hat {\theta }}_{0}]$ peut être définie par sa **vraisemblance**:
 
 $$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(y\mid {\hat {\theta }}_{s}){\big )}-\log {\big (}p(y\mid {\hat {\theta }}_{0}){\big )}{\Big )}$$
-avec $\hat \theta_0$ indiquant les valeurs ajustées des paramètres dans le modèle réduit, tandis que ${\displaystyle {\hat {\theta}}_{s}}\hat \theta_s$ indique les paramètres ajustés pour le modèle saturé.
+avec les paramètres ajustées dans le modèle réduit ( $\hat \theta_0$ ) et saturé ( $\hat \theta_s$ ).
 
 ---
 # Déviance unitaire, totale et nulle
@@ -1274,6 +1269,9 @@ avec $\hat \theta_0$ indiquant les valeurs ajustées des paramètres dans le mod
 La **déviance résiduelle** est définie comme 2 fois le logarithme du ratio de vraisemblance du modèle complet par rapport au modèle réduit. (La fonction ci-dessous est exactement la même que ci-dessus !)
 
 $$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(\text{modèle saturé}){\big )}-\log {\big (}p(\text{modèle réduit}){\big )}{\Big )}$$
+
+--
+
 Et, la **déviation nulle** est définie comme 2 fois le logarithme du ratio de vraisemblance du modèle complet par rapport au modèle nul (où les prédicteurs sont fixés à 1).
 
 $$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(\text{modèle saturé}){\big )}-\log {\big (}p(\text{modèle nul}){\big )}{\Big )}$$
