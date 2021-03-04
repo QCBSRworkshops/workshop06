@@ -54,10 +54,10 @@ lapply(list.of.packages, require, character.only = TRUE, quietly = TRUE)
 
 # About this workshop
 
-[![badge](https://img.shields.io/static/v1?style=flat-square&label=Slides&message=07&color=red&logo=html5)](https://qcbsrworkshops.github.io/workshop06/pres-en/workshop06-pres-en.html)
-[![badge](https://img.shields.io/static/v1?style=flat-square&label=book&message=07&logo=github)](https://qcbsrworkshops.github.io/workshop06/book-en/index.html)
-[![badge](https://img.shields.io/static/v1?style=flat-square&label=wiki&message=07&logo=wikipedia)](https://wiki.qcbs.ca/r_workshop6)
-![badge](https://img.shields.io/static/v1?style=flat-square&label=script&message=07&color=2a50b8&logo=r)
+[![badge](https://img.shields.io/static/v1?style=flat-square&label=Slides&message=06&color=red&logo=html5)](https://qcbsrworkshops.github.io/workshop06/pres-en/workshop06-pres-en.html)
+[![badge](https://img.shields.io/static/v1?style=flat-square&label=book&message=06&logo=github)](https://qcbsrworkshops.github.io/workshop06/book-en/index.html)
+[![badge](https://img.shields.io/static/v1?style=flat-square&label=wiki&message=06&logo=wikipedia)](https://wiki.qcbs.ca/r_workshop6)
+![badge](https://img.shields.io/static/v1?style=flat-square&label=script&message=06&color=2a50b8&logo=r)
 [![badge](https://img.shields.io/static/v1?style=flat-square&label=repo&message=dev&color=6f42c1&logo=github)](https://github.com/QCBSRworkshops/workshop06) 
 
 ---
@@ -1329,6 +1329,10 @@ where $K$ corresponds to the additional number of predictors in relation to the 
 The goodness-of-fit of logistic regression models can be expressed by variants of pseudo-R2 statistics, such as Maddala (1983) or Cragg and Uhler (1970) measures.
 
 When talking about *logistic regressions*, low $R^2$ values are often common.
+
+---
+
+# Predictive power and goodness-of-fit
 
 The `DescTools::PseudoR2()` function computes several pseudo-R2.
 
