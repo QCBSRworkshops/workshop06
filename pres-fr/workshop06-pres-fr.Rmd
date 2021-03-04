@@ -38,7 +38,7 @@ options(repos=structure(c(CRAN="http://cran.r-project.org")))
 ```{r install_pkgs, message=FALSE, warning=FALSE, include=FALSE, results=0}
 # Standard procedure to check and install packages and their dependencies, if needed.
 
-list.of.packages <- c('ggplot2', 'lme4', 'MASS', 'vcdExtra', 'bbmle', 'DescTools')
+list.of.packages <- c('ggplot2', 'MASS', 'vcdExtra', 'bbmle', 'DescTools')
 
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 
