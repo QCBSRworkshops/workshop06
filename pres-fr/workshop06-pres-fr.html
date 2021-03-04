@@ -96,17 +96,15 @@ class: inverse, center, middle
 
 La plupart de nos recherches tentent d'expliquer des tendances dans nos observations à l'aide de variables prédictives. 
 
-Nous cherchons souvent une fonction `\(f\)` qui explique une variable réponse ($Y$) *en fonction* d'une ($X_1$) ou de plusieurs autres variables prédictives ( `\(X_2\)`, `\(X_3\)`, `\(...\)`, `\(X_n\)` ):
-
+Nous cherchons souvent une fonction `\(f\)` qui explique une variable réponse ( `\(Y\)` ) *en fonction* d'une ( `\(X_1\)` ) ou de plusieurs variables prédictives ( `\(X_2\)`, `\(X_3\)`, `\(...\)`, `\(X_n\)` ):
 `$$Y = f(X_1)$$`
 --
-L'ensemble de variables prédictives que nous avons mesuré ne pourra jamais complètement expliquer notre variable `\(Y\)`. En conséquence, il y a toujours une **variation imprévisible** dans nos modèles, i.e. l'erreur `\(\epsilon\)`. L'erreur est  donc une partie irrévocable de notre fonction:
+L'ensemble de variables prédictives que nous avons mesuré ne pourra jamais complètement expliquer notre variable `\(Y\)`. Il y a une **variation imprévisible** dans nos modèles, i.e. l'erreur `\(\epsilon\)`, qui fera toujours partie de notre fonction:
 
 `$$Y = f(X_1, \epsilon)$$`
----
-# Révision des modèles linéaires
-
-Dans l'[atelier 4](https://qcbsrworkshops.github.io/workshop04/pres-fr/workshop04-pres-fr.html#1), nous avons appris comment utiliser ces modèles linéaires généraux comme `\(f(\cdot)\)` pour décrire la relation entre variables:
+--
+.small[
+Dans l'[atelier 4](https://qcbsrworkshops.github.io/workshop04/pres-fr/workshop04-pres-fr.html#1), nous avons appris comment utiliser ces modèles linéaires généraux pour décrire la relation entre variables:
 
 .center[
 .pull-left[
@@ -126,11 +124,9 @@ ANCOVA
 ]
 ]
 ]
-
+]
 ---
 # Révision des modèles linéaires
-
-Dans l'[atelier 4](https://qcbsrworkshops.github.io/workshop04/pres-fr/workshop04-pres-fr.html#1), nous avons appris comment utiliser ces modèles linéaires généraux comme `\(f(\cdot)\)` pour décrire la relation entre variables.
 
 La formule générale de notre fonction linéaire `\(Y = f(X_1)\)` serait représentée comme:
 
@@ -202,44 +198,69 @@ Nous avons aussi appris que les **modèles linéaires** produisent seulement des
 
 &lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-2-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
-]
-
 ???
 Note: Des versions plus développées de cet atelier devraient inclure les lignes décrivant les estimations d'erreur, et montrant leur distribution. Pour l'instant, le présentateur peut aider les participants avec cet abstraction.
 
 ---
 # Un exemple de modèle linéaire général
 
-Utilisons nos connaissances acquises des modèles linéaires généraux pour explorer la relation entre les variables dans le jeu de données de *mites Orbatid*.
+Utilisons nos connaissances des modèles linéaires généraux pour explorer la relation entre les variables dans le *jeu de données de mites Orbatid*.
+
+.pull-left3[
+Commençons par charger les données:
 
 .small[
-.pull-left3[
-Commençons en chargeant les données :
-
 
 ```r
-# Vérifiez votre répertoire de travail
 mites &lt;- read.csv('data/mites.csv', 
                   stringsAsFactors = TRUE)
-#
 ```
+
+
+
 ]
+]
+
 .pull-right3[
-Et ensuite les explorer:  
+Et ensuite, les explorer:
 
 ```r
 str(mites)
 # essayez aussi head(mites)
-#
-#
 ```
 ]
-]  
 
-&lt;br&gt;&lt;br&gt;
+&lt;br&gt; 
+
+&lt;br&gt; 
+
+&lt;br&gt;
 
 .small[
-Le jeu de données de mites contient **70 échantillons de mousses et mites** et **5 variables environmentales, l'abondance de la mite *Galumna* sp., et l'abondance totale des mites**. 
+
+
+```
+# 'data.frame':	70 obs. of  9 variables:
+#  $ Galumna   : int  8 3 1 1 2 1 1 1 2 5 ...
+#  $ pa        : int  1 1 1 1 1 1 1 1 1 1 ...
+#  $ totalabund: int  140 268 186 286 199 209 162 126 123 166 ...
+#  $ prop      : num  0.05714 0.01119 0.00538 0.0035 0.01005 ...
+#  $ SubsDens  : num  39.2 55 46.1 48.2 23.6 ...
+#  $ WatrCont  : num  350 435 372 360 204 ...
+#  $ Substrate : Factor w/ 7 levels "Barepeat","Interface",..: 4 3 2 4 4 4 4 2 3 4 ...
+#  $ Shrub     : Factor w/ 3 levels "Few","Many","None": 1 1 1 1 1 1 1 2 2 2 ...
+#  $ Topo      : Factor w/ 2 levels "Blanket","Hummock": 2 2 2 2 2 2 2 1 1 2 ...
+```
+
+]
+
+.small[
+
+Le jeu de données `mites` contient **70 échantillons de mousses et mites**, **5 variables environmentales**, l'abondance de la mite *Galumna* sp., et l'abondance totale des mites. 
+
+]
+
+???
 
 Il s'agit d'une partie du jeu de données classique des
 [mites Oribatid (Acari,Oribatei)](http://adn.biol.umontreal.ca/~numericalecology/data/oribates.html) des sphaignes (*Sphagnum* sp.) du Lac Geai, [Station de Biologie de l'Université de Montréal](https://goo.gl/maps/PxN1Q7KUPnUt92Eu5).
@@ -337,7 +358,7 @@ plot(prop ~ WatrCont,
      data = mites, xlab = 'Contenu en eau', ylab='Proportion')
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-7-1.png" width="864" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-9-1.png" width="864" style="display: block; margin: auto;" /&gt;
 
 ---
 # Utiliser des modèles linéaires
@@ -416,7 +437,7 @@ plot(Galumna ~ WatrCont, data = mites)
 abline(lm.abund)
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-10-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-12-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 ]
 .pull-right[
@@ -426,7 +447,7 @@ par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.abund)
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-11-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-13-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -442,7 +463,7 @@ plot(prop ~ WatrCont, data = mites)
 abline(lm.prop)
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-12-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-14-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -452,7 +473,7 @@ par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.prop)
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-13-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-15-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -468,7 +489,7 @@ plot(pa ~ WatrCont, data = mites)
 abline(lm.pa)
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-14-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-16-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -478,7 +499,7 @@ par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.pa)
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-15-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-17-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -500,10 +521,10 @@ avec `\(N(\cdot)\)`, c'est-à-dire que `\(Y_i\)` est échantillonné d'une **dis
 .pull-right[
 3 valeurs pour `\(\mu\)`, `\(\sigma = 5\)`
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-16-1.png" width="216" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-18-1.png" width="216" style="display: block; margin: auto;" /&gt;
 
 `\(\mu = 25\)`, 3 valeurs pour `\(\sigma\)`
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-17-1.png" width="216" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-19-1.png" width="216" style="display: block; margin: auto;" /&gt;
 ]
 ]
 
@@ -637,11 +658,14 @@ On se fait souvent dire qu'il faut **transformer** nos données en utilisant des
 .pull-left[
 Mais, les transformations ne règlent pas toujours le problème, et viennent avec quelques inconvénients:
 
-1\. Elles changent la variable réponse, ce qui peut compliquer l'interprétation;
-2\. Elles ne peuvent pas toujours améliorer la linéarité et l'homogénité de la variance en même temps;
-3\. Les limites de l'espace d'échantillonage change.
+**1.** Elles changent la variable réponse, ce qui peut compliquer l'interprétation;  
+**2.** Elles ne peuvent pas toujours améliorer la linéarité et l'homogénité de la variance en même temps;  
+
+**3.** Les bornes de l'espace d'échantillonage change.  
 
 ]
+
+--
 
 .pull-right[
 Par exemple, notre modèle linéaire:
@@ -651,17 +675,20 @@ devient ceci après une transformation logarithmique:
 
 $$E(\log{Y_i}) = \beta_0 + \beta_1X_i $$
 
-*C'est beaucoup moins intuitif d'interpréter que l'abondance de Galumna prend la forme de `\(\log(1.63).\)` pour chaque augmentation de `\(300\)` unités en contenu en eau.*
+.small[*C'est beaucoup moins intuitif d'interpréter que l'abondance de Galumna prend la forme de `\(\log(1.63).\)` pour chaque augmentation de `\(300\)` unités en contenu en eau!*]
 ]
 
 ---
 # En plus, la distribution normale n'est pas la seule option! 
 
-Les statisticiens ont développé [de nombreuses lois de probabilité (distributions)](https://www.causascientia.org/math_stat/Dists/Compendium.pdf) pour décrire divers types de données.
+Les statisticiens ont développé [de nombreuses lois de probabilité (distributions)](https://www.causascientia.org/math_stat/Dists/Compendium.pdf) pour décrire divers types de données.  
 
-Une distribution donne la probabilité d'observer chaque issue possible d'une expérience ou échantillonage (e.g. `\(abund = 8\)` individus de *Galumna*).
 
-Les distributions peuvent être **discrètes** (que des nombres entiers), **continues** (incluent aussi des fractions) et bornées par une certaine gamme de valeurs (e.g., `\(0\)` à `\(1\)`, `\(0\)` à `\(+\infty\)`, `\(-\infty\)` à `\(+\infty\)`).
+Une distribution donne la probabilité d'observer chaque issue possible d'une expérience ou échantillonage (e.g. `\(abund = 8\)` individus de *Galumna*).  
+
+--
+
+Les distributions peuvent être **discrètes** (que des nombres entiers), **continues** (incluent aussi des fractions) et bornées par une certaine gamme de valeurs (e.g., `\(0\)` à `\(1\)`, `\(0\)` à `\(+\infty\)`, `\(-\infty\)` à `\(+\infty\)`).  
 
 Toutes les distributions ont des **paramètres** qui déterminent leur forme (e.g. `\(\mu\)` et `\(\sigma^2\)` pour la distribution normale).
 
@@ -674,7 +701,7 @@ Pour modéliser les données d'abondance, la [distribution de Poisson](https://f
 
 - **Poisson** est une distribution discrète avec un seul paramètre, `\(\lambda\)` (lambda), qui détermine la moyenne et la variance de la distribution:
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-18-1.png" width="1080" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-20-1.png" width="1080" style="display: block; margin: auto;" /&gt;
 
 ---
 # Données biologiques &amp; distributions: Poisson
@@ -687,7 +714,7 @@ Pour modéliser les données d'abondance, la [distribution de Poisson](https://f
   hist(mites$Galumna)
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-19-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-21-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 
@@ -710,7 +737,7 @@ Les données de présence-absence prennent une autre forme :
   hist(mites$pa)
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-21-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-23-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ---
 # Données biologiques &amp; distributions: Bernouilli
@@ -721,7 +748,7 @@ Les données de présence-absence prennent une autre forme :
 - N'a qu'un paramètre, `\(p\)`, la probabilité de succès
 
 &lt;br&gt;
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-22-1.png" width="864" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-24-1.png" width="864" style="display: block; margin: auto;" /&gt;
 
 Nous pouvons utiliser la loi de Bernoulli pour calculer la probabilité d'obtenir l'issue Galumna "present" (`1`) vs. "absent" (`0`).
 
@@ -733,7 +760,7 @@ Nous pouvons utiliser la loi de Bernoulli pour calculer la probabilité d'obteni
 - Inclut le paramètre additionel `\(n\)`, le nombre d'épreuves
 - Prédit la probabilité d'observer une certaine proportion de succès, `\(p\)`, sur le nombre total d'épreuves, `\(n\)`
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-23-1.png" width="1080" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-25-1.png" width="1080" style="display: block; margin: auto;" /&gt;
 
 ---
 # Données biologiques &amp; distributions: Binomiale
@@ -742,7 +769,7 @@ Nous pouvons utiliser la loi de Bernoulli pour calculer la probabilité d'obteni
 
 **Différence principale avec la loi de Poisson** : L'étendue de la loi binomiale a une limite supérieure, `\(n\)`. Par conséquent, elle est asymétrique et décalée à gauche lorsque `\(p\)` est faible, mais décalée à droite lorsque `\(p\)` est élevé.
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-24-1.png" width="720" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-26-1.png" width="720" style="display: block; margin: auto;" /&gt;
 
 ---
 # Modéliser avec d'autres distributions
@@ -870,11 +897,11 @@ lm(Pres ~ ExpVar)
 &lt;br&gt;
 
 .pull-left[
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-28-1.png" width="540" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-30-1.png" width="540" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-29-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-31-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1236,28 +1263,23 @@ Nous pouvons calculer le `\(\text{pseudo-R}^2\)` de McFadden (1973) :
 ---
 # Déviance unitaire, totale et nulle
 
-.small[
 La déviance unitaire est une mesure de la distance entre `\(y\)` et `\(μ\)`.
 
 `$${\displaystyle d(y,y)=0}$$`
 `$${\displaystyle d(y,\mu )&gt;0\quad \forall y\neq \mu }$$`
-]
 
 --
 
-.small[
 La déviance totale `\({\displaystyle D(\mathbf {y} ,{\hat {\boldsymbol {\mu }}})}\)` d'un modèle avec prédictions `\({\hat {\boldsymbol {\mu }}}\)` de l'observation `\(\mathbf {y}\)` est la somme de ses déviances unitaires: 
 
 `$${\displaystyle D(\mathbf {y},{\hat {\boldsymbol {\mu }}})=\sum _{i}d(y_{i},{\hat {\mu }}_{i})}$$`
-]
 
----
-# Déviance unitaire, totale et nulle
+--
 
-Maintenant, la déviance d'un modèle qui a des estimations `\({\hat {\mu }}=E[Y|{\hat {\theta }}_{0}]\)` peut être définie par sa **vraisemblance** ("*likelihood*"):
+Maintenant, la déviance d'un modèle avec des prédictions `\({\hat {\mu }}=E[Y|{\hat {\theta }}_{0}]\)` peut être définie par sa **vraisemblance**:
 
 `$$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(y\mid {\hat {\theta }}_{s}){\big )}-\log {\big (}p(y\mid {\hat {\theta }}_{0}){\big )}{\Big )}$$`
-avec `\(\hat \theta_0\)` indiquant les valeurs ajustées des paramètres dans le modèle réduit, tandis que `\({\displaystyle {\hat {\theta}}_{s}}\hat \theta_s\)` indique les paramètres ajustés pour le modèle saturé.
+avec les paramètres ajustées dans le modèle réduit ( `\(\hat \theta_0\)` ) et saturé ( `\(\hat \theta_s\)` ).
 
 ---
 # Déviance unitaire, totale et nulle
@@ -1265,6 +1287,9 @@ avec `\(\hat \theta_0\)` indiquant les valeurs ajustées des paramètres dans le
 La **déviance résiduelle** est définie comme 2 fois le logarithme du ratio de vraisemblance du modèle complet par rapport au modèle réduit. (La fonction ci-dessous est exactement la même que ci-dessus !)
 
 `$$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(\text{modèle saturé}){\big )}-\log {\big (}p(\text{modèle réduit}){\big )}{\Big )}$$`
+
+--
+
 Et, la **déviation nulle** est définie comme 2 fois le logarithme du ratio de vraisemblance du modèle complet par rapport au modèle nul (où les prédicteurs sont fixés à 1).
 
 `$$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(\text{modèle saturé}){\big )}-\log {\big (}p(\text{modèle nul}){\big )}{\Big )}$$`
@@ -1279,11 +1304,15 @@ Dans certaines conditions, si le modèle proposé décrit les données presque a
 
 Voici comment on peut comparer la déviance du modèle (déviance résiduelle) à la déviance d'un modèle nul (déviance nulle) dans `R`.
 
+--
+
 Le **modèle nul** est un modèle sans variables explicatives.
 
 ```R
 null.model &lt;- glm(Response.variable ~ 1, family = binomial)
 ```
+
+--
 
 Le **modèle à déviance saturée (ou totale)** est ici un modèle avec toutes les variables explicatives.
 
@@ -1411,7 +1440,7 @@ HLtest(logit.reg)
 plot(HLtest(logit.reg))
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-49-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-51-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .comment[Une valeur non significative indique un ajustement adéquat!]
@@ -1571,7 +1600,7 @@ Examinons maintenant à quoi ressemble la distribution du nombre d'arbres par tr
 
 .large[Que sont des données d'abondance?]
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-58-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-60-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ---
 # Modéliser des données d'abondance
@@ -1591,14 +1620,14 @@ Les données d'abondance sont charactérisées par:
 
 L'élévation influence-t-elle l'abondance de *F. occidentalis*?
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-59-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-61-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ---
 # Modéliser des données d'abondance
 
 L'élévation influence-t-elle l'abondance de *F. occidentalis*?
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-60-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-62-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 Quelle distribution modèle le mieux ces observations?
 1. Bernoulli
@@ -1615,7 +1644,7 @@ Ceci est un question de sondage à un choix. La réponse est 3. Poisson.
 
 L'élévation influence-t-elle l'abondance de *F. occidentalis*?
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-61-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-63-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 .small[What type of distribution best fits this data?
 1. Bernoulli   
@@ -2079,7 +2108,7 @@ lines(pframe$lwr, col = 2, lty = 3, lwd = 2)
 ---
 # Visualiser le modèle final
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-71-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-73-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ---
 # Défi 3 ![:cube]()
@@ -2153,7 +2182,7 @@ anova(glm.qp2, glm.qp, test="Chisq")
 &lt;br&gt;
 
 .center[
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-75-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-77-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 
