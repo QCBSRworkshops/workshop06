@@ -81,7 +81,7 @@ sum(mites$pa) / nrow(mites)
 twice as many sites have the outcome \"Galumna absent\" (0) than the
 outcome \"Galumna present\" (1).
 
-When there are multiple trials/coin tosses, the Bernoulli distribution
+When there are multiple trials/coin tosses, the Bernouilli distribution
 expands into the binomial distribution, which has the additional
 parameter *n*, corresponding to the number of trials. The binomial
 distribution predicts the probability of observing a given proportion of

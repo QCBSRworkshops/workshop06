@@ -62,7 +62,7 @@ dans des diagrammes les relations entre ces 3 variables réponses et avec
 le contenu d'eau:
 
 ```{r, echo = TRUE, eval = FALSE}
-par(mfrow=c(1,3)) #division de la fenêtre de diagramme en une ligne et 3 colonnes pour avoir 3 diagrammes sur la même figure.
+par(mfrow=c(1,3), cex =1.4) #division de la fenêtre de diagramme en une ligne et 3 colonnes pour avoir 3 diagrammes sur la même figure.
 plot(Galumna ~ WatrCont, data = mites, xlab = 'Water content', ylab='Abundance')
 boxplot(WatrCont ~ pa, data = mites, xlab='Presence/Absence', ylab = 'Water content')
 plot(prop ~ WatrCont, data = mites, xlab = 'Water content', ylab='Proportion')
@@ -78,15 +78,25 @@ relations sont statistiquement significatives.
 
 ```{r, echo = TRUE, eval = FALSE}
 lm.abund <- lm(Galumna ~ WatrCont, data = mites)
-summary(lm.abund)
+##summary(lm.abund)
 lm.pa <- lm(pa ~ WatrCont, data = mites)
-summary(lm.pa)
+##summary(lm.pa)
 lm.prop <- lm(prop ~ WatrCont, data = mites)
-summary(lm.prop)
+##summary(lm.prop)
+
+# Extracting the Pr(>|t|)
+#  (Intercept)     WatrCont 
+# 3.981563e-08 1.206117e-05
+summary(lm.pa)$coefficients[, 4]
+#  (Intercept)     WatrCont 
+# 6.030252e-12 4.676755e-08
+summary(lm.prop)$coefficients[, 4]
+#  (Intercept)     WatrCont 
+# 4.977432e-08 1.665437e-05
 ```
 
 Oui, il y a une forte relation significative pour les 3 variables
-réponses! Ça y est, on soummet à Nature. Attends une minute\... Validons
+réponses! Ça y est, on soumet à Nature. Attends une minute... Validons
 d'abord ces modèles pour voir s'ils respectent les suppositions des
 modèles linéaires, en commençant par le modèle d'abondance.
 
@@ -103,6 +113,7 @@ insensé. En plus, le modèle ne prédit pas bien les valeurs élevées
 d'abondance lorsque le contenu d'eau est faible.
 
 ```{r, echo = TRUE, eval = FALSE}
+par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.abund)
 ```
 
@@ -123,10 +134,12 @@ et proportion sont eux aussi innapropriés:
 #Proportion
 plot(prop ~ WatrCont, data = mites)
 abline(lm.prop)
+par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.prop)
 #Présence/Absence
 plot(pa ~ WatrCont, data = mites)
 abline(lm.pa)
+par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.pa)
 ```
 
@@ -171,7 +184,7 @@ d'une distribution normale avec les paramètres μ (qui dépend de la
 valeur de x~i~) et σ^2^. Éssayons de prédire l'abondance de Galumna en
 fonction du contenu d'eau en utilisant cette équation et les paramètres
 que nous avons estimé plus tôt avec la fonction lm(). D'abord, il nous
-faut des valeurs pour β~0~ et β~1~ (les coéfficients de régression), que
+faut des valeurs pour β~0~ et β~1~ (les coefficients de régression), que
 nous pouvons obtenir ainsi:
 
 ```{r, echo = TRUE, eval = FALSE}
@@ -186,7 +199,7 @@ obtenir une abondance de Galumna de 1.63:
 3.44 + (-0.006 x 300) = 1.63.
 
 1.63 est l'abondance prédite s'il n'y avait pas de variance
-résiduelle (i.e. si notre modèle avait un r2 de 1). Pour modéliser les
+résiduelle (i.e. si notre modèle avait un r^2^ de 1). Pour modéliser les
 valeurs prédites, nous devons donc ajouter ε~i~, i.e. la distance entre
 les valeurs observées et la droite de régression. C'est ici que nous
 utilisons la distribution normale. Pour x = 300, notre modèle prédit que
@@ -203,10 +216,11 @@ valeur de σ^2^ de notre modèle dans le résumé du modèle:
 
 ```{r, echo = TRUE, eval = FALSE}
 summary(lm.abund)$sigma
+# [1] 1.513531
 ```
 
 Nous trouvons que sigma est plus ou moins 1.51. Nous avons maintenant
-tous les coéfficients nécessaires pour modéliser manuellement
+tous les coefficients nécessaires pour modéliser manuellement
 l'abondance de Galuman comme le ferait la fonction lm(). À un contenu
 d'eau de 300, les résidus devraient suivre une distribution normale
 avec les paramètres μ = 1.63 et σ^2^ = 1.51. À un contenu d'eau de 400,

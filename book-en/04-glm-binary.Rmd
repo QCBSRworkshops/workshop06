@@ -26,7 +26,7 @@ probability *p* of observing an outcome and the variance is *p*\*(1 -
 *p*). The (1 - *p*) term represents the probability of **not** observing
 an outcome. In R, we specify the distribution with the `family`
 argument. For the logistic regression, we code it as:
-`family='binomial`'. Remember that the Bernoulli distribution is a
+`family='binomial'`. Remember that the Bernoulli distribution is a
 special case of the binomial distribution when the number of repetitions
 is 1: R will "understand" that it is a Bernoulli distribution.
 
@@ -34,7 +34,7 @@ When predicting the probability of observing some phenomenon Y, which is
 a binary variable, the expected values should be bound between 0 and 1:
 that's the range of a probability value! If we use a basic linear model
 to relate a binary response variable to various explanatory variables,
-we might obtain fitted values outside of the \[0,1\] range, which is
+we might obtain fitted values outside of the [0,1] range, which is
 nonsensical. The following example will help you understand why a basic
 linear model is inappropriate here. The next subsection will show you
 how to avoid this problem with a link function. Briefly, a link function
@@ -283,10 +283,10 @@ classify an outcome as a success or a failure. In mathematical terms, it
 is the difference between the means of expected probability values for
 successes (*i.e.* Y =1) and failures (*i.e.* Y = 0):
 
-\<m\>D = overline{π}\_1 - overline{π}\_0\</m\>
+D = π~1~ - π~0~
 
-where \<m\>overline{π}\_1\</m\> is the mean of expected probability
-values when the outcome is observed and \<m\>overline{π}\_0\</m\> is the
+where π~1~ is the mean of expected probability
+values when the outcome is observed and π~0~ is the
 mean of expected probability values when the outcome is not observed. A
 *D* value close to 1 indicates that the model gives a high probability
 of observing an outcome to cases where the outcome was actually observed
@@ -294,8 +294,8 @@ and a low probability of observing an outcome to cases where the outcome
 was not observed. A *D* value close to 0 indicates that the model is not
 efficient at discriminating between the occurrences and "non
 occurrences" of an outcome. The following code shows how to obtain *D*
-and how to plot the histograms of \<m\>overline{π}\_1\</m\> and
-\<m\>overline{π}\_0\</m\>.
+and how to plot the histograms of π~1~ and
+π~0~.
 
 ```{r, echo = TRUE, eval = FALSE}
 install.packages("binomTools")
@@ -357,7 +357,7 @@ HLtest(Rsq(model.bact2))
 # Fit is adequate.
 ```
 
-Predictive power could be increased by including more relevant explanatory varibles. 
+Predictive power could be increased by including more relevant explanatory variales. 
 
 ## Plotting results
 

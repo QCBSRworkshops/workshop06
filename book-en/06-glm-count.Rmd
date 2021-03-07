@@ -9,7 +9,7 @@ faramea <- read.csv(‘faramea.csv’, header = TRUE)
 ```
 
 In this dataset, the number of trees of the species *Faramea
-occidentalis* was measured in 43 quadrats in Barro Colorada Island in
+occidentalis* was measured in 43 quadrats in Barro Colorado Island in
 Panama. For each quadrat, environmental characteristics were also
 recorded such as elevation or precipitation. Let's take a look at the
 number of *Faramea occidentalis* found at each quadrat.
@@ -60,21 +60,21 @@ A systematic part is used as a linear combination of unknown parameters
 is the covariate matrix (which does not include an intercept term in
 this example). This systemtatic part is define as:
 
-*β*~0~ + **X**~i~.*β*
+*β*~0~ + **X**~i~\**β*
 
 The mean of the distribution *µ*~i~ is related to the systematic part
 using a logarithm link function. As a result, the relationship between
 the mean and the linear predictor is log-linear.
 
--   log(*µ*~i~) = *β*~0~ + **X**~i~.*β*
+-   log(*µ*~i~) = *β*~0~ + **X**~i~\**β*
 
 or
 
--   *µ*~i~ = exp(*β*~0~ + **X**~i~.*β*)
+-   *µ*~i~ = exp(*β*~0~ + **X**~i~\**β*)
 
 The Poisson distribution gives you the probability that a particular
 Y~i~ value is observed for a given mean *µ*~i~ = exp(*β*~0~ +
-**X**~i~.*β*). In this model, the unknown parameters are included in the
+**X**~i~\**β*). In this model, the unknown parameters are included in the
 vector of regression coefficients *β* (plus the intercept *β*~0~) and
 can be estimated using maximum-likelihood (ML) estimation.
 
@@ -128,6 +128,7 @@ is greater to the former by 9.5 times, the model is then
 any model using the parameter φ:
 
                           φ = residual deviance / residual degrees of freedom
+                          
     * φ < 1 indicates underdispersion
     * φ = 1 indicates no overdispersion
     * φ > 1 indicates overdispersion
@@ -159,7 +160,7 @@ be developed below:
 -   correct for it by doing a **quasi-Poisson GLM**
 -   choose another distribution such as the **negative binomial**
 
-# quasi-Poisson GLMs
+# Quasi-Poisson GLMs
 
 The principle behind a quasi-Poisson GLM is very simple; the
 overdispersion parameter (φ) is added to the expected variance equation:
@@ -174,8 +175,8 @@ Parameter Estimates will be the same but the standard errors of the
 parameters are multiplied by √φ, in other terms, some marginally
 significant p-values may no longer hold.
 
-In R, The '**quasipoisson**' family object can be used to deal with
-count data exhibiting overdispersion (the '**quasibinomial**' family
+In R, The `quasipoisson` family object can be used to deal with
+count data exhibiting overdispersion (the `quasibinomial` family
 object can do the same for binomial data). The fitted φ value will be
 returned in the summary of the GLM. There are two ways to perform this
 GLM:
@@ -202,7 +203,7 @@ happy with this model to fit a final negative-binomial GLM to our data.
 Two other points are important to keep in mind when using quasi-Poisson
 GLMs and dealing with overdispersion:
 
--   **quasi-Poisson GLMs do not have AIC scores.** An important aspect
+-   **Quasi-Poisson GLMs do not have AIC scores.** An important aspect
     is that quasi-Poisson GLMs do not correspond to models with fully
     specified likelihoods and rely on quasi-ML estimation (i.e.
     pseudolikelihood). One consequence is that quasi-Poisson GLMs do not
@@ -225,11 +226,12 @@ GLMs and dealing with overdispersion:
     will be based on the criterion D~1~\* - D\*~2~ which is assumed to
     follow a χ² distribution with *p*~2~-*p*~1~ degrees of freedom when
     GLM1 is correct.
+    
 -   In some cases φ is not known. For instance, this occurs when you run
     a GLM with a normal error distribution. In that case, φ can be
     estimated *a posteriori* using the residual deviance of the larger
     model so the criterion becomes
-    \[(D~1~-D~2~)/(*p*~2~-*p*~1~)\]/\[D~2~/(*n*-*p*~2~)\] and is assumed
+    [(D~1~-D~2~)/(*p*~2~-*p*~1~)]/[D~2~/(*n*-*p*~2~)] and is assumed
     to follow a F distribution with *p*~2~-*p*~1~ and n-*p*~2~ degrees
     of freedom.
 
@@ -300,7 +302,7 @@ and remember to load the package
 library("MASS")
 ```
 
-The negative binomial GLM can be build using the glm.nb() function:
+The negative binomial GLM can be built using the glm.nb() function:
 
 ```{r, echo = TRUE, eval = FALSE}
 glm.negbin = glm.nb(Faramea.occidentalis~Elevation, data=faramea)
@@ -316,7 +318,7 @@ symmetric and we are testing on the boundary.
 ## Plotting the final GLM to the data
 
 The NB GLMs appear to be the best fit to our data. We can plot the
-relationship between the abundance of Faramea occidentalis and
+relationship between the abundance of *Faramea occidentalis* and
 elevation.
 
 ```{r, echo = TRUE, eval = FALSE}
@@ -346,4 +348,4 @@ and NB are favored to deal with overdispersion. However, in some cases
 the data may contains too many zeros and zero-augmented models can be
 useful as they extend the mean function by modifying (typically,
 increasing) the likelihood of zero counts (e.g. zero-inflated Poisson
-\[ZIP\]).
+[ZIP]).
