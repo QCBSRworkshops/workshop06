@@ -63,6 +63,26 @@ jobs:
           if(length(new.packages) == 0) {
           print("All packages have been previously installed and fetched from cache.")}'
           
+      - name: 📜 Create script using purl
+        run: |
+         Rscript -e 'rmds <- list.files(pattern = ".Rmd");
+         for (file in rmds){
+         file_r <- gsub("Rmd","R",file)
+         if(file.exists(file_r)){
+         file.remove(file_r)
+         }
+         knitr::purl(file,documentation = 0,output = file_r)
+         };
+         rfiles <- list.files(pattern = ".R$");
+         rfiles <- rfiles[c(length(rfiles),1:(length(rfiles)-1))];
+         sink("workshop6_script.R", append = FALSE);
+         for(file in rfiles){
+         current_file = readLines(file)
+         cat("\n\n#### Section:",file,"\n\n")
+         cat(current_file, sep ="\n")
+         };
+         sink()'
+         
       - name: 🧶 Render the book using bookdown
         run: Rscript -e 'bookdown::render_book("index.Rmd")'
         
