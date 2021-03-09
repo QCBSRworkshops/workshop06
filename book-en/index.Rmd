@@ -26,7 +26,7 @@ config:
 
 The **QCBS R Workshop Series** is a series of 10 workshops that walks participants through the steps required to use R for a wide array of statistical analyses relevant to research in biology and ecology. These open-access workshops were created by members of the QCBS both for members of the QCBS and the larger community.
 
-The content of this workshop has been peer-reviewed by several QCBS members. If you would like to suggest modifications, please contact the current series coordinators, listed on the main Github page.
+The content of this workshop has been peer-reviewed by various QCBS members. If you would like to suggest modifications, please contact the current series coordinators, listed on the main Github page.
 
 ## Code of conduct
 

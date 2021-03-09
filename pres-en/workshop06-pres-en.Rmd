@@ -32,7 +32,7 @@ mypar = list(mar = c(3, 3, 1, 0.5),
              mgp = c(1.6, 0.3, 0), 
              tck = -.02)
 
-options(repos=structure(c(CRAN="http://cran.r-project.org")))
+options(repos=structure(c(CRAN = "http://cran.r-project.org")))
 ```
 
 ```{r install_pkgs, message=FALSE, warning=FALSE, include=FALSE, results=0}
