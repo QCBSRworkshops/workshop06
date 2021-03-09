@@ -8,7 +8,7 @@ output:
       in_header: qcbsR-header.html
     lib_dir: assets
     seal: true
-    css: ["default", "qcbsR.css", "qcbsR-fonts.css"]
+    css: ["default","qcbsR-fonts.css", "qcbsR.css"]
     nature:
       beforeInit: "qcbsR-macros.js"
       highlightLines: true
@@ -57,10 +57,66 @@ lapply(list.of.packages, require, character.only = TRUE, quietly = TRUE)
 [![badge](https://img.shields.io/static/v1?style=flat-square&label=Slides&message=06&color=red&logo=html5)](https://qcbsrworkshops.github.io/workshop06/pres-en/workshop06-pres-en.html)
 [![badge](https://img.shields.io/static/v1?style=flat-square&label=book&message=06&logo=github)](https://qcbsrworkshops.github.io/workshop06/book-en/index.html)
 [![badge](https://img.shields.io/static/v1?style=flat-square&label=wiki&message=06&logo=wikipedia)](https://wiki.qcbs.ca/r_workshop6)
-![badge](https://img.shields.io/static/v1?style=flat-square&label=script&message=06&color=2a50b8&logo=r)
+[![badge](https://img.shields.io/static/v1?style=flat-square&label=script&message=06&color=2a50b8&logo=r)]()
 [![badge](https://img.shields.io/static/v1?style=flat-square&label=repo&message=dev&color=6f42c1&logo=github)](https://github.com/QCBSRworkshops/workshop06) 
 
 ---
+
+<p style="font-size:75%">
+
+.center[
+**Contributors to the development of this workshop**
+
+by modifying and improving its content as part of the <br> *Le*arning *a*nd *D*evelopment *A*ward
+]
+
+
+.pull-left[
+.right[
+
+ **2022** - **2021** - **2020**
+
+[Pedro Henrique P. Braga]()
+<br>
+[Katherine Hébert]()
+<br>
+[Alex Arkilanian]()
+
+]
+]
+
+.pull-right[
+.left[
+**2019** - **2018** - **2017**
+
+[Azenor Bideault]()
+<br>
+[Willian Vieira]()
+<br>
+[Pedro Henrique P. Braga]()
+<br>
+[Marie Hélène Brice]()
+<br>
+[Kevin Cazelles]()
+
+**2016** - **2015** - **2014**
+
+[Cédric Frenette Dussault]()
+<br>
+[Thomas Lamy]()
+<br>
+[Zofia Taranu]()
+<br>
+[Vincent Fugère]()
+
+]
+
+]
+</p>
+
+
+---
+
 
 # Required packages
 

@@ -169,6 +169,7 @@ a:hover {
 
 
 /* MathJax */
+
 .mjx-chtml{ font-size: 100% !important; }
 
 
@@ -393,3 +394,7 @@ table, td, th {
   padding-left: 0rem ;
 }
 
+
+.smaller {
+  font-size: 75%;
+}
