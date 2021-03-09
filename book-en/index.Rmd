@@ -44,11 +44,11 @@ It applies to all spaces managed by or affiliated with the workshop, including, 
 
 All participants are expected to show respect and courtesy to others. All interactions should be professional regardless of platform: either online or in-person. In order to foster a positive and professional learning environment we encourage the following kinds of behaviours in all workshop events and platforms:
 
-- Use welcoming and inclusive language
-- Be respectful of different viewpoints and experiences
-- Gracefully accept constructive criticism
-- Focus on what is best for the community
-- Show courtesy and respect towards other community members
+- Use welcoming and inclusive language;
+- Be respectful of different viewpoints and experiences;
+- Gracefully accept constructive criticism;
+- Focus on what is best for the community;
+- Show courtesy and respect towards other community members.
 
 ### Unacceptable behaviour
 
