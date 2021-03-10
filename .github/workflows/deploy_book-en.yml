@@ -69,7 +69,7 @@ jobs:
       - name: 🧶 Render the book using bookdown
         run: Rscript -e 'bookdown::render_book("index.Rmd")'
         
-      - name: 📜 purl Rmd files into R scripts
+      - name: 📜 Creat script using purl
         run: |
          Rscript -e 'rmds <- list.files(pattern = ".Rmd");
          for (file in rmds){
@@ -78,11 +78,8 @@ jobs:
          file.remove(file_r)
          }
          knitr::purl(file,documentation = 0,output = file_r)
-         }'
-      
-      - name: 📜 Merge scripts into a single file
-        run: |
-         Rscript -e 'rfiles <- list.files(pattern = ".R$");
+         };
+         rfiles <- list.files(pattern = ".R$");
          rfiles <- rfiles[c(length(rfiles),1:(length(rfiles)-1))];
          sink("workshop6_script.R", append = FALSE);
          for(file in rfiles){
