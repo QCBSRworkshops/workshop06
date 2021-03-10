@@ -88,7 +88,7 @@ jobs:
          cat(current_file, sep ="\n")
          };
          sink();
-         file.move("workshop06-script-en.R", "_book/")'
+         file.copy("workshop06-script-en.R", "book-en/_book/")'
          
       - name: 🔺 Upload artifact containing the book
         uses: actions/upload-artifact@v1
