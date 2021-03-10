@@ -81,13 +81,14 @@ jobs:
          };
          rfiles <- list.files(pattern = ".R$");
          rfiles <- rfiles[c(length(rfiles),1:(length(rfiles)-1))];
-         sink("workshop6_script.R", append = FALSE);
+         sink("workshop06-script-en.R", append = FALSE);
          for(file in rfiles){
          current_file = readLines(file)
          cat("\n\n#### Section:",file,"\n\n")
          cat(current_file, sep ="\n")
          };
-         sink()'
+         sink();
+         file.move("workshop06-script-en.R", "_book/")'
          
       - name: 🔺 Upload artifact containing the book
         uses: actions/upload-artifact@v1
