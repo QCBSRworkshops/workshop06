@@ -80,9 +80,6 @@ jobs:
          }
          knitr::purl(file,documentation = 0,output = file_r)
          };
-         if(file.exists("index.R")){
-         file.remove("index.R")
-         };
          rfiles <- list.files(pattern = ".R$");
          sink("workshop06-script-en.R", append = FALSE);
          for(file in rfiles){
