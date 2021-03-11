@@ -84,8 +84,8 @@ jobs:
          sink("workshop06-script-en.R", append = FALSE);
          for(file in rfiles){
          current_file = readLines(file)
-         cat("\n\n#### Section:",file,"\n\n")
-         cat(current_file, sep ="\n")
+         cat("#### Section:",file,"\n\n")
+         cat(current_file, "\n", sep ="\n")
          };
          sink();
          script <- readLines("workshop06-script-en.R");
