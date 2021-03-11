@@ -1,14 +1,5 @@
 
 
-##Section: index.R 
-
-THIS SECTION MUST ONLY BE EDITED BY THE COORDINATORS OF THE WORKSHOP SERIES
-
-library(knitr)
-opts_chunk$set(tidy.opts = list(width.cutoff = 60),
-               tidy = TRUE)
-
-
 ##Section: 01-preparing-for-the-workshop.R 
 
 install.packages("ggplot2")
