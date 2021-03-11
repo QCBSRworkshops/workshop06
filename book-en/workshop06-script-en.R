@@ -1,5 +1,3 @@
-
-
 ##Section: 01-preparing-for-the-workshop.R 
 
 install.packages("ggplot2")
@@ -295,5 +293,7 @@ curve(exp(summary(glm.negbin)$coefficients[1,1]-1.96*summary(glm.negbin)$coeffic
 
 
 ##Section: 09-references.R 
+
+
 
 
