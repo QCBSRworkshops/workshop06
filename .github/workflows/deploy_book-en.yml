@@ -68,7 +68,7 @@ jobs:
                   
       - name: 🧶 Render the book using bookdown
         run: Rscript -e 'bookdown::render_book("index.Rmd")'
-        
+
       - name: 📜 Creat script using purl
         run: |
          Rscript -e 'rmds <- list.files(pattern = ".Rmd");
@@ -88,8 +88,11 @@ jobs:
          cat(current_file, sep ="\n")
          };
          sink();
+         script <- readLines("workshop06-script-en.R");
+         script <- gsub("## ", "", script);
+         write(script, file = "workshop06-script-en.R");
          file.copy("workshop06-script-en.R", "_book/")'
-         
+      
       - name: 🔺 Upload artifact containing the book
         uses: actions/upload-artifact@v1
         with:
