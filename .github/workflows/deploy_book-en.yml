@@ -72,6 +72,7 @@ jobs:
       - name: 📜 Creat script using purl
         run: |
          Rscript -e 'rmds <- list.files(pattern = ".Rmd");
+         rmds <- rmds[-length(rmds)];
          for (file in rmds){
          file_r <- gsub("Rmd","R",file)
          if(file.exists(file_r)){
@@ -80,7 +81,6 @@ jobs:
          knitr::purl(file,documentation = 0,output = file_r)
          };
          rfiles <- list.files(pattern = ".R$");
-         rfiles <- rfiles[c(length(rfiles),1:(length(rfiles)-1))];
          sink("workshop06-script-en.R", append = FALSE);
          for(file in rfiles){
          current_file = readLines(file)
