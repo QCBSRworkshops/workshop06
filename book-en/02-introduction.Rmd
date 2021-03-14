@@ -6,7 +6,12 @@ best to first try to understand the limitations of linear models
 6). Let's load a dataset and try to fit some linear models.
 
 ```{r, echo = TRUE, eval = FALSE}
-mites <- read.csv('data/mites.csv', stringsAsFactors = TRUE)
+setwd("~/Desktop")
+mites <- read.csv('mites.csv')
+```
+
+```{r, echo = FALSE, eval = TRUE}
+mites <- read.csv('mites.csv')
 ```
 
 The dataset that you just loaded is a subset of the classic 'Oribatid
@@ -23,26 +28,27 @@ occurrence (presence/absence), and proportion of Galumna as a function
 of the 5 environmental variables: therefore, we also created a
 presence/absence variable and a proportion variable for Galumna.
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 head(mites)
 str(mites)
-
-# 70 mite communities sampled from moss cores collected at the Station de Biologie des Laurentides, QC.
-# For each core/sample, the following data is provided:
-# $Galumna: abundance of mite genus 'Galumna'
-# $pa: presence (1) or absence (0) of Galumna, irrespective of abundance
-# $totalabund: total abundance of mites of all species
-# $prop: proportion of Galumna in the mite community. i.e. Galumna/totalabund
-# $SubsDens: substrate density
-# $WatrCont: water content
-# $Substrate: type of substrate.
-# $Shrub: abundance of shrubs. Coded as a factor.
-# $Topo: microtopography. blanket or hummock.
 ```
+
+
+70 mite communities sampled from moss cores collected at the Station de Biologie des Laurentides, QC.
+For each core/sample, the following data is provided:  
+**\$Galumna**: abundance of mite genus 'Galumna'  
+**\$pa**: presence (1) or absence (0) of Galumna, irrespective of abundance  
+**\$totalabund**: total abundance of mites of all species  
+**\$prop**: proportion of Galumna in the mite community. i.e. Galumna/totalabund  
+**\$SubsDens**: substrate density  
+**\$WatrCont**: water content  
+**\$Substrate**: type of substrate.  
+**\$Shrub**: abundance of shrubs. Coded as a factor.  
+**\$Topo**: microtopography. blanket or hummock.  
 
 Can we see any relationship between Galumna and environmental variables?
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE, fig.height = 7}
 plot(mites)
 ```
 
@@ -55,15 +61,12 @@ proportion (prop) also seem to be negatively correlated with WatrCont.
 We can take a closer look by specifically plotting those 3 response
 variables as a function of WatrCont:
 
-```{r, echo = TRUE, eval = FALSE}
-par(mfrow=c(1,3), cex = 1.4) #divide plot area in 1 row and 3 columns to have 3 plots in same figure
+```{r, echo = TRUE, eval = TRUE, fig.height=3}
+par(mfrow=c(1,3), cex = 1) #divide plot area in 1 row and 3 columns to have 3 plots in same figure
 plot(Galumna ~ WatrCont, data = mites, xlab = 'Water content', ylab='Abundance')
 boxplot(WatrCont ~ pa, data = mites, xlab='Presence/Absence', ylab = 'Water content')
 plot(prop ~ WatrCont, data = mites, xlab = 'Water content', ylab='Proportion')
-par(mfrow=c(1,1)) #resets to default setting
 ```
-
-![](images/6_3plot.jpeg){width="600"}
 
 Indeed, Galumna seems to vary negatively as a function of WatrCont, i.e.
 Galumna seems to prefer dryer sites.
@@ -71,7 +74,7 @@ Galumna seems to prefer dryer sites.
 Fit linear models (function 'lm') to test whether these relationships
 are statistically significant.
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 lm.abund <- lm(Galumna ~ WatrCont, data = mites)
 ##summary(lm.abund)
 lm.pa <- lm(pa ~ WatrCont, data = mites)
@@ -81,14 +84,10 @@ lm.prop <- lm(prop ~ WatrCont, data = mites)
 
 # Extracting the Pr(>|t|)
 summary(lm.abund)$coefficients[, 4]
-#  (Intercept)     WatrCont 
-# 3.981563e-08 1.206117e-05
+
 summary(lm.pa)$coefficients[, 4]
-#  (Intercept)     WatrCont 
-# 6.030252e-12 4.676755e-08
+
 summary(lm.prop)$coefficients[, 4]
-#  (Intercept)     WatrCont 
-# 4.977432e-08 1.665437e-05
 
 ```
 
@@ -98,19 +97,17 @@ variables!
 Wait a minute... Let's validate these models to make sure that we
 respect assumptions of linear models, starting with the abundance model.
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 7, fig.align = "center"}
 plot(Galumna ~ WatrCont, data = mites)
 abline(lm.abund)
 ```
-
-![](images/6_lm1.jpeg)
 
 The model does not fit well. It predicts negative abundance values when
 WatrCont exceeds 600, which does not make any sense. Also, the model
 does poorly at predicting high abundance values at low values of
 WatrCont.
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 7, fig.align = "center"}
 par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.abund)
 ```
@@ -127,13 +124,14 @@ use it to conclude that Galumna abundance varies as a function of water
 content. Looking at diagnostic plots for the presence-absence model and
 the proportion model also indicate that these models are inappropriate:
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 7, fig.align = "center"}
 #Proportion
 plot(prop ~ WatrCont, data = mites)
 abline(lm.prop)
 par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.prop)
-#Presence/Absence
+#Présence/Absence
+par(mfrow = c(1, 1), cex = 1.4)
 plot(pa ~ WatrCont, data = mites)
 abline(lm.pa)
 par(mfrow = c(2, 2), cex = 1.4)
@@ -180,10 +178,8 @@ and the linear model that we fitted earlier. You will need values for
 β~0~ and β~1~ (regression coefficients) and ε~i~ (the deviation of
 observed values from the regression line)
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 coef(lm.abund)
-#(Intercept)     WatrCont
-#3.439348672 -0.006044788
 ```
 
 This model predicts that for a water content value of, say, 300, we
@@ -197,9 +193,8 @@ distribution. For x = 300, our model predicts that ε~i~ should follow a
 normal distribution with mean = 1.63. We can find the σ^2^ value for our
 abundance model by extracting it from the model summary:
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 summary(lm.abund)$sigma
-# [1] 1.513531
 ```
 
 We find that sigma is roughly 1.51. We now have all the coefficients

@@ -2,41 +2,32 @@
 
 # GLM avec une distribution binomiale
 
-Les données de proportions sont plus près des variables binaires que
-vous ne l'imaginez ! Supposons que vous êtes sur le terrain pour
-estimer la prévalence d'une maladiechez le cerf de Virginie le long
-d'un gradient environnemental de disponibilité en ressources. Vous
-échantillonnez dix individus dans dix populations différentes pour
-estimer la prévalence de la maladie. Votre feuille de données comporte
-dix lignes avec l'information suivante : code de la population et
-nombre d'individus infectés dans la population. À première vue, on
-dirait des données d'occurrences (*i.e.* count data), mais ce n'est
-pas correct de le voir ainsi : vous savez combien d'individus vous avez
-échantillonnés dans chaque population. Vous avez donc des données de
-proportions : c'est le nombre d'individus infectés sur dix individus
-échantillonnés. Si vous vous rappelez ce que vous avez lu dans la
-section sur les distributions, vous devez choisir une distribution
-binomiale pour modéliser ces données. Illustrons ceci avec un exemple :
+Parfois, les données de proportions sont plus similaires à une régression logistique que ce que vous pensez...
 
-```{r, echo = TRUE, eval = FALSE}
-# Commençons par générer des données en se basant sur l'exemple précédent :
-# On choisit un nombre aléatoire entre 1 et 10 pour déterminer le nombre de cerfs infectés (objet 'n.infected').
-# On échantillonne dix individus dans dix populations différentes (objet 'n.total').
-# 'res.avail' est un indice de qualité de l'habitat (disponibilité de ressources).
-set.seed(123)
-n.infected <- sample(x = 1:10, size = 10, replace = TRUE)
-n.total <- rep(x = 10, times = 10)
-res.avail <- rnorm(n = 10, mean = 10, sd = 1)
-# Ensuite, on spécifie le modèle. Prenez note comment on spécifie la variable réponse.
-# Il faut indiquer le nombre de fois où la maladie a été détectée
-# et le nombre de fois où celle-ci n'a pas été détectée.
-prop.reg <- glm(cbind(n.infected, n.total - n.infected) ~ res.avail, family = binomial)
-summary(prop.reg)
-# Si vos données sont déjà sous la forme de proportions, voici comment faire dans R :
-# Créons tout d'abord un vecteur de proportions :
-prop.infected <- n.infected / n.total
-# On doit spécifier l'argument "weights" de la fonction glm() pour indiquer le nombre d'essais par site.
-prop.reg2 <- glm(prop.infected ~ res.avail, family = binomial, weights = n.total)
-summary(prop.reg2)
-# Les sommaires des modèles prop.reg et prop.reg2 sont identiques !
+En comptes discrets, nous pouvons, par exemple, mesurer le nombre de présences d'individus par rapport au nombre total de populations échantillonnées.
+
+Nous obtiendrons ainsi un nombre proportionnel de "succès" dans l'observation des individus en divisant les comptes par les comptes totaux.
+
+Dans ```glm()```, nous devons fournir des poids a priori si la variable de réponse est la proportion de succès.
+  
+Les proportions peuvent être codées en fournissant le nombre de succès et des poids a priori dans la fonction:
+
+```{r, echo = FALSE, eval = TRUE}
+mites <- read.csv('mites.csv')
 ```
+```{r, echo = TRUE, eval = TRUE}
+prop.reg <- glm(cbind(Galumna, totalabund - Galumna) ~ Topo + WatrCont,
+                data = mites,
+                family = binomial)
+summary(prop.reg)
+```
+
+Les poids peuvent aussi être spécifiés dans ```glm()```:
+
+```{r, echo = TRUE, eval = TRUE}
+prop.reg2 <- glm(prop ~ Topo + WatrCont,
+                 data = mites,
+                 family = binomial,
+                 weights = totalabund)
+summary(prop.reg2)
+```  

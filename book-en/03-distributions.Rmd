@@ -38,22 +38,21 @@ follow a Poisson distribution with a low value of λ (indeed, if we
 calculate the mean abundance of Galumna across all samples using the
 function mean(), we find that it is close to zero):
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = FALSE, eval = TRUE}
+mites <- read.csv('mites.csv')
+```
+```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 7, fig.align = "center"}
 hist(mites$Galumna)
 mean(mites$Galumna)
 ```
-
-![](images/6_galumnahist.jpeg)
 
 Our variable mites\$pa (presence-absence) takes yet another form. It
 consists of only zeros and ones, such that a Poisson distribution would
 not be appropriate to model this variable.
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 7, fig.align = "center"}
 hist(mites$pa)
 ```
-
-![](images/6_pa.jpeg)
 
 We need a distribution with a range that only includes two possible
 outcomes: zero or one. The \"Bernoulli\" distribution is such a
@@ -73,7 +72,7 @@ probabilities of presence (*p*):
 We can calculate the number of sites where Galumna is present out of the
 total number of sites to get an idea of what *p* might be in our case:
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 sum(mites$pa) / nrow(mites)
 ```
 

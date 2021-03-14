@@ -4,8 +4,8 @@
 
 To illustrate count data we will use a new dataset called faramea.
 
-```{r, echo = TRUE, eval = FALSE}
-faramea <- read.csv(‘faramea.csv’, header = TRUE)
+```{r, echo = TRUE, eval = TRUE}
+faramea <- read.csv("faramea.csv", header = TRUE)
 ```
 
 In this dataset, the number of trees of the species *Faramea
@@ -14,7 +14,7 @@ Panama. For each quadrat, environmental characteristics were also
 recorded such as elevation or precipitation. Let's take a look at the
 number of *Faramea occidentalis* found at each quadrat.
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 5, fig.align = "center"}
 hist(faramea$Faramea.occidentalis, breaks=seq(0,45,1), xlab=expression(paste("Number of ",
 italic(Faramea~occidentalis))), ylab="Frequency", main="", col="grey")
 ```
@@ -81,7 +81,7 @@ can be estimated using maximum-likelihood (ML) estimation.
 Fitting a Poisson GLM in R requires only setting *family = poisson* in
 the function glm(). By default the link function is log.
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 glm.poisson = glm(Faramea.occidentalis~Elevation, data=faramea, family=poisson)
 summary(glm.poisson)
 ```
@@ -90,7 +90,7 @@ The output is similar to a '**lm**' output (see workshop 4) and gives
 you the parameter estimates which can also be retrieved using other
 functions:
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 # intercept
 summary(glm.poisson)$coefficients[1,1]
 # slope of elevation
@@ -102,9 +102,8 @@ summary(glm.poisson)$coefficients[2,1]
 An important aspect of the summary can be found in the last lines.
 
 ```{r, echo = TRUE, eval = FALSE}
-summary(glm.poisson)
-# Null deviance: 414.81  on 42  degrees of freedom
-# Residual deviance: 388.12  on 41  degrees of freedom
+##     Null deviance: 414.81  on 42  degrees of freedom
+## Residual deviance: 388.12  on 41  degrees of freedom
 ```
 
 Remember that ML estimation is used to estimate the parameters. In the
@@ -181,7 +180,7 @@ object can do the same for binomial data). The fitted φ value will be
 returned in the summary of the GLM. There are two ways to perform this
 GLM:
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 # Option 1, fit a new quasi-Poisson GLM
 glm.quasipoisson = glm(Faramea.occidentalis~Elevation, data=faramea, family=quasipoisson)
 # Option 2, build from the previous model and update it:
@@ -210,9 +209,6 @@ GLMs and dealing with overdispersion:
     have AIC scores for model comparisons. However, variants of AIC have
     been developed to deal with this situation (e.g. quasi-AIC).
 
-```{=html}
-<!-- -->
-```
 -   **Overdispersion affects model comparison.** Indeed overdispersion
     also influences the comparison of two nested models and has to be
     taken into account when φ is known. For instance, let's assume that
@@ -234,6 +230,20 @@ GLMs and dealing with overdispersion:
     [(D~1~-D~2~)/(*p*~2~-*p*~1~)]/[D~2~/(*n*-*p*~2~)] and is assumed
     to follow a F distribution with *p*~2~-*p*~1~ and n-*p*~2~ degrees
     of freedom.
+
+Try also deviance analysis to test for the effect of Elevation
+
+```{r, echo = TRUE, eval = TRUE}
+null.model <- glm(Faramea.occidentalis ~ 1, 
+                  data = faramea,
+                  family = quasipoisson)
+anova(null.model, glm.quasipoisson, test = "Chisq")
+
+```
+
+**Dispersion parameter:**
+![](images/dispParam.png)
+
 
 # Negative binomial GLMs
 
@@ -279,32 +289,14 @@ or
 
 -   *µ*~i~ = exp(*β*~0~ + **X**~i~.*β*)
 
-NB is not in the glm() function so you need to install and load the MASS
-library. You do not remember if you already installed this package? No
-problem, you can use the following function:
 
-```{r, echo = TRUE, eval = FALSE}
-ifelse(length(which(installed.packages() == "MASS")) == 0,
-      {print("MASS not installed. Installing... "); install.packages("MASS")},
-      print("MASS already installed"))
-```
+The negative binomial GLM can be built using the ```glm.nb()``` function from
+the ```MASS``` package:
 
-Alternatively, if you know that this package is not installed you can
-directly use the command
-
-```{r, echo = TRUE, eval = FALSE}
-install.packages("MASS")
-```
-
-and remember to load the package
-
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = FALSE, eval = TRUE, message = FALSE}
 library("MASS")
 ```
-
-The negative binomial GLM can be built using the glm.nb() function:
-
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 glm.negbin = glm.nb(Faramea.occidentalis~Elevation, data=faramea)
 summary(glm.negbin)
 ```
@@ -321,23 +313,74 @@ The NB GLMs appear to be the best fit to our data. We can plot the
 relationship between the abundance of *Faramea occidentalis* and
 elevation.
 
-```{r, echo = TRUE, eval = FALSE}
-# plot the observed data
-plot(faramea$Elevation, faramea$Faramea.occidentalis, xlab="Elevation (m)", ylab=expression(paste("Number of", "  ", italic(Faramea~occidentalis))), pch=16, col=rgb(4,139,154,150,maxColorValue=255))
 
-# pull values for intercept and beta from the summary and put them in the exponential equation
-curve(exp(summary(glm.negbin)$coefficients[1,1]+summary(glm.negbin)$coefficients[2,1]*x),from=range(faramea$Elevation)[1],to=range(faramea$Elevation)[2],add=T, lwd=2, col="orangered")
-
-# pull the standard error as well to plot the equations for confidence envelope
-curve(exp(summary(glm.negbin)$coefficients[1,1]+1.96*summary(glm.negbin)$coefficients[1,2]+summary(glm.negbin)$coefficients[2,1]*x+1.96*summary(glm.negbin)$coefficients[2,2]),from=range(faramea$Elevation)[1],to=range(faramea$Elevation)[2],add=T,lty=2, col="orangered")
-curve(exp(summary(glm.negbin)$coefficients[1,1]-1.96*summary(glm.negbin)$coefficients[1,2]+summary(glm.negbin)$coefficients[2,1]*x-1.96*summary(glm.negbin)$coefficients[2,2]),from=range(faramea$Elevation)[1],to=range(faramea$Elevation)[2],add=T,lty=2, col="orangered")
+Use ```summary``` to get the parameters.
+```{r, echo = TRUE, eval = TRUE}
+summary(glm.negbin)$coefficients[1, 1]
+summary(glm.negbin)$coefficients[2, 1]
+```
+Use the standard errors to build the confidence envelope.
+```{r, echo = TRUE, eval = TRUE}
+summary(glm.negbin)$coefficients[1, 2]
+summary(glm.negbin)$coefficients[2, 2]
 ```
 
-![](images/nb_glm_fit_to_faramea.png){.align-center width="450"}
+```{r, echo = TRUE, eval = TRUE}
+pp <- predict(glm.negbin, newdata = data.frame(Elevation = 1:800), se.fit = TRUE)
+linkinv <- family(glm.negbin)$linkinv ## inverse-link function
+pframe <- as.data.frame(pp$fit)
+names(pframe) <- "pred0"
+pframe$pred <- linkinv(pp$fit)
+sc <- abs(qnorm((1-0.95)/2))  ## Normal approx. to likelihood
+pframe <- transform(pframe, lwr = linkinv(pred0-sc*pp$se.fit), upr = linkinv(pred0+sc*pp$se.fit))
+plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'Number of F. occidentalis', xlab = 'Elevation(m)')
+lines(pframe$pred, lwd = 2)
+lines(pframe$upr, col = 2, lty = 3, lwd = 2)
+lines(pframe$lwr, col = 2, lty = 3, lwd = 2)
+```
 
 We can see that the number of *Faramea occidentalis* significantly
 decreases with elevation. However, the confidence envelope of the NB
 model is large at low elevation.
+
+### Challenge 3
+
+Use the ```mites``` dataset! Model the abundance of the species Galumna as a function of the substrate characteristics (water content ```WatrCont``` and density ```SubsDens```)
+
+Do you need to account for overdispersion?  
+Which covariates have a significant effect?  
+Select the best model!  
+
+```{r, echo = TRUE, eval = TRUE}
+mites <- read.csv("data/mites.csv", header = TRUE)
+```
+
+Drop each term in turn and compare the full model with a nested model using the command:
+```{r, echo = TRUE, eval = FALSE}
+drop1(MyGLM, test = "Chi")
+```
+
+Specify manually a nested model, call it for example MyGLM2, and use the command:
+```{r, echo = TRUE, eval = FALSE}
+anova(MyGLM, MyGLM2, test = "Chi")
+```
+
+**Solution**
+
+```{r, echo = TRUE, eval = TRUE}
+# Poisson GLM
+glm.p = glm(Galumna~WatrCont+SubsDens, data=mites, family=poisson)
+# quasi-Poisson GLM
+glm.qp = update(glm.p,family=quasipoisson)
+# model selection
+drop1(glm.qp, test = "Chi")
+# or
+glm.qp2 = glm(Galumna~WatrCont, data=mites, family=quasipoisson)
+anova(glm.qp2, glm.qp, test="Chisq")
+```
+
+![](images/Solution_3.PNG)
+<img align="left" width="100" height="100" src="Solution_3.PNG">
 
 # Conclusion on GLMs with count data
 

@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # Quel est l'utilité des modèles linéaires généralisés?
 
 Pour illustrer l'utilité des modèles linéaires généralisés (GLMs en
@@ -8,6 +13,10 @@ quelques modèles linéaires:
 
 ```{r, echo = TRUE, eval = FALSE}
 setwd("~/Desktop")
+mites <- read.csv('mites.csv')
+```
+
+```{r, echo = FALSE, eval = TRUE}
 mites <- read.csv('mites.csv')
 ```
 
@@ -27,32 +36,31 @@ fonction des 5 variables environnentales. Nous avons donc créé une
 variable binaire présence/absence (1=présent, 0=absent) et une variable
 proportion (abondance de Galumna/abondance totale de mites).
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 head(mites)
 str(mites)
-
-# 70 communautés de mites échantillonées à partir de carottes de mousse prises à la Station de Biologie des Laurentides, QC.
-# Pour chaque carotte/échantillon, les valeurs suivantes sont fournies
-# $Galumna: abondance de mites du genre Galumna
-# $pa: présence (1) ou absence (0) de Galumna, peu importe l'abondance
-# $totalabund: abondance totale de mites, toutes espèces confondues
-# $prop: proportion de Galumna dans la communauté de mites, i.e. Galumna/totalabund
-# $SubsDens: densité du substrat
-# $WatrCont: contenu d'eau de la carotte
-# $Substrate: type de substrat
-# $Shrub: abondance de buissons. Traité comme un facteur (une variable qualitative).
-# $Topo: microtopographie du sol. "couverture" (blanket) ou "hammac" (hummock).
 ```
+
+70 communautés de mites échantillonées à partir de carottes de mousse prises à la
+Station de Biologie des Laurentides, QC.
+Pour chaque carotte/échantillon, les valeurs suivantes sont fournies:  
+**\$Galumna**: abondance de mites du genre Galumna  
+**\$pa**: présence (1) ou absence (0) de Galumna, peu importe l'abondance  
+**\$totalabund**: abondance totale de mites, toutes espèces confondues  
+**\$prop**: proportion de Galumna dans la communauté de mites, i.e. Galumna/totalabund  
+**\$SubsDens**: densité du substrat  
+**\$WatrCont**: contenu d'eau de la carotte  
+**\$Substrate**: type de substrat  
+**\$Shrub**: abondance de buissons. Traité comme un facteur (une variable qualitative).  
+**\$Topo**: microtopographie du sol. "couverture" (blanket) ou "hammac" (hummock).  
 
 Regardons si nous pouvons voir une relation entre Galumna et les
 variables environnementales à l'aide d'une simple matrice de
 diagrammes:
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE, fig.height = 7}
 plot(mites)
 ```
-
-![](images/6_spm.jpg){width="800"}
 
 Il semble y avoir une relation négative entre l'abondance de Galumna et
 le contenu d'eau (WatrCont). La présence (pa) et la proportion (prop)
@@ -61,22 +69,19 @@ contenu d'eau. Nous pouvons regarder ça de plus près en représentant
 dans des diagrammes les relations entre ces 3 variables réponses et avec
 le contenu d'eau:
 
-```{r, echo = TRUE, eval = FALSE}
-par(mfrow=c(1,3), cex =1.4) #division de la fenêtre de diagramme en une ligne et 3 colonnes pour avoir 3 diagrammes sur la même figure.
+```{r, echo = TRUE, eval = TRUE, fig.height=3}
+par(mfrow=c(1,3), cex =1) #division de la fenêtre de diagramme en une ligne et 3 colonnes pour avoir 3 diagrammes sur la même figure.
 plot(Galumna ~ WatrCont, data = mites, xlab = 'Water content', ylab='Abundance')
 boxplot(WatrCont ~ pa, data = mites, xlab='Presence/Absence', ylab = 'Water content')
 plot(prop ~ WatrCont, data = mites, xlab = 'Water content', ylab='Proportion')
-par(mfrow=c(1,1)) #retour aux paramètres par défaut (un seul diagramme par figure)
 ```
-
-![](images/6_3plot.jpeg){width="600"}
 
 En effet, Galumna montre une relation négative avec le contenu d'eau,
 ce qui suggère que Galumna préfère les sites moins humides. Nous pouvons
 utiliser des modèles linéaires (fonction \"lm\") pour voir si ces
 relations sont statistiquement significatives.
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 lm.abund <- lm(Galumna ~ WatrCont, data = mites)
 ##summary(lm.abund)
 lm.pa <- lm(pa ~ WatrCont, data = mites)
@@ -85,14 +90,12 @@ lm.prop <- lm(prop ~ WatrCont, data = mites)
 ##summary(lm.prop)
 
 # Extracting the Pr(>|t|)
-#  (Intercept)     WatrCont 
-# 3.981563e-08 1.206117e-05
+summary(lm.abund)$coefficients[, 4]
+
 summary(lm.pa)$coefficients[, 4]
-#  (Intercept)     WatrCont 
-# 6.030252e-12 4.676755e-08
+
 summary(lm.prop)$coefficients[, 4]
-#  (Intercept)     WatrCont 
-# 4.977432e-08 1.665437e-05
+
 ```
 
 Oui, il y a une forte relation significative pour les 3 variables
@@ -100,19 +103,17 @@ réponses! Ça y est, on soumet à Nature. Attends une minute... Validons
 d'abord ces modèles pour voir s'ils respectent les suppositions des
 modèles linéaires, en commençant par le modèle d'abondance.
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 7, fig.align = "center"}
 plot(Galumna ~ WatrCont, data = mites)
 abline(lm.abund)
 ```
-
-![](images/6_lm1.jpeg)
 
 Le modèle ne représente pas très bien les données. Il prédit des valeurs
 négatives d'abondance lorsque le contenu d'eau excède 600, ce qui est
 insensé. En plus, le modèle ne prédit pas bien les valeurs élevées
 d'abondance lorsque le contenu d'eau est faible.
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 7, fig.align = "center"}
 par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.abund)
 ```
@@ -130,20 +131,21 @@ l'abondance de Galumna varie en fonction du contenu d'eau. Les
 diagrammes diagnostiques indiquent que les modèles pour présence-absence
 et proportion sont eux aussi innapropriés:
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 7, fig.align = "center"}
 #Proportion
 plot(prop ~ WatrCont, data = mites)
 abline(lm.prop)
 par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.prop)
 #Présence/Absence
+par(mfrow = c(1, 1), cex = 1.4)
 plot(pa ~ WatrCont, data = mites)
 abline(lm.pa)
 par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.pa)
 ```
 
-C'est très commun que les jeux de données biologiques ne respectent pas
+Il est très commun que les jeux de données biologiques ne respectent pas
 les suppositions d'homogénéité de la variance ou de normalité. Ces deux
 suppositions constituent les problèmes principaux des modèles linéaires,
 et sont la raison principale pourquoi nous avons besoin des modèles
@@ -187,10 +189,8 @@ que nous avons estimé plus tôt avec la fonction lm(). D'abord, il nous
 faut des valeurs pour β~0~ et β~1~ (les coefficients de régression), que
 nous pouvons obtenir ainsi:
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 coef(lm.abund)
-#(Intercept)     WatrCont
-#3.439348672 -0.006044788
 ```
 
 Ce modèle prédit que pour un contenu d'eau de disons 300, nous devrions
@@ -214,27 +214,26 @@ des carrés résiduelle et utilise ensuite cette valeur pour toutes les
 distributions normales servant à modéliser y. Nous pouvons trouver la
 valeur de σ^2^ de notre modèle dans le résumé du modèle:
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 summary(lm.abund)$sigma
-# [1] 1.513531
 ```
 
 Nous trouvons que sigma est plus ou moins 1.51. Nous avons maintenant
 tous les coefficients nécessaires pour modéliser manuellement
-l'abondance de Galuman comme le ferait la fonction lm(). À un contenu
+l'abondance de Galumna comme le ferait la fonction lm(). À un contenu
 d'eau de 300, les résidus devraient suivre une distribution normale
 avec les paramètres μ = 1.63 et σ^2^ = 1.51. À un contenu d'eau de 400,
 les résidus devraient suivre une distribution normale avec les
 paramètres μ = 1.02 et σ^2^ = 1.51, etc. Graphiquement, ça ressemble à
 ça:
 
-![](images/6_lm_assump.jpeg)
+![](images/modelPredic.png)
 
 Les quatres lois normales sur ce graphique donnent la probabilité
 d'observer toutes valeurs possibles de Galumna à 4 contenus d'eau
 différents. La moyenne de la distribution varie selon le contenu d'eau
-(donc μ diminue avec le contenu d'eau), mais σ^2^ est toujours 1.51. La
-**variance est donc homogène** pour toutes les valeurs de x. Ce modèle
+(donc μ diminue avec le contenu d'eau), mais σ^2^ est toujours 1.51.
+**La variance est donc homogène** pour toutes les valeurs de x. Ce modèle
 est inadéquat pour au moins deux raisons:
 
 1\. Les valeurs prédites sont en moyenne plus loin de la droite de
@@ -247,7 +246,7 @@ plus larges (avoir une plus grande variance) lorsque x est faible que
 lorsqu'il est élevé. Malheureusement, les modèles linéaires ne
 permettent pas ceci.
 
-2\. C'est innaproprié d'utiliser une distribution normale pour prédire
+2\. Il est innaproprié d'utiliser une distribution normale pour prédire
 y en fonction de x. Notre variable réponse est l'abondance qui, par
 définition, doit être un nombre entier. Pourtant, lorsque le contenu
 d'eau = 300, notre modèle prédit que l'abondance la plus probable est
