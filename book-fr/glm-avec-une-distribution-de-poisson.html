@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapitre 7 Que avec des données d’abondance? | Atelier 6: Modèles linéaires généralisés en R</title>
+  <title>Chapitre 8 GLM avec une distribution de Poisson | Atelier 6: Modèles linéaires généralisés en R</title>
   <meta name="description" content="Modèles linéaires généralisés en R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapitre 7 Que avec des données d’abondance? | Atelier 6: Modèles linéaires généralisés en R" />
+  <meta property="og:title" content="Chapitre 8 GLM avec une distribution de Poisson | Atelier 6: Modèles linéaires généralisés en R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapitre 7 Que avec des données d’abondance? | Atelier 6: Modèles linéaires généralisés en R" />
+  <meta name="twitter:title" content="Chapitre 8 GLM avec une distribution de Poisson | Atelier 6: Modèles linéaires généralisés en R" />
   
   <meta name="twitter:description" content="Modèles linéaires généralisés en R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="glm-avec-une-distribution-binomiale.html"/>
-<link rel="next" href="quasi-poisson-glms.html"/>
+<link rel="prev" href="que-faire-avec-des-données-dabondance.html"/>
+<link rel="next" href="glm-avec-une-distribution-quasi-poisson.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -161,22 +161,23 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="part"><span><b>GLM avec des données de proportions</b></span></li>
 <li class="chapter" data-level="6" data-path="glm-avec-une-distribution-binomiale.html"><a href="glm-avec-une-distribution-binomiale.html"><i class="fa fa-check"></i><b>6</b> GLM avec une distribution binomiale</a></li>
 <li class="part"><span><b>GLM avec des données d’abondance</b></span></li>
-<li class="chapter" data-level="7" data-path="que-avec-des-données-dabondance.html"><a href="que-avec-des-données-dabondance.html"><i class="fa fa-check"></i><b>7</b> Que avec des données d’abondance?</a><ul>
-<li class="chapter" data-level="7.1" data-path="que-avec-des-données-dabondance.html"><a href="que-avec-des-données-dabondance.html#glm-avec-une-distribution-de-poisson"><i class="fa fa-check"></i><b>7.1</b> GLM avec une distribution de Poisson</a><ul>
-<li class="chapter" data-level="7.1.1" data-path="que-avec-des-données-dabondance.html"><a href="que-avec-des-données-dabondance.html#la-validation-du-modèle-et-le-problème-de-la-surdispersion"><i class="fa fa-check"></i><b>7.1.1</b> La validation du modèle et le problème de la surdispersion</a></li>
+<li class="chapter" data-level="7" data-path="que-faire-avec-des-données-dabondance.html"><a href="que-faire-avec-des-données-dabondance.html"><i class="fa fa-check"></i><b>7</b> Que faire avec des données d’abondance?</a></li>
+<li class="chapter" data-level="8" data-path="glm-avec-une-distribution-de-poisson.html"><a href="glm-avec-une-distribution-de-poisson.html"><i class="fa fa-check"></i><b>8</b> GLM avec une distribution de Poisson</a><ul>
+<li class="chapter" data-level="8.0.1" data-path="glm-avec-une-distribution-de-poisson.html"><a href="glm-avec-une-distribution-de-poisson.html#la-validation-du-modèle-et-le-problème-de-la-surdispersion"><i class="fa fa-check"></i><b>8.0.1</b> La validation du modèle et le problème de la surdispersion</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="glm-avec-une-distribution-quasi-poisson.html"><a href="glm-avec-une-distribution-quasi-poisson.html"><i class="fa fa-check"></i><b>9</b> GLM avec une distribution quasi-Poisson</a></li>
+<li class="chapter" data-level="10" data-path="glm-avec-une-distribution-binomiale-négative.html"><a href="glm-avec-une-distribution-binomiale-négative.html"><i class="fa fa-check"></i><b>10</b> GLM avec une distribution binomiale négative</a><ul>
+<li class="chapter" data-level="10.1" data-path="glm-avec-une-distribution-binomiale-négative.html"><a href="glm-avec-une-distribution-binomiale-négative.html#représentation-graphique-du-modèle-final"><i class="fa fa-check"></i><b>10.1</b> Représentation graphique du modèle final</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="glm-avec-une-distribution-binomiale-négative.html"><a href="glm-avec-une-distribution-binomiale-négative.html#défi-3"><i class="fa fa-check"></i><b>10.1.1</b> Défi 3</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="quasi-poisson-glms.html"><a href="quasi-poisson-glms.html"><i class="fa fa-check"></i><b>8</b> quasi-Poisson GLMs</a></li>
-<li class="chapter" data-level="9" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html"><i class="fa fa-check"></i><b>9</b> Negative binomial GLMs</a><ul>
-<li class="chapter" data-level="9.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#représentation-graphique-du-modèle-final"><i class="fa fa-check"></i><b>9.1</b> Représentation graphique du modèle final</a></li>
-</ul></li>
-<li class="chapter" data-level="10" data-path="conclusion-on-glms-with-count-data.html"><a href="conclusion-on-glms-with-count-data.html"><i class="fa fa-check"></i><b>10</b> Conclusion on GLMs with count data</a></li>
+<li class="chapter" data-level="11" data-path="conclusion-sur-les-glm-avec-des-données-dabondance.html"><a href="conclusion-sur-les-glm-avec-des-données-dabondance.html"><i class="fa fa-check"></i><b>11</b> Conclusion sur les GLM avec des données d’abondance</a></li>
 <li class="part"><span><b>Autres distributions</b></span></li>
-<li class="chapter" data-level="11" data-path="autres-distributions.html"><a href="autres-distributions.html"><i class="fa fa-check"></i><b>11</b> Autres distributions</a></li>
+<li class="chapter" data-level="12" data-path="autres-distributions.html"><a href="autres-distributions.html"><i class="fa fa-check"></i><b>12</b> Autres distributions</a></li>
 <li class="part"><span><b>Considérations finales</b></span></li>
-<li class="chapter" data-level="12" data-path="sommaire.html"><a href="sommaire.html"><i class="fa fa-check"></i><b>12</b> Sommaire</a></li>
-<li class="chapter" data-level="13" data-path="ressources-additionnelles.html"><a href="ressources-additionnelles.html"><i class="fa fa-check"></i><b>13</b> Ressources additionnelles</a></li>
-<li class="chapter" data-level="14" data-path="réferences.html"><a href="réferences.html"><i class="fa fa-check"></i><b>14</b> Réferences</a></li>
+<li class="chapter" data-level="13" data-path="sommaire.html"><a href="sommaire.html"><i class="fa fa-check"></i><b>13</b> Sommaire</a></li>
+<li class="chapter" data-level="14" data-path="ressources-additionnelles.html"><a href="ressources-additionnelles.html"><i class="fa fa-check"></i><b>14</b> Ressources additionnelles</a></li>
+<li class="chapter" data-level="15" data-path="réferences.html"><a href="réferences.html"><i class="fa fa-check"></i><b>15</b> Réferences</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/qcbsRworkshops" target="blank">QCBS R Workshop Series</a></li>
 
@@ -211,28 +212,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
-<div id="que-avec-des-données-dabondance" class="section level1">
-<h1><span class="header-section-number">Chapitre 7</span> Que avec des données d’abondance?</h1>
-<p>Afin d’illustrer l’utilisation des GLMs avec des données d’abondance,
-nous allons utiliser un nouveau jeux de données; faramea.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="que-avec-des-données-dabondance.html#cb27-1"></a>faramea &lt;-<span class="st"> </span><span class="kw">read.csv</span>(‘faramea.csv’, <span class="dt">header =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
-<p>Ce jeux de données s’intéresse à l’espèce d’arbre <em>Faramea
-occidentalis</em> sur l’île Barro Colorado au Panama. 43 transects ont été
-utilisés afin de mesurer le nombre d’arbre le long d’un gradient
-environnemental. Des caractéristiques environnementales, comme
-l’élévation du terrain et la précipitation, ont aussi été mesurées au
-niveau de chaque transect. Examinons maintenant à quoi ressemble la
-distribution du nombre d’arbres par transect.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="que-avec-des-données-dabondance.html#cb28-1"></a><span class="kw">hist</span>(faramea<span class="op">$</span>Faramea.occidentalis, <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">45</span>, <span class="dv">1</span>), <span class="dt">xlab =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Number of &quot;</span>, </span>
-<span id="cb28-2"><a href="que-avec-des-données-dabondance.html#cb28-2"></a>    <span class="kw">italic</span>(Faramea <span class="op">~</span><span class="st"> </span>occidentalis))), <span class="dt">ylab =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;&quot;</span>, </span>
-<span id="cb28-3"><a href="que-avec-des-données-dabondance.html#cb28-3"></a>    <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>)</span></code></pre></div>
-<p><img src="images/plot_faramea_abd.png" class="align-center" width="500" /></p>
-<p>Nous pouvons remarquer qu’il n’y a que des valeurs entières et
-positives. Etant donné cette spécificité propore aux données de
-dénombrement, la distribution de Poisson, décrite ci dessus, semble un
-choix approprié pour modéliser ces données.</p>
-<div id="glm-avec-une-distribution-de-poisson" class="section level2">
-<h2><span class="header-section-number">7.1</span> GLM avec une distribution de Poisson</h2>
+<div id="glm-avec-une-distribution-de-poisson" class="section level1">
+<h1><span class="header-section-number">Chapitre 8</span> GLM avec une distribution de Poisson</h1>
 <p>Comme nous l’avons vu plus haut, la distribution de Poisson est
 particulièrement appropriée pour modéliser des données de dénombrement
 car :</p>
@@ -252,8 +233,8 @@ d’abondance. Nous allons donc commencer par ajuster ce type de modèle
 pour modéliser l’abondance de <em>Faramea occidentalis</em> en fonction de
 l’élévation.</p>
 <p><img src="images//plot_faramea_vs_elevation.png" class="align-center" width="400" /></p>
-<p>** Mais qu’est ce qui se cache derrière un tel GLM ?**<br />
-un GLM avec une distribution de Poisson considère que les valeurs y<sub>i</sub>
+<p><strong>Mais qu’est ce qui se cache derrière un tel GLM ?</strong><br />
+Un GLM avec une distribution de Poisson considère que les valeurs y<sub>i</sub>
 de la variable réponse ont été générées par une distribution de Poisson
 dont la moyenne et la variance sont égales à <em>µ</em><sub>i</sub>.</p>
 <p>Y<sub>i</sub> ∼ Poisson(<em>µ</em><sub>i</sub>)</p>
@@ -263,43 +244,67 @@ linéaire et la fonction de lien. Le prédicteur linéaire est utilisé
 comme une combinaison linéaire des différentes variables explicatives
 dont les effets sont estimés à travers les paramètres <em>β</em>. Le prédicteur
 linéaire peut être défini comme :</p>
-<p><em>β</em><sub>0</sub> + <strong>X</strong><sub>i</sub>.<em>β</em></p>
+<p><em>β</em><sub>0</sub> + <strong>X</strong><sub>i</sub>*<em>β</em></p>
 <p>où <strong>X</strong> est la matrice des variables explicatives, <em>β</em><sub>0</sub> l’ordonnée à
 l’origine et <em>β</em> le vecteur des paramètres estimés.</p>
 <p>La fonction de lien, entre le prédicteur linéaire et la moyenne de la
 distribution <em>µ</em><sub>i</sub> est la fonction logarithmique (relation
 log-linéaire) :</p>
 <ul>
-<li>log(<em>µ</em><sub>i</sub>) = <em>β</em><sub>0</sub> + <strong>X</strong><sub>i</sub>.<em>β</em></li>
+<li>log(<em>µ</em><sub>i</sub>) = <em>β</em><sub>0</sub> + <strong>X</strong><sub>i</sub>*<em>β</em></li>
 </ul>
 <p>ou</p>
 <ul>
-<li><em>µ</em><sub>i</sub> = exp(<em>β</em><sub>0</sub> + <strong>X</strong><sub>i</sub>.<em>β</em>)</li>
+<li><em>µ</em><sub>i</sub> = exp(<em>β</em><sub>0</sub> + <strong>X</strong><sub>i</sub>*<em>β</em>)</li>
 </ul>
 <p>La distribution de Poisson donne la probabilité qu’une valeur Y<sub>i</sub> soit
-observée étant donné une moyenne <em>µ</em><sub>i</sub> = exp(<em>β</em><sub>0</sub> + <strong>X</strong><sub>i</sub>.<em>β</em>).
+observée étant donné une moyenne <em>µ</em><sub>i</sub> = exp(<em>β</em><sub>0</sub> + <strong>X</strong><sub>i</sub>*<em>β</em>).
 Dans ce modèle, les paramètres inconnus sont inclus dans le vecteur des
 coefficients de régression <em>β</em> (plus l’ordonnée à l’origine <em>β</em><sub>0</sub>) et
 seront estimés à l’aide du maximum de vraisemblance.</p>
 <p>Pour ajuster un GLM avec une distribution de Poisson sous R, il suffit
 de spécifier <em>family = poisson</em> dans la fonction glm(). Par défaut la
 fonction de lien est la fonction logarithmique.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="que-avec-des-données-dabondance.html#cb29-1"></a>glm.poisson =<span class="st"> </span><span class="kw">glm</span>(Faramea.occidentalis <span class="op">~</span><span class="st"> </span>Elevation, <span class="dt">data =</span> faramea, </span>
-<span id="cb29-2"><a href="que-avec-des-données-dabondance.html#cb29-2"></a>    <span class="dt">family =</span> poisson)</span>
-<span id="cb29-3"><a href="que-avec-des-données-dabondance.html#cb29-3"></a><span class="kw">summary</span>(glm.poisson)</span></code></pre></div>
-<p>Le résumé est similaire à celui de la fonction ‘<strong>lm</strong>’ (voir atelier
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="glm-avec-une-distribution-de-poisson.html#cb68-1"></a>glm.poisson =<span class="st"> </span><span class="kw">glm</span>(Faramea.occidentalis <span class="op">~</span><span class="st"> </span>Elevation, <span class="dt">data =</span> faramea, </span>
+<span id="cb68-2"><a href="glm-avec-une-distribution-de-poisson.html#cb68-2"></a>    <span class="dt">family =</span> poisson)</span>
+<span id="cb68-3"><a href="glm-avec-une-distribution-de-poisson.html#cb68-3"></a><span class="kw">summary</span>(glm.poisson)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = Faramea.occidentalis ~ Elevation, family = poisson, 
+##     data = faramea)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -3.3319  -2.7509  -1.5451   0.1139  11.3995  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  1.7687001  0.1099136  16.092  &lt; 2e-16 ***
+## Elevation   -0.0027375  0.0006436  -4.253 2.11e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 414.81  on 42  degrees of freedom
+## Residual deviance: 388.12  on 41  degrees of freedom
+## AIC: 462.01
+## 
+## Number of Fisher Scoring iterations: 10</code></pre>
+<p>Le résumé est similaire à celui de la fonction <strong>lm</strong> (voir atelier
 4) et donne les estimations des paramètres. Vous pouvez aussi récupérer
 les estimations des paramètres à l’aide des fonctions suivantes :</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="que-avec-des-données-dabondance.html#cb30-1"></a><span class="co"># ordonnée à l&#39;origine</span></span>
-<span id="cb30-2"><a href="que-avec-des-données-dabondance.html#cb30-2"></a><span class="kw">summary</span>(glm.poisson)<span class="op">$</span>coefficients[<span class="dv">1</span>, <span class="dv">1</span>]</span>
-<span id="cb30-3"><a href="que-avec-des-données-dabondance.html#cb30-3"></a><span class="co"># coefficient de regression de l&#39;élévation</span></span>
-<span id="cb30-4"><a href="que-avec-des-données-dabondance.html#cb30-4"></a><span class="kw">summary</span>(glm.poisson)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="glm-avec-une-distribution-de-poisson.html#cb70-1"></a><span class="co"># ordonnée à l&#39;origine</span></span>
+<span id="cb70-2"><a href="glm-avec-une-distribution-de-poisson.html#cb70-2"></a><span class="kw">summary</span>(glm.poisson)<span class="op">$</span>coefficients[<span class="dv">1</span>, <span class="dv">1</span>]</span></code></pre></div>
+<pre><code>## [1] 1.7687</code></pre>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="glm-avec-une-distribution-de-poisson.html#cb72-1"></a><span class="co"># coefficient de regression de l&#39;élévation</span></span>
+<span id="cb72-2"><a href="glm-avec-une-distribution-de-poisson.html#cb72-2"></a><span class="kw">summary</span>(glm.poisson)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">1</span>]</span></code></pre></div>
+<pre><code>## [1] -0.002737509</code></pre>
 <div id="la-validation-du-modèle-et-le-problème-de-la-surdispersion" class="section level3">
-<h3><span class="header-section-number">7.1.1</span> La validation du modèle et le problème de la surdispersion</h3>
+<h3><span class="header-section-number">8.0.1</span> La validation du modèle et le problème de la surdispersion</h3>
 <p>Un aspect important du résumé se trouve dans les dernières lignes :</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="que-avec-des-données-dabondance.html#cb31-1"></a><span class="kw">summary</span>(glm.poisson)</span>
-<span id="cb31-2"><a href="que-avec-des-données-dabondance.html#cb31-2"></a><span class="co"># Null deviance: 414.81 on 42 degrees of freedom Residual</span></span>
-<span id="cb31-3"><a href="que-avec-des-données-dabondance.html#cb31-3"></a><span class="co"># deviance: 388.12 on 41 degrees of freedom</span></span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="glm-avec-une-distribution-de-poisson.html#cb74-1"></a><span class="co">## Null deviance: 414.81 on 42 degrees of freedom Residual</span></span>
+<span id="cb74-2"><a href="glm-avec-une-distribution-de-poisson.html#cb74-2"></a><span class="co">## deviance: 388.12 on 41 degrees of freedom</span></span></code></pre></div>
 <p>L’estimation du maximum de vraisemblance est utilisé afin d’estimer
 les paramètres. Nous avons déjà mentionné que la déviance est
 l’équivalent en maximum de vraisemblance des sommes des carrés dans un
@@ -321,15 +326,16 @@ alors être qualifié de <strong>surdispersé</strong>.</p>
 <p><strong>La surdispersion</strong> La surdispersion peut être évaluée à l’aide du
 paramètre de surdispersion φ qui se mesure donc de la facon suivante :</p>
 <pre><code>                      φ = déviance résiduelle / dégrés de liberté résiduels
+
 * φ &lt; 1 indique qu&#39;il y a sousdispersion
 * φ = 1 indique que la dispersion est conforme aux attendus
-* φ &gt; 1 indicates qu&#39;il y a surdispersion</code></pre>
+* φ &gt; 1 indique qu&#39;il y a surdispersion</code></pre>
 <p>Mais pourquoi un GLM présente-il de la surdispersion ? En fait, des
 modèles GLM sont surdispersés quand la variance dans les données est
 encore plus grande que ce qu’autorise la distribution de Poisson. Par
 exemple, cela peut se produire lorsque les données contiennent de
 nombreux zeros ou beaucoup de très grosses valeurs. Si nous revenons sur
-la distribution de nos données (ci dessus) nous pouvons remarquer que
+la distribution de nos données (ci-dessus) nous pouvons remarquer que
 ces deux problèmes sont présents et que la distribution de Poisson
 n’était peut être pas le choix idéal. La surdispersion peut aussi
 survenir lorsque des variables explicatives ou des termes
@@ -343,8 +349,10 @@ Poisson n’est plus appropriée. Pour nous convaincre une dernière fois
 d’abandonner la distribution de Poisson pour modéliser l’abondance de
 l’espèce <em>faramea</em> nous pouvons rapidement calculer la moyenne et la
 variance dans notre jeux de données :</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="que-avec-des-données-dabondance.html#cb33-1"></a><span class="kw">mean</span>(faramea<span class="op">$</span>Faramea.occidentalis)</span>
-<span id="cb33-2"><a href="que-avec-des-données-dabondance.html#cb33-2"></a><span class="kw">var</span>(faramea<span class="op">$</span>Faramea.occidentalis)</span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="glm-avec-une-distribution-de-poisson.html#cb76-1"></a><span class="kw">mean</span>(faramea<span class="op">$</span>Faramea.occidentalis)</span></code></pre></div>
+<pre><code>## [1] 3.883721</code></pre>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="glm-avec-une-distribution-de-poisson.html#cb78-1"></a><span class="kw">var</span>(faramea<span class="op">$</span>Faramea.occidentalis)</span></code></pre></div>
+<pre><code>## [1] 60.24806</code></pre>
 <p>Dans la pratique, les GLMs basés sur la distribution de Poisson sont
 très pratique pour décrire la moyenne <em>µ</em><sub>i</sub> mais vont sous-estimer la
 variance dans les données dès qu’il y a de la surdispersion. Par
@@ -352,10 +360,9 @@ conséquent, les tests qui découlent du modèle seront trop laxistes. Il y
 a deux moyens de traiter les problèmes de surdispersion que nous allons
 détailler ci-dessous :</p>
 <ul>
-<li>corriger la surdispersion en utilisant un **GLM quasi-Poisson **</li>
+<li>corriger la surdispersion en utilisant un <strong>GLM quasi-Poisson</strong></li>
 <li>choisir une nouvelle distribution comme la <strong>binomiale négative</strong></li>
 </ul>
-</div>
 </div>
 </div>
 <hr>
@@ -369,8 +376,8 @@ détailler ci-dessous :</p>
           </div>
         </div>
       </div>
-<a href="glm-avec-une-distribution-binomiale.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="quasi-poisson-glms.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="que-faire-avec-des-données-dabondance.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="glm-avec-une-distribution-quasi-poisson.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -420,20 +427,6 @@ gitbook.start({
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>
