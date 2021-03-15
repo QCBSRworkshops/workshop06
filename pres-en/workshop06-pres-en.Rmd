@@ -57,7 +57,7 @@ lapply(list.of.packages, require, character.only = TRUE, quietly = TRUE)
 [![badge](https://img.shields.io/static/v1?style=flat-square&label=Slides&message=06&color=red&logo=html5)](https://qcbsrworkshops.github.io/workshop06/pres-en/workshop06-pres-en.html)
 [![badge](https://img.shields.io/static/v1?style=flat-square&label=book&message=06&logo=github)](https://qcbsrworkshops.github.io/workshop06/book-en/index.html)
 [![badge](https://img.shields.io/static/v1?style=flat-square&label=wiki&message=06&logo=wikipedia)](https://wiki.qcbs.ca/r_workshop6)
-[![badge](https://img.shields.io/static/v1?style=flat-square&label=script&message=06&color=2a50b8&logo=r)]()
+[![badge](https://img.shields.io/static/v1?style=flat-square&label=script&message=06&color=2a50b8&logo=r)](https://qcbsrworkshops.github.io/workshop06/book-en/workshop06-script-en.R)
 [![badge](https://img.shields.io/static/v1?style=flat-square&label=repo&message=dev&color=6f42c1&logo=github)](https://github.com/QCBSRworkshops/workshop06) 
 
 ---
@@ -76,11 +76,15 @@ by modifying and improving its content as part of the <br> *Le*arning *a*nd *D*e
 
  **2022** - **2021** - **2020**
 
-[Pedro Henrique P. Braga]()
+[Pedro Henrique P. Braga](ph.pereirabraga@gmail.com)
 <br>
 [Katherine Hébert]()
 <br>
 [Alex Arkilanian]()
+<br>
+[Mathieu Vaillancourt](mathieu.vaillancourt.2@ulaval.ca)
+<br>
+
 
 ]
 ]
@@ -250,7 +254,8 @@ $$\mathbb{C}{\rm ov} (\epsilon_i, \epsilon_j) = 0,\ i \neq j$$
 
 $$\boldsymbol{\varepsilon} | \mathbf{X} \sim \mathcal{N} \left( \mathbf{0}, \sigma^2_\epsilon \mathbf{I} \right)$$
 ---
-<br><br><br><br><br><br><br><br><br>
+class: middle 
+
 .small[
 .center[**WHY SO MANY EQUATIONS?**]
 .center[*Wait! Do not lose hope! They are necessary and we will explain why!*]
@@ -436,7 +441,7 @@ What about...
 ---
 # Exploring relationships
 
-Do Galumna's community values (abundance, occurrence and relative frequency) vary as a function of water content?
+Do *Galumna*'s community values (abundance, occurrence and relative frequency) vary as a function of water content?
 
 .small[
 ```{r,fig.width=12,fig.height=4,echo=-1}
@@ -470,6 +475,7 @@ summary(lm.prop)
 ]
 
 .pull-right3[
+<br>
 $\text{Galumna} = f(\text{Water content}, \epsilon)$
 
 <br>
@@ -590,7 +596,7 @@ Varying $\mu$, $\sigma = 5$
 ```{r, echo = F, fig.width = 3, fig.height = 3}
 x = seq(1, 50, 0.1)
 par(mypar);par(cex = 1.4)
-plot(x, dnorm(x, mean = 20, sd = 5), type = 'l', lwd = 3, xlab = '# galumna', ylab = 'Probability')
+plot(x, dnorm(x, mean = 20, sd = 5), type = 'l', lwd = 3, xlab = 'Frequency of Galumna', ylab = 'Probability')
 points(x, dnorm(x, mean = 25, sd = 5), type = 'l', lwd = 3, col = 2)
 points(x, dnorm(x, mean = 30, sd = 5), type = 'l', lwd = 3, col = 4)
 legend('topleft', legend = c('20', '25', '30'), lty = 1, col = 1:3, bty = 'n', lwd = 2, cex = 1.1)
@@ -600,7 +606,7 @@ $\mu = 25$, varying $\sigma$
 ```{r, echo=F, fig.width = 3, fig.height = 3}
 x = seq(1, 50, 0.1)
 par(mypar);par(cex = 1.4)
-plot(x, dnorm(x, mean = 25, sd = 5), type = 'l', lwd = 3, xlab = '# galumna', ylab = 'Probability')
+plot(x, dnorm(x, mean = 25, sd = 5), type = 'l', lwd = 3, xlab = 'Frequency of Galumna', ylab = 'Probability')
 points(x, dnorm(x, mean = 25, sd = 7.5), type = 'l', lwd = 3, col = 2)
 points(x, dnorm(x, mean = 25, sd = 10), type = 'l', lwd = 3, col = 4)
 legend('topleft', legend = c('5', '7.5', '10'), lty = 1, col = 1:3, bty = 'n', lwd = 2, cex = 1.1)
@@ -876,7 +882,7 @@ In `R`, this means that we will move away from the (general) linear models funct
 
 A **generalized linear model** is made of a **linear predictor**:
 
-$$\underbrace{g(\mu_i)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}~+~\underbrace{\epsilon}_{Error}$$
+$$\eta_i = \underbrace{g(\mu_i)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$
 and,
 
 1. a **link** function $g(\mu_i)$ that **transforms the expected value** of $Y$ and describes how the mean $E(Y_i) = \mu_i$ depends on the linear predictor
@@ -894,7 +900,7 @@ where the **dispersion parameter** $phi$ is a constant.
 So, for our **general linear model** with $\epsilon ∼ N(0, σ^2)$ and $Y_i \sim{} N(\mu_i, \sigma^2)$, we have the same linear predictor:
 
 
-$$\underbrace{g(\mu_i)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}~+~\underbrace{\epsilon}_{Error}$$
+$$\underbrace{g(\mu_i)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$
 the **identity** link function
 $$g(\mu_i) = \mu_i$$
 and, the variance function
@@ -1004,21 +1010,36 @@ hist(Pres)
 
 A **generalized linear model** is made of a **linear predictor**:
 
-$$\underbrace{g(\mu_i)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}~+~\underbrace{\epsilon}_{Error}$$
+$$\underbrace{g(\mu_i)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$
+Consider that $Y_i ∼ B(n_i, p_i)$, and that we want to model the proportions of $Y_i^{}/n_i$. As such: 
 
-For binary or binomial data, the link function is called the **logit**:
 
-$$g(p) = log\frac{p}{1-p}$$
+.center[ 
+$E(Y_i^{}/n_i) = p_i$ and $\text{var}(Y_i^{}/n_i) = \frac{1}{n_i}p_i(1-p_i)$
+, so that $V(\mu_i) = \mu_i(1-\mu_i)$.]
 
-with $\mu$ being the expected values (probability that $Y = 1$).
+--
+.pull-left[
+We first move the probabilities $\mu_i$ to the *odds*:
 
-The *logit* function is the logarithm of the odds $(\frac{p}{1-p})$.
-
+$$\text{odds}_i = \frac{\mu_i}{1-\mu_i}$$
 The odds puts our expected values on a `0` to `+Inf` scale.
+
+]
+
+--
+
+.pull-right[
+
+And then we take logarithms, calculating the *logit* or log-odds:
+
+$$\eta_i = \text{logit}(\mu_i) = \log(\frac{\mu_i}{1-\mu_i})$$
+
+with $\mu$ being the expected values (probability that $Y = 1$ ).
 
 The log-transformation puts our expected values on a `-Inf` to `+Inf`.
 
-*The expected values are now **linearly** related to the linear predictor.*
+]
 
 ???
 
@@ -1652,7 +1673,7 @@ A Poisson GLM will model the value of $\mu$ as a function of different explanato
 
 **Step 1.** We assume $Y_i$ follows a Poisson distribution with mean and variance $\mu_i$.
 
-$$Y_i = Poisson(\mu_i)$$
+$$Y_i ∼ Poisson(\mu_i)$$
 
 $$E(Y_i) = Var(Y_i) = \mu_i$$
 
@@ -1742,7 +1763,6 @@ What about the *null deviance* and the *residual deviance*?
 Note: Point out that the resiudal deviance of 388.12 is much higher than residual degrees of freedom of 41 indicating overdispersion.
 
 ---
-exclude: false
 
 # Parameter estimates
 
@@ -1757,7 +1777,6 @@ $$\mu_i = e^{1.769 - 0.0027 \times \text{Elevation}_i}$$
 
 
 ---
-exclude: false
 
 # The deviance
 
