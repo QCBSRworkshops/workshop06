@@ -8,7 +8,7 @@ output:
       in_header: qcbsR-header.html
     lib_dir: assets
     seal: true
-    css: ["default","qcbsR-fonts.css", "qcbsR.css"]
+    css: ["default","qcbsR-fonts.css", "qcbsR.css", ]
     nature:
       beforeInit: "qcbsR-macros.js"
       highlightLines: true
@@ -16,7 +16,7 @@ output:
 ---
 class: inverse, center, middle
 
-```{r setup, echo = FALSE}
+```{r setup, echo = FALSE, include = FALSE, message = FALSE}
 knitr::opts_chunk$set(
   comment = "#",
   collapse = TRUE,
@@ -33,6 +33,21 @@ mypar = list(mar = c(3, 3, 1, 0.5),
              tck = -.02)
 
 options(repos=structure(c(CRAN = "http://cran.r-project.org")))
+
+# Install xaringanExtra
+
+if(nzchar(system.file(package = "xaringanExtra")) == FALSE) {remotes::install_github("gadenbuie/xaringanExtra", upgrade = "always")}
+
+# Include copy-to-clipboard icons
+
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fas fa-clipboard\"></i>",
+    success_text = "<i class=\"fa fa-check\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times-circle\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
 ```
 
 ```{r install_pkgs, message=FALSE, warning=FALSE, include=FALSE, results=0}
