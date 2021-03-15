@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 5 Binomial GLMs (Bernouilli) | Workshop 6: Generalized linear models</title>
+  <title>Chapter 6 Binomial GLMs (Bernouilli) | Workshop 6: Generalized linear models</title>
   <meta name="description" content="Generalized linear models in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 5 Binomial GLMs (Bernouilli) | Workshop 6: Generalized linear models" />
+  <meta property="og:title" content="Chapter 6 Binomial GLMs (Bernouilli) | Workshop 6: Generalized linear models" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 5 Binomial GLMs (Bernouilli) | Workshop 6: Generalized linear models" />
+  <meta name="twitter:title" content="Chapter 6 Binomial GLMs (Bernouilli) | Workshop 6: Generalized linear models" />
   
   <meta name="twitter:description" content="Generalized linear models in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -145,39 +145,45 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="part"><span><b>Generalized linear models in <code>R</code></b></span></li>
 <li class="chapter" data-level="1" data-path="learning-objectives.html"><a href="learning-objectives.html"><i class="fa fa-check"></i><b>1</b> Learning objectives</a></li>
 <li class="chapter" data-level="2" data-path="preparing-for-the-workshop.html"><a href="preparing-for-the-workshop.html"><i class="fa fa-check"></i><b>2</b> Preparing for the workshop</a></li>
-<li class="chapter" data-level="3" data-path="why-are-generalized-linear-models-useful.html"><a href="why-are-generalized-linear-models-useful.html"><i class="fa fa-check"></i><b>3</b> Why are generalized linear models useful?</a></li>
-<li class="chapter" data-level="4" data-path="the-distributions-of-biological-data.html"><a href="the-distributions-of-biological-data.html"><i class="fa fa-check"></i><b>4</b> The distributions of biological data</a></li>
+<li class="chapter" data-level="3" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html"><i class="fa fa-check"></i><b>3</b> Reviewing linear models</a><ul>
+<li class="chapter" data-level="3.1" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#general-linear-models"><i class="fa fa-check"></i><b>3.1</b> General linear models</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#definition"><i class="fa fa-check"></i><b>3.1.1</b> Definition</a></li>
+<li class="chapter" data-level="3.1.2" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#assumptions"><i class="fa fa-check"></i><b>3.1.2</b> Assumptions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="an-example-with-general-linear-models.html"><a href="an-example-with-general-linear-models.html"><i class="fa fa-check"></i><b>4</b> An example with general linear models</a></li>
+<li class="chapter" data-level="5" data-path="the-distributions-of-biological-data.html"><a href="the-distributions-of-biological-data.html"><i class="fa fa-check"></i><b>5</b> The distributions of biological data</a></li>
 <li class="part"><span><b>GLMs with binary data</b></span></li>
-<li class="chapter" data-level="5" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html"><i class="fa fa-check"></i><b>5</b> Binomial GLMs (Bernouilli)</a><ul>
-<li class="chapter" data-level="5.1" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#the-link-function"><i class="fa fa-check"></i><b>5.1</b> The link function</a><ul>
-<li class="chapter" data-level="5.1.1" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#challenge-1"><i class="fa fa-check"></i><b>5.1.1</b> Challenge 1</a></li>
+<li class="chapter" data-level="6" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html"><i class="fa fa-check"></i><b>6</b> Binomial GLMs (Bernouilli)</a><ul>
+<li class="chapter" data-level="6.1" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#the-link-function"><i class="fa fa-check"></i><b>6.1</b> The link function</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#challenge-1"><i class="fa fa-check"></i><b>6.1.1</b> Challenge 1</a></li>
 </ul></li>
-<li class="chapter" data-level="5.2" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#interpreting-the-output-of-a-logistic-regression"><i class="fa fa-check"></i><b>5.2</b> Interpreting the output of a logistic regression</a></li>
-<li class="chapter" data-level="5.3" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#predictive-power-and-goodness-of-fit"><i class="fa fa-check"></i><b>5.3</b> Predictive power and goodness-of-fit</a><ul>
-<li class="chapter" data-level="5.3.1" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#challenge-2"><i class="fa fa-check"></i><b>5.3.1</b> Challenge 2</a></li>
+<li class="chapter" data-level="6.2" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#interpreting-the-output-of-a-logistic-regression"><i class="fa fa-check"></i><b>6.2</b> Interpreting the output of a logistic regression</a></li>
+<li class="chapter" data-level="6.3" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#predictive-power-and-goodness-of-fit"><i class="fa fa-check"></i><b>6.3</b> Predictive power and goodness-of-fit</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#challenge-2"><i class="fa fa-check"></i><b>6.3.1</b> Challenge 2</a></li>
 </ul></li>
-<li class="chapter" data-level="5.4" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#plotting-results"><i class="fa fa-check"></i><b>5.4</b> Plotting results</a></li>
+<li class="chapter" data-level="6.4" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#plotting-results"><i class="fa fa-check"></i><b>6.4</b> Plotting results</a></li>
 </ul></li>
 <li class="part"><span><b>GLMs with proportion data</b></span></li>
-<li class="chapter" data-level="6" data-path="binomial-glms.html"><a href="binomial-glms.html"><i class="fa fa-check"></i><b>6</b> Binomial GLMS</a></li>
+<li class="chapter" data-level="7" data-path="binomial-glms.html"><a href="binomial-glms.html"><i class="fa fa-check"></i><b>7</b> Binomial GLMS</a></li>
 <li class="part"><span><b>GLMs with count data</b></span></li>
-<li class="chapter" data-level="7" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html"><i class="fa fa-check"></i><b>7</b> What can we do with count data?</a></li>
-<li class="chapter" data-level="8" data-path="poisson-glms.html"><a href="poisson-glms.html"><i class="fa fa-check"></i><b>8</b> Poisson GLMs</a><ul>
-<li class="chapter" data-level="8.1" data-path="poisson-glms.html"><a href="poisson-glms.html#the-problem-of-overdispersion"><i class="fa fa-check"></i><b>8.1</b> The problem of overdispersion</a></li>
+<li class="chapter" data-level="8" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html"><i class="fa fa-check"></i><b>8</b> What can we do with count data?</a></li>
+<li class="chapter" data-level="9" data-path="poisson-glms.html"><a href="poisson-glms.html"><i class="fa fa-check"></i><b>9</b> Poisson GLMs</a><ul>
+<li class="chapter" data-level="9.1" data-path="poisson-glms.html"><a href="poisson-glms.html#the-problem-of-overdispersion"><i class="fa fa-check"></i><b>9.1</b> The problem of overdispersion</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="quasi-poisson-glms.html"><a href="quasi-poisson-glms.html"><i class="fa fa-check"></i><b>9</b> Quasi-Poisson GLMs</a></li>
-<li class="chapter" data-level="10" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html"><i class="fa fa-check"></i><b>10</b> Negative binomial GLMs</a><ul>
-<li class="chapter" data-level="10.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>10.1</b> Plotting the final GLM to the data</a><ul>
-<li class="chapter" data-level="10.1.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#challenge-3"><i class="fa fa-check"></i><b>10.1.1</b> Challenge 3</a></li>
+<li class="chapter" data-level="10" data-path="quasi-poisson-glms.html"><a href="quasi-poisson-glms.html"><i class="fa fa-check"></i><b>10</b> Quasi-Poisson GLMs</a></li>
+<li class="chapter" data-level="11" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html"><i class="fa fa-check"></i><b>11</b> Negative binomial GLMs</a><ul>
+<li class="chapter" data-level="11.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>11.1</b> Plotting the final GLM to the data</a><ul>
+<li class="chapter" data-level="11.1.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#challenge-3"><i class="fa fa-check"></i><b>11.1.1</b> Challenge 3</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="conclusion-on-glms-with-count-data.html"><a href="conclusion-on-glms-with-count-data.html"><i class="fa fa-check"></i><b>11</b> Conclusion on GLMs with count data</a></li>
+<li class="chapter" data-level="12" data-path="conclusion-on-glms-with-count-data.html"><a href="conclusion-on-glms-with-count-data.html"><i class="fa fa-check"></i><b>12</b> Conclusion on GLMs with count data</a></li>
 <li class="part"><span><b>Other distributions</b></span></li>
-<li class="chapter" data-level="12" data-path="other-distributions.html"><a href="other-distributions.html"><i class="fa fa-check"></i><b>12</b> Other distributions</a></li>
+<li class="chapter" data-level="13" data-path="other-distributions.html"><a href="other-distributions.html"><i class="fa fa-check"></i><b>13</b> Other distributions</a></li>
 <li class="part"><span><b>Additional GLM resources</b></span></li>
-<li class="chapter" data-level="13" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>13</b> Summary</a></li>
-<li class="chapter" data-level="14" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>14</b> Additional resources</a></li>
-<li class="chapter" data-level="15" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>15</b> References</a></li>
+<li class="chapter" data-level="14" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>14</b> Summary</a></li>
+<li class="chapter" data-level="15" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>15</b> Additional resources</a></li>
+<li class="chapter" data-level="16" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>16</b> References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/qcbsRworkshops" target="blank">QCBS R Workshop Series</a></li>
 
@@ -213,7 +219,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
 <div id="binomial-glms-bernouilli" class="section level1">
-<h1><span class="header-section-number">Chapter 5</span> Binomial GLMs (Bernouilli)</h1>
+<h1><span class="header-section-number">Chapter 6</span> Binomial GLMs (Bernouilli)</h1>
 <p>A common response variable in ecological datasets is the binary
 variable: we observe a phenomenon X or its “absence”. For example,
 species presence/absence is frequently recorded in ecological monitoring
@@ -276,13 +282,12 @@ response variable and the linear predictor (see next subsection).</p>
 ## -0.10106464 -0.11390341  0.11942865  0.19182463  0.46870977  0.06957320 
 ##          67          68          69          70 
 ## -0.40803217 -0.04559318  0.46895461  0.41060630</code></pre>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="binomial-glms-bernouilli.html#cb33-1"></a><span class="co"># The &#39;fitted()&#39; function gives us expected values for the</span></span>
-<span id="cb33-2"><a href="binomial-glms-bernouilli.html#cb33-2"></a><span class="co"># response variable.  Some values are lower than 0, which</span></span>
-<span id="cb33-3"><a href="binomial-glms-bernouilli.html#cb33-3"></a><span class="co"># does not make sense for a logistic regression.  Let’s try</span></span>
-<span id="cb33-4"><a href="binomial-glms-bernouilli.html#cb33-4"></a><span class="co"># the same model with a binomial distribution instead.</span></span>
-<span id="cb33-5"><a href="binomial-glms-bernouilli.html#cb33-5"></a><span class="co"># Notice the &#39;family&#39; argument to specify the distribution.</span></span>
-<span id="cb33-6"><a href="binomial-glms-bernouilli.html#cb33-6"></a>model.glm &lt;-<span class="st"> </span><span class="kw">glm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Topo, <span class="dt">data =</span> mites, <span class="dt">family =</span> binomial)</span>
-<span id="cb33-7"><a href="binomial-glms-bernouilli.html#cb33-7"></a><span class="kw">fitted</span>(model.glm)</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="binomial-glms-bernouilli.html#cb33-1"></a><span class="co"># The &quot;fitted()&quot; function gives us expected values for the response variable.</span></span>
+<span id="cb33-2"><a href="binomial-glms-bernouilli.html#cb33-2"></a><span class="co"># Some values are lower than 0, which does not make sense for a logistic regression.</span></span>
+<span id="cb33-3"><a href="binomial-glms-bernouilli.html#cb33-3"></a><span class="co"># Let’s try the same model with a binomial distribution instead.</span></span>
+<span id="cb33-4"><a href="binomial-glms-bernouilli.html#cb33-4"></a><span class="co"># Notice the &quot;family&quot; argument to specify the distribution.</span></span>
+<span id="cb33-5"><a href="binomial-glms-bernouilli.html#cb33-5"></a>model.glm &lt;-<span class="st"> </span><span class="kw">glm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Topo, <span class="dt">data =</span> mites, <span class="dt">family =</span> binomial)</span>
+<span id="cb33-6"><a href="binomial-glms-bernouilli.html#cb33-6"></a><span class="kw">fitted</span>(model.glm)</span></code></pre></div>
 <pre><code>##            1            2            3            4            5            6 
 ## 0.7346594257 0.4206031345 0.6631394056 0.7015590344 0.9653549812 0.8359993456 
 ##            7            8            9           10           11           12 
@@ -309,7 +314,7 @@ response variable and the linear predictor (see next subsection).</p>
 ## 0.0001818862 0.0076395774 0.2645034420 0.1644306746</code></pre>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="binomial-glms-bernouilli.html#cb35-1"></a><span class="co"># All values are bound between 0 and 1.</span></span></code></pre></div>
 <div id="the-link-function" class="section level2">
-<h2><span class="header-section-number">5.1</span> The link function</h2>
+<h2><span class="header-section-number">6.1</span> The link function</h2>
 <p>To move away from the traditional linear model and to avoid its biases,
 we need to specify two things when using a logistic regression: a
 distribution for the residuals of the model and a link function for the
@@ -336,22 +341,19 @@ matrix <em>X</em> of a statistical model and the vector of estimated parameters
 ## 4   Qn1 Quebec nonchilled  350   37.2
 ## 5   Qn1 Quebec nonchilled  500   35.3
 ## 6   Qn1 Quebec nonchilled  675   39.2</code></pre>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="binomial-glms-bernouilli.html#cb38-1"></a><span class="co"># Build a linear model of plant CO2 uptake as a function of</span></span>
-<span id="cb38-2"><a href="binomial-glms-bernouilli.html#cb38-2"></a><span class="co"># CO2 ambient concentration</span></span>
-<span id="cb38-3"><a href="binomial-glms-bernouilli.html#cb38-3"></a>model.CO2 &lt;-<span class="st"> </span><span class="kw">lm</span>(uptake <span class="op">~</span><span class="st"> </span>conc, <span class="dt">data =</span> CO2)</span>
-<span id="cb38-4"><a href="binomial-glms-bernouilli.html#cb38-4"></a><span class="co"># Extract the design matrix of the model with the</span></span>
-<span id="cb38-5"><a href="binomial-glms-bernouilli.html#cb38-5"></a><span class="co"># model.matrix() function.</span></span>
-<span id="cb38-6"><a href="binomial-glms-bernouilli.html#cb38-6"></a>X &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(model.CO2)</span>
-<span id="cb38-7"><a href="binomial-glms-bernouilli.html#cb38-7"></a><span class="co"># And the estimated coefficients.</span></span>
-<span id="cb38-8"><a href="binomial-glms-bernouilli.html#cb38-8"></a>B &lt;-<span class="st"> </span>model.CO2<span class="op">$</span>coefficients</span>
-<span id="cb38-9"><a href="binomial-glms-bernouilli.html#cb38-9"></a><span class="co"># Let’s multiply both X and B matrices to obtain the linear</span></span>
-<span id="cb38-10"><a href="binomial-glms-bernouilli.html#cb38-10"></a><span class="co"># predictor.  The &#39;%*%&#39; symbol indicates that it is a matrix</span></span>
-<span id="cb38-11"><a href="binomial-glms-bernouilli.html#cb38-11"></a><span class="co"># product.</span></span>
-<span id="cb38-12"><a href="binomial-glms-bernouilli.html#cb38-12"></a>XB &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>B</span>
-<span id="cb38-13"><a href="binomial-glms-bernouilli.html#cb38-13"></a><span class="co"># Compare the values of XB to the values obtained with the</span></span>
-<span id="cb38-14"><a href="binomial-glms-bernouilli.html#cb38-14"></a><span class="co"># predict() function.  All statements should be TRUE.  We use</span></span>
-<span id="cb38-15"><a href="binomial-glms-bernouilli.html#cb38-15"></a><span class="co"># the round() function so that all elements have 5 digits.</span></span>
-<span id="cb38-16"><a href="binomial-glms-bernouilli.html#cb38-16"></a><span class="kw">round</span>(<span class="kw">fitted</span>(model.CO2), <span class="dt">digits =</span> <span class="dv">5</span>) <span class="op">==</span><span class="st"> </span><span class="kw">round</span>(XB, <span class="dt">digits =</span> <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="binomial-glms-bernouilli.html#cb38-1"></a><span class="co"># Build a linear model of plant CO2 uptake as a function of CO2 ambient concentration</span></span>
+<span id="cb38-2"><a href="binomial-glms-bernouilli.html#cb38-2"></a>model.CO2 &lt;-<span class="st"> </span><span class="kw">lm</span>(uptake <span class="op">~</span><span class="st"> </span>conc, <span class="dt">data =</span> CO2)</span>
+<span id="cb38-3"><a href="binomial-glms-bernouilli.html#cb38-3"></a><span class="co"># Extract the design matrix of the model with the model.matrix() function.</span></span>
+<span id="cb38-4"><a href="binomial-glms-bernouilli.html#cb38-4"></a>X &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(model.CO2)</span>
+<span id="cb38-5"><a href="binomial-glms-bernouilli.html#cb38-5"></a><span class="co"># And the estimated coefficients.</span></span>
+<span id="cb38-6"><a href="binomial-glms-bernouilli.html#cb38-6"></a>B &lt;-<span class="st"> </span>model.CO2<span class="op">$</span>coefficients</span>
+<span id="cb38-7"><a href="binomial-glms-bernouilli.html#cb38-7"></a><span class="co"># Let’s multiply both X and B matrices to obtain the linear predictor.</span></span>
+<span id="cb38-8"><a href="binomial-glms-bernouilli.html#cb38-8"></a><span class="co"># The &quot;%*%&quot; symbol indicates that it is a matrix product.</span></span>
+<span id="cb38-9"><a href="binomial-glms-bernouilli.html#cb38-9"></a>XB &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>B</span>
+<span id="cb38-10"><a href="binomial-glms-bernouilli.html#cb38-10"></a><span class="co"># Compare the values of XB to the values obtained with the predict() function.</span></span>
+<span id="cb38-11"><a href="binomial-glms-bernouilli.html#cb38-11"></a><span class="co"># All statements should be TRUE.</span></span>
+<span id="cb38-12"><a href="binomial-glms-bernouilli.html#cb38-12"></a><span class="co"># We use the round() function so that all elements have 5 digits.</span></span>
+<span id="cb38-13"><a href="binomial-glms-bernouilli.html#cb38-13"></a><span class="kw">round</span>(<span class="kw">fitted</span>(model.CO2), <span class="dt">digits =</span> <span class="dv">5</span>) <span class="op">==</span><span class="st"> </span><span class="kw">round</span>(XB, <span class="dt">digits =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>##    [,1]
 ## 1  TRUE
 ## 2  TRUE
@@ -390,16 +392,14 @@ values can now be directly related to a linear predictor. This is why we
 still call this model a generalized <strong>linear</strong> model even though the
 plot of our response variable as a function of some explanatory variable
 doesn’t look like a “straight line”!</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="binomial-glms-bernouilli.html#cb40-1"></a><span class="co"># Let’s build a regression model of the presence/absence of a</span></span>
-<span id="cb40-2"><a href="binomial-glms-bernouilli.html#cb40-2"></a><span class="co"># mite species (Galumna sp.)  as a function of water content</span></span>
-<span id="cb40-3"><a href="binomial-glms-bernouilli.html#cb40-3"></a><span class="co"># and topography.  To do this, we need to use the glm()</span></span>
-<span id="cb40-4"><a href="binomial-glms-bernouilli.html#cb40-4"></a><span class="co"># function and specify the family argument.</span></span>
-<span id="cb40-5"><a href="binomial-glms-bernouilli.html#cb40-5"></a>logit.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Topo, <span class="dt">data =</span> mites, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
-<span id="cb40-6"><a href="binomial-glms-bernouilli.html#cb40-6"></a><span class="co"># The logit function is the default for the binomial</span></span>
-<span id="cb40-7"><a href="binomial-glms-bernouilli.html#cb40-7"></a><span class="co"># distribution, so it is not necessary to include it in the</span></span>
-<span id="cb40-8"><a href="binomial-glms-bernouilli.html#cb40-8"></a><span class="co"># &#39;family&#39; argument:</span></span>
-<span id="cb40-9"><a href="binomial-glms-bernouilli.html#cb40-9"></a>logit.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Topo, <span class="dt">data =</span> mites, <span class="dt">family =</span> binomial)</span>
-<span id="cb40-10"><a href="binomial-glms-bernouilli.html#cb40-10"></a><span class="kw">summary</span>(logit.reg)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="binomial-glms-bernouilli.html#cb40-1"></a><span class="co"># Let’s build a regression model of the presence/absence of a mite species (Galumna sp.)</span></span>
+<span id="cb40-2"><a href="binomial-glms-bernouilli.html#cb40-2"></a><span class="co"># as a function of water content and topography.</span></span>
+<span id="cb40-3"><a href="binomial-glms-bernouilli.html#cb40-3"></a><span class="co"># To do this, we need to use the glm() function and specify the family argument.</span></span>
+<span id="cb40-4"><a href="binomial-glms-bernouilli.html#cb40-4"></a>logit.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Topo, <span class="dt">data =</span> mites, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
+<span id="cb40-5"><a href="binomial-glms-bernouilli.html#cb40-5"></a><span class="co"># The logit function is the default for the binomial distribution,</span></span>
+<span id="cb40-6"><a href="binomial-glms-bernouilli.html#cb40-6"></a><span class="co"># so it is not necessary to include it in the &quot;family&quot; argument:</span></span>
+<span id="cb40-7"><a href="binomial-glms-bernouilli.html#cb40-7"></a>logit.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Topo, <span class="dt">data =</span> mites, <span class="dt">family =</span> binomial)</span>
+<span id="cb40-8"><a href="binomial-glms-bernouilli.html#cb40-8"></a><span class="kw">summary</span>(logit.reg)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = pa ~ WatrCont + Topo, family = binomial, data = mites)
@@ -424,18 +424,16 @@ doesn’t look like a “straight line”!</p>
 ## 
 ## Number of Fisher Scoring iterations: 6</code></pre>
 <div id="challenge-1" class="section level3">
-<h3><span class="header-section-number">5.1.1</span> Challenge 1</h3>
+<h3><span class="header-section-number">6.1.1</span> Challenge 1</h3>
 <p>Using the <code>bacteria</code> dataset (from the <code>MASS</code> package), model the
 presence of <em>H. influenzae</em> as a function of treatment and week of test.
 Start with a full model and reduce it to the most parsimonious model.</p>
 <p>Challenge 1: Solution</p>
 <div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="binomial-glms-bernouilli.html#cb42-1"></a><span class="kw">data</span>(bacteria)</span>
-<span id="cb42-2"><a href="binomial-glms-bernouilli.html#cb42-2"></a>model.bact1 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>trt <span class="op">*</span><span class="st"> </span>week, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="st">&quot;logit&quot;</span>), </span>
-<span id="cb42-3"><a href="binomial-glms-bernouilli.html#cb42-3"></a>    <span class="dt">data =</span> bacteria)</span>
-<span id="cb42-4"><a href="binomial-glms-bernouilli.html#cb42-4"></a>model.bact2 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>trt <span class="op">+</span><span class="st"> </span>week, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="st">&quot;logit&quot;</span>), </span>
-<span id="cb42-5"><a href="binomial-glms-bernouilli.html#cb42-5"></a>    <span class="dt">data =</span> bacteria)</span>
-<span id="cb42-6"><a href="binomial-glms-bernouilli.html#cb42-6"></a>model.bact3 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>week, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="st">&quot;logit&quot;</span>), <span class="dt">data =</span> bacteria)</span>
-<span id="cb42-7"><a href="binomial-glms-bernouilli.html#cb42-7"></a><span class="kw">anova</span>(model.bact1, model.bact2, model.bact3, <span class="dt">test =</span> <span class="st">&quot;LRT&quot;</span>)</span></code></pre></div>
+<span id="cb42-2"><a href="binomial-glms-bernouilli.html#cb42-2"></a>model.bact1 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>trt <span class="op">*</span><span class="st"> </span>week, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="st">&#39;logit&#39;</span>), <span class="dt">data =</span> bacteria)</span>
+<span id="cb42-3"><a href="binomial-glms-bernouilli.html#cb42-3"></a>model.bact2 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>trt <span class="op">+</span><span class="st"> </span>week, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="st">&#39;logit&#39;</span>), <span class="dt">data =</span> bacteria)</span>
+<span id="cb42-4"><a href="binomial-glms-bernouilli.html#cb42-4"></a>model.bact3 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>week, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="st">&#39;logit&#39;</span>), <span class="dt">data =</span> bacteria)</span>
+<span id="cb42-5"><a href="binomial-glms-bernouilli.html#cb42-5"></a><span class="kw">anova</span>(model.bact1, model.bact2, model.bact3, <span class="dt">test =</span> <span class="st">&#39;LRT&#39;</span>)</span></code></pre></div>
 <pre><code>## Analysis of Deviance Table
 ## 
 ## Model 1: y ~ trt * week
@@ -451,7 +449,7 @@ Start with a full model and reduce it to the most parsimonious model.</p>
 </div>
 </div>
 <div id="interpreting-the-output-of-a-logistic-regression" class="section level2">
-<h2><span class="header-section-number">5.2</span> Interpreting the output of a logistic regression</h2>
+<h2><span class="header-section-number">6.2</span> Interpreting the output of a logistic regression</h2>
 <p>The output of the previous logistic regression indicates that both water
 content and topography are significant, but how do we interpret the
 slope coefficients? Remember that we applied a transformation on our
@@ -479,7 +477,7 @@ code corresponds to:<br />
 <pre><code>##  WatrCont 
 ## 0.9843118</code></pre>
 <p>To obtain confidence intervals on the odds scale:</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="binomial-glms-bernouilli.html#cb48-1"></a><span class="kw">exp</span>(<span class="kw">confint</span>(logit.reg)[<span class="dv">2</span>, ])</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="binomial-glms-bernouilli.html#cb48-1"></a><span class="kw">exp</span>(<span class="kw">confint</span>(logit.reg)[<span class="dv">2</span>,])</span></code></pre></div>
 <pre><code>##     2.5 %    97.5 % 
 ## 0.9741887 0.9919435</code></pre>
 <p>Note that the odds values here are considered when all other parameters
@@ -530,7 +528,7 @@ observing <em>Galumna</em> sp. when the topography is Hummock.</p>
 <p>We obtained the same result!</p>
 </div>
 <div id="predictive-power-and-goodness-of-fit" class="section level2">
-<h2><span class="header-section-number">5.3</span> Predictive power and goodness-of-fit</h2>
+<h2><span class="header-section-number">6.3</span> Predictive power and goodness-of-fit</h2>
 <p>An easy and intuitive way to evaluate the predictive power of your model
 is to compare its deviance to the deviance of a null model. Deviance can
 be understood as a generalisation of the residual sum of squares when
@@ -547,9 +545,8 @@ generic formula to compute a pseudo-R<sup>2</sup> is given by:</p>
 deviance” is the deviance of the model of interest. The difference is
 divided by the null deviance so that the result is bound between 0 and
 1.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="binomial-glms-bernouilli.html#cb50-1"></a><span class="co"># Residual and null deviances are already stored in the glm</span></span>
-<span id="cb50-2"><a href="binomial-glms-bernouilli.html#cb50-2"></a><span class="co"># object.</span></span>
-<span id="cb50-3"><a href="binomial-glms-bernouilli.html#cb50-3"></a><span class="kw">objects</span>(logit.reg)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="binomial-glms-bernouilli.html#cb50-1"></a><span class="co"># Residual and null deviances are already stored in the glm object.</span></span>
+<span id="cb50-2"><a href="binomial-glms-bernouilli.html#cb50-2"></a><span class="kw">objects</span>(logit.reg)</span></code></pre></div>
 <pre><code>##  [1] &quot;aic&quot;               &quot;boundary&quot;          &quot;call&quot;             
 ##  [4] &quot;coefficients&quot;      &quot;contrasts&quot;         &quot;control&quot;          
 ##  [7] &quot;converged&quot;         &quot;data&quot;              &quot;deviance&quot;         
@@ -560,7 +557,7 @@ divided by the null deviance so that the result is bound between 0 and
 ## [22] &quot;prior.weights&quot;     &quot;qr&quot;                &quot;R&quot;                
 ## [25] &quot;rank&quot;              &quot;residuals&quot;         &quot;terms&quot;            
 ## [28] &quot;weights&quot;           &quot;xlevels&quot;           &quot;y&quot;</code></pre>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="binomial-glms-bernouilli.html#cb52-1"></a>pseudoR2 &lt;-<span class="st"> </span>(logit.reg<span class="op">$</span>null.deviance <span class="op">-</span><span class="st"> </span>logit.reg<span class="op">$</span>deviance)<span class="op">/</span>logit.reg<span class="op">$</span>null.deviance</span>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="binomial-glms-bernouilli.html#cb52-1"></a>pseudoR2 &lt;-<span class="st"> </span>(logit.reg<span class="op">$</span>null.deviance <span class="op">-</span><span class="st"> </span>logit.reg<span class="op">$</span>deviance) <span class="op">/</span><span class="st"> </span>logit.reg<span class="op">$</span>null.deviance</span>
 <span id="cb52-2"><a href="binomial-glms-bernouilli.html#cb52-2"></a>pseudoR2</span></code></pre></div>
 <pre><code>## [1] 0.4655937</code></pre>
 <p>Hence, the model explains 46.6% of the variability in the data.</p>
@@ -576,8 +573,9 @@ Uhler (1970) measures.</p>
 <p>The R function <code>DescTools::PseudoR2()</code> makes it possible to calculate
 many types of pseudo-R<sup>2</sup>. By specifying <code>which = all</code>, calculate all
 of them at once.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="binomial-glms-bernouilli.html#cb54-1"></a>logit.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Topo, <span class="dt">data =</span> mites, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
-<span id="cb54-2"><a href="binomial-glms-bernouilli.html#cb54-2"></a>DescTools<span class="op">::</span><span class="kw">PseudoR2</span>(logit.reg, <span class="dt">which =</span> <span class="st">&quot;all&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="binomial-glms-bernouilli.html#cb54-1"></a>logit.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Topo, </span>
+<span id="cb54-2"><a href="binomial-glms-bernouilli.html#cb54-2"></a>                 <span class="dt">data =</span> mites, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
+<span id="cb54-3"><a href="binomial-glms-bernouilli.html#cb54-3"></a>DescTools<span class="op">::</span><span class="kw">PseudoR2</span>(logit.reg, <span class="dt">which =</span> <span class="st">&quot;all&quot;</span>)</span></code></pre></div>
 <pre><code>##        McFadden     McFaddenAdj        CoxSnell      Nagelkerke   AldrichNelson 
 ##       0.4655937       0.3998373       0.4549662       0.6245898       0.3776866 
 ## VeallZimmermann           Efron McKelveyZavoina            Tjur             AIC 
@@ -585,12 +583,12 @@ of them at once.</p>
 ##             BIC          logLik         logLik0              G2 
 ##      61.5078819     -24.3811981     -45.6229593      42.4835224</code></pre>
 <div id="challenge-2" class="section level3">
-<h3><span class="header-section-number">5.3.1</span> Challenge 2</h3>
+<h3><span class="header-section-number">6.3.1</span> Challenge 2</h3>
 <p>Assess goodness-of-fit and predictive power of the <code>model.bact2</code> model. How can you improve the predictive power of this model?</p>
 <p><strong>Solution</strong></p>
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="binomial-glms-bernouilli.html#cb56-1"></a>null.d &lt;-<span class="st"> </span>model.bact2<span class="op">$</span>null.deviance</span>
 <span id="cb56-2"><a href="binomial-glms-bernouilli.html#cb56-2"></a>resid.d &lt;-<span class="st"> </span>model.bact2<span class="op">$</span>deviance</span>
-<span id="cb56-3"><a href="binomial-glms-bernouilli.html#cb56-3"></a>bact.pseudoR2 &lt;-<span class="st"> </span>(null.d <span class="op">-</span><span class="st"> </span>resid.d)<span class="op">/</span>null.d</span>
+<span id="cb56-3"><a href="binomial-glms-bernouilli.html#cb56-3"></a>bact.pseudoR2 &lt;-<span class="st"> </span>(null.d <span class="op">-</span><span class="st"> </span>resid.d) <span class="op">/</span><span class="st"> </span>null.d</span>
 <span id="cb56-4"><a href="binomial-glms-bernouilli.html#cb56-4"></a>bact.pseudoR2</span></code></pre></div>
 <pre><code>## [1] 0.0624257</code></pre>
 <p>This is very low!</p>
@@ -599,16 +597,17 @@ of them at once.</p>
 </div>
 </div>
 <div id="plotting-results" class="section level2">
-<h2><span class="header-section-number">5.4</span> Plotting results</h2>
+<h2><span class="header-section-number">6.4</span> Plotting results</h2>
 <p>Once we’ve created a model and verified its validity, we can plot the
 results to show how the response variable is related to some explanatory
 variables. One way to graphically summarise the data is by plotting both
 the response variable and the expected values as a function of some
 predictor. Here is an example with the <code>ggplot2</code> package. See <a href="r_workshop3">workshop
 3</a> for more information on this package.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="binomial-glms-bernouilli.html#cb58-1"></a><span class="kw">ggplot</span>(mites, <span class="kw">aes</span>(<span class="dt">x =</span> WatrCont, <span class="dt">y =</span> pa)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">stat_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>, </span>
-<span id="cb58-2"><a href="binomial-glms-bernouilli.html#cb58-2"></a>    <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Water content&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb58-3"><a href="binomial-glms-bernouilli.html#cb58-3"></a><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Probability of presence&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Probability of presence of Galumna sp. as a function of water content&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="binomial-glms-bernouilli.html#cb58-1"></a><span class="kw">ggplot</span>(mites, <span class="kw">aes</span>(<span class="dt">x =</span> WatrCont, <span class="dt">y =</span> pa)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
+<span id="cb58-2"><a href="binomial-glms-bernouilli.html#cb58-2"></a><span class="kw">stat_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>, <span class="dt">family=</span> <span class="st">&quot;binomial&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Water content&quot;</span>) <span class="op">+</span></span>
+<span id="cb58-3"><a href="binomial-glms-bernouilli.html#cb58-3"></a><span class="kw">ylab</span>(<span class="st">&quot;Probability of presence&quot;</span>) <span class="op">+</span></span>
+<span id="cb58-4"><a href="binomial-glms-bernouilli.html#cb58-4"></a><span class="kw">ggtitle</span>(<span class="st">&quot;Probability of presence of Galumna sp. as a function of water content&quot;</span>)</span></code></pre></div>
 <p><img src="book-en_files/figure-html/unnamed-chunk-35-1.png" width="672" style="display: block; margin: auto;" /></p>
 
 </div>
@@ -678,6 +677,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

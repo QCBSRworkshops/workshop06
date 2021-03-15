@@ -1,51 +1,78 @@
 ##Section: 01-preparing-for-the-workshop.R 
 
-install.packages("ggplot2")
-install.packages("lme4")
-install.packages("MASS")
-install.packages("vcdExtra")
-install.packages("bbmle")
-install.packages("DescTools")
-
-library(ggplot2)
-library(lme4)
-library(MASS)
-library(vcdExtra)
-library(bbmle)
-library(DescTools)
+install.packages(c("ggplot2",
+                   'MASS',
+                   'vcdExtra',
+                   'bbmle',
+                   'DescTools')
+                 )
 
 
 ##Section: 02-introduction.R 
 
-setwd("~/Desktop")
-mites <- read.csv('mites.csv')
+# Set the coefficients:
+N = 50
+beta_0 = 1
+beta_1 = 0.5
 
-mites <- read.csv('mites.csv')
+# Generate sample data:
+x <- 0:N
+e <- rnorm(mean = 0, sd = 1.5, n = length(x))
+y <- beta_0 + beta_1 * x + e
+
+# Plot the data
+plot(x, y)
+
+# The regression equation:
+y_dgp <- beta_0 + beta_1 * x
+
+# Plot regression:
+lines(x = x, y = y_dgp, col = "darkgreen", lty = 2)
+
+legend(x = 0, y = 25,
+       legend = c(expression(paste("Y = ", beta[0] + beta[1] * X))),
+       lty = c(2, 1), lwd = c(1, 1), pch = c(NA, NA), col = c("darkgreen", "blue"))
+
+# Use setwd() to set your working directory
+
+mites <- read.csv('data/mites.csv', 
+                  stringsAsFactors = TRUE)
 
 head(mites)
+
 str(mites)
 
-plot(mites)
+par(mfrow = c(1, 3), cex = 1.4)
 
-par(mfrow=c(1,3), cex = 1) #divide plot area in 1 row and 3 columns to have 3 plots in same figure
-plot(Galumna ~ WatrCont, data = mites, xlab = 'Water content', ylab='Abundance')
-boxplot(WatrCont ~ pa, data = mites, xlab='Presence/Absence', ylab = 'Water content')
-plot(prop ~ WatrCont, data = mites, xlab = 'Water content', ylab='Proportion')
+plot(Galumna ~ WatrCont,
+     data = mites, 
+     xlab = 'Water content', 
+     ylab = 'Abundance')
+
+boxplot(WatrCont ~ pa,
+        data = mites, 
+        xlab='Presence/Absence',
+        ylab = 'Water content')
+
+plot(prop ~ WatrCont, 
+     data = mites, 
+     xlab = 'Water content', 
+     ylab = 'Proportion')
 
 lm.abund <- lm(Galumna ~ WatrCont, data = mites)
-##summary(lm.abund)
+summary(lm.abund)
+
 lm.pa <- lm(pa ~ WatrCont, data = mites)
-##summary(lm.abund)
+summary(lm.pa)
+
 lm.prop <- lm(prop ~ WatrCont, data = mites)
-##summary(lm.abund)
+summary(lm.prop)
 
 # Extracting the Pr(>|t|)
+
 summary(lm.abund)$coefficients[, 4]
-
 summary(lm.pa)$coefficients[, 4]
-
 summary(lm.prop)$coefficients[, 4]
-
 
 plot(Galumna ~ WatrCont, data = mites)
 abline(lm.abund)

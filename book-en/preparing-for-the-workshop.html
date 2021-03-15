@@ -31,7 +31,7 @@
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
 <link rel="prev" href="learning-objectives.html"/>
-<link rel="next" href="why-are-generalized-linear-models-useful.html"/>
+<link rel="next" href="reviewing-linear-models.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -145,39 +145,45 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="part"><span><b>Generalized linear models in <code>R</code></b></span></li>
 <li class="chapter" data-level="1" data-path="learning-objectives.html"><a href="learning-objectives.html"><i class="fa fa-check"></i><b>1</b> Learning objectives</a></li>
 <li class="chapter" data-level="2" data-path="preparing-for-the-workshop.html"><a href="preparing-for-the-workshop.html"><i class="fa fa-check"></i><b>2</b> Preparing for the workshop</a></li>
-<li class="chapter" data-level="3" data-path="why-are-generalized-linear-models-useful.html"><a href="why-are-generalized-linear-models-useful.html"><i class="fa fa-check"></i><b>3</b> Why are generalized linear models useful?</a></li>
-<li class="chapter" data-level="4" data-path="the-distributions-of-biological-data.html"><a href="the-distributions-of-biological-data.html"><i class="fa fa-check"></i><b>4</b> The distributions of biological data</a></li>
+<li class="chapter" data-level="3" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html"><i class="fa fa-check"></i><b>3</b> Reviewing linear models</a><ul>
+<li class="chapter" data-level="3.1" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#general-linear-models"><i class="fa fa-check"></i><b>3.1</b> General linear models</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#definition"><i class="fa fa-check"></i><b>3.1.1</b> Definition</a></li>
+<li class="chapter" data-level="3.1.2" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#assumptions"><i class="fa fa-check"></i><b>3.1.2</b> Assumptions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="an-example-with-general-linear-models.html"><a href="an-example-with-general-linear-models.html"><i class="fa fa-check"></i><b>4</b> An example with general linear models</a></li>
+<li class="chapter" data-level="5" data-path="the-distributions-of-biological-data.html"><a href="the-distributions-of-biological-data.html"><i class="fa fa-check"></i><b>5</b> The distributions of biological data</a></li>
 <li class="part"><span><b>GLMs with binary data</b></span></li>
-<li class="chapter" data-level="5" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html"><i class="fa fa-check"></i><b>5</b> Binomial GLMs (Bernouilli)</a><ul>
-<li class="chapter" data-level="5.1" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#the-link-function"><i class="fa fa-check"></i><b>5.1</b> The link function</a><ul>
-<li class="chapter" data-level="5.1.1" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#challenge-1"><i class="fa fa-check"></i><b>5.1.1</b> Challenge 1</a></li>
+<li class="chapter" data-level="6" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html"><i class="fa fa-check"></i><b>6</b> Binomial GLMs (Bernouilli)</a><ul>
+<li class="chapter" data-level="6.1" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#the-link-function"><i class="fa fa-check"></i><b>6.1</b> The link function</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#challenge-1"><i class="fa fa-check"></i><b>6.1.1</b> Challenge 1</a></li>
 </ul></li>
-<li class="chapter" data-level="5.2" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#interpreting-the-output-of-a-logistic-regression"><i class="fa fa-check"></i><b>5.2</b> Interpreting the output of a logistic regression</a></li>
-<li class="chapter" data-level="5.3" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#predictive-power-and-goodness-of-fit"><i class="fa fa-check"></i><b>5.3</b> Predictive power and goodness-of-fit</a><ul>
-<li class="chapter" data-level="5.3.1" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#challenge-2"><i class="fa fa-check"></i><b>5.3.1</b> Challenge 2</a></li>
+<li class="chapter" data-level="6.2" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#interpreting-the-output-of-a-logistic-regression"><i class="fa fa-check"></i><b>6.2</b> Interpreting the output of a logistic regression</a></li>
+<li class="chapter" data-level="6.3" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#predictive-power-and-goodness-of-fit"><i class="fa fa-check"></i><b>6.3</b> Predictive power and goodness-of-fit</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#challenge-2"><i class="fa fa-check"></i><b>6.3.1</b> Challenge 2</a></li>
 </ul></li>
-<li class="chapter" data-level="5.4" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#plotting-results"><i class="fa fa-check"></i><b>5.4</b> Plotting results</a></li>
+<li class="chapter" data-level="6.4" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#plotting-results"><i class="fa fa-check"></i><b>6.4</b> Plotting results</a></li>
 </ul></li>
 <li class="part"><span><b>GLMs with proportion data</b></span></li>
-<li class="chapter" data-level="6" data-path="binomial-glms.html"><a href="binomial-glms.html"><i class="fa fa-check"></i><b>6</b> Binomial GLMS</a></li>
+<li class="chapter" data-level="7" data-path="binomial-glms.html"><a href="binomial-glms.html"><i class="fa fa-check"></i><b>7</b> Binomial GLMS</a></li>
 <li class="part"><span><b>GLMs with count data</b></span></li>
-<li class="chapter" data-level="7" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html"><i class="fa fa-check"></i><b>7</b> What can we do with count data?</a></li>
-<li class="chapter" data-level="8" data-path="poisson-glms.html"><a href="poisson-glms.html"><i class="fa fa-check"></i><b>8</b> Poisson GLMs</a><ul>
-<li class="chapter" data-level="8.1" data-path="poisson-glms.html"><a href="poisson-glms.html#the-problem-of-overdispersion"><i class="fa fa-check"></i><b>8.1</b> The problem of overdispersion</a></li>
+<li class="chapter" data-level="8" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html"><i class="fa fa-check"></i><b>8</b> What can we do with count data?</a></li>
+<li class="chapter" data-level="9" data-path="poisson-glms.html"><a href="poisson-glms.html"><i class="fa fa-check"></i><b>9</b> Poisson GLMs</a><ul>
+<li class="chapter" data-level="9.1" data-path="poisson-glms.html"><a href="poisson-glms.html#the-problem-of-overdispersion"><i class="fa fa-check"></i><b>9.1</b> The problem of overdispersion</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="quasi-poisson-glms.html"><a href="quasi-poisson-glms.html"><i class="fa fa-check"></i><b>9</b> Quasi-Poisson GLMs</a></li>
-<li class="chapter" data-level="10" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html"><i class="fa fa-check"></i><b>10</b> Negative binomial GLMs</a><ul>
-<li class="chapter" data-level="10.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>10.1</b> Plotting the final GLM to the data</a><ul>
-<li class="chapter" data-level="10.1.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#challenge-3"><i class="fa fa-check"></i><b>10.1.1</b> Challenge 3</a></li>
+<li class="chapter" data-level="10" data-path="quasi-poisson-glms.html"><a href="quasi-poisson-glms.html"><i class="fa fa-check"></i><b>10</b> Quasi-Poisson GLMs</a></li>
+<li class="chapter" data-level="11" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html"><i class="fa fa-check"></i><b>11</b> Negative binomial GLMs</a><ul>
+<li class="chapter" data-level="11.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>11.1</b> Plotting the final GLM to the data</a><ul>
+<li class="chapter" data-level="11.1.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#challenge-3"><i class="fa fa-check"></i><b>11.1.1</b> Challenge 3</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="conclusion-on-glms-with-count-data.html"><a href="conclusion-on-glms-with-count-data.html"><i class="fa fa-check"></i><b>11</b> Conclusion on GLMs with count data</a></li>
+<li class="chapter" data-level="12" data-path="conclusion-on-glms-with-count-data.html"><a href="conclusion-on-glms-with-count-data.html"><i class="fa fa-check"></i><b>12</b> Conclusion on GLMs with count data</a></li>
 <li class="part"><span><b>Other distributions</b></span></li>
-<li class="chapter" data-level="12" data-path="other-distributions.html"><a href="other-distributions.html"><i class="fa fa-check"></i><b>12</b> Other distributions</a></li>
+<li class="chapter" data-level="13" data-path="other-distributions.html"><a href="other-distributions.html"><i class="fa fa-check"></i><b>13</b> Other distributions</a></li>
 <li class="part"><span><b>Additional GLM resources</b></span></li>
-<li class="chapter" data-level="13" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>13</b> Summary</a></li>
-<li class="chapter" data-level="14" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>14</b> Additional resources</a></li>
-<li class="chapter" data-level="15" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>15</b> References</a></li>
+<li class="chapter" data-level="14" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>14</b> Summary</a></li>
+<li class="chapter" data-level="15" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>15</b> Additional resources</a></li>
+<li class="chapter" data-level="16" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>16</b> References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/qcbsRworkshops" target="blank">QCBS R Workshop Series</a></li>
 
@@ -214,14 +220,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="preparing-for-the-workshop" class="section level1">
 <h1><span class="header-section-number">Chapter 2</span> Preparing for the workshop</h1>
-<p>To prepare for this workshop, you must do the following steps:</p>
-<p>Download the R script and data required for this workshop:</p>
+<p>To prepare for this workshop, you must download and install the earliest RStudio and R versions. You must also download the data we will use during this workshop:</p>
 <ul>
-<li><a href="http://qcbs.ca/wiki/_media/glmm_e.r">R Script</a></li>
-<li><a href="http://qcbs.ca/wiki/_media/mites.csv">Mites</a></li>
-<li><a href="http://qcbs.ca/wiki/_media/faramea.csv">Faramea</a></li>
+<li><a href="https://raw.githubusercontent.com/QCBSRworkshops/workshop06/main/book-en/data/mites.csv">Mites</a></li>
+<li><a href="https://github.com/QCBSRworkshops/workshop06/blob/main/book-en/data/faramea.csv">Faramea</a></li>
 </ul>
-<p>Make sure to load the following packages (see how in the R script):</p>
+<p>Finally, this workshop requires the following <code>R</code> packages:</p>
 <ul>
 <li><a href="https://cran.r-project.org/package=ggplot2">ggplot2</a></li>
 <li><a href="https://cran.r-project.org/package=lme4">lme4</a></li>
@@ -230,19 +234,13 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="https://cran.r-project.org/package=bbmle">bbmle</a></li>
 <li><a href="https://cran.r-project.org/package=DescTools">DescTools</a></li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="preparing-for-the-workshop.html#cb1-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;ggplot2&quot;</span>)</span>
-<span id="cb1-2"><a href="preparing-for-the-workshop.html#cb1-2"></a><span class="kw">install.packages</span>(<span class="st">&quot;lme4&quot;</span>)</span>
-<span id="cb1-3"><a href="preparing-for-the-workshop.html#cb1-3"></a><span class="kw">install.packages</span>(<span class="st">&quot;MASS&quot;</span>)</span>
-<span id="cb1-4"><a href="preparing-for-the-workshop.html#cb1-4"></a><span class="kw">install.packages</span>(<span class="st">&quot;vcdExtra&quot;</span>)</span>
-<span id="cb1-5"><a href="preparing-for-the-workshop.html#cb1-5"></a><span class="kw">install.packages</span>(<span class="st">&quot;bbmle&quot;</span>)</span>
-<span id="cb1-6"><a href="preparing-for-the-workshop.html#cb1-6"></a><span class="kw">install.packages</span>(<span class="st">&quot;DescTools&quot;</span>)</span>
-<span id="cb1-7"><a href="preparing-for-the-workshop.html#cb1-7"></a></span>
-<span id="cb1-8"><a href="preparing-for-the-workshop.html#cb1-8"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb1-9"><a href="preparing-for-the-workshop.html#cb1-9"></a><span class="kw">library</span>(lme4)</span>
-<span id="cb1-10"><a href="preparing-for-the-workshop.html#cb1-10"></a><span class="kw">library</span>(MASS)</span>
-<span id="cb1-11"><a href="preparing-for-the-workshop.html#cb1-11"></a><span class="kw">library</span>(vcdExtra)</span>
-<span id="cb1-12"><a href="preparing-for-the-workshop.html#cb1-12"></a><span class="kw">library</span>(bbmle)</span>
-<span id="cb1-13"><a href="preparing-for-the-workshop.html#cb1-13"></a><span class="kw">library</span>(DescTools)</span></code></pre></div>
+<p>To install them from CRAN, run:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="preparing-for-the-workshop.html#cb1-1"></a><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;ggplot2&quot;</span>, </span>
+<span id="cb1-2"><a href="preparing-for-the-workshop.html#cb1-2"></a>                   <span class="st">&#39;MASS&#39;</span>, </span>
+<span id="cb1-3"><a href="preparing-for-the-workshop.html#cb1-3"></a>                   <span class="st">&#39;vcdExtra&#39;</span>,</span>
+<span id="cb1-4"><a href="preparing-for-the-workshop.html#cb1-4"></a>                   <span class="st">&#39;bbmle&#39;</span>,</span>
+<span id="cb1-5"><a href="preparing-for-the-workshop.html#cb1-5"></a>                   <span class="st">&#39;DescTools&#39;</span>)</span>
+<span id="cb1-6"><a href="preparing-for-the-workshop.html#cb1-6"></a>                 )</span></code></pre></div>
 
 </div>
 <hr>
@@ -257,7 +255,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 <a href="learning-objectives.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="why-are-generalized-linear-models-useful.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="reviewing-linear-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -307,6 +305,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
