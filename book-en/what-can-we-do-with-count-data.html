@@ -159,20 +159,22 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.4" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#plotting-results"><i class="fa fa-check"></i><b>5.4</b> Plotting results</a></li>
 </ul></li>
 <li class="part"><span><b>GLMs with proportion data</b></span></li>
-<li class="chapter" data-level="6" data-path="binomial-glms.html"><a href="binomial-glms.html"><i class="fa fa-check"></i><b>6</b> Binomial GLMs</a></li>
+<li class="chapter" data-level="6" data-path="binomial-glms.html"><a href="binomial-glms.html"><i class="fa fa-check"></i><b>6</b> Binomial GLMS</a></li>
 <li class="part"><span><b>GLMs with count data</b></span></li>
 <li class="chapter" data-level="7" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html"><i class="fa fa-check"></i><b>7</b> What can we do with count data?</a></li>
 <li class="chapter" data-level="8" data-path="poisson-glms.html"><a href="poisson-glms.html"><i class="fa fa-check"></i><b>8</b> Poisson GLMs</a><ul>
 <li class="chapter" data-level="8.1" data-path="poisson-glms.html"><a href="poisson-glms.html#the-problem-of-overdispersion"><i class="fa fa-check"></i><b>8.1</b> The problem of overdispersion</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="quasi-poisson-glms.html"><a href="quasi-poisson-glms.html"><i class="fa fa-check"></i><b>9</b> quasi-Poisson GLMs</a></li>
+<li class="chapter" data-level="9" data-path="quasi-poisson-glms.html"><a href="quasi-poisson-glms.html"><i class="fa fa-check"></i><b>9</b> Quasi-Poisson GLMs</a></li>
 <li class="chapter" data-level="10" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html"><i class="fa fa-check"></i><b>10</b> Negative binomial GLMs</a><ul>
-<li class="chapter" data-level="10.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>10.1</b> Plotting the final GLM to the data</a></li>
+<li class="chapter" data-level="10.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>10.1</b> Plotting the final GLM to the data</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#challenge-3"><i class="fa fa-check"></i><b>10.1.1</b> Challenge 3</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="conclusion-on-glms-with-count-data.html"><a href="conclusion-on-glms-with-count-data.html"><i class="fa fa-check"></i><b>11</b> Conclusion on GLMs with count data</a></li>
 <li class="part"><span><b>Other distributions</b></span></li>
 <li class="chapter" data-level="12" data-path="other-distributions.html"><a href="other-distributions.html"><i class="fa fa-check"></i><b>12</b> Other distributions</a></li>
-<li class="part"><span><b>Final considerations</b></span></li>
+<li class="part"><span><b>Additional GLM resources</b></span></li>
 <li class="chapter" data-level="13" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>13</b> Summary</a></li>
 <li class="chapter" data-level="14" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>14</b> Additional resources</a></li>
 <li class="chapter" data-level="15" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>15</b> References</a></li>
@@ -213,15 +215,16 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div id="what-can-we-do-with-count-data" class="section level1">
 <h1><span class="header-section-number">Chapter 7</span> What can we do with count data?</h1>
 <p>To illustrate count data we will use a new dataset called faramea.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="what-can-we-do-with-count-data.html#cb27-1"></a>faramea &lt;-<span class="st"> </span><span class="kw">read.csv</span>(‘faramea.csv’, <span class="dt">header =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="what-can-we-do-with-count-data.html#cb63-1"></a>faramea &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;faramea.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p>In this dataset, the number of trees of the species <em>Faramea
-occidentalis</em> was measured in 43 quadrats in Barro Colorada Island in
+occidentalis</em> was measured in 43 quadrats in Barro Colorado Island in
 Panama. For each quadrat, environmental characteristics were also
 recorded such as elevation or precipitation. Let’s take a look at the
 number of <em>Faramea occidentalis</em> found at each quadrat.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="what-can-we-do-with-count-data.html#cb28-1"></a><span class="kw">hist</span>(faramea<span class="op">$</span>Faramea.occidentalis, <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">45</span>, <span class="dv">1</span>), <span class="dt">xlab =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Number of &quot;</span>, </span>
-<span id="cb28-2"><a href="what-can-we-do-with-count-data.html#cb28-2"></a>    <span class="kw">italic</span>(Faramea <span class="op">~</span><span class="st"> </span>occidentalis))), <span class="dt">ylab =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;&quot;</span>, </span>
-<span id="cb28-3"><a href="what-can-we-do-with-count-data.html#cb28-3"></a>    <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="what-can-we-do-with-count-data.html#cb64-1"></a><span class="kw">hist</span>(faramea<span class="op">$</span>Faramea.occidentalis, <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">45</span>, <span class="dv">1</span>), <span class="dt">xlab =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Number of &quot;</span>, </span>
+<span id="cb64-2"><a href="what-can-we-do-with-count-data.html#cb64-2"></a>    <span class="kw">italic</span>(Faramea <span class="op">~</span><span class="st"> </span>occidentalis))), <span class="dt">ylab =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;&quot;</span>, </span>
+<span id="cb64-3"><a href="what-can-we-do-with-count-data.html#cb64-3"></a>    <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-40-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p><img src="images/plot_faramea_abd.png" class="align-center" width="500" /></p>
 <p>We can see that there are only positive and integer values. Given these
 specificities, the Poisson distribution, described above, seems to be
@@ -289,20 +292,6 @@ gitbook.start({
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>

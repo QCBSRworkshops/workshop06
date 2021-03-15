@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 9 quasi-Poisson GLMs | Workshop 6: Generalized linear models</title>
+  <title>Chapter 9 Quasi-Poisson GLMs | Workshop 6: Generalized linear models</title>
   <meta name="description" content="Generalized linear models in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 9 quasi-Poisson GLMs | Workshop 6: Generalized linear models" />
+  <meta property="og:title" content="Chapter 9 Quasi-Poisson GLMs | Workshop 6: Generalized linear models" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 9 quasi-Poisson GLMs | Workshop 6: Generalized linear models" />
+  <meta name="twitter:title" content="Chapter 9 Quasi-Poisson GLMs | Workshop 6: Generalized linear models" />
   
   <meta name="twitter:description" content="Generalized linear models in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -159,20 +159,22 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.4" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#plotting-results"><i class="fa fa-check"></i><b>5.4</b> Plotting results</a></li>
 </ul></li>
 <li class="part"><span><b>GLMs with proportion data</b></span></li>
-<li class="chapter" data-level="6" data-path="binomial-glms.html"><a href="binomial-glms.html"><i class="fa fa-check"></i><b>6</b> Binomial GLMs</a></li>
+<li class="chapter" data-level="6" data-path="binomial-glms.html"><a href="binomial-glms.html"><i class="fa fa-check"></i><b>6</b> Binomial GLMS</a></li>
 <li class="part"><span><b>GLMs with count data</b></span></li>
 <li class="chapter" data-level="7" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html"><i class="fa fa-check"></i><b>7</b> What can we do with count data?</a></li>
 <li class="chapter" data-level="8" data-path="poisson-glms.html"><a href="poisson-glms.html"><i class="fa fa-check"></i><b>8</b> Poisson GLMs</a><ul>
 <li class="chapter" data-level="8.1" data-path="poisson-glms.html"><a href="poisson-glms.html#the-problem-of-overdispersion"><i class="fa fa-check"></i><b>8.1</b> The problem of overdispersion</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="quasi-poisson-glms.html"><a href="quasi-poisson-glms.html"><i class="fa fa-check"></i><b>9</b> quasi-Poisson GLMs</a></li>
+<li class="chapter" data-level="9" data-path="quasi-poisson-glms.html"><a href="quasi-poisson-glms.html"><i class="fa fa-check"></i><b>9</b> Quasi-Poisson GLMs</a></li>
 <li class="chapter" data-level="10" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html"><i class="fa fa-check"></i><b>10</b> Negative binomial GLMs</a><ul>
-<li class="chapter" data-level="10.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>10.1</b> Plotting the final GLM to the data</a></li>
+<li class="chapter" data-level="10.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>10.1</b> Plotting the final GLM to the data</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#challenge-3"><i class="fa fa-check"></i><b>10.1.1</b> Challenge 3</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="conclusion-on-glms-with-count-data.html"><a href="conclusion-on-glms-with-count-data.html"><i class="fa fa-check"></i><b>11</b> Conclusion on GLMs with count data</a></li>
 <li class="part"><span><b>Other distributions</b></span></li>
 <li class="chapter" data-level="12" data-path="other-distributions.html"><a href="other-distributions.html"><i class="fa fa-check"></i><b>12</b> Other distributions</a></li>
-<li class="part"><span><b>Final considerations</b></span></li>
+<li class="part"><span><b>Additional GLM resources</b></span></li>
 <li class="chapter" data-level="13" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>13</b> Summary</a></li>
 <li class="chapter" data-level="14" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>14</b> Additional resources</a></li>
 <li class="chapter" data-level="15" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>15</b> References</a></li>
@@ -211,7 +213,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
 <div id="quasi-poisson-glms" class="section level1">
-<h1><span class="header-section-number">Chapter 9</span> quasi-Poisson GLMs</h1>
+<h1><span class="header-section-number">Chapter 9</span> Quasi-Poisson GLMs</h1>
 <p>The principle behind a quasi-Poisson GLM is very simple; the
 overdispersion parameter (φ) is added to the expected variance equation:</p>
 <p>E(Y<sub>i</sub>) = <em>µ</em><sub>i</sub></p>
@@ -221,18 +223,41 @@ difference is that φ will first be estimated to correct the model.
 Parameter Estimates will be the same but the standard errors of the
 parameters are multiplied by √φ, in other terms, some marginally
 significant p-values may no longer hold.</p>
-<p>In R, The ‘<strong>quasipoisson</strong>’ family object can be used to deal with
-count data exhibiting overdispersion (the ‘<strong>quasibinomial</strong>’ family
+<p>In R, The <code>quasipoisson</code> family object can be used to deal with
+count data exhibiting overdispersion (the <code>quasibinomial</code> family
 object can do the same for binomial data). The fitted φ value will be
 returned in the summary of the GLM. There are two ways to perform this
 GLM:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="quasi-poisson-glms.html#cb34-1"></a><span class="co"># Option 1, fit a new quasi-Poisson GLM</span></span>
-<span id="cb34-2"><a href="quasi-poisson-glms.html#cb34-2"></a>glm.quasipoisson =<span class="st"> </span><span class="kw">glm</span>(Faramea.occidentalis <span class="op">~</span><span class="st"> </span>Elevation, <span class="dt">data =</span> faramea, </span>
-<span id="cb34-3"><a href="quasi-poisson-glms.html#cb34-3"></a>    <span class="dt">family =</span> quasipoisson)</span>
-<span id="cb34-4"><a href="quasi-poisson-glms.html#cb34-4"></a><span class="co"># Option 2, build from the previous model and update it:</span></span>
-<span id="cb34-5"><a href="quasi-poisson-glms.html#cb34-5"></a>glm.quasipoisson =<span class="st"> </span><span class="kw">update</span>(glm.poisson, <span class="dt">family =</span> quasipoisson)</span>
-<span id="cb34-6"><a href="quasi-poisson-glms.html#cb34-6"></a><span class="co"># output</span></span>
-<span id="cb34-7"><a href="quasi-poisson-glms.html#cb34-7"></a><span class="kw">summary</span>(glm.quasipoisson)</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="quasi-poisson-glms.html#cb74-1"></a><span class="co"># Option 1, fit a new quasi-Poisson GLM</span></span>
+<span id="cb74-2"><a href="quasi-poisson-glms.html#cb74-2"></a>glm.quasipoisson =<span class="st"> </span><span class="kw">glm</span>(Faramea.occidentalis <span class="op">~</span><span class="st"> </span>Elevation, <span class="dt">data =</span> faramea, </span>
+<span id="cb74-3"><a href="quasi-poisson-glms.html#cb74-3"></a>    <span class="dt">family =</span> quasipoisson)</span>
+<span id="cb74-4"><a href="quasi-poisson-glms.html#cb74-4"></a><span class="co"># Option 2, build from the previous model and update it:</span></span>
+<span id="cb74-5"><a href="quasi-poisson-glms.html#cb74-5"></a>glm.quasipoisson =<span class="st"> </span><span class="kw">update</span>(glm.poisson, <span class="dt">family =</span> quasipoisson)</span>
+<span id="cb74-6"><a href="quasi-poisson-glms.html#cb74-6"></a><span class="co"># output</span></span>
+<span id="cb74-7"><a href="quasi-poisson-glms.html#cb74-7"></a><span class="kw">summary</span>(glm.quasipoisson)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = Faramea.occidentalis ~ Elevation, family = quasipoisson, 
+##     data = faramea)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -3.3319  -2.7509  -1.5451   0.1139  11.3995  
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  1.768700   0.439233   4.027 0.000238 ***
+## Elevation   -0.002738   0.002572  -1.064 0.293391    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for quasipoisson family taken to be 15.96936)
+## 
+##     Null deviance: 414.81  on 42  degrees of freedom
+## Residual deviance: 388.12  on 41  degrees of freedom
+## AIC: NA
+## 
+## Number of Fisher Scoring iterations: 10</code></pre>
 <p>If you look at the summary of the model you will see that φ is estimated
 as 15.97. We then made a good choice by updating the model to account
 for overdispersion. However if we look at P-values we can note that
@@ -245,16 +270,13 @@ happy with this model to fit a final negative-binomial GLM to our data.</p>
 <p>Two other points are important to keep in mind when using quasi-Poisson
 GLMs and dealing with overdispersion:</p>
 <ul>
-<li><strong>quasi-Poisson GLMs do not have AIC scores.</strong> An important aspect
+<li><p><strong>Quasi-Poisson GLMs do not have AIC scores.</strong> An important aspect
 is that quasi-Poisson GLMs do not correspond to models with fully
 specified likelihoods and rely on quasi-ML estimation (i.e.
 pseudolikelihood). One consequence is that quasi-Poisson GLMs do not
 have AIC scores for model comparisons. However, variants of AIC have
-been developed to deal with this situation (e.g. quasi-AIC).</li>
-</ul>
-<!-- -->
-<ul>
-<li><strong>Overdispersion affects model comparison.</strong> Indeed overdispersion
+been developed to deal with this situation (e.g. quasi-AIC).</p></li>
+<li><p><strong>Overdispersion affects model comparison.</strong> Indeed overdispersion
 also influences the comparison of two nested models and has to be
 taken into account when φ is known. For instance, let’s assume that
 we want to compare GLM1, with <em>p</em><sub>1</sub> parameters to GLM2, with <em>p</em><sub>2</sub>
@@ -266,15 +288,27 @@ respectively. If Overdispersion is known, deviances have to be
 scaled (i.e. corrected) accordingly as D* = D/φ. The final test
 will be based on the criterion D<sub>1</sub>* - D*<sub>2</sub> which is assumed to
 follow a χ² distribution with <em>p</em><sub>2</sub>-<em>p</em><sub>1</sub> degrees of freedom when
-GLM1 is correct.</li>
-<li>In some cases φ is not known. For instance, this occurs when you run
+GLM1 is correct.</p></li>
+<li><p>In some cases φ is not known. For instance, this occurs when you run
 a GLM with a normal error distribution. In that case, φ can be
 estimated <em>a posteriori</em> using the residual deviance of the larger
 model so the criterion becomes
-<span class="math display">\[(D~1~-D~2~)/(*p*~2~-*p*~1~)\]</span>/<span class="math display">\[D~2~/(*n*-*p*~2~)\]</span> and is assumed
+[(D<sub>1</sub>-D<sub>2</sub>)/(<em>p</em><sub>2</sub>-<em>p</em><sub>1</sub>)]/[D<sub>2</sub>/(<em>n</em>-<em>p</em><sub>2</sub>)] and is assumed
 to follow a F distribution with <em>p</em><sub>2</sub>-<em>p</em><sub>1</sub> and n-<em>p</em><sub>2</sub> degrees
-of freedom.</li>
+of freedom.</p></li>
 </ul>
+<p>Try also deviance analysis to test for the effect of Elevation</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="quasi-poisson-glms.html#cb76-1"></a>null.model &lt;-<span class="st"> </span><span class="kw">glm</span>(Faramea.occidentalis <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> faramea, <span class="dt">family =</span> quasipoisson)</span>
+<span id="cb76-2"><a href="quasi-poisson-glms.html#cb76-2"></a><span class="kw">anova</span>(null.model, glm.quasipoisson, <span class="dt">test =</span> <span class="st">&quot;Chisq&quot;</span>)</span></code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: Faramea.occidentalis ~ 1
+## Model 2: Faramea.occidentalis ~ Elevation
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
+## 1        42     414.81                     
+## 2        41     388.12  1   26.686   0.1961</code></pre>
+<p><strong>Dispersion parameter:</strong>
+<img src="images/dispParam.png" /></p>
 </div>
 <hr>
 <center> 
@@ -338,20 +372,6 @@ gitbook.start({
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>

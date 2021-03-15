@@ -159,20 +159,22 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.4" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#plotting-results"><i class="fa fa-check"></i><b>5.4</b> Plotting results</a></li>
 </ul></li>
 <li class="part"><span><b>GLMs with proportion data</b></span></li>
-<li class="chapter" data-level="6" data-path="binomial-glms.html"><a href="binomial-glms.html"><i class="fa fa-check"></i><b>6</b> Binomial GLMs</a></li>
+<li class="chapter" data-level="6" data-path="binomial-glms.html"><a href="binomial-glms.html"><i class="fa fa-check"></i><b>6</b> Binomial GLMS</a></li>
 <li class="part"><span><b>GLMs with count data</b></span></li>
 <li class="chapter" data-level="7" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html"><i class="fa fa-check"></i><b>7</b> What can we do with count data?</a></li>
 <li class="chapter" data-level="8" data-path="poisson-glms.html"><a href="poisson-glms.html"><i class="fa fa-check"></i><b>8</b> Poisson GLMs</a><ul>
 <li class="chapter" data-level="8.1" data-path="poisson-glms.html"><a href="poisson-glms.html#the-problem-of-overdispersion"><i class="fa fa-check"></i><b>8.1</b> The problem of overdispersion</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="quasi-poisson-glms.html"><a href="quasi-poisson-glms.html"><i class="fa fa-check"></i><b>9</b> quasi-Poisson GLMs</a></li>
+<li class="chapter" data-level="9" data-path="quasi-poisson-glms.html"><a href="quasi-poisson-glms.html"><i class="fa fa-check"></i><b>9</b> Quasi-Poisson GLMs</a></li>
 <li class="chapter" data-level="10" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html"><i class="fa fa-check"></i><b>10</b> Negative binomial GLMs</a><ul>
-<li class="chapter" data-level="10.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>10.1</b> Plotting the final GLM to the data</a></li>
+<li class="chapter" data-level="10.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>10.1</b> Plotting the final GLM to the data</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#challenge-3"><i class="fa fa-check"></i><b>10.1.1</b> Challenge 3</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="conclusion-on-glms-with-count-data.html"><a href="conclusion-on-glms-with-count-data.html"><i class="fa fa-check"></i><b>11</b> Conclusion on GLMs with count data</a></li>
 <li class="part"><span><b>Other distributions</b></span></li>
 <li class="chapter" data-level="12" data-path="other-distributions.html"><a href="other-distributions.html"><i class="fa fa-check"></i><b>12</b> Other distributions</a></li>
-<li class="part"><span><b>Final considerations</b></span></li>
+<li class="part"><span><b>Additional GLM resources</b></span></li>
 <li class="chapter" data-level="13" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>13</b> Summary</a></li>
 <li class="chapter" data-level="14" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>14</b> Additional resources</a></li>
 <li class="chapter" data-level="15" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>15</b> References</a></li>
@@ -246,14 +248,15 @@ number of seeds in a plot, etc. Our variable mites$Galumna seems to
 follow a Poisson distribution with a low value of λ (indeed, if we
 calculate the mean abundance of Galumna across all samples using the
 function mean(), we find that it is close to zero):</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="the-distributions-of-biological-data.html#cb12-1"></a><span class="kw">hist</span>(mites<span class="op">$</span>Galumna)</span>
-<span id="cb12-2"><a href="the-distributions-of-biological-data.html#cb12-2"></a><span class="kw">mean</span>(mites<span class="op">$</span>Galumna)</span></code></pre></div>
-<p><img src="images/6_galumnahist.jpeg" /></p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="the-distributions-of-biological-data.html#cb25-1"></a><span class="kw">hist</span>(mites<span class="op">$</span>Galumna)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="the-distributions-of-biological-data.html#cb26-1"></a><span class="kw">mean</span>(mites<span class="op">$</span>Galumna)</span></code></pre></div>
+<pre><code>## [1] 0.9571429</code></pre>
 <p>Our variable mites$pa (presence-absence) takes yet another form. It
 consists of only zeros and ones, such that a Poisson distribution would
 not be appropriate to model this variable.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="the-distributions-of-biological-data.html#cb13-1"></a><span class="kw">hist</span>(mites<span class="op">$</span>pa)</span></code></pre></div>
-<p><img src="images/6_pa.jpeg" /></p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="the-distributions-of-biological-data.html#cb28-1"></a><span class="kw">hist</span>(mites<span class="op">$</span>pa)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>We need a distribution with a range that only includes two possible
 outcomes: zero or one. The "Bernoulli" distribution is such a
 distribution. It is often the first distribution that students of
@@ -269,11 +272,12 @@ probabilities of presence (<em>p</em>):</p>
 <p><img src="images/6_bernouill.jpeg" /></p>
 <p>We can calculate the number of sites where Galumna is present out of the
 total number of sites to get an idea of what <em>p</em> might be in our case:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="the-distributions-of-biological-data.html#cb14-1"></a><span class="kw">sum</span>(mites<span class="op">$</span>pa)<span class="op">/</span><span class="kw">nrow</span>(mites)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="the-distributions-of-biological-data.html#cb29-1"></a><span class="kw">sum</span>(mites<span class="op">$</span>pa)<span class="op">/</span><span class="kw">nrow</span>(mites)</span></code></pre></div>
+<pre><code>## [1] 0.3571429</code></pre>
 <p><em>p</em> for the variable mites$pa is more or less 0.36, such that roughly
 twice as many sites have the outcome "Galumna absent" (0) than the
 outcome "Galumna present" (1).</p>
-<p>When there are multiple trials/coin tosses, the Bernoulli distribution
+<p>When there are multiple trials/coin tosses, the Bernouilli distribution
 expands into the binomial distribution, which has the additional
 parameter <em>n</em>, corresponding to the number of trials. The binomial
 distribution predicts the probability of observing a given proportion of
@@ -392,20 +396,6 @@ gitbook.start({
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>

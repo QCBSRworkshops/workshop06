@@ -20,59 +20,59 @@ library(DescTools)
 setwd("~/Desktop")
 mites <- read.csv('mites.csv')
 
+mites <- read.csv('mites.csv')
+
 head(mites)
 str(mites)
 
-# 70 mite communities sampled from moss cores collected at the Station de Biologie des Laurentides, QC.
-# For each core/sample, the following data is provided:
-# $Galumna: abundance of mite genus 'Galumna'
-# $pa: presence (1) or absence (0) of Galumna, irrespective of abundance
-# $totalabund: total abundance of mites of all species
-# $prop: proportion of Galumna in the mite community. i.e. Galumna/totalabund
-# $SubsDens: substrate density
-# $WatrCont: water content
-# $Substrate: type of substrate.
-# $Shrub: abundance of shrubs. Coded as a factor.
-# $Topo: microtopography. blanket or hummock.
-
 plot(mites)
 
-par(mfrow=c(1,3)) #divide plot area in 1 row and 3 columns to have 3 plots in same figure
+par(mfrow=c(1,3), cex = 1) #divide plot area in 1 row and 3 columns to have 3 plots in same figure
 plot(Galumna ~ WatrCont, data = mites, xlab = 'Water content', ylab='Abundance')
-boxplot(WatrCont ~ pa, data = mites, xlab='Presence/Absence', ylab = 'Water     content')
+boxplot(WatrCont ~ pa, data = mites, xlab='Presence/Absence', ylab = 'Water content')
 plot(prop ~ WatrCont, data = mites, xlab = 'Water content', ylab='Proportion')
-par(mfrow=c(1,1)) #resets to default setting
 
 lm.abund <- lm(Galumna ~ WatrCont, data = mites)
-summary(lm.abund)
+##summary(lm.abund)
 lm.pa <- lm(pa ~ WatrCont, data = mites)
-summary(lm.pa)
+##summary(lm.abund)
 lm.prop <- lm(prop ~ WatrCont, data = mites)
-summary(lm.prop)
+##summary(lm.abund)
+
+# Extracting the Pr(>|t|)
+summary(lm.abund)$coefficients[, 4]
+
+summary(lm.pa)$coefficients[, 4]
+
+summary(lm.prop)$coefficients[, 4]
+
 
 plot(Galumna ~ WatrCont, data = mites)
 abline(lm.abund)
 
+par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.abund)
 
 #Proportion
 plot(prop ~ WatrCont, data = mites)
 abline(lm.prop)
+par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.prop)
-#Presence/Absence
+#Présence/Absence
+par(mfrow = c(1, 1), cex = 1.4)
 plot(pa ~ WatrCont, data = mites)
 abline(lm.pa)
+par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.pa)
 
 coef(lm.abund)
-#(Intercept)     WatrCont
-#3.439348672 -0.006044788
 
 summary(lm.abund)$sigma
 
 
 ##Section: 03-distributions.R 
 
+mites <- read.csv('mites.csv')
 hist(mites$Galumna)
 mean(mites$Galumna)
 
@@ -83,6 +83,7 @@ sum(mites$pa) / nrow(mites)
 
 ##Section: 04-glm-binary.R 
 
+mites <- read.csv('mites.csv')
 model.lm <- lm(pa ~ WatrCont + Topo, data = mites)
 fitted(model.lm)
 # The "fitted()" function gives us expected values for the response variable.
@@ -93,6 +94,23 @@ model.glm <- glm(pa ~ WatrCont + Topo, data = mites, family = binomial)
 fitted(model.glm)
 # All values are bound between 0 and 1.
 
+#Short function added in order to print only the desired number of lines for the next chunk!
+#Source: https://bookdown.org/yihui/rmarkdown-cookbook/hook-truncate.html
+# save the built-in output hook
+hook_output <- knitr::knit_hooks$get("output")
+
+# set a new output hook to truncate text output
+knitr::knit_hooks$set(output = function(x, options) {
+  if (!is.null(n <- options$out.lines)) {
+    x <- xfun::split_lines(x)
+    if (length(x) > n) {
+      # truncate the output
+      x <- c(head(x, n), "....\n")
+    }
+    x <- paste(x, collapse = "\n")
+  }
+  hook_output(x, options)
+})
 # Load the CO2 dataset. We used it during workshop 4!
 data(CO2)
 head(CO2)
@@ -119,49 +137,52 @@ logit.reg <- glm(pa ~ WatrCont + Topo, data = mites, family = binomial(link = "l
 logit.reg <- glm(pa ~ WatrCont + Topo, data = mites, family = binomial)
 summary(logit.reg)
 
+library(MASS)
+data(bacteria)
 model.bact1 <- glm(y ~ trt * week, family = binomial('logit'), data = bacteria)
 model.bact2 <- glm(y ~ trt + week, family = binomial('logit'), data = bacteria)
 model.bact3 <- glm(y ~ week, family = binomial('logit'), data = bacteria)
 anova(model.bact1, model.bact2, model.bact3, test = 'LRT')
-# Analysis of Deviance Table
-# Model 1: y ~ trt * week
-# Model 2: y ~ trt + week
-# Model 3: y ~ week
-#   Resid. Df Resid. Dev Df Deviance Pr(>Chi)
-# 1       214     203.12
-# 2       216     203.81 -2  -0.6854  0.70984
-# 3       218     210.91 -2  -7.1026  0.02869 *
-#Based on these results, we select model #2 as the best candidate to model these data.
 
-# Obtaining the odds of the slope.
-# Use the "exp()" function to put the coefficients back on the odds scale.
-# Mathematically, this line of code corresponds to:
-# exp(model coefficients) = exp(log(μ / (1 - μ)) = u / (1 - μ)
-# This corresponds to an odds ratio!
-exp(logit.reg$coefficients[2:3])
-#  WatrCont    TopoHummock
-#  0.9843118   8.0910340
-# To obtain confidence intervals on the odds scale:
-exp(confint(logit.reg)[2:3,])
-#               2.5 %      97.5 %
-#  WatrCont     0.9741887  0.9919435
-#  TopoHummock  2.0460547  38.6419693
+logit.reg
 
-# Let's start with our odds ratio for topography from the logit.reg model:
-µ/ (1 - µ) = 8.09
-# Let's rearrange this to isolate µ
-µ = 8.09(1 - µ) = 8.09 - 8.09µ
-8.09µ + µ = 8.09
-µ(8.09 + 1) = 8.09
-µ = 8.09 / (8.09 + 1)
-µ = 1 / (1 + (1 / 8.09)) = 0.89
-# We obtained the same result without using the exp() function!
+exp(logit.reg$coefficients[2])
+
+exp(confint(logit.reg)[2,])
 
 # Residual and null deviances are already stored in the glm object.
 objects(logit.reg)
-pseudoR2 <- (logit.reg$null.deviance – logit.reg$deviance) / logit.reg$null.deviance
+pseudoR2 <- (logit.reg$null.deviance - logit.reg$deviance) / logit.reg$null.deviance
 pseudoR2
-# [1]  0.4655937
+
+logit.reg <- glm(pa ~ WatrCont + Topo, 
+                 data = mites, family = binomial(link = "logit"))
+DescTools::PseudoR2(logit.reg, which = "all")
+
+#REMOVED BECAUSE PACKAGE binomTools IS NO LONGER ON THE CRAN (delete this section?)
+Recently, [Tjur
+(2009)](http://www.tandfonline.com/doi/abs/10.1198/tast.2009.08210#.VFpKZYcc4ow)
+proposed a new statistic, the coefficient of discrimination (*D*), to
+evaluate the predictive power of logistic regression models.
+Intuitively, *D* is a measure of how well a logistic regression can
+classify an outcome as a success or a failure. In mathematical terms, it
+is the difference between the means of expected probability values for
+successes (*i.e.* Y =1) and failures (*i.e.* Y = 0):
+
+D = π~1~ - π~0~
+
+where π~1~ is the mean of expected probability
+values when the outcome is observed and π~0~ is the
+mean of expected probability values when the outcome is not observed. A
+*D* value close to 1 indicates that the model gives a high probability
+of observing an outcome to cases where the outcome was actually observed
+and a low probability of observing an outcome to cases where the outcome
+was not observed. A *D* value close to 0 indicates that the model is not
+efficient at discriminating between the occurrences and "non
+occurrences" of an outcome. The following code shows how to obtain *D*
+and how to plot the histograms of π~1~ and
+π~0~.
+
 
 install.packages("binomTools")
 library("binomTools")
@@ -183,6 +204,17 @@ fit
 # Average group size:  1
 plot(fit, which = "hist")
 
+To assess the goodness-of-fit of a logistic regression, the diagnostic
+plots (see workshop 4) are not useful. Instead, you can do a
+[Hosmer-Lemeshow
+test](http://en.wikipedia.org/wiki/Hosmer-Lemeshow_test) to evaluate
+whether your model is appropriate. This test separates the expected
+values (ordered from smallest to largest) in groups of approximately
+equal size. Ten is usually the recommended group number. In each group,
+we compare the observed and expected number of outcomes. It is similar
+to a chi-square test with G - 2 degrees of freedom (G is the number of
+groups). In R, this test is available in the `binomTools` package.
+
 fit <- Rsq(object = logit.reg)
 HLtest(object = fit)
 # The p value is 0.9051814. Hence, we do not reject the model.
@@ -192,8 +224,7 @@ null.d <- model.bact2$null.deviance
 resid.d <- model.bact2$deviance
 bact.pseudoR2 <- (null.d - resid.d) / null.d
 bact.pseudoR2
-# 0.0624257
-# This is very low!
+#REMOVED BECAUSE IT USES binomTools PACKAGE, NO LONGER AVAILABLE ON CRAN
 library(binomTools)
 HLtest(Rsq(model.bact2))
 # Chi-square statistic:  7.812347  with  8  df
@@ -209,31 +240,22 @@ ggtitle("Probability of presence of Galumna sp. as a function of water content")
 
 ##Section: 05-glm-proportion.R 
 
-# Let’s generate some data based on the deer example:
-# We randomly choose a number between 1 and 10 for the number of infected deer.
-# Ten deers were sampled in ten populations.
-# Resource availability is an index to characterise the habitat.
-set.seed(123)
-n.infected <- sample(x = 1:10, size = 10, replace = TRUE)
-n.total <- rep(x = 10, times = 10)
-res.avail <- rnorm(n = 10, mean = 10, sd = 1)
-# Next, let’s build the model. Notice how the proportion data is specified.
-# We have to specify the number of cases where disease was detected
-# and the number of cases where the disease was not detected.
-prop.reg <- glm(cbind(n.infected, n.total - n.infected) ~ res.avail, family = binomial)
+mites <- read.csv('mites.csv')
+prop.reg <- glm(cbind(Galumna, totalabund - Galumna) ~ Topo + WatrCont,
+                data = mites,
+                family = binomial)
 summary(prop.reg)
-# If your data is directly transformed into proportions, here is the way to do it in R:
-# Let's first create a vector of proportions
-prop.infected <- n.infected / n.total
-# We have to specify the "weights" argument in the glm function to indicate the number of trials per site
-prop.reg2 <- glm(prop.infected ~ res.avail, family = binomial, weights = n.total)
+
+prop.reg2 <- glm(prop ~ Topo + WatrCont,
+                 data = mites,
+                 family = binomial,
+                 weights = totalabund)
 summary(prop.reg2)
-# The summaries of both prop.reg and prop.reg2 are identical!
 
 
 ##Section: 06-glm-count.R 
 
-faramea <- read.csv(‘faramea.csv’, header = TRUE)
+faramea <- read.csv("faramea.csv", header = TRUE)
 
 hist(faramea$Faramea.occidentalis, breaks=seq(0,45,1), xlab=expression(paste("Number of ",
 italic(Faramea~occidentalis))), ylab="Frequency", main="", col="grey")
@@ -246,9 +268,8 @@ summary(glm.poisson)$coefficients[1,1]
 # slope of elevation
 summary(glm.poisson)$coefficients[2,1]
 
-summary(glm.poisson)
-# Null deviance: 414.81  on 42  degrees of freedom
-# Residual deviance: 388.12  on 41  degrees of freedom
+    Null deviance: 414.81  on 42  degrees of freedom
+Residual deviance: 388.12  on 41  degrees of freedom
 
 mean(faramea$Faramea.occidentalis)
 var(faramea$Faramea.occidentalis)
@@ -260,26 +281,49 @@ glm.quasipoisson = update(glm.poisson,family=quasipoisson)
 # output
 summary(glm.quasipoisson)
 
-ifelse(length(which(installed.packages() == "MASS")) == 0,
-      {print("MASS not installed. Installing... "); install.packages("MASS")},
-      print("MASS already installed"))
+null.model <- glm(Faramea.occidentalis ~ 1, 
+                  data = faramea,
+                  family = quasipoisson)
+anova(null.model, glm.quasipoisson, test = "Chisq")
 
-install.packages("MASS")
 
 library("MASS")
-
 glm.negbin = glm.nb(Faramea.occidentalis~Elevation, data=faramea)
 summary(glm.negbin)
 
-# plot the observed data
-plot(faramea$Elevation, faramea$Faramea.occidentalis, xlab="Elevation (m)", ylab=expression(paste("Number of", "  ", italic(Faramea~occidentalis))), pch=16, col=rgb(4,139,154,150,maxColorValue=255))
+summary(glm.negbin)$coefficients[1, 1]
+summary(glm.negbin)$coefficients[2, 1]
 
-# pull values for intercept and beta from the summary and put them in the exponential equation
-curve(exp(summary(glm.negbin)$coefficients[1,1]+summary(glm.negbin)$coefficients[2,1]*x),from=range(faramea$Elevation)[1],to=range(faramea$Elevation)[2],add=T, lwd=2, col="orangered")
+summary(glm.negbin)$coefficients[1, 2]
+summary(glm.negbin)$coefficients[2, 2]
 
-# pull the standard error as well to plot the equations for confidence envelope
-curve(exp(summary(glm.negbin)$coefficients[1,1]+1.96*summary(glm.negbin)$coefficients[1,2]+summary(glm.negbin)$coefficients[2,1]*x+1.96*summary(glm.negbin)$coefficients[2,2]),from=range(faramea$Elevation)[1],to=range(faramea$Elevation)[2],add=T,lty=2, col="orangered")
-curve(exp(summary(glm.negbin)$coefficients[1,1]-1.96*summary(glm.negbin)$coefficients[1,2]+summary(glm.negbin)$coefficients[2,1]*x-1.96*summary(glm.negbin)$coefficients[2,2]),from=range(faramea$Elevation)[1],to=range(faramea$Elevation)[2],add=T,lty=2, col="orangered")
+pp <- predict(glm.negbin, newdata = data.frame(Elevation = 1:800), se.fit = TRUE)
+linkinv <- family(glm.negbin)$linkinv inverse-link function
+pframe <- as.data.frame(pp$fit)
+names(pframe) <- "pred0"
+pframe$pred <- linkinv(pp$fit)
+sc <- abs(qnorm((1-0.95)/2))  Normal approx. to likelihood
+pframe <- transform(pframe, lwr = linkinv(pred0-sc*pp$se.fit), upr = linkinv(pred0+sc*pp$se.fit))
+plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'Number of F. occidentalis', xlab = 'Elevation(m)')
+lines(pframe$pred, lwd = 2)
+lines(pframe$upr, col = 2, lty = 3, lwd = 2)
+lines(pframe$lwr, col = 2, lty = 3, lwd = 2)
+
+mites <- read.csv("data/mites.csv", header = TRUE)
+
+drop1(MyGLM, test = "Chi")
+
+anova(MyGLM, MyGLM2, test = "Chi")
+
+# Poisson GLM
+glm.p = glm(Galumna~WatrCont+SubsDens, data=mites, family=poisson)
+# quasi-Poisson GLM
+glm.qp = update(glm.p,family=quasipoisson)
+# model selection
+drop1(glm.qp, test = "Chi")
+# or
+glm.qp2 = glm(Galumna~WatrCont, data=mites, family=quasipoisson)
+anova(glm.qp2, glm.qp, test="Chisq")
 
 
 ##Section: 07-other-distributions.R 

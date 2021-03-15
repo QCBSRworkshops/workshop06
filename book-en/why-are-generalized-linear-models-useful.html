@@ -159,20 +159,22 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.4" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#plotting-results"><i class="fa fa-check"></i><b>5.4</b> Plotting results</a></li>
 </ul></li>
 <li class="part"><span><b>GLMs with proportion data</b></span></li>
-<li class="chapter" data-level="6" data-path="binomial-glms.html"><a href="binomial-glms.html"><i class="fa fa-check"></i><b>6</b> Binomial GLMs</a></li>
+<li class="chapter" data-level="6" data-path="binomial-glms.html"><a href="binomial-glms.html"><i class="fa fa-check"></i><b>6</b> Binomial GLMS</a></li>
 <li class="part"><span><b>GLMs with count data</b></span></li>
 <li class="chapter" data-level="7" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html"><i class="fa fa-check"></i><b>7</b> What can we do with count data?</a></li>
 <li class="chapter" data-level="8" data-path="poisson-glms.html"><a href="poisson-glms.html"><i class="fa fa-check"></i><b>8</b> Poisson GLMs</a><ul>
 <li class="chapter" data-level="8.1" data-path="poisson-glms.html"><a href="poisson-glms.html#the-problem-of-overdispersion"><i class="fa fa-check"></i><b>8.1</b> The problem of overdispersion</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="quasi-poisson-glms.html"><a href="quasi-poisson-glms.html"><i class="fa fa-check"></i><b>9</b> quasi-Poisson GLMs</a></li>
+<li class="chapter" data-level="9" data-path="quasi-poisson-glms.html"><a href="quasi-poisson-glms.html"><i class="fa fa-check"></i><b>9</b> Quasi-Poisson GLMs</a></li>
 <li class="chapter" data-level="10" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html"><i class="fa fa-check"></i><b>10</b> Negative binomial GLMs</a><ul>
-<li class="chapter" data-level="10.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>10.1</b> Plotting the final GLM to the data</a></li>
+<li class="chapter" data-level="10.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>10.1</b> Plotting the final GLM to the data</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#challenge-3"><i class="fa fa-check"></i><b>10.1.1</b> Challenge 3</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="conclusion-on-glms-with-count-data.html"><a href="conclusion-on-glms-with-count-data.html"><i class="fa fa-check"></i><b>11</b> Conclusion on GLMs with count data</a></li>
 <li class="part"><span><b>Other distributions</b></span></li>
 <li class="chapter" data-level="12" data-path="other-distributions.html"><a href="other-distributions.html"><i class="fa fa-check"></i><b>12</b> Other distributions</a></li>
-<li class="part"><span><b>Final considerations</b></span></li>
+<li class="part"><span><b>Additional GLM resources</b></span></li>
 <li class="chapter" data-level="13" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>13</b> Summary</a></li>
 <li class="chapter" data-level="14" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>14</b> Additional resources</a></li>
 <li class="chapter" data-level="15" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>15</b> References</a></li>
@@ -231,58 +233,87 @@ mite taxon, "<em>Galumna sp.</em>" Our goal will be to model the abundance,
 occurrence (presence/absence), and proportion of Galumna as a function
 of the 5 environmental variables: therefore, we also created a
 presence/absence variable and a proportion variable for Galumna.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="why-are-generalized-linear-models-useful.html#cb3-1"></a><span class="kw">head</span>(mites)</span>
-<span id="cb3-2"><a href="why-are-generalized-linear-models-useful.html#cb3-2"></a><span class="kw">str</span>(mites)</span>
-<span id="cb3-3"><a href="why-are-generalized-linear-models-useful.html#cb3-3"></a></span>
-<span id="cb3-4"><a href="why-are-generalized-linear-models-useful.html#cb3-4"></a><span class="co"># 70 mite communities sampled from moss cores collected at</span></span>
-<span id="cb3-5"><a href="why-are-generalized-linear-models-useful.html#cb3-5"></a><span class="co"># the Station de Biologie des Laurentides, QC.  For each</span></span>
-<span id="cb3-6"><a href="why-are-generalized-linear-models-useful.html#cb3-6"></a><span class="co"># core/sample, the following data is provided: $Galumna:</span></span>
-<span id="cb3-7"><a href="why-are-generalized-linear-models-useful.html#cb3-7"></a><span class="co"># abundance of mite genus &#39;Galumna&#39; $pa: presence (1) or</span></span>
-<span id="cb3-8"><a href="why-are-generalized-linear-models-useful.html#cb3-8"></a><span class="co"># absence (0) of Galumna, irrespective of abundance</span></span>
-<span id="cb3-9"><a href="why-are-generalized-linear-models-useful.html#cb3-9"></a><span class="co"># $totalabund: total abundance of mites of all species $prop:</span></span>
-<span id="cb3-10"><a href="why-are-generalized-linear-models-useful.html#cb3-10"></a><span class="co"># proportion of Galumna in the mite community. i.e.</span></span>
-<span id="cb3-11"><a href="why-are-generalized-linear-models-useful.html#cb3-11"></a><span class="co"># Galumna/totalabund $SubsDens: substrate density $WatrCont:</span></span>
-<span id="cb3-12"><a href="why-are-generalized-linear-models-useful.html#cb3-12"></a><span class="co"># water content $Substrate: type of substrate.  $Shrub:</span></span>
-<span id="cb3-13"><a href="why-are-generalized-linear-models-useful.html#cb3-13"></a><span class="co"># abundance of shrubs. Coded as a factor.  $Topo:</span></span>
-<span id="cb3-14"><a href="why-are-generalized-linear-models-useful.html#cb3-14"></a><span class="co"># microtopography. blanket or hummock.</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="why-are-generalized-linear-models-useful.html#cb3-1"></a><span class="kw">head</span>(mites)</span></code></pre></div>
+<pre><code>##   Galumna pa totalabund        prop SubsDens WatrCont Substrate Shrub    Topo
+## 1       8  1        140 0.057142857    39.18   350.15   Sphagn1   Few Hummock
+## 2       3  1        268 0.011194030    54.99   434.81    Litter   Few Hummock
+## 3       1  1        186 0.005376344    46.07   371.72 Interface   Few Hummock
+## 4       1  1        286 0.003496503    48.19   360.50   Sphagn1   Few Hummock
+## 5       2  1        199 0.010050251    23.55   204.13   Sphagn1   Few Hummock
+## 6       1  1        209 0.004784689    57.32   311.55   Sphagn1   Few Hummock</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="why-are-generalized-linear-models-useful.html#cb5-1"></a><span class="kw">str</span>(mites)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    70 obs. of  9 variables:
+##  $ Galumna   : int  8 3 1 1 2 1 1 1 2 5 ...
+##  $ pa        : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ totalabund: int  140 268 186 286 199 209 162 126 123 166 ...
+##  $ prop      : num  0.05714 0.01119 0.00538 0.0035 0.01005 ...
+##  $ SubsDens  : num  39.2 55 46.1 48.2 23.6 ...
+##  $ WatrCont  : num  350 435 372 360 204 ...
+##  $ Substrate : chr  &quot;Sphagn1&quot; &quot;Litter&quot; &quot;Interface&quot; &quot;Sphagn1&quot; ...
+##  $ Shrub     : chr  &quot;Few&quot; &quot;Few&quot; &quot;Few&quot; &quot;Few&quot; ...
+##  $ Topo      : chr  &quot;Hummock&quot; &quot;Hummock&quot; &quot;Hummock&quot; &quot;Hummock&quot; ...</code></pre>
+<p>70 mite communities sampled from moss cores collected at the Station de Biologie des Laurentides, QC.
+For each core/sample, the following data is provided:<br />
+<strong>$Galumna</strong>: abundance of mite genus ‘Galumna’<br />
+<strong>$pa</strong>: presence (1) or absence (0) of Galumna, irrespective of abundance<br />
+<strong>$totalabund</strong>: total abundance of mites of all species<br />
+<strong>$prop</strong>: proportion of Galumna in the mite community. i.e. Galumna/totalabund<br />
+<strong>$SubsDens</strong>: substrate density<br />
+<strong>$WatrCont</strong>: water content<br />
+<strong>$Substrate</strong>: type of substrate.<br />
+<strong>$Shrub</strong>: abundance of shrubs. Coded as a factor.<br />
+<strong>$Topo</strong>: microtopography. blanket or hummock.</p>
 <p>Can we see any relationship between Galumna and environmental variables?</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="why-are-generalized-linear-models-useful.html#cb4-1"></a><span class="kw">plot</span>(mites)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="why-are-generalized-linear-models-useful.html#cb7-1"></a><span class="kw">plot</span>(mites)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p><img src="images/6_spm.jpg" width="800" /></p>
 <p>There seems to be a negative relationship between Galumna abundance and
 water content (WatrCont). Occurence (presence/absence; pa) and
 proportion (prop) also seem to be negatively correlated with WatrCont.</p>
 <p>We can take a closer look by specifically plotting those 3 response
 variables as a function of WatrCont:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="why-are-generalized-linear-models-useful.html#cb5-1"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))  <span class="co">#divide plot area in 1 row and 3 columns to have 3 plots in same figure</span></span>
-<span id="cb5-2"><a href="why-are-generalized-linear-models-useful.html#cb5-2"></a><span class="kw">plot</span>(Galumna <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites, <span class="dt">xlab =</span> <span class="st">&quot;Water content&quot;</span>, </span>
-<span id="cb5-3"><a href="why-are-generalized-linear-models-useful.html#cb5-3"></a>    <span class="dt">ylab =</span> <span class="st">&quot;Abundance&quot;</span>)</span>
-<span id="cb5-4"><a href="why-are-generalized-linear-models-useful.html#cb5-4"></a><span class="kw">boxplot</span>(WatrCont <span class="op">~</span><span class="st"> </span>pa, <span class="dt">data =</span> mites, <span class="dt">xlab =</span> <span class="st">&quot;Presence/Absence&quot;</span>, </span>
-<span id="cb5-5"><a href="why-are-generalized-linear-models-useful.html#cb5-5"></a>    <span class="dt">ylab =</span> <span class="st">&quot;Water     content&quot;</span>)</span>
-<span id="cb5-6"><a href="why-are-generalized-linear-models-useful.html#cb5-6"></a><span class="kw">plot</span>(prop <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites, <span class="dt">xlab =</span> <span class="st">&quot;Water content&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Proportion&quot;</span>)</span>
-<span id="cb5-7"><a href="why-are-generalized-linear-models-useful.html#cb5-7"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))  <span class="co">#resets to default setting</span></span></code></pre></div>
-<p><img src="images/6_3plot.jpeg" width="600" /></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="why-are-generalized-linear-models-useful.html#cb8-1"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="dt">cex =</span> <span class="dv">1</span>)  <span class="co">#divide plot area in 1 row and 3 columns to have 3 plots in same figure</span></span>
+<span id="cb8-2"><a href="why-are-generalized-linear-models-useful.html#cb8-2"></a><span class="kw">plot</span>(Galumna <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites, <span class="dt">xlab =</span> <span class="st">&quot;Water content&quot;</span>, </span>
+<span id="cb8-3"><a href="why-are-generalized-linear-models-useful.html#cb8-3"></a>    <span class="dt">ylab =</span> <span class="st">&quot;Abundance&quot;</span>)</span>
+<span id="cb8-4"><a href="why-are-generalized-linear-models-useful.html#cb8-4"></a><span class="kw">boxplot</span>(WatrCont <span class="op">~</span><span class="st"> </span>pa, <span class="dt">data =</span> mites, <span class="dt">xlab =</span> <span class="st">&quot;Presence/Absence&quot;</span>, </span>
+<span id="cb8-5"><a href="why-are-generalized-linear-models-useful.html#cb8-5"></a>    <span class="dt">ylab =</span> <span class="st">&quot;Water content&quot;</span>)</span>
+<span id="cb8-6"><a href="why-are-generalized-linear-models-useful.html#cb8-6"></a><span class="kw">plot</span>(prop <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites, <span class="dt">xlab =</span> <span class="st">&quot;Water content&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Proportion&quot;</span>)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>Indeed, Galumna seems to vary negatively as a function of WatrCont, i.e.
 Galumna seems to prefer dryer sites.</p>
 <p>Fit linear models (function ‘lm’) to test whether these relationships
 are statistically significant.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="why-are-generalized-linear-models-useful.html#cb6-1"></a>lm.abund &lt;-<span class="st"> </span><span class="kw">lm</span>(Galumna <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
-<span id="cb6-2"><a href="why-are-generalized-linear-models-useful.html#cb6-2"></a><span class="kw">summary</span>(lm.abund)</span>
-<span id="cb6-3"><a href="why-are-generalized-linear-models-useful.html#cb6-3"></a>lm.pa &lt;-<span class="st"> </span><span class="kw">lm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
-<span id="cb6-4"><a href="why-are-generalized-linear-models-useful.html#cb6-4"></a><span class="kw">summary</span>(lm.pa)</span>
-<span id="cb6-5"><a href="why-are-generalized-linear-models-useful.html#cb6-5"></a>lm.prop &lt;-<span class="st"> </span><span class="kw">lm</span>(prop <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
-<span id="cb6-6"><a href="why-are-generalized-linear-models-useful.html#cb6-6"></a><span class="kw">summary</span>(lm.prop)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="why-are-generalized-linear-models-useful.html#cb9-1"></a>lm.abund &lt;-<span class="st"> </span><span class="kw">lm</span>(Galumna <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
+<span id="cb9-2"><a href="why-are-generalized-linear-models-useful.html#cb9-2"></a><span class="co">## summary(lm.abund)</span></span>
+<span id="cb9-3"><a href="why-are-generalized-linear-models-useful.html#cb9-3"></a>lm.pa &lt;-<span class="st"> </span><span class="kw">lm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
+<span id="cb9-4"><a href="why-are-generalized-linear-models-useful.html#cb9-4"></a><span class="co">## summary(lm.abund)</span></span>
+<span id="cb9-5"><a href="why-are-generalized-linear-models-useful.html#cb9-5"></a>lm.prop &lt;-<span class="st"> </span><span class="kw">lm</span>(prop <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
+<span id="cb9-6"><a href="why-are-generalized-linear-models-useful.html#cb9-6"></a><span class="co">## summary(lm.abund)</span></span>
+<span id="cb9-7"><a href="why-are-generalized-linear-models-useful.html#cb9-7"></a></span>
+<span id="cb9-8"><a href="why-are-generalized-linear-models-useful.html#cb9-8"></a><span class="co"># Extracting the Pr(&gt;|t|)</span></span>
+<span id="cb9-9"><a href="why-are-generalized-linear-models-useful.html#cb9-9"></a><span class="kw">summary</span>(lm.abund)<span class="op">$</span>coefficients[, <span class="dv">4</span>]</span></code></pre></div>
+<pre><code>##  (Intercept)     WatrCont 
+## 3.981563e-08 1.206117e-05</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="why-are-generalized-linear-models-useful.html#cb11-1"></a><span class="kw">summary</span>(lm.pa)<span class="op">$</span>coefficients[, <span class="dv">4</span>]</span></code></pre></div>
+<pre><code>##  (Intercept)     WatrCont 
+## 6.030252e-12 4.676755e-08</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="why-are-generalized-linear-models-useful.html#cb13-1"></a><span class="kw">summary</span>(lm.prop)<span class="op">$</span>coefficients[, <span class="dv">4</span>]</span></code></pre></div>
+<pre><code>##  (Intercept)     WatrCont 
+## 4.977432e-08 1.665437e-05</code></pre>
 <p>Yes, there is a strong and significant relationship for all 3 response
 variables!</p>
-<p>Wait a minute… Lets validate these models to make sure that we
+<p>Wait a minute… Let’s validate these models to make sure that we
 respect assumptions of linear models, starting with the abundance model.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="why-are-generalized-linear-models-useful.html#cb7-1"></a><span class="kw">plot</span>(Galumna <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
-<span id="cb7-2"><a href="why-are-generalized-linear-models-useful.html#cb7-2"></a><span class="kw">abline</span>(lm.abund)</span></code></pre></div>
-<p><img src="images/6_lm1.jpeg" /></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="why-are-generalized-linear-models-useful.html#cb15-1"></a><span class="kw">plot</span>(Galumna <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
+<span id="cb15-2"><a href="why-are-generalized-linear-models-useful.html#cb15-2"></a><span class="kw">abline</span>(lm.abund)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>The model does not fit well. It predicts negative abundance values when
 WatrCont exceeds 600, which does not make any sense. Also, the model
 does poorly at predicting high abundance values at low values of
 WatrCont.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="why-are-generalized-linear-models-useful.html#cb8-1"></a><span class="kw">plot</span>(lm.abund)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="why-are-generalized-linear-models-useful.html#cb16-1"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="dt">cex =</span> <span class="fl">1.4</span>)</span>
+<span id="cb16-2"><a href="why-are-generalized-linear-models-useful.html#cb16-2"></a><span class="kw">plot</span>(lm.abund)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p><img src="images/6_diagplots.jpeg" /></p>
 <p>Diagnostic plots show that the data/model violate assumptions of
 homogeneity of variance (the graph on the left shows that residuals are
@@ -293,14 +324,21 @@ the dotted line). Therefore, we need to reject this model, and can’t
 use it to conclude that Galumna abundance varies as a function of water
 content. Looking at diagnostic plots for the presence-absence model and
 the proportion model also indicate that these models are inappropriate:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="why-are-generalized-linear-models-useful.html#cb9-1"></a><span class="co"># Proportion</span></span>
-<span id="cb9-2"><a href="why-are-generalized-linear-models-useful.html#cb9-2"></a><span class="kw">plot</span>(prop <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
-<span id="cb9-3"><a href="why-are-generalized-linear-models-useful.html#cb9-3"></a><span class="kw">abline</span>(lm.prop)</span>
-<span id="cb9-4"><a href="why-are-generalized-linear-models-useful.html#cb9-4"></a><span class="kw">plot</span>(lm.prop)</span>
-<span id="cb9-5"><a href="why-are-generalized-linear-models-useful.html#cb9-5"></a><span class="co"># Presence/Absence</span></span>
-<span id="cb9-6"><a href="why-are-generalized-linear-models-useful.html#cb9-6"></a><span class="kw">plot</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
-<span id="cb9-7"><a href="why-are-generalized-linear-models-useful.html#cb9-7"></a><span class="kw">abline</span>(lm.pa)</span>
-<span id="cb9-8"><a href="why-are-generalized-linear-models-useful.html#cb9-8"></a><span class="kw">plot</span>(lm.pa)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="why-are-generalized-linear-models-useful.html#cb17-1"></a><span class="co"># Proportion</span></span>
+<span id="cb17-2"><a href="why-are-generalized-linear-models-useful.html#cb17-2"></a><span class="kw">plot</span>(prop <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
+<span id="cb17-3"><a href="why-are-generalized-linear-models-useful.html#cb17-3"></a><span class="kw">abline</span>(lm.prop)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="why-are-generalized-linear-models-useful.html#cb18-1"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="dt">cex =</span> <span class="fl">1.4</span>)</span>
+<span id="cb18-2"><a href="why-are-generalized-linear-models-useful.html#cb18-2"></a><span class="kw">plot</span>(lm.prop)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-12-2.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="why-are-generalized-linear-models-useful.html#cb19-1"></a><span class="co"># Présence/Absence</span></span>
+<span id="cb19-2"><a href="why-are-generalized-linear-models-useful.html#cb19-2"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="dt">cex =</span> <span class="fl">1.4</span>)</span>
+<span id="cb19-3"><a href="why-are-generalized-linear-models-useful.html#cb19-3"></a><span class="kw">plot</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
+<span id="cb19-4"><a href="why-are-generalized-linear-models-useful.html#cb19-4"></a><span class="kw">abline</span>(lm.pa)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-12-3.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="why-are-generalized-linear-models-useful.html#cb20-1"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="dt">cex =</span> <span class="fl">1.4</span>)</span>
+<span id="cb20-2"><a href="why-are-generalized-linear-models-useful.html#cb20-2"></a><span class="kw">plot</span>(lm.pa)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-12-4.png" width="672" style="display: block; margin: auto;" /></p>
 <p>It is quite common with biological datasets that assumptions of
 homogeneity of variance (homoscedasticity) and normality are not met.
 These two assumptions are the main problem with linear models, and the
@@ -334,8 +372,9 @@ x<sub>i</sub>) and σ<sup>2</sup>.</p>
 and the linear model that we fitted earlier. You will need values for
 β<sub>0</sub> and β<sub>1</sub> (regression coefficients) and ε<sub>i</sub> (the deviation of
 observed values from the regression line)</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="why-are-generalized-linear-models-useful.html#cb10-1"></a><span class="kw">coef</span>(lm.abund)</span>
-<span id="cb10-2"><a href="why-are-generalized-linear-models-useful.html#cb10-2"></a><span class="co"># (Intercept) WatrCont 3.439348672 -0.006044788</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="why-are-generalized-linear-models-useful.html#cb21-1"></a><span class="kw">coef</span>(lm.abund)</span></code></pre></div>
+<pre><code>##  (Intercept)     WatrCont 
+##  3.439348672 -0.006044788</code></pre>
 <p>This model predicts that for a water content value of, say, 300, we
 should obtain a Galumna abundance of 1.63:</p>
 <p>3.44 + (-0.006 x 300) = 1.63.</p>
@@ -344,7 +383,8 @@ predicted values, we need to add ε<sub>i</sub>. This is where we use the normal
 distribution. For x = 300, our model predicts that ε<sub>i</sub> should follow a
 normal distribution with mean = 1.63. We can find the σ<sup>2</sup> value for our
 abundance model by extracting it from the model summary:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="why-are-generalized-linear-models-useful.html#cb11-1"></a><span class="kw">summary</span>(lm.abund)<span class="op">$</span>sigma</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="why-are-generalized-linear-models-useful.html#cb23-1"></a><span class="kw">summary</span>(lm.abund)<span class="op">$</span>sigma</span></code></pre></div>
+<pre><code>## [1] 1.513531</code></pre>
 <p>We find that sigma is roughly 1.51. We now have all the coefficients
 that we need to model Galumna abundance. At a water content of 300,
 residuals should follow a normal distribution with parameters μ = 1.63
@@ -364,7 +404,7 @@ values. The mean of the normal distribution varies as a function of
 water content (hence μ decreases with water content), but σ<sup>2</sup> is always
 1.51 (i.e. the variance is homogeneous across all values of x). This
 model is inappropriate for at least two reasons:</p>
-<p>1 Values are on average farther from the regression line at low water
+<p>1. Values are on average farther from the regression line at low water
 content values. That is, there is more residual variance around the
 predicted values for low values of x, such that ε<sub>i</sub> varies as a
 function of x, thus violating the assumption of homoscedasticity. It
@@ -372,7 +412,7 @@ makes no sense to use a constant value of σ<sup>2</sup>: the normal distributio
 used to predict y at low values of x should ideally be wider (have a
 larger σ<sup>2</sup>) than normal distributions used to predict y at large x
 values, but linear models do not permit this.</p>
-<p>2 It makes no sense to use a normal distribution to predict y based on
+<p>2. It makes no sense to use a normal distribution to predict y based on
 x. Our response variable is abundance, which can only take integer
 values. Yet, at water content = 300, the abundance value that our model
 predicts to be the most probable is 1.63! We know that the probability
@@ -448,20 +488,6 @@ gitbook.start({
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>

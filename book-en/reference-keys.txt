@@ -21,6 +21,7 @@ the-problem-of-overdispersion
 quasi-poisson-glms
 negative-binomial-glms
 plotting-the-final-glm-to-the-data
+challenge-3
 conclusion-on-glms-with-count-data
 other-distributions
 summary
