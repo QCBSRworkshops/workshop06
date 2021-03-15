@@ -11,7 +11,13 @@ assumptions of linear models. You will learn the major distributions
 used depending on the nature of the response variables, the concept of
 the link function, and how to verify assumptions of such models.
 
-*Include learning objectives.*
+This workshop's learning objectives are to:
+
+1. Distinguish generalized linear models from general linear models (including their equations!).
+2. Identify situations for when the use of generalized linear models is appropriate.
+3. Test assumptions for generalized linear models.
+4. Implement and execute generalized linear models in binary, proportion and count data.
+5. Validate, interprete and visualise results of generalized linear models.
 
 # Preparing for the workshop
 
@@ -23,28 +29,29 @@ Download the R script and data required for this workshop:
 -    [Mites](http://qcbs.ca/wiki/_media/mites.csv)
 -    [Faramea](http://qcbs.ca/wiki/_media/faramea.csv)
 
-Make sure to load the following packages (see how in the R script):
+We will be using the following packages:
 
 -    [ggplot2](https://cran.r-project.org/package=ggplot2) 
--    [lme4](https://cran.r-project.org/package=lme4) 
 -    [MASS](https://cran.r-project.org/package=MASS) 
 -    [vcdExtra](https://cran.r-project.org/package=vcdExtra) 
 -    [bbmle](https://cran.r-project.org/package=bbmle)
 -    [DescTools](https://cran.r-project.org/package=DescTools)
 
+
+You can install and load these packages with the code below:
+
 ```{r, echo = TRUE, eval = FALSE}
 install.packages("ggplot2")
-install.packages("lme4")
 install.packages("MASS")
 install.packages("vcdExtra")
 install.packages("bbmle")
 install.packages("DescTools")
 
 library(ggplot2)
-library(lme4)
 library(MASS)
 library(vcdExtra)
 library(bbmle)
 library(DescTools)
 ```
 
+This workshop will build up your knowledge on models along side with some of their important equations. *Do not run to the mountains!* This will be achieved progressively and you will feel proud of yourself after!

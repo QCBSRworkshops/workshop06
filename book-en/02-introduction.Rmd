@@ -1,109 +1,197 @@
-# Why are generalized linear models useful?
+# Preface: Reviewing linear models
+
+Much of our research focuses on investigating how patterns we observe can be explained by predictive variables. In other words, we are often looking for a function $f$ that can explain a response variable ( $Y$ ) *in terms of* one ( $X_1$ ) or many other predictors ( $X_2$, $X_3$, $...$ , $X_n$ ):
+
+$$Y = f(X_1)$$
+
+The combination of predictive variables we have sampled will *never* fully explain $Y$. Because of this, there is always *unpredictable disturbance* in our models, i.e. the error $\epsilon$. As such, **error** is an irrevocable part of our function:
+
+$$Y = f(X_1, \epsilon)$$
+In [Workshop 4](https://qcbsrworkshops.github.io/workshop04/book-en/index.html), we learned how to use **general linear models** ($t$-test, ANOVA, linear regression, ANVOCA) as $f(\cdot)$ to describe the relationship between variables. The general form of our function $Y = f(X_1)$ as a linear function can be expressed as:
+
+$$Y = \beta_0 + \beta_1X_i + \varepsilon$$
+where:
+$Y_i$ is thepredicted value of a response variable
+$\beta_0$ is the *unknown coefficient* **intercept**
+$\beta_1$ is the *unknown coefficient* **slope**
+$X_i$ is the value for the explanatory variable
+$\varepsilon_i$ is the model residual drawn from a normal distribution with a varying mean but a constant variance.
+
+We also learned that **linear models** only produce unbiased estimators (i.e. are only reliable) if they follow certain assumptions. Most importantly:
+
+1. The population can be described by a **linear relationship**:
+
+$$Y = \beta_0 + \beta_1X_i + \varepsilon$$
+
+2. The error term $\varepsilon$ has the same variance given any value of the explanatory variable (i.e. **homoskedasticity**), and the error terms are not correlated across observations (i.e. **no autocorrelation**):
+
+$$\mathbb{V}{\rm ar} (\epsilon_i | \mathbf{X} ) = \sigma^2_\epsilon,\ \forall i = 1,..,N$$
+
+$$\mathbb{C}{\rm ov} (\epsilon_i, \epsilon_j) = 0,\ i \neq j$$
+
+3. And, the **residuals are normally distributed**:
+
+$$\boldsymbol{\varepsilon} | \mathbf{X} \sim \mathcal{N} \left( \mathbf{0}, \sigma^2_\epsilon \mathbf{I} \right)$$
+This means that our data needs to look like this in order to use a general linear model, such as a linear regression:
+
+```{r echo = FALSE}
+# Set the coefficients:
+N = 50
+beta_0 = 1
+beta_1 = 0.5
+# Generate sample data:
+x <- 0:N
+#
+e <- rnorm(mean = 0, sd = 1.5, n = length(x))
+y <- beta_0 + beta_1 * x + e
+# Plot the data
+#
+#
+plot(x, y)
+
+# The unknown DGP:
+y_dgp <- beta_0 + beta_1 * x
+
+# Plot the Unknown Population regression:
+lines(x = x, y = y_dgp, col = "darkgreen", lty = 2)
+
+legend(x = 0, y = 25,
+       legend = c(expression(paste("Y = ", beta[0] + beta[1] * X))),
+       lty = c(2, 1), lwd = c(1, 1), pch = c(NA, NA), col = c("darkgreen", "blue"))
+```
+
+## An example with general models
 
 To illustrate why generalized linear models are incredibly useful, it is
-best to first try to understand the limitations of linear models
-(workshop 4), which also include linear mixed effect models (workshop
-6). Let's load a dataset and try to fit some linear models.
+best to first try to understand the limitations of linear models. Let us use our prior knowledge on general linear models to explore the relationship between variables within the *Oribatid mite dataset*.
 
-```{r, echo = TRUE, eval = FALSE}
-setwd("~/Desktop") 
-mites <- read.csv('mites.csv')
+```{r, echo = TRUE, eval = TRUE}
+mites <- read.csv('data/mites.csv', 
+                  stringsAsFactors = TRUE)
 ```
 
-The dataset that you just loaded is a subset of the classic 'Oribatid
-mite dataset', which has been used in numerous texts (e.g. Borcard,
-Gillet & Legendre, *Numerical Ecology with R*), and which is available
-in the \"vegan\" library. The dataset consists of 70 moss and mite
-samples collected at University of Montreal's Station de Biologie des
-Laurentides, Saint-Hippolyte, QC. Each sample includes measurements for
-5 environmental variables and abundance data for 35 mite taxa. In the
-reduced dataset that we will be using throughout this workshop, we only
-included the 5 environmental measurements and the abundance of a single
-mite taxon, \"*Galumna sp.*\" Our goal will be to model the abundance,
-occurrence (presence/absence), and proportion of Galumna as a function
-of the 5 environmental variables: therefore, we also created a
-presence/absence variable and a proportion variable for Galumna.
-
-```{r, echo = TRUE, eval = FALSE}
-head(mites)
+And, exploring it using:
+```{r echo = TRUE, eval = TRUE}
 str(mites)
-
-# 70 mite communities sampled from moss cores collected at the Station de Biologie des Laurentides, QC.
-# For each core/sample, the following data is provided:
-# $Galumna: abundance of mite genus 'Galumna'
-# $pa: presence (1) or absence (0) of Galumna, irrespective of abundance
-# $totalabund: total abundance of mites of all species
-# $prop: proportion of Galumna in the mite community. i.e. Galumna/totalabund
-# $SubsDens: substrate density
-# $WatrCont: water content
-# $Substrate: type of substrate.
-# $Shrub: abundance of shrubs. Coded as a factor.
-# $Topo: microtopography. blanket or hummock.
+head(mites)
 ```
 
-Can we see any relationship between Galumna and environmental variables?
+This dataset is a subset of the classic *Oribatid mite dataset* from the `vegan` library, which has been used in numerous texts (e.g. Borcard, Gillet & Legendre, *Numerical Ecology with R*). The dataset consists of **70 moss and mite samples** collected at University of Montreal's Station de Biologie des Laurentides, Saint-Hippolyte, QC. Each sample includes measurements for **5 environmental variables** and **abundance data for 35 mite taxa**. 
 
-```{r, echo = TRUE, eval = FALSE}
+In the reduced dataset that we will be using throughout this workshop, we only included the 5 environmental measurements and the abundance of a single mite taxon, *Galumna sp.* We also created a presence/absence variable and a proportional abundance variable for *Galumna*, to demonstrate different ways to model abundance, occurrence (presence/absence), and proportion data.
+
+For each sample, the following data is provided:
+
+Response variables:
+1. `Galumna`: Abundance of *Galumna*
+2. `pa`: Occurrence of *Galumna* (presence = 1 or absence = 0)
+3. `prop`: Relative Frequency or Proportion of *Galumna* in the mite community 
+
+Predictive variables:
+1. `SubsDens`: Substrate density
+2. `WatrCont`: Water content
+3. `Substrate`: type of substrate
+4. `Shrub`: abundance of shrubs nearby
+5. `Topo`: microtopography (blanket or hummock)
+
+### So, what questions can we ask about this dataset?
+
+**Question**: *Could the abundance, occurrence or proportion of Galumna sp. be predicted by environmental features?*
+
+To answer our question, we can develop models! *So many options!*
+
+$\text{Abundance} = f(\text{Water content}, \epsilon)$
+$\text{Proportion} = f(\text{Water content}, \epsilon)$
+$\text{Occurrence} = f(\text{Substrate}, \epsilon)$
+$\text{Abundance} = f(\text{Topography}, \epsilon)$
+$\text{Occurrence} = f(\text{Shrubs Nearby}, \epsilon)$
+$\text{Relative Frequency} = f(\text{Topography}, \epsilon)$
+$\text{Occurrence} = f(\text{Substrate Density}, \epsilon)$
+$\text{Abundance} = f(\text{Substrate}, \epsilon)$
+
+To begin, can we see any relationship between *Galumna* and environmental variables?
+
+```{r, echo = TRUE}
 plot(mites)
 ```
 
-![](images/6_spm.jpg){width="800"}
-
 There seems to be a negative relationship between Galumna abundance and
-water content (WatrCont). Occurence (presence/absence; pa) and
-proportion (prop) also seem to be negatively correlated with WatrCont.
+water content (`WatrCont`). Occurence (`pa`) and proportion (`prop`) also seem to be negatively correlated with `WatrCont`. This brings us to ask the following question: *Do Galumna's community values (abundance, occurrence and relative frequency) vary as a function of water content?*
 
 We can take a closer look by specifically plotting those 3 response
-variables as a function of WatrCont:
+variables as a function of `WatrCont`:
 
-```{r, echo = TRUE, eval = FALSE}
-par(mfrow=c(1,3)) #divide plot area in 1 row and 3 columns to have 3 plots in same figure
-plot(Galumna ~ WatrCont, data = mites, xlab = 'Water content', ylab='Abundance')
-boxplot(WatrCont ~ pa, data = mites, xlab='Presence/Absence', ylab = 'Water     content')
-plot(prop ~ WatrCont, data = mites, xlab = 'Water content', ylab='Proportion')
-par(mfrow=c(1,1)) #resets to default setting
+```{r, echo = TRUE, eval = TRUE}
+par(mfrow=c(1,3)) # divide plot area in 1 row and 3 columns 
+plot(Galumna ~ WatrCont, 
+     data = mites, 
+     xlab = 'Water content', 
+     ylab = 'Abundance')
+boxplot(WatrCont ~ pa, 
+        data = mites, 
+        xlab='Presence/Absence', 
+        ylab = 'Water content')
+plot(prop ~ WatrCont, 
+     data = mites, 
+     xlab = 'Water content', 
+     ylab = 'Proportion')
+par(mfrow=c(1,1)) # resets to default setting
 ```
 
-![](images/6_3plot.jpeg){width="600"}
+Indeed, *Galumna* seems to vary negatively as a function of `WatrCont`, i.e.
+*Galumna* seems to prefer dryer sites.
 
-Indeed, Galumna seems to vary negatively as a function of WatrCont, i.e.
-Galumna seems to prefer dryer sites.
+Let us use (general) linear models to test whether `Galumna`, `pa`, and/or `prop` vary as a function of `WatrCont`:
 
-Fit linear models (function 'lm') to test whether these relationships
-are statistically significant.
+$\text{Galumna} = f(\text{Water content}, \epsilon)$
+$\text{Occurrence} = f(\text{Water content}, \epsilon)$
+$\text{Proportion} = f(\text{Water content}, \epsilon)$
 
-```{r, echo = TRUE, eval = FALSE}
+We can fit these models in `R`:
+
+```{r, echo = TRUE, eval = TRUE}
 lm.abund <- lm(Galumna ~ WatrCont, data = mites)
-summary(lm.abund)
+
 lm.pa <- lm(pa ~ WatrCont, data = mites)
-summary(lm.pa)
+
 lm.prop <- lm(prop ~ WatrCont, data = mites)
+```
+
+Then, we can check the model output to verify whether these relationships are statistically significant:
+
+```{r, echo = TRUE, eval = TRUE}
+summary(lm.abund)
+```
+
+```{r, echo = TRUE, eval = TRUE}
+summary(lm.pa)
+```
+
+```{r, echo = TRUE, eval = TRUE}
 summary(lm.prop)
 ```
 
-Yes, there is a strong and significant relationship for all 3 response
-variables!
+Yes, there is a strong and significant relationship for all 3 response variables!
 
-Wait a minute... Lets validate these models to make sure that we
+**Wait a minute...** Let's validate these models to make sure that we
 respect assumptions of linear models, starting with the abundance model.
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 plot(Galumna ~ WatrCont, data = mites)
 abline(lm.abund)
 ```
 
-![](images/6_lm1.jpeg)
-
 The model does not fit well. It predicts negative abundance values when
-WatrCont exceeds 600, which does not make any sense. Also, the model
-does poorly at predicting high abundance values at low values of
-WatrCont.
+`WatrCont` exceeds `600`, which does not make any sense. Also, the model
+does poorly at predicting high abundance values at low values of `WatrCont`.
 
-```{r, echo = TRUE, eval = FALSE}
+We can also check the model diagnostic plots:
+
+```{r, echo = TRUE, eval = TRUE}
+par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.abund)
 ```
 
-![](images/6_diagplots.jpeg)
 
 Diagnostic plots show that the data/model violate assumptions of
 homogeneity of variance (the graph on the left shows that residuals are
@@ -115,7 +203,7 @@ use it to conclude that Galumna abundance varies as a function of water
 content. Looking at diagnostic plots for the presence-absence model and
 the proportion model also indicate that these models are inappropriate:
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 #Proportion
 plot(prop ~ WatrCont, data = mites)
 abline(lm.prop)
@@ -166,7 +254,7 @@ and the linear model that we fitted earlier. You will need values for
 β~0~ and β~1~ (regression coefficients) and ε~i~ (the deviation of
 observed values from the regression line)
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 coef(lm.abund)
 #(Intercept)     WatrCont
 #3.439348672 -0.006044788
@@ -183,7 +271,7 @@ distribution. For x = 300, our model predicts that ε~i~ should follow a
 normal distribution with mean = 1.63. We can find the σ^2^ value for our
 abundance model by extracting it from the model summary:
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 summary(lm.abund)$sigma
 ```
 
