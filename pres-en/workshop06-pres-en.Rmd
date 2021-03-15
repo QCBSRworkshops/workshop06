@@ -1031,13 +1031,11 @@ The odds puts our expected values on a `0` to `+Inf` scale.
 
 .pull-right[
 
-And then we take logarithms, calculating the *logit* or log-odds:
+We then take logarithms, calculating the *logit* or log-odds:
 
 $$\eta_i = \text{logit}(\mu_i) = \log(\frac{\mu_i}{1-\mu_i})$$
 
-with $\mu$ being the expected values (probability that $Y = 1$ ).
-
-The log-transformation puts our expected values on a `-Inf` to `+Inf`.
+with $\mu$ being the expected values (probability that $Y = 1$ ), and with the expected values now ranging from `-Inf` to `+Inf`.
 
 ]
 
