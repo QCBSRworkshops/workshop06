@@ -26,28 +26,17 @@ EN | [![badge](https://img.shields.io/static/v1?style=flat-square&label=Slides&m
 FR | [![badge](https://img.shields.io/static/v1?style=flat-square&label=Diapos&message=06&color=red&logo=html5)](https://qcbsrworkshops.github.io/workshop06/pres-fr/workshop06-pres-fr.html) | [![badge](https://img.shields.io/static/v1?style=flat-square&label=livre&message=06&logo=github)](https://qcbsrworkshops.github.io/workshop06/book-fr/index.html) | [![badge](https://img.shields.io/static/v1?style=flat-square&label=wiki&message=06&logo=wikipedia)](https://wiki.qcbs.ca/r_atelier6) | [![badge](https://img.shields.io/static/v1?style=flat-square&label=script&message=06&color=2a50b8&logo=r)](https://qcbsrworkshops.github.io/workshop06/book-fr/workshop06-script-fr.R) | [![badge](https://img.shields.io/static/v1?style=flat-square&label=repo&message=dev&color=6f42c1&logo=github)](https://github.com/QCBSRworkshops/workshop06) 
 
 
-# Contributors
+# Contributors | Contributeurs et contributrices 
 
-This workshop has been consistently and collaboratively developped by QCBS members since 2014. Thank you to these contributors for modifying and improving this workshop's content as part of the Learning and Development Award:
+Since 2014, several QCBS members contributed to consistently and collaboratively develop and update this workshop, as part of the *Learning and Development Award* from the Québec Centre for Biodiversity Science. They were:
 
- **2022** - **2021** - **2020**:
-[Pedro Henrique P. Braga](),
-[Katherine Hébert](),
-[Alex Arkilanian]()
-
-**2019** - **2018** - **2017**:
-[Azenor Bideault](),
-[Willian Vieira](),
-[Pedro Henrique P. Braga](),
-[Marie Hélène Brice](),
-[Kevin Cazelles]()
-
-**2016** - **2015** - **2014**:
-[Cédric Frenette Dussault](),
-[Thomas Lamy](),
-[Zofia Taranu](),
-[Vincent Fugère]()
-
+|      2022 - 2021 - 2020     |      2019 - 2018 - 2017     |      2016 - 2015 - 2014      |
+|:---------------------------:|:---------------------------:|:----------------------------:|
+| [Pedro Henrique P. Braga]() |     [Azenor Bideault]()     | [Cédric Frenette Dussault]() |
+|     [Katherine Hébert]()    |      [Willian Vieira]()     |        [Thomas Lamy]()       |
+|     [Alex Arkilanian]()     | [Pedro Henrique P. Braga]() |       [Zofia Taranu]()       |
+|   [Mathieu Vaillancourt]()  |    [Marie Hélène Brice]()   |      [Vincent Fugère]()      |
+|                             |      [Kevin Cazelles]()     |                              |
 
 # Development status
 
