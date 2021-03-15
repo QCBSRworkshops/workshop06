@@ -2,28 +2,30 @@
 
 # Learning objectives
 
-**Summary:** A significant limitation of linear models is that they
-cannot accommodate response variables that do not have a normal error
-distribution. Most biological data do not follow the assumption of
-normality. In this workshop, you will learn how to use **generalized**
-linear models, which are important tools to overcome the distributional
-assumptions of linear models. You will learn the major distributions
-used depending on the nature of the response variables, the concept of
-the link function, and how to verify assumptions of such models.
+A significant limitation of general linear models is that they cannot accommodate response variables that do not have a normal error distribution - a situation that is very common when analyzing biological data. 
 
-*Include learning objectives.*
+
+In this workshop, you will learn how to use **generalized linear models**, which are powerful tools to overcome some of the distributional assumptions of linear models. Especifically, we will:
+
+1. Distinguish generalized linear models from general linear models (including many of their equations!).
+
+2. Identify situations for when the use of generalized linear models is appropriate.
+
+3. Test assumptions for generalized linear models.
+
+4. Implement and execute generalized linear models in binary, proportion and count data.
+
+5. Validate, interprete and visualise results of generalized linear models.
+
 
 # Preparing for the workshop
 
-To prepare for this workshop, you must do the following steps:
+To prepare for this workshop, you must download and install the earliest RStudio and R versions. You must also download the data we will use during this workshop:
 
-Download the R script and data required for this workshop:
+-    [Mites](https://raw.githubusercontent.com/QCBSRworkshops/workshop06/main/book-en/data/mites.csv)
+-    [Faramea](https://github.com/QCBSRworkshops/workshop06/blob/main/book-en/data/faramea.csv)
 
--    [R Script](http://qcbs.ca/wiki/_media/glmm_e.r)
--    [Mites](http://qcbs.ca/wiki/_media/mites.csv)
--    [Faramea](http://qcbs.ca/wiki/_media/faramea.csv)
-
-Make sure to load the following packages (see how in the R script):
+Finally, this workshop requires the following `R` packages:
 
 -    [ggplot2](https://cran.r-project.org/package=ggplot2) 
 -    [lme4](https://cran.r-project.org/package=lme4) 
@@ -32,19 +34,15 @@ Make sure to load the following packages (see how in the R script):
 -    [bbmle](https://cran.r-project.org/package=bbmle)
 -    [DescTools](https://cran.r-project.org/package=DescTools)
 
-```{r, echo = TRUE, eval = FALSE}
-install.packages("ggplot2")
-install.packages("lme4")
-install.packages("MASS")
-install.packages("vcdExtra")
-install.packages("bbmle")
-install.packages("DescTools")
+To install them from CRAN, run:
 
-library(ggplot2)
-library(lme4)
-library(MASS)
-library(vcdExtra)
-library(bbmle)
-library(DescTools)
+```{r eval = FALSE}
+install.packages(c("ggplot2", 
+                   'MASS', 
+                   'vcdExtra',
+                   'bbmle',
+                   'DescTools')
+                 )
 ```
+
 
