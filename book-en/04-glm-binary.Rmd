@@ -26,7 +26,7 @@ probability *p* of observing an outcome and the variance is *p*\*(1 -
 *p*). The (1 - *p*) term represents the probability of **not** observing
 an outcome. In R, we specify the distribution with the `family`
 argument. For the logistic regression, we code it as:
-`family='binomial`'. Remember that the Bernoulli distribution is a
+`family='binomial'`. Remember that the Bernoulli distribution is a
 special case of the binomial distribution when the number of repetitions
 is 1: R will "understand" that it is a Bernoulli distribution.
 
@@ -34,14 +34,17 @@ When predicting the probability of observing some phenomenon Y, which is
 a binary variable, the expected values should be bound between 0 and 1:
 that's the range of a probability value! If we use a basic linear model
 to relate a binary response variable to various explanatory variables,
-we might obtain fitted values outside of the \[0,1\] range, which is
+we might obtain fitted values outside of the [0,1] range, which is
 nonsensical. The following example will help you understand why a basic
 linear model is inappropriate here. The next subsection will show you
 how to avoid this problem with a link function. Briefly, a link function
 is used to linearize the relationship between predicted values of the
 response variable and the linear predictor (see next subsection).
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = FALSE, eval = TRUE}
+mites <- read.csv('mites.csv')
+```
+```{r, echo = TRUE, eval = TRUE}
 model.lm <- lm(pa ~ WatrCont + Topo, data = mites)
 fitted(model.lm)
 # The "fitted()" function gives us expected values for the response variable.
@@ -75,7 +78,26 @@ predictor. In mathematical terms, it is the matrix product of the model
 matrix *X* of a statistical model and the vector of estimated parameters
 *β*. Let's have a look at this in R:
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = FALSE, eval = TRUE}
+#Short function added in order to print only the desired number of lines for the next chunk!
+#Source: https://bookdown.org/yihui/rmarkdown-cookbook/hook-truncate.html
+# save the built-in output hook
+hook_output <- knitr::knit_hooks$get("output")
+
+# set a new output hook to truncate text output
+knitr::knit_hooks$set(output = function(x, options) {
+  if (!is.null(n <- options$out.lines)) {
+    x <- xfun::split_lines(x)
+    if (length(x) > n) {
+      # truncate the output
+      x <- c(head(x, n), "....\n")
+    }
+    x <- paste(x, collapse = "\n")
+  }
+  hook_output(x, options)
+})
+```
+```{r, echo = TRUE, eval = TRUE, out.lines = 10}
 # Load the CO2 dataset. We used it during workshop 4!
 data(CO2)
 head(CO2)
@@ -126,7 +148,7 @@ still call this model a generalized **linear** model even though the
 plot of our response variable as a function of some explanatory variable
 doesn't look like a "straight line"!
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 # Let’s build a regression model of the presence/absence of a mite species (Galumna sp.)
 # as a function of water content and topography.
 # To do this, we need to use the glm() function and specify the family argument.
@@ -145,21 +167,18 @@ Start with a full model and reduce it to the most parsimonious model.
 
 Challenge 1: Solution
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = FALSE, eval = TRUE, warning=FALSE}
+library(MASS)
+```
+```{r, echo = TRUE, eval = TRUE}
+data(bacteria)
 model.bact1 <- glm(y ~ trt * week, family = binomial('logit'), data = bacteria)
 model.bact2 <- glm(y ~ trt + week, family = binomial('logit'), data = bacteria)
 model.bact3 <- glm(y ~ week, family = binomial('logit'), data = bacteria)
 anova(model.bact1, model.bact2, model.bact3, test = 'LRT')
-# Analysis of Deviance Table
-# Model 1: y ~ trt * week
-# Model 2: y ~ trt + week
-# Model 3: y ~ week
-#   Resid. Df Resid. Dev Df Deviance Pr(>Chi)
-# 1       214     203.12
-# 2       216     203.81 -2  -0.6854  0.70984
-# 3       218     210.91 -2  -7.1026  0.02869 *
-#Based on these results, we select model #2 as the best candidate to model these data.
 ```
+
+Based on these results, we select model #2 as the best candidate to model these data.
 
 ## Interpreting the output of a logistic regression
 
@@ -171,20 +190,24 @@ reverse function to properly interpret the results. We can use the
 natural exponential function `ex` to obtain the odds of probability of
 success for each explanatory variable.
 
-```{r, echo = TRUE, eval = FALSE}
-# Obtaining the odds of the slope.
-# Use the "exp()" function to put the coefficients back on the odds scale.
-# Mathematically, this line of code corresponds to:
-# exp(model coefficients) = exp(log(μ / (1 - μ)) = u / (1 - μ)
-# This corresponds to an odds ratio!
-exp(logit.reg$coefficients[2:3])
-#  WatrCont    TopoHummock
-#  0.9843118   8.0910340
-# To obtain confidence intervals on the odds scale:
-exp(confint(logit.reg)[2:3,])
-#               2.5 %      97.5 %
-#  WatrCont     0.9741887  0.9919435
-#  TopoHummock  2.0460547  38.6419693
+```{r, echo = TRUE, eval = TRUE}
+logit.reg
+```
+
+How to obtain the odds of the slope? Use the "exp()" function to put
+the coefficients back on the odds scale. Mathematically, this line of
+code corresponds to:  
+**exp(model coefficients) = exp(log(μ / (1 - μ)) = u / (1 - μ)**.
+
+This corresponds to an odds ratio!
+
+```{r, echo = TRUE, eval = TRUE}
+exp(logit.reg$coefficients[2])
+```
+
+To obtain confidence intervals on the odds scale:
+```{r, echo = TRUE, eval = TRUE, message = FALSE}
+exp(confint(logit.reg)[2,])
 ```
 
 Note that the odds values here are considered when all other parameters
@@ -231,17 +254,19 @@ given by:
 that the value 8.09 is on the odds scale. We have a 0.89 probability of
 observing *Galumna* sp. when the topography is Hummock.
 
-```{r, echo = TRUE, eval = FALSE}
-# Let's start with our odds ratio for topography from the logit.reg model:
-µ/ (1 - µ) = 8.09
-# Let's rearrange this to isolate µ
-µ = 8.09(1 - µ) = 8.09 - 8.09µ
-8.09µ + µ = 8.09
-µ(8.09 + 1) = 8.09
-µ = 8.09 / (8.09 + 1)
-µ = 1 / (1 + (1 / 8.09)) = 0.89
-# We obtained the same result without using the exp() function!
-```
+Let's calculate this probability without using the exp() function:
+
+First we start with our odds ratio for topography from the logit.reg model:  
+**µ/ (1 - µ) = 8.09**
+
+ Let's rearrange this to isolate µ  
+**µ = 8.09(1 - µ) = 8.09 - 8.09µ**  
+**8.09µ + µ = 8.09**  
+**µ(8.09 + 1) = 8.09**  
+**µ = 8.09 / (8.09 + 1)**  
+**µ = 1 / (1 + (1 / 8.09)) = 0.89**
+
+We obtained the same result!
 
 ## Predictive power and goodness-of-fit
 
@@ -264,16 +289,41 @@ deviance" is the deviance of the model of interest. The difference is
 divided by the null deviance so that the result is bound between 0 and
 1.
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 # Residual and null deviances are already stored in the glm object.
 objects(logit.reg)
-pseudoR2 <- (logit.reg$null.deviance – logit.reg$deviance) / logit.reg$null.deviance
+pseudoR2 <- (logit.reg$null.deviance - logit.reg$deviance) / logit.reg$null.deviance
 pseudoR2
-# [1]  0.4655937
 ```
 
 Hence, the model explains 46.6% of the variability in the data.
 
+An adjusted McFadden's pseudo-R^2^, which penalizes for the number of
+predictors, can be calculated as below:
+
+![](images/McFadden.PNG)
+
+where **K** corresponds to the additional number of predictors in
+relation to the null model.
+
+The goodness-of-fit of logistic regression models can be expressed by
+variants of pseudo-R^2^ statistics, such as Maddala (1983) or Cragg and
+Uhler (1970) measures.
+
+When talking about logistic regressions, low R^2^ values are common.
+
+The R function ```DescTools::PseudoR2()``` makes it possible to calculate
+many types of pseudo-R^2^. By specifying ```which = all```, calculate all
+of them at once.
+
+```{r, echo = TRUE, eval = TRUE}
+logit.reg <- glm(pa ~ WatrCont + Topo, 
+                 data = mites, family = binomial(link = "logit"))
+DescTools::PseudoR2(logit.reg, which = "all")
+```
+
+```{r, echo = FALSE, eval = FALSE}
+### REMOVED BECAUSE PACKAGE binomTools IS NO LONGER ON THE CRAN (delete this section?)
 Recently, [Tjur
 (2009)](http://www.tandfonline.com/doi/abs/10.1198/tast.2009.08210#.VFpKZYcc4ow)
 proposed a new statistic, the coefficient of discrimination (*D*), to
@@ -283,10 +333,10 @@ classify an outcome as a success or a failure. In mathematical terms, it
 is the difference between the means of expected probability values for
 successes (*i.e.* Y =1) and failures (*i.e.* Y = 0):
 
-\<m\>D = overline{π}\_1 - overline{π}\_0\</m\>
+D = π~1~ - π~0~
 
-where \<m\>overline{π}\_1\</m\> is the mean of expected probability
-values when the outcome is observed and \<m\>overline{π}\_0\</m\> is the
+where π~1~ is the mean of expected probability
+values when the outcome is observed and π~0~ is the
 mean of expected probability values when the outcome is not observed. A
 *D* value close to 1 indicates that the model gives a high probability
 of observing an outcome to cases where the outcome was actually observed
@@ -294,10 +344,10 @@ and a low probability of observing an outcome to cases where the outcome
 was not observed. A *D* value close to 0 indicates that the model is not
 efficient at discriminating between the occurrences and "non
 occurrences" of an outcome. The following code shows how to obtain *D*
-and how to plot the histograms of \<m\>overline{π}\_1\</m\> and
-\<m\>overline{π}\_0\</m\>.
+and how to plot the histograms of π~1~ and
+π~0~.
 
-```{r, echo = TRUE, eval = FALSE}
+
 install.packages("binomTools")
 library("binomTools")
 # The Rsq function computes several fit indices,
@@ -317,7 +367,6 @@ fit
 # Number of binary observation:  70
 # Average group size:  1
 plot(fit, which = "hist")
-```
 
 To assess the goodness-of-fit of a logistic regression, the diagnostic
 plots (see workshop 4) are not useful. Instead, you can do a
@@ -330,7 +379,6 @@ we compare the observed and expected number of outcomes. It is similar
 to a chi-square test with G - 2 degrees of freedom (G is the number of
 groups). In R, this test is available in the `binomTools` package.
 
-```{r, echo = TRUE, eval = FALSE}
 fit <- Rsq(object = logit.reg)
 HLtest(object = fit)
 # The p value is 0.9051814. Hence, we do not reject the model.
@@ -341,23 +389,27 @@ HLtest(object = fit)
 
 Assess goodness-of-fit and predictive power of the `model.bact2` model. How can you improve the predictive power of this model?
 
-Challenge 2: Solution
+**Solution**
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 null.d <- model.bact2$null.deviance
 resid.d <- model.bact2$deviance
 bact.pseudoR2 <- (null.d - resid.d) / null.d
 bact.pseudoR2
-# 0.0624257
-# This is very low!
+```
+```{r, echo = FALSE, eval = FALSE}
+### REMOVED BECAUSE IT USES binomTools PACKAGE, NO LONGER AVAILABLE ON CRAN
 library(binomTools)
 HLtest(Rsq(model.bact2))
 # Chi-square statistic:  7.812347  with  8  df
 # P-value:  0.4520122
 # Fit is adequate.
 ```
+This is very low!
 
-Predictive power could be increased by including more relevant explanatory varibles. 
+Adding informative explanatory variables could increase the explanatory power of the model.
+
+But, do not be afraid of non-significant results! 
 
 ## Plotting results
 
@@ -368,12 +420,12 @@ the response variable and the expected values as a function of some
 predictor. Here is an example with the `ggplot2` package. See [workshop
 3](r_workshop3) for more information on this package.
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = FALSE, eval = TRUE, warning = FALSE}
 library(ggplot2)
+```
+```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 7, fig.align = "center", warning = FALSE, message = FALSE}
 ggplot(mites, aes(x = WatrCont, y = pa)) + geom_point() +
 stat_smooth(method = "glm", family= "binomial", se = FALSE) + xlab("Water content") +
 ylab("Probability of presence") +
 ggtitle("Probability of presence of Galumna sp. as a function of water content")
 ```
-
-![](images//logistic_regression_plot.png){width="500"}

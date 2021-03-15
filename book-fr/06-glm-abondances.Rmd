@@ -1,12 +1,12 @@
 # (PART\*) GLM avec des données d'abondance {-}
 
-# Que avec des données d'abondance?
+# Que faire avec des données d'abondance?
 
 Afin d'illustrer l'utilisation des GLMs avec des données d'abondance,
-nous allons utiliser un nouveau jeux de données; faramea.
+nous allons utiliser un nouveau jeux de données: faramea.
 
-```{r, echo = TRUE, eval = FALSE}
-faramea <- read.csv(‘faramea.csv’, header = TRUE)
+```{r, echo = TRUE, eval = TRUE}
+faramea <- read.csv("faramea.csv", header = TRUE)
 ```
 
 Ce jeux de données s'intéresse à l'espèce d'arbre *Faramea
@@ -17,19 +17,19 @@ l'élévation du terrain et la précipitation, ont aussi été mesurées au
 niveau de chaque transect. Examinons maintenant à quoi ressemble la
 distribution du nombre d'arbres par transect.
 
-```{r, echo = TRUE, eval = FALSE}
-hist(faramea$Faramea.occidentalis, breaks=seq(0,45,1), xlab=expression(paste("Number of ",
-italic(Faramea~occidentalis))), ylab="Frequency", main="", col="grey")
+```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 5, fig.align = "center"}
+hist(faramea$Faramea.occidentalis, breaks=seq(0,45,1), xlab=expression(paste("Nombre de ",
+italic(Faramea~occidentalis))), ylab="Fréquence", main="", col="grey")
 ```
 
 ![](images/plot_faramea_abd.png){.align-center width="500"}
 
 Nous pouvons remarquer qu'il n'y a que des valeurs entières et
 positives. Etant donné cette spécificité propore aux données de
-dénombrement, la distribution de Poisson, décrite ci dessus, semble un
+dénombrement, la distribution de Poisson, décrite ci-après, semble un
 choix approprié pour modéliser ces données.
 
-## GLM avec une distribution de Poisson
+# GLM avec une distribution de Poisson
 
 Comme nous l'avons vu plus haut, la distribution de Poisson est
 particulièrement appropriée pour modéliser des données de dénombrement
@@ -52,8 +52,8 @@ l'élévation.
 
 ![](images//plot_faramea_vs_elevation.png){.align-center width="400"}
 
-\*\* Mais qu'est ce qui se cache derrière un tel GLM ?\*\*\
-un GLM avec une distribution de Poisson considère que les valeurs y~i~
+**Mais qu'est ce qui se cache derrière un tel GLM ?**  
+Un GLM avec une distribution de Poisson considère que les valeurs y~i~
 de la variable réponse ont été générées par une distribution de Poisson
 dont la moyenne et la variance sont égales à *µ*~i~.
 
@@ -67,7 +67,7 @@ comme une combinaison linéaire des différentes variables explicatives
 dont les effets sont estimés à travers les paramètres *β*. Le prédicteur
 linéaire peut être défini comme :
 
-*β*~0~ + **X**~i~.*β*
+*β*~0~ + **X**~i~\**β*
 
 où **X** est la matrice des variables explicatives, *β*~0~ l'ordonnée à
 l'origine et *β* le vecteur des paramètres estimés.
@@ -76,14 +76,14 @@ La fonction de lien, entre le prédicteur linéaire et la moyenne de la
 distribution *µ*~i~ est la fonction logarithmique (relation
 log-linéaire) :
 
--   log(*µ*~i~) = *β*~0~ + **X**~i~.*β*
+-   log(*µ*~i~) = *β*~0~ + **X**~i~\**β*
 
 ou
 
--   *µ*~i~ = exp(*β*~0~ + **X**~i~.*β*)
+-   *µ*~i~ = exp(*β*~0~ + **X**~i~\**β*)
 
 La distribution de Poisson donne la probabilité qu'une valeur Y~i~ soit
-observée étant donné une moyenne *µ*~i~ = exp(*β*~0~ + **X**~i~.*β*).
+observée étant donné une moyenne *µ*~i~ = exp(*β*~0~ + **X**~i~\**β*).
 Dans ce modèle, les paramètres inconnus sont inclus dans le vecteur des
 coefficients de régression *β* (plus l'ordonnée à l'origine *β*~0~) et
 seront estimés à l'aide du maximum de vraisemblance.
@@ -92,16 +92,16 @@ Pour ajuster un GLM avec une distribution de Poisson sous R, il suffit
 de spécifier *family = poisson* dans la fonction glm(). Par défaut la
 fonction de lien est la fonction logarithmique.
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 glm.poisson = glm(Faramea.occidentalis~Elevation, data=faramea, family=poisson)
 summary(glm.poisson)
 ```
 
-Le résumé est similaire à celui de la fonction '**lm**' (voir atelier
+Le résumé est similaire à celui de la fonction **lm** (voir atelier
 4) et donne les estimations des paramètres. Vous pouvez aussi récupérer
 les estimations des paramètres à l'aide des fonctions suivantes :
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 # ordonnée à l'origine
 summary(glm.poisson)$coefficients[1,1]
 # coefficient de regression de l'élévation
@@ -113,9 +113,8 @@ summary(glm.poisson)$coefficients[2,1]
 Un aspect important du résumé se trouve dans les dernières lignes :
 
 ```{r, echo = TRUE, eval = FALSE}
-summary(glm.poisson)
-# Null deviance: 414.81  on 42  degrees of freedom
-# Residual deviance: 388.12  on 41  degrees of freedom
+##     Null deviance: 414.81  on 42  degrees of freedom
+## Residual deviance: 388.12  on 41  degrees of freedom
 ```
 
 L'estimation du maximum de vraisemblance est utilisé afin d'estimer
@@ -141,16 +140,17 @@ alors être qualifié de **surdispersé**.
 paramètre de surdispersion φ qui se mesure donc de la facon suivante :
 
                           φ = déviance résiduelle / dégrés de liberté résiduels
+
     * φ < 1 indique qu'il y a sousdispersion
     * φ = 1 indique que la dispersion est conforme aux attendus
-    * φ > 1 indicates qu'il y a surdispersion
+    * φ > 1 indique qu'il y a surdispersion
 
 Mais pourquoi un GLM présente-il de la surdispersion ? En fait, des
 modèles GLM sont surdispersés quand la variance dans les données est
 encore plus grande que ce qu'autorise la distribution de Poisson. Par
 exemple, cela peut se produire lorsque les données contiennent de
 nombreux zeros ou beaucoup de très grosses valeurs. Si nous revenons sur
-la distribution de nos données (ci dessus) nous pouvons remarquer que
+la distribution de nos données (ci-dessus) nous pouvons remarquer que
 ces deux problèmes sont présents et que la distribution de Poisson
 n'était peut être pas le choix idéal. La surdispersion peut aussi
 survenir lorsque des variables explicatives ou des termes
@@ -166,7 +166,7 @@ d'abandonner la distribution de Poisson pour modéliser l'abondance de
 l'espèce *faramea* nous pouvons rapidement calculer la moyenne et la
 variance dans notre jeux de données :
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 mean(faramea$Faramea.occidentalis)
 var(faramea$Faramea.occidentalis)
 ```
@@ -178,14 +178,12 @@ conséquent, les tests qui découlent du modèle seront trop laxistes. Il y
 a deux moyens de traiter les problèmes de surdispersion que nous allons
 détailler ci-dessous :
 
--   corriger la surdispersion en utilisant un \*\*GLM quasi-Poisson \*\*
+-   corriger la surdispersion en utilisant un **GLM quasi-Poisson**
 -   choisir une nouvelle distribution comme la **binomiale négative**
 
-# quasi-Poisson GLMs
+# GLM avec une distribution quasi-Poisson
 
-GLM avec une correction \"quasi\" Poisson
-
-Le principe d'un GLM avec une correction \"quasi\" Poisson est très
+Le principe d'un GLM avec une distribution «quasi» Poisson est très
 simple; le paramètre de surdispersion (φ) est ajouté dans l'équation
 qui spécifie la variance du modèle :
 
@@ -199,13 +197,13 @@ modèle. Les estimations des paramètres seront eux aussi inchangés, mais
 leurs écarts-types seront multiplés par √φ. Ainsi, certains paramètres
 qui étaient marginalement significatifs peuvent ne plus le rester.
 
-Dans R, la famille '**quasipoisson**' peut être utilisée pour traiter
+Dans R, la famille `quasipoisson` peut être utilisée pour traiter
 ces problèmes de surdispersion (de la même manière la famille
-**quasibinomial**' peut être utilisée). L'estimation de φ sera donné
-dans le résumé du modèle GLM quasi Poisson. Nous pouvons ajuster ce
+`quasibinomial` peut être utilisée). L'estimation de φ sera donné
+dans le résumé du modèle GLM quasi-Poisson. Nous pouvons ajuster ce
 modèle de deux manières différentes :
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 # Option 1, nous ajustons un nouveau modèle GLM quasi-Poisson
 glm.quasipoisson = glm(Faramea.occidentalis~Elevation, data=faramea, family=quasipoisson)
 # Option 2, nous actualisons le modèle précédent :
@@ -214,7 +212,7 @@ glm.quasipoisson = update(glm.poisson,family=quasipoisson)
 summary(glm.quasipoisson)
 ```
 
-En examinant le résumé du modèle nous pouvons voir que φ est estimé à
+En examinant le résumé du modèle, nous pouvons voir que φ est estimé à
 15.97. Nous avons donc eu raison de corriger le modèle afin de prendre
 en compte la surdispersion. Par contre, si nous regardons la
 significativité du coefficient de regression associé à l'élévation,
@@ -228,7 +226,7 @@ distribution binomiale négative à nos données.
 Deux points sont importants à garder en tête lorsque vous utilisez un
 GLM quasi-Poisson afin de corriger la surdispersion :
 
--   \*\* Les GLMs quasi-Poisson n'ont pas d'AIC.\*\* En effet, la
+-   **Les GLMs quasi-Poisson n'ont pas d'AIC.** En effet, la
     vraisemblance d'un modèle GLM quasi-Poisson ne peut pas être
     spécifiée et s'appuie sur une procédure de pseudo-maximum de
     vraisemblance. Par conséquence les GLMs quasi-Poisson n'ont pas
@@ -236,10 +234,7 @@ GLM quasi-Poisson afin de corriger la surdispersion :
     différents modèles. Toutefois des alternatives ont été developpées
     pour gérer cette situation (e.g. quasi-AIC).
 
-```{=html}
-<!-- -->
-```
--   \*\* La surdispersion influence la comparaison de modèles.\*\* En
+-   **La surdispersion influence la comparaison de modèles.** En
     effet, la surdispersion influence la comparaison de deux modèles
     emboités et doit donc être prise en considération. Par exemple,
     considérons que nous voulons comparer le modèle GLM1, qui contient
@@ -252,17 +247,29 @@ GLM quasi-Poisson afin de corriger la surdispersion :
     critère D~1~\* - D\*~2~ qui est supposé être distributé selon une
     distribution du χ² avec *p*~2~-*p*~1~ degrés de liberté lorsque le
     modèle GLM1 est correct.
+    
 -   Mais dans certain cas φ n'est pas connu. Par exemple, lorsque vous
     spécifiez un GLM avec un distribution normale. Dans ce cas, φ peut
     être estimé *a posteriori* en utilisant la déviance résiduelle du
     plus gros modèle de telle sorte que le critière de comparaison
-    devienne \[(D~1~-D~2~)/(*p*~2~-*p*~1~)\]/\[D~2~/(*n*-*p*~2~)\]. Ce
+    devienne [(D~1~-D~2~)/(*p*~2~-*p*~1~)]/[D~2~/(*n*-*p*~2~)]. Ce
     critère est supposé suivre une distribution F avec *p*~2~-*p*~1~ et
     n-*p*~2~ degrés de liberté.
 
-# Negative binomial GLMs
+Testons l'effet de l'élévation par une analyse de déviance.
 
-GLM avec une distribution binomiale négative
+```{r, echo = TRUE, eval = TRUE}
+null.model <- glm(Faramea.occidentalis ~ 1, 
+                  data = faramea,
+                  family = quasipoisson)
+anova(null.model, glm.quasipoisson, test = "Chisq")
+
+```
+
+**Paramètre de dispesion:**
+![](images/dispParam.png)
+
+# GLM avec une distribution binomiale négative
 
 Un GLM avec une distribution binomiale négative (BN) est utilisé lorsque
 la surdispersion est très forte. La distribution BN contient un
@@ -277,9 +284,9 @@ différente de la moyenne. Le mélange entre la distribution de Poisson et
 la distribution Gamma peut se résumer à l'aide de deux paramètres, *µ*
 et *k* qui spécifie la distribution de la facon suivante :
 
-Y \~ BN(*µ*, *k*)
+**Y \~ BN(*µ*, *k*)**
 
-E(Y) = *µ* et Var(Y) = *µ* + *µ*²*/k*
+**E(Y) = *µ* et Var(Y) = *µ* + *µ*²*/k* **
 
 De cette manière nous pouvons voir comment cette distribution va gérer
 la surdispersion dans les modèles GLM. Le deuxième terme de la variance
@@ -295,9 +302,9 @@ distribution BN se spécifie en trois étapes. Tout d'abord le modèle
 fait l'hypothèse que les Y~i~ suivent une distribution BN de moyenne
 *μ*~i~ et de paramètre *k*.
 
-Y~i~ ∼ BN(*µ*~i~, *k*)
+**Y~i~ ∼ BN(*µ*~i~, *k*)**
 
-E(Y~i~) = *µ*~i~ et Var(Y~i~) = *µ*~i~ + *µ*~i~²*/k*
+**E(Y~i~) = *µ*~i~ et Var(Y~i~) = *µ*~i~ + *µ*~i~²*/k* **
 
 Les deux dernières étapes définissent le prédicteur linéaire ainsi que
 la fonction de lien entre la moyenne des Yi et le prédicteur linéaire.
@@ -305,40 +312,19 @@ La fonction de lien utilisée par les GLMs avec une distribution BN est
 le logarithme ce qui permet de s'assurer que les valeurs prédites
 soient toujours positives.
 
--   log(*µ*~i~) = *β*~0~ + **X**~i~.*β*
+-   **log(*µ*~i~) = *β*~0~ + X~i~.*β* **
 
 ou
 
--   *µ*~i~ = exp(*β*~0~ + **X**~i~.*β*)
-
-La distribution NB n'est pas dans la fonction glm(), il faut donc
-installer et charger la librairie MASS. Si vous ne vous souvenez plus si
-cette librairie R est déjà installée, pas de problème utilisez la
-fonction suivante :
-
-```{r, echo = TRUE, eval = FALSE}
-ifelse(length(which(installed.packages() == "MASS")) == 0,
-      {print("MASS not installed. Installing... "); install.packages("MASS")},
-      print("MASS already installed"))
-```
-
-Sinon, si vous savez que cette librairie n'est pas installée, vous
-pouvez directement taper la commande :
-
-```{r, echo = TRUE, eval = FALSE}
-install.packages("MASS")
-```
-
-Souvenez vous de charger la librairie
-
-```{r, echo = TRUE, eval = FALSE}
-library("MASS")
-```
+-   ***µ*~i~ = exp(*β*~0~ + X~i~.*β*) **
 
 Vous pouvez ajuster un GLM avec une distribution BN à l'aide de la
-fonction glm.nb() :
+fonction ```glm.nb()``` du package ```MASS```:
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = FALSE, eval = TRUE, message = FALSE}
+library("MASS")
+```
+```{r, echo = TRUE, eval = TRUE}
 glm.negbin = glm.nb(Faramea.occidentalis~Elevation, data=faramea)
 summary(glm.negbin)
 ```
@@ -355,28 +341,84 @@ Le GLM avec une distribution BN semble être le meilleur modèle pour
 modéliser nos données. Nous voulons maintenant représenter la relation
 entre le nombre de *Faramea occidentalis* et l'élévation.
 
-```{r, echo = TRUE, eval = FALSE}
-# représenter les données observées
-plot(faramea$Elevation, faramea$Faramea.occidentalis, xlab="Elevation (m)", ylab=expression(paste("Number of", "  ", italic(Faramea~occidentalis))), pch=16, col=rgb(4,139,154,150,maxColorValue=255))
-
-# récupérons les valeurs de l'ordonnée à l'origine et de beta à partir du résumé et ajoutons les dans l'équation du modèle
-curve(exp(summary(glm.negbin)$coefficients[1,1]+summary(glm.negbin)$coefficients[2,1]*x),from=range(faramea$Elevation)[1],to=range(faramea$Elevation)[2],add=T, lwd=2, col="orangered")
-
-# récupérons les écarts-types pour construire l'intervalle de confiance du modèle
-curve(exp(summary(glm.negbin)$coefficients[1,1]+1.96*summary(glm.negbin)$coefficients[1,2]+summary(glm.negbin)$coefficients[2,1]*x+1.96*summary(glm.negbin)$coefficients[2,2]),from=range(faramea$Elevation)[1],to=range(faramea$Elevation)[2],add=T,lty=2, col="orangered")
-curve(exp(summary(glm.negbin)$coefficients[1,1]-1.96*summary(glm.negbin)$coefficients[1,2]+summary(glm.negbin)$coefficients[2,1]*x-1.96*summary(glm.negbin)$coefficients[2,2]),from=range(faramea$Elevation)[1],to=range(faramea$Elevation)[2],add=T,lty=2, col="orangered")
+Utilisez ```summary``` pour obtenir les paramètres.
+```{r, echo = TRUE, eval = TRUE}
+summary(glm.negbin)$coefficients[1, 1]
+summary(glm.negbin)$coefficients[2, 1]
+```
+Utilisez les écarts-types pour construire l'intervalle de confiance.
+```{r, echo = TRUE, eval = TRUE}
+summary(glm.negbin)$coefficients[1, 2]
+summary(glm.negbin)$coefficients[2, 2]
 ```
 
-![](images/nb_glm_fit_to_faramea.png){.align-center width="450"}
+```{r, echo = TRUE, eval = TRUE}
+pp <- predict(glm.negbin, newdata = data.frame(Elevation = 1:800), se.fit = TRUE)
+linkinv <- family(glm.negbin)$linkinv ## inverse-link function
+pframe <- as.data.frame(pp$fit)
+names(pframe) <- "pred0"
+pframe$pred <- linkinv(pp$fit)
+sc <- abs(qnorm((1-0.95)/2))  ## Normal approx. to likelihood
+pframe <- transform(pframe, lwr = linkinv(pred0-sc*pp$se.fit), upr = linkinv(pred0+sc*pp$se.fit))
+plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'Nombre de F. occidentalis', xlab = 'Élévation(m)')
+lines(pframe$pred, lwd = 2)
+lines(pframe$upr, col = 2, lty = 3, lwd = 2)
+lines(pframe$lwr, col = 2, lty = 3, lwd = 2)
+```
 
 Nous pouvons voir que le nombre de *Faramea occidentalis* diminue de
 manière significative avec l'élévation. Toutefois, l'intervalle de
-confiance autour de notre modèle est assez large, notamment pour à
+confiance autour de notre modèle est assez large, notamment à
 faible élévation.
 
-# Conclusion on GLMs with count data
+### Défi 3
 
-Tous les GLMs que nous venons de voir pour modéliser des données de
+Utilisez le jeu de données ```mites```! Modélisez l'abondance de l'espèce
+Galumna en fonction des caractéristiques du substrat (son contenu en eau
+```WatrCont``` et sa densité ```SubsDens```).
+
+Faut-il contrôler pour la surdispersion?  
+Quelles variables explicatives ont un effet significatif?  
+Selectionnez le meilleur modèle!  
+
+```{r, echo = TRUE, eval = TRUE}
+mites <- read.csv("mites.csv", header = TRUE)
+```
+
+Retirez une variable à la fois et comparez le modèle imbriqué au
+modèle saturé (ou complet):
+
+```{r, echo = TRUE, eval = FALSE}
+drop1(MyGLM, test = "Chi")
+```
+
+Spécifiez un modèle imbriqué manuellement, appelez le ```MyGLM2```,
+et utilisez la fonction ```anova()```:
+
+```{r, echo = TRUE, eval = FALSE}
+anova(MyGLM, MyGLM2, test = "Chi")
+```
+
+**Solution**
+
+```{r, echo = TRUE, eval = TRUE}
+# GLM Poisson
+glm.p = glm(Galumna~WatrCont+SubsDens, data=mites, family=poisson)
+# GLM quasi-Poisson
+glm.qp = update(glm.p,family=quasipoisson)
+# sélection du modèle
+drop1(glm.qp, test = "Chi")
+# ou
+glm.qp2 = glm(Galumna~WatrCont, data=mites, family=quasipoisson)
+anova(glm.qp2, glm.qp, test="Chisq")
+```
+
+![](images/Solution_3.PNG)
+<img align="left" width="100" height="100" src="Solution_3.PNG">
+
+# Conclusion sur les GLM avec des données d'abondance
+
+Tous les GLM que nous venons de voir pour modéliser des données de
 d'abondance (Poisson, quasi-Poisson et BN) utilisent la même relation
 log-linéaire entre moyenne et prédicteur linéaire (log(*µ*) =
 **X**.*β*). Toutefois ils vont autoriser différentes relations entre la
@@ -385,6 +427,6 @@ d'estimation de la vraisemblance différentes. Les GLMs Quasi-Poisson ou
 BN sont privilégiés afin de traiter la surdispersion. Malheureusement
 dans certains cas les données peuvent contenir trop de zeros et
 d'autres modèles seront plus éfficaces pour traiter ces situations.
-C'est par exemple le cas des *\"zero-augmented models\"* (e.g.
-zero-inflated Poisson \[ZIP\]) qui vont traiter les zéros indépendamment
+C'est par exemple le cas des *«zero-augmented models»* (e.g.
+zero-inflated Poisson; ZIP) qui vont traiter les zéros indépendamment
 des autres valeurs.

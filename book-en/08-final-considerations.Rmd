@@ -1,4 +1,4 @@
-# (PART\*) Final considerations {-}
+# (PART\*) Additional GLM resources {-}
 
 # Summary
 

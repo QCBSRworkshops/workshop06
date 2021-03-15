@@ -19,6 +19,6 @@
     [paquet R Tweedie](https://cran.r-project.org/web/packages/tweedie/index.html).
 -   Lorsque les données comportent un nombre excessif de zéros, qui proviennent 
     d'un processus différent de celui qui génère les comptages, il convient 
-    d'utiliser des distributions "**zero-inflated**" Poisson ou binomial négatif 
-    "**zero-inflated**". Ces méthodes sont disponibles, dans le 
+    d'utiliser des distributions «**zero-inflated**» Poisson ou binomial négatif 
+    «**zero-inflated**». Ces méthodes sont disponibles, dans le 
     [paquet glmmADMB](http://glmmadmb.r-forge.r-project.org/), parmi d'autres.

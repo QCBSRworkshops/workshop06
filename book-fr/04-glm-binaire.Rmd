@@ -3,7 +3,7 @@
 # GLM avec une distribution binomiale (Bernouilli)
 
 Les variables binaires sont fréquentes en écologie : on observe un
-phénomène X ou son \"absence\". Par exemple, on note souvent la présence
+phénomène X ou son \«absence\». Par exemple, on note souvent la présence
 ou l'absence d'espèces lors d'études de terrain. Le but est
 généralement de déterminer si la présence d'une espèce est influencée
 par différentes variables environnementales. D'autres exemples courants
@@ -31,14 +31,14 @@ statistique du modèle avec l'argument `family`. Pour la régression
 logistique, on l'indique de la façon suivante : `family = 'binomial`'.
 Rappelez-vous que la distribution de Bernoulli est un cas spécifique de
 la distribution binomiale lorsque le nombre de répétitions est égal à 1:
-R \"comprend\" qu'il faut utiliser une distribution de Bernoulli.
+R \«comprend\» qu'il faut utiliser une distribution de Bernoulli.
 
 Lorsqu'on prédit la probabilité d'observer un phénomène Y qui est une
 variable binaire, la valeur prédite doit se trouver entre 0 et 1 :
 c'est l'étendue possible d'une probabilité ! Si on utilise un modèle
 linéaire de base pour modéliser une variable binaire en fonction de
 variables explicatives, il est fort possible qu'on obtienne des valeurs
-prédites qui se retrouvent en dehors de l'intervalle \[0,1\], ce qui ne
+prédites qui se retrouvent en dehors de l'intervalle [0,1], ce qui ne
 fait aucun sens. L'exemple suivant va vous permettre de mieux
 comprendre pourquoi un modèle linéaire traditionnel est inapproprié. La
 prochaine sous-section va vous montrer comment éviter ce problème avec
@@ -46,13 +46,16 @@ une fonction de lien. Brièvement, une fonction de lien est utilisée pour
 linéariser la relation entre les valeurs prédites d'un modèle et le
 prédicteur linéaire (voir sous-section suivante).
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = FALSE, eval = TRUE}
+mites <- read.csv('mites.csv')
+```
+```{r, echo = TRUE, eval = TRUE}
 model.lm <- lm(pa ~ WatrCont + Topo, data = mites)
 fitted(model.lm)
-# La fonction "fitted()" extraie les valeurs prédites de la variable réponse du modèle linéaire.
+# La fonction «fitted()» extrait les valeurs prédites de la variable réponse du modèle linéaire.
 # Certaines valeurs sont en-dessous de 0, ce qui ne fait pas de sens pour une régression logistique.
-# Essayong le même modèle, mais avec une distribution binomiale cette fois-ci.
-# Remarquez l'argument "family" pour spécifier la distribution.
+# Essayons le même modèle, mais avec une distribution binomiale cette fois-ci.
+# Remarquez l'argument «family» pour spécifier la distribution.
 model.glm <- glm(pa ~ WatrCont + Topo, data = mites, family = binomial)
 fitted(model.glm)
 # Toutes les valeurs sont comprises entre 0 et 1.
@@ -81,7 +84,26 @@ linéaire. En termes mathématiques, c'est le produit matriciel de la
 matrice du modèle *X* et du vecteur des paramètres estimés *β*.
 Regardons cela de plus près dans R :
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = FALSE, eval = TRUE}
+#Petite fonction ajoutée pour que seules les lignes désirées sortent dans le prochain bloc!
+#Source: https://bookdown.org/yihui/rmarkdown-cookbook/hook-truncate.html
+# save the built-in output hook
+hook_output <- knitr::knit_hooks$get("output")
+
+# set a new output hook to truncate text output
+knitr::knit_hooks$set(output = function(x, options) {
+  if (!is.null(n <- options$out.lines)) {
+    x <- xfun::split_lines(x)
+    if (length(x) > n) {
+      # truncate the output
+      x <- c(head(x, n), "....\n")
+    }
+    x <- paste(x, collapse = "\n")
+  }
+  hook_output(x, options)
+})
+```
+```{r, echo = TRUE, eval = TRUE, out.lines = 10}
 # Chargez le jeu de données CO2 utilisé dans un atelier précédent
 data(CO2)
 head(CO2)
@@ -92,7 +114,7 @@ X <- model.matrix(model.CO2)
 # Les paramètres estimés sont extraits ainsi :
 B <- model.CO2$coefficients
 # On multiple X et B pour obtenir le prédicteur linéaire.
-# Le symbole "%*%" indique qu'on veut effectuer le produit matriciel.
+# Le symbole «%*%» indique qu'on veut effectuer le produit matriciel.
 XB <- X %*% B
 # On compare les valeurs de XB aux valeurs obtenues avec la fonction fitted().
 # Toutes les déclarations devraient être vraies (i.e. TRUE).
@@ -132,15 +154,15 @@ modèle et les transforme en une variable continue sans borne. Les
 valeurs prédites peuvent ainsi être reliées à un prédicteur linéaire.
 C'est pour cette raison qu'on appelle ce modèle un modèle **linéaire**
 généralisé même si la relation entre la variable réponse et la variable
-explicative ne ressemble pas nécessairement à une \"ligne droite\" !
+explicative ne ressemble pas nécessairement à une \«ligne droite\» !
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 # On construit un modèle de régression de la présence/absence d'une espèce de mite (Galumna sp.)
 # en fonction du contenu en eau du sol et de la topographie.
-# On utilise la fonction glm() et on spécifie l'argument "family".
+# On utilise la fonction glm() et on spécifie l'argument «family».
 logit.reg <- glm(pa ~ WatrCont + Topo, data = mites, family = binomial(link = "logit"))
-# La fonction de lien "logit" est la fonction par défaut pour une régression logistique,
-# ce qui signifie qu'il n'est pas nécessaire de l'indiquer avec l'argument "family":
+# La fonction de lien «logit» est la fonction par défaut pour une régression logistique,
+# ce qui signifie qu'il n'est pas nécessaire de l'indiquer avec l'argument «family»:
 logit.reg <- glm(pa ~ WatrCont + Topo, data = mites, family = binomial)
 summary(logit.reg)
 ```
@@ -149,53 +171,57 @@ summary(logit.reg)
 
 En utilisant le jeu de données `bacteria` (du paquet `MASS`), modélisez
 la présence de *H. influenzae* en fonction du traitement (`trt`) et de
-la semaine de test (`week`). Commencez avec un modèle saturé et
+la semaine de test (`week`). Commencez avec un modèle complet et
 réduisez-le jusqu'à obtenir le modèle le plus parcimonieux possible.
 
-Défi 1 : Solution
+```{r, echo = FALSE, eval = TRUE, warning=FALSE}
+library(MASS)
+```
+```{r, echo = TRUE, eval = TRUE}
+data(bacteria)
+str(bacteria)
+```
 
-```{r, echo = TRUE, eval = FALSE}
+**Solution**
+
+```{r, echo = TRUE, eval = TRUE}
 model.bact1 <- glm(y ~ trt * week, family = binomial('logit'), data = bacteria)
 model.bact2 <- glm(y ~ trt + week, family = binomial('logit'), data = bacteria)
 model.bact3 <- glm(y ~ week, family = binomial('logit'), data = bacteria)
 anova(model.bact1, model.bact2, model.bact3, test = 'LRT')
-# Analysis of Deviance Table
-# Model 1: y ~ trt * week
-# Model 2: y ~ trt + week
-# Model 3: y ~ week
-#   Resid. Df Resid. Dev Df Deviance Pr(>Chi)
-# 1       214     203.12
-# 2       216     203.81 -2  -0.6854  0.70984
-# 3       218     210.91 -2  -7.1026  0.02869 *
-# En se basant sur ces résultats, on doit choisir le modèle 2
-# comme le modèle représentant le mieux le jeu de données.
 ```
+En se basant sur ces résultats, on doit choisir le modèle 2
+comme celui représentant le mieux le jeu de données.
 
 ## Interpréter la sortie d'une régression logistique
 
 La sortie du modèle de régression logistique indique que les deux
 variables explicatives (`WatrCont` et `Topo`) sont significatives, mais
-comment interprète-on les coefficients estimés ? Rappelez-vous que nous
+comment interprète-on les coefficients estimés? Rappelez-vous que nous
 avons effectué une transformation des valeurs prédites par le modèle
 (*i.e.* la probabilité que Y = 1), alors il faut utiliser une fonction
 inverse pour pouvoir interpréter correctement les résultats. On peut
-utiliser la fonction exponentielle `ex` pour obtenir la cote de
+utiliser la fonction exponentielle `exp` pour obtenir la cote de
 probabilité pour chaque variable explicative.
 
-```{r, echo = TRUE, eval = FALSE}
-# Pour obtenir les pentes, il faut utiliser la fonction exponentielle exp().
-# Ceci mettra les coefficients sur l'échelle des cotes.
-# Mathématiquement, ceci correspond à :
-# exp(model coefficients) = exp(log(μ / (1 - μ)) = u / (1 - μ)
-# C'est notre rapport de cotes !
-exp(logit.reg$coefficients[2:3])
-#  WatrCont    TopoHummock
-#  0.9843118   8.0910340
-# Pour obtenir l'intervalle de confiance sur l'échelle des cotes :
-exp(confint(logit.reg)[2:3,])
-#               2.5 %      97.5 %
-#  WatrCont     0.9741887  0.9919435
-#  TopoHummock  2.0460547  38.6419693
+```{r, echo = TRUE, eval = TRUE}
+logit.reg
+```
+
+Pour obtenir les pentes, il faut utiliser la fonction exponentielle exp().
+Ceci mettra les coefficients sur l'échelle des cotes. Mathématiquement,
+ceci correspond à :  
+**exp(model coefficients) = exp(log(μ / (1 - μ)) = u / (1 - μ)**.
+
+C'est notre rapport de cotes !
+
+```{r, echo = TRUE, eval = TRUE}
+exp(logit.reg$coefficients[2])
+```
+
+Pour obtenir l'intervalle de confiance sur l'échelle des cotes :
+```{r, echo = TRUE, eval = TRUE, message = FALSE}
+exp(confint(logit.reg)[2,])
 ```
 
 Prenez note que la cote pour une variable explicative est calculée
@@ -218,7 +244,7 @@ l'exprimer en pourcentage en soustrayant 1 à cette valeur : (1.0159 -
 se convaincre qu'on fait la bonne interprétation, on peut représenter
 graphiquement les résultats de la présence de *Galumna* sp. en fonction
 du contenu en eau du sol. On voit qu'en moyenne la présence de
-*Galumna* sp. est plus élevée lorsque le contenu en eau est faible
+*Galumna* sp. est plus élevée lorsque le contenu en eau est faible.
 
 ![](images/galumna_pa.png){width="400"}
 
@@ -246,17 +272,19 @@ que la valeur 8.09 est sur l'échelle des cotes. On a une probabilité de
 0.89 d'observer *Galumna* sp. lorsque la topographie est de type
 `hummock`.
 
-```{r, echo = TRUE, eval = FALSE}
-# On commence avec la valeur de cote pour la topographie du modèle logit.reg :
-µ/ (1 - µ) = 8.09
-# On réarrange pour isoler µ :
-µ = 8.09(1 - µ) = 8.09 - 8.09µ
-8.09µ + µ = 8.09
-µ(8.09 + 1) = 8.09
-µ = 8.09 / (8.09 + 1)
-µ = 1 / (1 + (1 / 8.09)) = 0.89
-# On obtient le même résultat sans utiliser la fonction logit inverse !
-```
+Calculons cette valeur de cote sans utiliser la fonction exp():
+
+On commence avec la valeur de cote pour la topographie du modèle logit.reg:  
+**µ/ (1 - µ) = 8.09**
+
+On réarrange pour isoler µ :  
+**µ = 8.09(1 - µ) = 8.09 - 8.09µ**  
+**8.09µ + µ = 8.09**  
+**µ(8.09 + 1) = 8.09**  
+**µ = 8.09 / (8.09 + 1)**  
+**µ = 1 / (1 + (1 / 8.09)) = 0.89**
+
+On obtient le même résultat sans utiliser la fonction logit inverse !
 
 ## Pouvoir prédictif et validation du modèle
 
@@ -276,21 +304,46 @@ générique pour calculer un pseudo-R^2^ est :
 Pseudo-R^2^ = (déviance du modèle nul -- déviance résiduelle) / déviance
 résiduelle
 
-où \"déviance du modèle nul\" est la déviance du modèle nul et
-\"déviance résiduelle\" est la déviance résiduelle du modèle d'intérêt.
+où \«déviance du modèle nul\» est la déviance du modèle nul et
+\«déviance résiduelle\» est la déviance résiduelle du modèle d'intérêt.
 La différence est divisée par la déviance du modèle nul afin de
 contraindre le pseudo-R^2^ entre 0 et 1.
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 # Les déviances résiduelle et nulle sont déjà enregistrées dans un objet de type glm.
 objects(logit.reg)
-pseudoR2 <- (logit.reg$null.deviance – logit.reg$deviance) / logit.reg$null.deviance
+pseudoR2 <- (logit.reg$null.deviance - logit.reg$deviance) / logit.reg$null.deviance
 pseudoR2
-# [1]  0.4655937
 ```
-
 Les variables explicatives du modèle expliquent 46.6% de la variabilité
 de la variable réponse.
+
+Un pseudo-R^2^ de McFadden ajusté, qui pénalise pour le nombre de
+prédicteurs, peut être calculé comme suit:
+
+![](images/McFadden.PNG)
+
+où **K** correspond au nombre supplémentaire de prédicteurs par rapport
+au modèle nul.
+
+La qualité d'ajustement des modèles de régression logistique peut être
+exprimée par des variantes de statistiques pseudo-R^2^, telles que les
+mesures de Maddala (1983) ou de Cragg et Uhler (1970).
+
+Lorsqu'on parle de régressions logistiques, les valeurs faibles de **R^2^**
+sont courantes.
+
+La fonction R ```DescTools::PseudoR2()``` permet de calculer plusieurs pseudo-R^2^. En spécifiant ```which = all```, calculez toutes les statistiques en même temps.
+
+```{r, echo = TRUE, eval = TRUE}
+logit.reg <- glm(pa ~ WatrCont + Topo, 
+                 data = mites, family = binomial(link = "logit"))
+DescTools::PseudoR2(logit.reg, which = "all")
+```
+
+
+```{r, echo = FALSE, eval = FALSE}
+### ENLEVÉ PARCE QUE LE PACKAGE binomTools A ÉTÉ RETIRÉ DU CRAN (à supprimer?)
 
 Récemment, [Tjur
 (2009)](http://www.tandfonline.com/doi/abs/10.1198/tast.2009.08210#.VFpKZYcc4ow)
@@ -301,21 +354,23 @@ classer adéquatement chaque résultat comme un succès ou un échec.
 Mathématiquement, c'est la différence entre la moyenne des valeurs
 prédites des succès (*i.e.* Y = 1) et des échecs (*i.e.* Y = 0) :
 
-\<m\>D = overline{π}\_1 - overline{π}\_0\</m\>
+*D = π~1~ - π~0~*
 
-où \<m\>overline{π}\_1\</m\> est la moyenne attendue des probabilités
-lorsqu'un événement est observé et \<m\>overline{π}\_0\</m\> est la
+où *π~1~* est la moyenne attendue des probabilités
+lorsqu'un événement est observé et *π~0~* est la
 moyenne attendue des probabilités lorsqu'un événement n'est pas
 observé. Une valeur de *D* près de 1 indique que le modèle accorde une
 probabilité élevée d'observer un événement lorsque celui-ci a été
 observé et une probabilité faible d'observer un événement lorsque
 celui-ci n'a pas été observé. Une valeur de *D* près de 0 indique que
 le modèle n'est pas utile pour distinguer entre les observations et les
-\"non-observations\" d'un résultat. Le code suivant montre comment
-obtenir la valeur de *D* et comment représenter visuellement les valeurs
-de \<m\>overline{π}\_1\</m\> et \<m\>overline{π}\_0\</m\>.
+«non-observations» d'un résultat.
 
-```{r, echo = TRUE, eval = FALSE}
+
+
+# Le code suivant montre comment obtenir la valeur de *D* et comment représenter #visuellement les valeurs
+de *π~1~* et *π~0~*.
+
 install.packages("binomTools")
 library("binomTools")
 # La fonctions Rsq calcule indices d'ajustement
@@ -335,7 +390,7 @@ fit
 # Number of binary observation:  70
 # Average group size:  1
 plot(fit, which = "hist")
-```
+
 
 Pour évaluer l'ajustement (*i.e.* goodness-of-fit) d'une régression
 logistique, les graphiques de diagnostic ne sont pas très utiles (voir
@@ -361,21 +416,24 @@ HLtest(object = fit)
 Évaluez l'ajustement et le pouvoir prédictif du modèle `model.bact2`.
 Comment pouvez-vous améliorer le pouvoir prédictif du modèle ?
 
-Défi 2 : Solution
+**Solution**
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 null.d <- model.bact2$null.deviance
 resid.d <- model.bact2$deviance
 bact.pseudoR2 <- (null.d - resid.d) / null.d
 bact.pseudoR2
-# 0.0624257
-# C'est très faible !
+```
+```{r, echo = FALSE, eval = FALSE}
+#ENLEVÉ parce que le package binomTools retiré du CRAN
+
 library(binomTools)
 HLtest(Rsq(model.bact2))
 # Chi-square statistic:  7.812347  with  8  df
 # P-value:  0.4520122
 # L'ajustement est adéquat.
 ```
+C'est très faible!
 
 Le pouvoir prédictif pourrait être augmenté en incluant plus de
 variables explicatives.
@@ -385,17 +443,17 @@ variables explicatives.
 Lorsque le modèle a été validé, il peut être utile de représenter les
 résultats graphiquement afin de voir comment la variable est influencée
 par les variables explicatives. Une façon de faire est de mettre à la
-fois les valeurs observées et prédites de la variable réponses en
+fois les valeurs observées et prédites de la variable réponse en
 fonction d'une variable explicative sur un même graphique. Voici un
 exemple avec le paquet `ggplot2`. Revoir [l'atelier 3](r_workshop3)
 pour plus d'informations sur ce paquet.
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = FALSE, eval = TRUE, warning = FALSE}
 library(ggplot2)
+```
+```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 7, fig.align = "center", warning = FALSE, message = FALSE}
 ggplot(mites, aes(x = WatrCont, y = pa)) + geom_point() +
 stat_smooth(method = "glm", family= "binomial", se = FALSE) + xlab("Water content") +
-ylab("Probability of presence") +
-ggtitle("Probability of presence of Galumna sp. as a function of water content")
+ylab("Probabilité de présence") +
+ggtitle("Probabilité de présence de Galumna sp. en fonction du contenu en eau")
 ```
-
-![](images//logistic_regression_plot.png){width="500"}
