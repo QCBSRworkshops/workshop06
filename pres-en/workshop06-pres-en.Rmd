@@ -355,11 +355,13 @@ Let us simulate 250 observational units that satisfy the assumptions we have see
 nSamples <- 250
 ID <- factor(c(seq(1:nSamples)))
 
+PredVar <- runif(nSamples, 
+                  min = 0, 
+                  max = 50)
+
 simNormData <- data.frame(
   ID = ID,
-  PredVar = runif(nSamples, 
-                  min = 0, 
-                  max = 50),
+  PredVar = PredVar,
   RespVar = (2*PredVar + 
                rnorm(nSamples,
                      mean = 0,
