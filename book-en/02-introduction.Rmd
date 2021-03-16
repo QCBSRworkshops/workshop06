@@ -317,7 +317,7 @@ Let's take a look at what happens to the distribution when we vary the parameter
 
 Varying $\mu$ while $\sigma = 5$ shifts the mean of the distribution.
 
-```{r, echo = FALSE, fig.align="center", fig.width = 7, fig.height = 7,}
+```{r, echo = FALSE, fig.align="center", fig.width = 7, fig.height = 7}
 x = seq(1, 50, 0.1)
 plot(x, dnorm(x, mean = 20, sd = 5),
 type = 'l', lwd = 3,
