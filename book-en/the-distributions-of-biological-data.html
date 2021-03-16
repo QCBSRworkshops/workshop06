@@ -151,7 +151,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.1.2" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#assumptions"><i class="fa fa-check"></i><b>3.1.2</b> Assumptions</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="an-example-with-general-linear-models.html"><a href="an-example-with-general-linear-models.html"><i class="fa fa-check"></i><b>4</b> An example with general linear models</a></li>
+<li class="chapter" data-level="4" data-path="an-example-with-general-linear-models.html"><a href="an-example-with-general-linear-models.html"><i class="fa fa-check"></i><b>4</b> An example with general linear models</a><ul>
+<li class="chapter" data-level="4.1" data-path="an-example-with-general-linear-models.html"><a href="an-example-with-general-linear-models.html#recalling-linear-models-assumptions"><i class="fa fa-check"></i><b>4.1</b> Recalling linear models: assumptions</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="an-example-with-general-linear-models.html"><a href="an-example-with-general-linear-models.html#model-prediction"><i class="fa fa-check"></i><b>4.1.1</b> Model prediction</a></li>
+<li class="chapter" data-level="4.1.2" data-path="an-example-with-general-linear-models.html"><a href="an-example-with-general-linear-models.html#so-what-do-we-do-now-transform-our-data"><i class="fa fa-check"></i><b>4.1.2</b> So, what do we do now? Transform our data?</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="5" data-path="the-distributions-of-biological-data.html"><a href="the-distributions-of-biological-data.html"><i class="fa fa-check"></i><b>5</b> The distributions of biological data</a></li>
 <li class="part"><span><b>GLMs with binary data</b></span></li>
 <li class="chapter" data-level="6" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html"><i class="fa fa-check"></i><b>6</b> Binomial GLMs (Bernouilli)</a><ul>
@@ -254,15 +259,15 @@ number of seeds in a plot, etc. Our variable mites$Galumna seems to
 follow a Poisson distribution with a low value of λ (indeed, if we
 calculate the mean abundance of Galumna across all samples using the
 function mean(), we find that it is close to zero):</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="the-distributions-of-biological-data.html#cb38-1"></a><span class="kw">hist</span>(mites<span class="op">$</span>Galumna)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="the-distributions-of-biological-data.html#cb39-1"></a><span class="kw">mean</span>(mites<span class="op">$</span>Galumna)</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="the-distributions-of-biological-data.html#cb41-1"></a><span class="kw">hist</span>(mites<span class="op">$</span>Galumna)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-28-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="the-distributions-of-biological-data.html#cb42-1"></a><span class="kw">mean</span>(mites<span class="op">$</span>Galumna)</span></code></pre></div>
 <pre><code>## [1] 0.9571429</code></pre>
 <p>Our variable mites$pa (presence-absence) takes yet another form. It
 consists of only zeros and ones, such that a Poisson distribution would
 not be appropriate to model this variable.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="the-distributions-of-biological-data.html#cb41-1"></a><span class="kw">hist</span>(mites<span class="op">$</span>pa)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="the-distributions-of-biological-data.html#cb44-1"></a><span class="kw">hist</span>(mites<span class="op">$</span>pa)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-29-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>We need a distribution with a range that only includes two possible
 outcomes: zero or one. The "Bernoulli" distribution is such a
 distribution. It is often the first distribution that students of
@@ -278,7 +283,7 @@ probabilities of presence (<em>p</em>):</p>
 <p><img src="images/6_bernouill.jpeg" /></p>
 <p>We can calculate the number of sites where Galumna is present out of the
 total number of sites to get an idea of what <em>p</em> might be in our case:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="the-distributions-of-biological-data.html#cb42-1"></a><span class="kw">sum</span>(mites<span class="op">$</span>pa) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(mites)</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="the-distributions-of-biological-data.html#cb45-1"></a><span class="kw">sum</span>(mites<span class="op">$</span>pa) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(mites)</span></code></pre></div>
 <pre><code>## [1] 0.3571429</code></pre>
 <p><em>p</em> for the variable mites$pa is more or less 0.36, such that roughly
 twice as many sites have the outcome "Galumna absent" (0) than the

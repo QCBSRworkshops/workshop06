@@ -88,20 +88,36 @@ summary(lm.prop)$coefficients[, 4]
 plot(Galumna ~ WatrCont, data = mites)
 abline(lm.abund)
 
-par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.abund)
 
-#Proportion
+# Plot the proportion model
 plot(prop ~ WatrCont, data = mites)
 abline(lm.prop)
-par(mfrow = c(2, 2), cex = 1.4)
+
+# Diagnostic plots
 plot(lm.prop)
-#Présence/Absence
-par(mfrow = c(1, 1), cex = 1.4)
+
+# Plot the presence/absence model
 plot(pa ~ WatrCont, data = mites)
 abline(lm.pa)
-par(mfrow = c(2, 2), cex = 1.4)
+
+# Diagnostic plots
 plot(lm.pa)
+
+x = seq(1, 50, 0.1)
+plot(x, dnorm(x, mean = 20, sd = 5),
+type = 'l', lwd = 3,
+xlab = '# galumna', ylab = 'Probability')
+points(x, dnorm(x, mean = 25, sd = 5),
+type = 'l', lwd = 3, col = 2)
+points(x, dnorm(x, mean = 30, sd = 5), type = 'l', lwd = 3, col = 4)
+legend('topleft', legend = c('20', '25', '30'), lty = 1, col = c(1,2,4), bty = 'n', lwd = 2, cex = 1.1)
+
+x = seq(1, 50, 0.1)
+plot(x, dnorm(x, mean = 25, sd = 5), type = 'l', lwd = 3, xlab = '# galumna', ylab = 'Probability')
+points(x, dnorm(x, mean = 25, sd = 7.5), type = 'l', lwd = 3, col = 2)
+points(x, dnorm(x, mean = 25, sd = 10), type = 'l', lwd = 3, col = 4)
+legend('topleft', legend = c('5', '7.5', '10'), lty = 1, col = c(1,2,4), bty = 'n', lwd = 2, cex = 1.1)
 
 coef(lm.abund)
 
@@ -123,12 +139,17 @@ sum(mites$pa) / nrow(mites)
 
 mites <- read.csv('mites.csv')
 model.lm <- lm(pa ~ WatrCont + Topo, data = mites)
+# Let's get the expected values for the response variable.
 fitted(model.lm)
-# The "fitted()" function gives us expected values for the response variable.
-# Some values are lower than 0, which does not make sense for a logistic regression.
-# Let’s try the same model with a binomial distribution instead.
-# Notice the "family" argument to specify the distribution.
-model.glm <- glm(pa ~ WatrCont + Topo, data = mites, family = binomial)
+
+# Some values are lower than 0, which does not make sense for a
+# logistic regression. Let’s try the same model with a binomial
+# distribution instead.
+
+model.glm <- glm(pa ~ WatrCont + Topo,
+  data = mites,
+  family = "binomial")
+  # Notice the "family" argument to specify the distribution.
 fitted(model.glm)
 # All values are bound between 0 and 1.
 
@@ -152,17 +173,22 @@ knitr::knit_hooks$set(output = function(x, options) {
 # Load the CO2 dataset. We used it during workshop 4!
 data(CO2)
 head(CO2)
-# Build a linear model of plant CO2 uptake as a function of CO2 ambient concentration
+
+# Build the model
 model.CO2 <- lm(uptake ~ conc, data = CO2)
-# Extract the design matrix of the model with the model.matrix() function.
+
+# Extract the design matrix of the model
 X <- model.matrix(model.CO2)
 # And the estimated coefficients.
 B <- model.CO2$coefficients
+
 # Let’s multiply both X and B matrices to obtain the linear predictor.
 # The "%*%" symbol indicates that it is a matrix product.
 XB <- X %*% B
+
 # Compare the values of XB to the values obtained with the predict() function.
 # All statements should be TRUE.
+
 # We use the round() function so that all elements have 5 digits.
 round(fitted(model.CO2), digits = 5) == round(XB, digits = 5)
 

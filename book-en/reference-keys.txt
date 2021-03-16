@@ -10,6 +10,9 @@ general-linear-models
 definition
 assumptions
 an-example-with-general-linear-models
+recalling-linear-models-assumptions
+model-prediction
+so-what-do-we-do-now-transform-our-data
 the-distributions-of-biological-data
 binomial-glms-bernouilli
 the-link-function

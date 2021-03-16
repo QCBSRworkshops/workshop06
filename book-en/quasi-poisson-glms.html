@@ -151,7 +151,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.1.2" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#assumptions"><i class="fa fa-check"></i><b>3.1.2</b> Assumptions</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="an-example-with-general-linear-models.html"><a href="an-example-with-general-linear-models.html"><i class="fa fa-check"></i><b>4</b> An example with general linear models</a></li>
+<li class="chapter" data-level="4" data-path="an-example-with-general-linear-models.html"><a href="an-example-with-general-linear-models.html"><i class="fa fa-check"></i><b>4</b> An example with general linear models</a><ul>
+<li class="chapter" data-level="4.1" data-path="an-example-with-general-linear-models.html"><a href="an-example-with-general-linear-models.html#recalling-linear-models-assumptions"><i class="fa fa-check"></i><b>4.1</b> Recalling linear models: assumptions</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="an-example-with-general-linear-models.html"><a href="an-example-with-general-linear-models.html#model-prediction"><i class="fa fa-check"></i><b>4.1.1</b> Model prediction</a></li>
+<li class="chapter" data-level="4.1.2" data-path="an-example-with-general-linear-models.html"><a href="an-example-with-general-linear-models.html#so-what-do-we-do-now-transform-our-data"><i class="fa fa-check"></i><b>4.1.2</b> So, what do we do now? Transform our data?</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="5" data-path="the-distributions-of-biological-data.html"><a href="the-distributions-of-biological-data.html"><i class="fa fa-check"></i><b>5</b> The distributions of biological data</a></li>
 <li class="part"><span><b>GLMs with binary data</b></span></li>
 <li class="chapter" data-level="6" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html"><i class="fa fa-check"></i><b>6</b> Binomial GLMs (Bernouilli)</a><ul>
@@ -234,12 +239,12 @@ count data exhibiting overdispersion (the <code>quasibinomial</code> family
 object can do the same for binomial data). The fitted φ value will be
 returned in the summary of the GLM. There are two ways to perform this
 GLM:</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="quasi-poisson-glms.html#cb87-1"></a><span class="co"># Option 1, fit a new quasi-Poisson GLM</span></span>
-<span id="cb87-2"><a href="quasi-poisson-glms.html#cb87-2"></a>glm.quasipoisson =<span class="st"> </span><span class="kw">glm</span>(Faramea.occidentalis<span class="op">~</span>Elevation, <span class="dt">data=</span>faramea, <span class="dt">family=</span>quasipoisson)</span>
-<span id="cb87-3"><a href="quasi-poisson-glms.html#cb87-3"></a><span class="co"># Option 2, build from the previous model and update it:</span></span>
-<span id="cb87-4"><a href="quasi-poisson-glms.html#cb87-4"></a>glm.quasipoisson =<span class="st"> </span><span class="kw">update</span>(glm.poisson,<span class="dt">family=</span>quasipoisson)</span>
-<span id="cb87-5"><a href="quasi-poisson-glms.html#cb87-5"></a><span class="co"># output</span></span>
-<span id="cb87-6"><a href="quasi-poisson-glms.html#cb87-6"></a><span class="kw">summary</span>(glm.quasipoisson)</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="quasi-poisson-glms.html#cb90-1"></a><span class="co"># Option 1, fit a new quasi-Poisson GLM</span></span>
+<span id="cb90-2"><a href="quasi-poisson-glms.html#cb90-2"></a>glm.quasipoisson =<span class="st"> </span><span class="kw">glm</span>(Faramea.occidentalis<span class="op">~</span>Elevation, <span class="dt">data=</span>faramea, <span class="dt">family=</span>quasipoisson)</span>
+<span id="cb90-3"><a href="quasi-poisson-glms.html#cb90-3"></a><span class="co"># Option 2, build from the previous model and update it:</span></span>
+<span id="cb90-4"><a href="quasi-poisson-glms.html#cb90-4"></a>glm.quasipoisson =<span class="st"> </span><span class="kw">update</span>(glm.poisson,<span class="dt">family=</span>quasipoisson)</span>
+<span id="cb90-5"><a href="quasi-poisson-glms.html#cb90-5"></a><span class="co"># output</span></span>
+<span id="cb90-6"><a href="quasi-poisson-glms.html#cb90-6"></a><span class="kw">summary</span>(glm.quasipoisson)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = Faramea.occidentalis ~ Elevation, family = quasipoisson, 
@@ -303,10 +308,10 @@ to follow a F distribution with <em>p</em><sub>2</sub>-<em>p</em><sub>1</sub> an
 of freedom.</p></li>
 </ul>
 <p>Try also deviance analysis to test for the effect of Elevation</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="quasi-poisson-glms.html#cb89-1"></a>null.model &lt;-<span class="st"> </span><span class="kw">glm</span>(Faramea.occidentalis <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, </span>
-<span id="cb89-2"><a href="quasi-poisson-glms.html#cb89-2"></a>                  <span class="dt">data =</span> faramea,</span>
-<span id="cb89-3"><a href="quasi-poisson-glms.html#cb89-3"></a>                  <span class="dt">family =</span> quasipoisson)</span>
-<span id="cb89-4"><a href="quasi-poisson-glms.html#cb89-4"></a><span class="kw">anova</span>(null.model, glm.quasipoisson, <span class="dt">test =</span> <span class="st">&quot;Chisq&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="quasi-poisson-glms.html#cb92-1"></a>null.model &lt;-<span class="st"> </span><span class="kw">glm</span>(Faramea.occidentalis <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, </span>
+<span id="cb92-2"><a href="quasi-poisson-glms.html#cb92-2"></a>                  <span class="dt">data =</span> faramea,</span>
+<span id="cb92-3"><a href="quasi-poisson-glms.html#cb92-3"></a>                  <span class="dt">family =</span> quasipoisson)</span>
+<span id="cb92-4"><a href="quasi-poisson-glms.html#cb92-4"></a><span class="kw">anova</span>(null.model, glm.quasipoisson, <span class="dt">test =</span> <span class="st">&quot;Chisq&quot;</span>)</span></code></pre></div>
 <pre><code>## Analysis of Deviance Table
 ## 
 ## Model 1: Faramea.occidentalis ~ 1

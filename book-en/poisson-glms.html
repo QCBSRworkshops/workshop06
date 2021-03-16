@@ -151,7 +151,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.1.2" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#assumptions"><i class="fa fa-check"></i><b>3.1.2</b> Assumptions</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="an-example-with-general-linear-models.html"><a href="an-example-with-general-linear-models.html"><i class="fa fa-check"></i><b>4</b> An example with general linear models</a></li>
+<li class="chapter" data-level="4" data-path="an-example-with-general-linear-models.html"><a href="an-example-with-general-linear-models.html"><i class="fa fa-check"></i><b>4</b> An example with general linear models</a><ul>
+<li class="chapter" data-level="4.1" data-path="an-example-with-general-linear-models.html"><a href="an-example-with-general-linear-models.html#recalling-linear-models-assumptions"><i class="fa fa-check"></i><b>4.1</b> Recalling linear models: assumptions</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="an-example-with-general-linear-models.html"><a href="an-example-with-general-linear-models.html#model-prediction"><i class="fa fa-check"></i><b>4.1.1</b> Model prediction</a></li>
+<li class="chapter" data-level="4.1.2" data-path="an-example-with-general-linear-models.html"><a href="an-example-with-general-linear-models.html#so-what-do-we-do-now-transform-our-data"><i class="fa fa-check"></i><b>4.1.2</b> So, what do we do now? Transform our data?</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="5" data-path="the-distributions-of-biological-data.html"><a href="the-distributions-of-biological-data.html"><i class="fa fa-check"></i><b>5</b> The distributions of biological data</a></li>
 <li class="part"><span><b>GLMs with binary data</b></span></li>
 <li class="chapter" data-level="6" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html"><i class="fa fa-check"></i><b>6</b> Binomial GLMs (Bernouilli)</a><ul>
@@ -264,8 +269,8 @@ vector of regression coefficients <em>β</em> (plus the intercept <em>β</em><su
 can be estimated using maximum-likelihood (ML) estimation.</p>
 <p>Fitting a Poisson GLM in R requires only setting <em>family = poisson</em> in
 the function glm(). By default the link function is log.</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="poisson-glms.html#cb78-1"></a>glm.poisson =<span class="st"> </span><span class="kw">glm</span>(Faramea.occidentalis<span class="op">~</span>Elevation, <span class="dt">data=</span>faramea, <span class="dt">family=</span>poisson)</span>
-<span id="cb78-2"><a href="poisson-glms.html#cb78-2"></a><span class="kw">summary</span>(glm.poisson)</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="poisson-glms.html#cb81-1"></a>glm.poisson =<span class="st"> </span><span class="kw">glm</span>(Faramea.occidentalis<span class="op">~</span>Elevation, <span class="dt">data=</span>faramea, <span class="dt">family=</span>poisson)</span>
+<span id="cb81-2"><a href="poisson-glms.html#cb81-2"></a><span class="kw">summary</span>(glm.poisson)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = Faramea.occidentalis ~ Elevation, family = poisson, 
@@ -292,17 +297,17 @@ the function glm(). By default the link function is log.</p>
 <p>The output is similar to a ‘<strong>lm</strong>’ output (see workshop 4) and gives
 you the parameter estimates which can also be retrieved using other
 functions:</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="poisson-glms.html#cb80-1"></a><span class="co"># intercept</span></span>
-<span id="cb80-2"><a href="poisson-glms.html#cb80-2"></a><span class="kw">summary</span>(glm.poisson)<span class="op">$</span>coefficients[<span class="dv">1</span>,<span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="poisson-glms.html#cb83-1"></a><span class="co"># intercept</span></span>
+<span id="cb83-2"><a href="poisson-glms.html#cb83-2"></a><span class="kw">summary</span>(glm.poisson)<span class="op">$</span>coefficients[<span class="dv">1</span>,<span class="dv">1</span>]</span></code></pre></div>
 <pre><code>## [1] 1.7687</code></pre>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="poisson-glms.html#cb82-1"></a><span class="co"># slope of elevation</span></span>
-<span id="cb82-2"><a href="poisson-glms.html#cb82-2"></a><span class="kw">summary</span>(glm.poisson)<span class="op">$</span>coefficients[<span class="dv">2</span>,<span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="poisson-glms.html#cb85-1"></a><span class="co"># slope of elevation</span></span>
+<span id="cb85-2"><a href="poisson-glms.html#cb85-2"></a><span class="kw">summary</span>(glm.poisson)<span class="op">$</span>coefficients[<span class="dv">2</span>,<span class="dv">1</span>]</span></code></pre></div>
 <pre><code>## [1] -0.002737509</code></pre>
 <div id="the-problem-of-overdispersion" class="section level2">
 <h2><span class="header-section-number">9.1</span> The problem of overdispersion</h2>
 <p>An important aspect of the summary can be found in the last lines.</p>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="poisson-glms.html#cb84-1"></a><span class="co">##     Null deviance: 414.81  on 42  degrees of freedom</span></span>
-<span id="cb84-2"><a href="poisson-glms.html#cb84-2"></a><span class="co">## Residual deviance: 388.12  on 41  degrees of freedom</span></span></code></pre></div>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="poisson-glms.html#cb87-1"></a><span class="co">##     Null deviance: 414.81  on 42  degrees of freedom</span></span>
+<span id="cb87-2"><a href="poisson-glms.html#cb87-2"></a><span class="co">## Residual deviance: 388.12  on 41  degrees of freedom</span></span></code></pre></div>
 <p>Remember that ML estimation is used to estimate the parameters. In the
 goodness-of-fit section we mentioned that the deviance was a ML
 equivalent of the sum of squares in linear models. Here, the null
@@ -338,8 +343,8 @@ preventing us from using a Poisson GLM.</p>
 the data due to the mean variance relationship, but in some cases
 variance increases even higher than the mean. Computing the mean and the
 variance of our dataset suggests this is occurring:</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="poisson-glms.html#cb86-1"></a><span class="kw">mean</span>(faramea<span class="op">$</span>Faramea.occidentalis)</span>
-<span id="cb86-2"><a href="poisson-glms.html#cb86-2"></a><span class="kw">var</span>(faramea<span class="op">$</span>Faramea.occidentalis)</span></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="poisson-glms.html#cb89-1"></a><span class="kw">mean</span>(faramea<span class="op">$</span>Faramea.occidentalis)</span>
+<span id="cb89-2"><a href="poisson-glms.html#cb89-2"></a><span class="kw">var</span>(faramea<span class="op">$</span>Faramea.occidentalis)</span></code></pre></div>
 <p>In practice, Poissons GLM are useful for describing the mean <em>µ</em><sub>i</sub> but
 underestimates the variance in the data, making all model-based tests
 too liberal! There are two ways of dealing with overdispersion and will
