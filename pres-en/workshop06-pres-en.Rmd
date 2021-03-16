@@ -829,15 +829,16 @@ $$E(\log{Y_i}) = \beta_0 + \beta_1X_i $$
 ]
 
 ---
-# Normal distributions are not the only options!
+# Normal distributions are not the only ones!
 
-Statisticians have described a [multitude of distributions](https://www.causascientia.org/math_stat/Dists/Compendium.pdf) to describe different types of data.
+Statisticians have defined a [multitude of probability distributions](https://www.causascientia.org/math_stat/Dists/Compendium.pdf) to describe different types of data.
 
 A distribution provides the probability of observing each possible outcome of an experiment or survey (e.g. $abund = 8$ *Galumna* individuals).
 
 Distributions can be **discrete** (only include integers), **continuous** (including fractions) and be limited to a given range or domain (e.g., $0$ to $1$, $0$ to $+\infty$, $-\infty$ to $+\infty$).
 
 All distributions can be broken down into **parameters** that dictate their shapes (e.g. $\mu$ and $\sigma^2$ for the Normal).
+
 
 ---
 # Biological data & distributions: Poisson
@@ -966,7 +967,7 @@ plot(x, dpois(x, lambda = 30), type = 'h', lwd = 3, xlab = '# galumna', ylab = '
 ```
 
 ---
-# Modelling with other distributions
+class: middle, center
 
 *Getting back to our problem... what do we do if we have other distributions?*
 
