@@ -18,10 +18,7 @@ many generalized linear models and is called a logistic regression or a
 logit model.
 
 In `R`, presence (or success, survival...) is usually coded as `1` and
-absence (or failure, death...) as `0`. A logistic regression (or any other
-generalized linear model) is performed with the `glm()` function. This
-function is different from the basic `lm()` as it allows one to specify
-a statistical distribution other than the normal distribution. 
+absence (or failure, death...) as `0`. A logistic regression (or any other generalized linear model) is performed with the `glm()` function. This function is different from the basic `lm()` as it allows one to specify a statistical distribution other than the normal distribution.
 
 We've already seen that binary variables are not normally distributed (*i.e.*
 we see a peak at 0 and a peak at 1 and nothing in between). Like we have
@@ -29,7 +26,7 @@ seen in the previous section, the Bernoulli distribution is well suited
 for binary response variables. The mean of this distribution is the
 probability $p$ of observing an outcome and the variance is $p/(1 -
 p)$. The $(1 - p)$ term represents the probability of **not** observing
-an outcome. In R, we specify the distribution with the `family`
+an outcome. In `R`, we specify the distribution with the `family`
 argument. For the logistic regression, we code it as:
 `family="binomial"`. Remember that the Bernoulli distribution is a
 special case of the binomial distribution when the number of repetitions
@@ -40,7 +37,7 @@ a binary variable, the expected values should be bound between 0 and 1:
 that's the range of a probability value! If we use a basic linear model
 to relate a binary response variable to various explanatory variables,
 we might obtain fitted values outside of the $[0,1]$ range, which is
-nonsensical. 
+nonsensical.
 
 The following example will help you understand why a basic
 linear model is inappropriate here. The next subsection will show you
@@ -50,12 +47,17 @@ response variable and the linear predictor (see next subsection).
 
 ```{r, echo = TRUE, eval = FALSE}
 model.lm <- lm(pa ~ WatrCont + Topo, data = mites)
+# Let's get the expected values for the response variable.
 fitted(model.lm)
-# The "fitted()" function gives us expected values for the response variable.
-# Some values are lower than 0, which does not make sense for a logistic regression.
-# Let’s try the same model with a binomial distribution instead.
-# Notice the "family" argument to specify the distribution.
-model.glm <- glm(pa ~ WatrCont + Topo, data = mites, family = binomial)
+
+# Some values are lower than 0, which does not make sense for a
+# logistic regression. Let’s try the same model with a binomial
+# distribution instead.
+
+model.glm <- glm(pa ~ WatrCont + Topo,
+  data = mites,
+  family = "binomial")
+  # Notice the "family" argument to specify the distribution.
 fitted(model.glm)
 # All values are bound between 0 and 1.
 ```
@@ -82,21 +84,30 @@ predictor. In mathematical terms, it is the matrix product of the model
 matrix $X$ of a statistical model and the vector of estimated parameters
 $\beta$. Let's have a look at this in `R`:
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 # Load the CO2 dataset. We used it during workshop 4!
 data(CO2)
 head(CO2)
-# Build a linear model of plant CO2 uptake as a function of CO2 ambient concentration
+```
+
+Build a linear model of plant CO2 uptake as a function of CO2 ambient concentration.
+
+```{r, echo = TRUE, eval = TRUE, out.lines = 10}
+# Build the model
 model.CO2 <- lm(uptake ~ conc, data = CO2)
-# Extract the design matrix of the model with the model.matrix() function.
+
+# Extract the design matrix of the model
 X <- model.matrix(model.CO2)
 # And the estimated coefficients.
 B <- model.CO2$coefficients
+
 # Let’s multiply both X and B matrices to obtain the linear predictor.
 # The "%*%" symbol indicates that it is a matrix product.
 XB <- X %*% B
+
 # Compare the values of XB to the values obtained with the predict() function.
 # All statements should be TRUE.
+
 # We use the round() function so that all elements have 5 digits.
 round(fitted(model.CO2), digits = 5) == round(XB, digits = 5)
 ```
@@ -365,7 +376,7 @@ HLtest(Rsq(model.bact2))
 # Fit is adequate.
 ```
 
-Predictive power could be increased by including more relevant explanatory varibles. 
+Predictive power could be increased by including more relevant explanatory varibles.
 
 ## Plotting results
 
