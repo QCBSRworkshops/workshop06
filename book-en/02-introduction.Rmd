@@ -100,14 +100,22 @@ Predictive variables:
 
 To answer our question, we can develop models! *So many options!*
 
-$\text{Abundance} = f(\text{Water content}, \epsilon)$
-$\text{Proportion} = f(\text{Water content}, \epsilon)$
-$\text{Occurrence} = f(\text{Substrate}, \epsilon)$
-$\text{Abundance} = f(\text{Topography}, \epsilon)$
-$\text{Occurrence} = f(\text{Shrubs Nearby}, \epsilon)$
-$\text{Relative Frequency} = f(\text{Topography}, \epsilon)$
-$\text{Occurrence} = f(\text{Substrate Density}, \epsilon)$
-$\text{Abundance} = f(\text{Substrate}, \epsilon)$
+$\text{Abundance} = f(\text{Water content}, \epsilon)$  
+
+$\text{Proportion} = f(\text{Water content}, \epsilon)$  
+
+$\text{Occurrence} = f(\text{Substrate}, \epsilon)$  
+
+$\text{Abundance} = f(\text{Topography}, \epsilon)$  
+
+$\text{Occurrence} = f(\text{Shrubs Nearby}, \epsilon)$  
+
+$\text{Relative Frequency} = f(\text{Topography}, \epsilon)$  
+
+$\text{Occurrence} = f(\text{Substrate Density}, \epsilon)$  
+
+$\text{Abundance} = f(\text{Substrate}, \epsilon)$  
+
 
 To begin, can we see any relationship between *Galumna* and environmental variables?
 
@@ -122,20 +130,24 @@ We can take a closer look by specifically plotting those 3 response
 variables as a function of `WatrCont`:
 
 ```{r, echo = TRUE, eval = TRUE}
-par(mfrow=c(1,3)) # divide plot area in 1 row and 3 columns
 plot(Galumna ~ WatrCont,
      data = mites,
      xlab = 'Water content',
      ylab = 'Abundance')
+```
+
+```{r, echo = TRUE, eval = TRUE}
 boxplot(WatrCont ~ pa,
         data = mites,
         xlab='Presence/Absence',
         ylab = 'Water content')
+```
+
+```{r, echo = TRUE, eval = TRUE}
 plot(prop ~ WatrCont,
      data = mites,
      xlab = 'Water content',
      ylab = 'Proportion')
-par(mfrow=c(1,1)) # resets to default setting
 ```
 
 Indeed, *Galumna* seems to vary negatively as a function of `WatrCont`, i.e.
@@ -189,8 +201,7 @@ does poorly at predicting high abundance values at low values of `WatrCont`.
 
 We can also check the model diagnostic plots:
 
-```{r, echo = TRUE, eval = TRUE}
-par(mfrow = c(2, 2), cex = 1.4)
+```{r, echo = TRUE, eval = TRUE, fig.show="hold", out.width = "50%", out.height = "50%"}
 plot(lm.abund)
 ```
 
@@ -208,23 +219,23 @@ the proportion model also indicate that these models are also inappropriate:
 
 ```{r, echo = TRUE, eval = TRUE}
 # Plot the proportion model
-par(mfrow = c(1, 1))
 plot(prop ~ WatrCont, data = mites)
 abline(lm.prop)
+```
 
+```{r, echo = TRUE, eval = TRUE, fig.show = "hold", out.width="50%", out.height="50%"}
 # Diagnostic plots
-par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.prop)
 ```
 
 ```{r, echo = TRUE, eval = TRUE}
 # Plot the presence/absence model
-par(mfrow = c(1, 1))
 plot(pa ~ WatrCont, data = mites)
 abline(lm.pa)
+```
 
+```{r, echo = TRUE, eval = TRUE, fig.show = "hold", out.width="50%", out.height="50%"}
 # Diagnostic plots
-par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.pa)
 ```
 
@@ -260,7 +271,6 @@ Varying $\mu$ while $\sigma = 5$ shifts the mean of the distribution.
 
 ```{r, echo = FALSE}
 x = seq(1, 50, 0.1)
-par(mypar);par(cex = 1.4)
 plot(x, dnorm(x, mean = 20, sd = 5),
 type = 'l', lwd = 3,
 xlab = '# galumna', ylab = 'Probability')
@@ -274,7 +284,6 @@ If we keep $\mu = 25$, varying $\sigma$ changes the shape of the distribution, w
 
 ```{r, echo=FALSE}
 x = seq(1, 50, 0.1)
-par(mypar);par(cex = 1.4)
 plot(x, dnorm(x, mean = 25, sd = 5), type = 'l', lwd = 3, xlab = '# galumna', ylab = 'Probability')
 points(x, dnorm(x, mean = 25, sd = 7.5), type = 'l', lwd = 3, col = 2)
 points(x, dnorm(x, mean = 25, sd = 10), type = 'l', lwd = 3, col = 4)
@@ -306,7 +315,8 @@ summary(lm.abund)$sigma
 
 We can plug these values into the equation we just discussed above:
 $$Y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$
-$\mu = 3.44 + (-0.006 \times 300) = 1.63$
+$\mu = 3.44 + (-0.006 \times 300) = 1.63$  
+
 $\sigma^2 = 1.51$
 
 This tells us that randomly drawn $Y$ values when water content is $300$ should be on average $1.63$ and have a variance of $1.51$. In other words, at $x = 300$, residuals should follow a normal distribution with $\mu = 1.63$ and $\sigma^2 = 1.51$. At $x = 400$, we get $\mu = 1.02$ and $\sigma^2 = 1.51$, etc.
