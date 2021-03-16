@@ -91,7 +91,7 @@ by modifying and improving its content as part of the <br> *Le*arning *a*nd *D*e
 
  **2022** - **2021** - **2020**
 
-[Pedro Henrique P. Braga](ph.pereirabraga@gmail.com)
+[Pedro Henrique P. Braga](https://github.com/pedrohbraga)
 <br>
 [Katherine Hébert]()
 <br>
@@ -225,6 +225,16 @@ ANCOVA
 ]
 ]
 
+???
+
+When explaning this slide, provide a few examples of Y and X variables (e.g. number of species, sampling effort, climatic gradient).
+
+X can also be called independent variable, explanatory variable, predictor variabler;
+
+Y can also be called dependent variable, response variable, explained variable, predicted variable;
+
+ϵ can also be called random component, the error term, the disturbance.
+
 ---
 # Revisiting linear models
 
@@ -232,11 +242,11 @@ In [Workshop 4](https://qcbsrworkshops.github.io/workshop04/pres-en/workshop04-p
 
 The general form of our function $Y = f(X_1)$ as a linear function can be represented by:
 
-$$Y = \beta_0 + \beta_1X_i + \varepsilon$$
+$$Y_i = \beta_0 + \beta_1X_i + \varepsilon_i$$
 
 where:
 
-$Y_i$ is thepredicted value of a response variable
+$Y_i$ is the predicted value of a response variable
 
 $\beta_0$ is the *unknown coefficient* **intercept**
 
@@ -253,7 +263,7 @@ We have also learned that **linear models** only produce unbiased estimators (i.
 
 1\. The population can be described by a linear relationship:
 
-$$Y = \beta_0 + \beta_1X_i + \varepsilon$$
+$$Y = \beta_0 + \beta_1X + \varepsilon$$
 
 2\. The error term $\varepsilon$ has the same variance given any value of the explanatory variable (i.e. homoskedasticity), and the error terms are not correlated across observations (i.e. no autocorrelation):
 
@@ -268,6 +278,11 @@ $$\mathbb{C}{\rm ov} (\epsilon_i, \epsilon_j) = 0,\ i \neq j$$
 3\. And, the residuals are normal:
 
 $$\boldsymbol{\varepsilon} | \mathbf{X} \sim \mathcal{N} \left( \mathbf{0}, \sigma^2_\epsilon \mathbf{I} \right)$$
+
+???
+
+Note that the error and Y are always dependent, thus the Cov(Y, error) is different than zero.
+
 ---
 class: middle 
 
@@ -297,6 +312,7 @@ $$\boldsymbol{\varepsilon} | \mathbf{X} \sim \mathcal{N} \left( \mathbf{0}, \sig
 
 .pull-right[
 
+The estimations of general linear models as in $\widehat{Y} = \widehat{\beta}_0 + \widehat{\beta}_1 X$ assumes that data is generated following these assumptions.
 ```{r echo = FALSE}
 # Set the coefficients:
 N = 50
@@ -305,7 +321,7 @@ beta_1 = 0.5
 # Generate sample data:
 x <- 0:N
 #
-e <- rnorm(mean = 0, sd = 1.5, n = length(x))
+e <- rnorm(mean = 0, sd = 2, n = length(x))
 y <- beta_0 + beta_1 * x + e
 # Plot the data
 #
@@ -329,8 +345,67 @@ legend(x = 0, y = 25,
 Note: Improved versions of this workshop should include the lines describing the error estimates, and showing their distribution. For now, the presenter can help participants with this abstraction.
 
 ---
+## Representing the assumptions
 
-# An example with general linear models
+Let us simulate 250 observational units that satisfy the assumptions we have seen and have $\epsilon_i \sim \mathcal{N}(0, 2^2), i = 1,...,250$.
+
+.pull-left[
+
+```{r}
+nSamples <- 250
+ID <- factor(c(seq(1:nSamples)))
+
+PredVar <- runif(nSamples, 
+                  min = 0, 
+                  max = 50)
+
+simNormData <- data.frame(
+  ID = ID,
+  PredVar = PredVar,
+  RespVar = (2*PredVar + 
+               rnorm(nSamples,
+                     mean = 0,
+                     sd = 2)
+             )
+  )
+
+# We have learned how to use lm() 
+
+lm.simNormData <- lm(RespVar ~ PredVar, 
+                     data = simNormData)
+```
+
+]
+
+.pull-right[
+```{r}
+layout(matrix(c(1,2,3,4),2,2)) 
+plot(lm.simNormData)
+```
+
+]
+
+???
+
+Residuals: residual =  observed y   –   model-predicted y
+
+Outliers: observations with large residuals, i.e. the observed value for a point is very different from the one predicted by the regression model.
+
+Leverage points: A leverage point is defined as an observation that has a value of x that is far away from the mean of x. 
+
+Influential observations: An influential observation is defined as an observation that changes the slope of the line. Thus, influential points have a large influence on the fit of the model. One method to find influential points is to compare the fit of the model with and without each observation.
+
+1. Allows one to checkthe assumption of linearity and homoscedasticity;
+
+2. QQ-plot allows the comparison of the residuals to "ideal" normal observations;
+
+3. Scale-location plot (square rooted standardized residual vs. predicted value) is useful for checking the assumption of homoscedasticity;
+
+4. Cook's Distance, which is a measure of the influence of each observation on the regression coefficients.
+
+---
+
+# An example using general linear models: real data
 
 Let us use our prior knowledge on general linear models to explore the relationship between variables within the *Oribatid mite dataset*.
 
@@ -366,6 +441,8 @@ str(mites)
 
 <br>
 
+--
+
 .small[
 
 ```{r echo = FALSE, eval = TRUE}
@@ -392,7 +469,7 @@ The Oribatid mite dataset has **70 observations with moss and mite samples**, an
 Response variables:
 1. Occurrence: `pa` 
 2. Abundance: `Galumna`
-3. Relative Frequency or Proportion: `prop`
+3. Proportion or Relative Frequency: `prop`
 ]
 
 .pull-right[
@@ -406,7 +483,7 @@ Predictive variables:
 
 --
 
-**To answer our question**: *We can develop models! So many options!*
+**To answer our question**, *we can develop models! So many options!*
 
 .pull-left[
 $\text{Abundance} = f(\text{Water content}, \epsilon)$
@@ -462,17 +539,17 @@ Do *Galumna*'s community values (abundance, occurrence and relative frequency) v
 ```{r,fig.width=12,fig.height=4,echo=-1}
 par(mypar)
 par(mfrow = c(1, 3), cex = 1.4)
-plot(Galumna ~ WatrCont, data = mites, xlab = 'Water content', ylab='Abundance')
-boxplot(WatrCont ~ pa,
-        data = mites, xlab='Presence/Absence', ylab = 'Water content')
-plot(prop ~ WatrCont, data = mites, xlab = 'Water content', ylab='Proportion')
+plot(Galumna ~ WatrCont, data = mites, xlab = 'Water content', ylab ='Abundance')
+boxplot(WatrCont ~ pa, 
+        data = mites, xlab = 'Presence or Absence', ylab = 'Water content')
+plot(prop ~ WatrCont, data = mites, xlab = 'Water content', ylab = 'Proportion')
 ```
 ]
 
 ---
-# Using linear models
+# Using linear models with `lm()`
 
-Let us use (general) linear models to test whether `Galumna`, `pa`, and/or `prop` vary as a function of `WatrCont`:
+Let us use (general) linear models to test whether `Galumna`, `pa`, and/or `prop` vary as a function of `WatrCont` using the `lm()` function:
 
 --
 .small[
@@ -675,7 +752,7 @@ $$\sigma^2 = 1.51$$
 .pull-right[
 At $x = 300$, residuals should follow a normal distribution with $\mu = 1.63$ and $\sigma^2 = 1.51$.
 
-At $x = 400$, we get $\mu = 1.02$ and $\sigma^2 = 1.51$, etc.
+At $x = 400$, we get $\mu = 1.02$ and $\sigma^2 = 1.51$, and there on.
 ]
 
 --
@@ -683,61 +760,59 @@ At $x = 400$, we get $\mu = 1.02$ and $\sigma^2 = 1.51$, etc.
 .pull-left[
 
 .small[We can represent this model as]:
-
 .center[
-![:scale 90%](images/modelPredic.png)
+```{r echo = FALSE, fig.height=5}
+#Code to generate figure that illustrates assumptions of linear models
+plot.norm <- function(x, mymodel, mult = 1, sd.mult = 3, mycol = 'LightSalmon', howmany = 150) {
+  yvar <- mymodel$model[,1]
+  xvar <- mymodel$model[,2]
+  sigma <- summary(mymodel)$sigma
+  stick.val <- rep(xvar[x],howmany)+mult*dnorm(seq(predict(mymodel)[x]-sd.mult*sigma, predict(mymodel)[x]+sd.mult*sigma, length = howmany), mean=predict(mymodel)[x],sd=sigma)
+  steps<-seq(predict(mymodel)[x]-sd.mult*sigma,predict(mymodel)[x]+sd.mult*sigma,length=howmany)
+  polygon(c(stick.val,rep(xvar[x],howmany)),c(sort(steps,decreasing=T),steps),col=mycol,border=NA)
+}
+#function adapted from http://www.unc.edu/courses/2010fall/ecol/563/001/notes/lecture4%20Rcode.txt
+plot(Galumna ~ WatrCont, data = mites,ylim=c(-4,8),cex.axis=1,cex.lab=1,type='n')
+plot.norm(8,lm.abund,200)
+plot.norm(11,lm.abund,200)
+plot.norm(36,lm.abund,200)
+plot.norm(52,lm.abund,200)
+abline(h=0,lty=3)
+points(Galumna ~ WatrCont, data = mites,pch=21)
+abline(lm.abund,lty=1)
+abline(v=mites$WatrCont[c(8,11,36,52)],col='red',lty=2)
+text(x = mites$WatrCont[8]+50,y=7.5,expression(mu == 1.8),cex=1,col='red')
+text(x = mites$WatrCont[11]+50,y=7.5,expression(mu == 2.6),cex=1,col='red')
+text(x = mites$WatrCont[36]+50,y=7.5,expression(mu == 0.9),cex=1,col='red')
+text(x = mites$WatrCont[52]+60,y=7.5,expression(mu == -0.1),cex=1,col='red')
+text(x = mites$WatrCont[52]+105,y=6.5,expression(sigma == 'always' ~ 1.51),cex=1,col='red')
+```
 ]
 ]
+
 
 --
 
 .pull-right[
 
-**What are some problems with this model?**:
+**What are the main problems with this model?**
 
-1. The slope does not follow the trend in the observation
-2. the $\mu$ (mean) estimates are incorrect
-3. The $\sigma^2$ (variance) is considered homogeneous
-4. The normal distribution is continuous but observations are discrete
+1. Values are on average farther from the regression line;
+2. The estimated $\mu$ (means) are not the same;
+3. The estimated $\sigma^2$ (variance) changes;
+4. The observations do not fall across the expected values.
 ]
+
+--
+
+.pull-right[*1 and 4!*]
 
 ???
 
 Perform a multiple choice poll with participants.
-Correct answers are 3 and 4.
+Correct answers are 1 and 4.
 
----
-# Model prediction
-
-.pull-left[
-$$y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$
-$$\mu = 3.44 + (-0.006 \times 300) +\varepsilon= 1.63$$
-$$\sigma^2 = 1.51$$
-]
-.pull-right[
-At $x = 300$, residuals should follow a normal distribution with $\mu = 1.63$ and $\sigma^2 = 1.51$.
-
-At $x = 400$, we get $\mu = 1.02$ and $\sigma^2 = 1.51$, etc.
-]
-
-.pull-left[
-
-.small[We can represent this model as]:
-
-.center[
-![:scale 90%](images/modelPredic.png)
-]
-]
-
-.pull-right[
-
-**Problems**:
-
-3\. $\sigma^2$ is not homogeneous, yet `lm()` forces a constant $\sigma^2$
-
-4\. Predicted values should be integers
-]
-
+Values are on average farther from the regression line at low water content values. That is, there is more residual variance around the predicted values for low values of x, such that εi varies as a function of x, thus violating the assumption of homoscedasticity. It makes no sense to use a constant value of σ2: the normal distributions used to predict y at low values of x should ideally be wider (have a larger σ2) than normal distributions used to predict y at large x values, but linear models do not permit this.
 
 ---
 ## What do we do now? Transform?
@@ -772,15 +847,16 @@ $$E(\log{Y_i}) = \beta_0 + \beta_1X_i $$
 ]
 
 ---
-# Plus, normal distributions are not the only options!
+# Normal distributions are not the only ones!
 
-Statisticians have described a [multitude of distributions](https://www.causascientia.org/math_stat/Dists/Compendium.pdf) to describe different types of data.
+Statisticians have defined a [multitude of probability distributions](https://www.causascientia.org/math_stat/Dists/Compendium.pdf) to describe different types of data.
 
 A distribution provides the probability of observing each possible outcome of an experiment or survey (e.g. $abund = 8$ *Galumna* individuals).
 
 Distributions can be **discrete** (only include integers), **continuous** (including fractions) and be limited to a given range or domain (e.g., $0$ to $1$, $0$ to $+\infty$, $-\infty$ to $+\infty$).
 
 All distributions can be broken down into **parameters** that dictate their shapes (e.g. $\mu$ and $\sigma^2$ for the Normal).
+
 
 ---
 # Biological data & distributions: Poisson
@@ -795,26 +871,55 @@ A useful distribution to model abundance data is the “Poisson” distribution:
 x = seq(1, 50, 1)
 par(mypar);par(mfrow = c(1, 3), cex = 1.4)
 plot(x, dpois(x, lambda = 1), type = 'h', lwd = 3,
-     xlab = '# Galumna', ylab = 'Probability', main = 'lambda = 1')
+     xlab = 'Frequency of Galumna', ylab = 'Probability', main = 'lambda = 1')
 plot(x, dpois(x, lambda = 10), type = 'h', lwd = 3,
-     xlab = '# Galumna', ylab = 'Probability', main = 'lambda = 10')
+     xlab = 'Frequency of Galumna', ylab = 'Probability', main = 'lambda = 10')
 plot(x, dpois(x, lambda = 30), type = 'h', lwd = 3,
-     xlab = '# Galumna', ylab = 'Probability', main = 'lambda = 30')
+     xlab = 'Frequency of Galumna', ylab = 'Probability', main = 'lambda = 30')
 ```
 
 ---
 # Biological data & distributions: Poisson
 
+.pull-left[
+
 *Galumna* seems to follow a Poisson distribution with a low value of $\lambda$:
 
-.pull-left[
 ```{r}
-  hist(mites$Galumna)
+hist(mites$Galumna)
 ```
 ]
+
 .pull-right[
-```{r}
-  mean(mites$Galumna)
+Would a model incorporating the Poisson distribution work better in the $\text{Galumna} = f(\text{Water content})$ case?
+
+<br>
+```{r echo=FALSE}
+#Code to generate figure that illustrates a poisson glm
+glm.pois <- glm(Galumna ~ WatrCont, data = mites, family='poisson')
+plot.poiss<-function(x,mymodel,mult=1,mycol='LightSalmon') {
+  yvar<-mymodel$model[,1]
+  xvar<-mymodel$model[,2]
+  lambd<-mymodel$fitted[x]
+  stick.val<-rep(xvar[x],9)+mult*dpois(0:8,lambd=lambd)
+  segments(rep(xvar[x],9),0:8,stick.val,0:8,col=mycol,lwd=3)
+}
+plot(Galumna ~ WatrCont, data = mites,cex.axis=0.7,cex.lab=0.7)
+points(Galumna ~ WatrCont, data = mites,pch=21)
+lines(x=seq(min(mites$WatrCont),max(mites$WatrCont),by=1),y=predict(glm.pois,newdata=data.frame('WatrCont' = seq(min(mites$WatrCont),max(mites$WatrCont),by=1)),type='response'))
+par(lend=3)
+plot.poiss(8,glm.pois,200)
+abline(v=mites$WatrCont[8],col='red',lty=2)
+plot.poiss(11,glm.pois,200)
+abline(v=mites$WatrCont[11],col='red',lty=2)
+plot.poiss(36,glm.pois,200)
+abline(v=mites$WatrCont[36],col='red',lty=2)
+plot.poiss(52,glm.pois,200)
+abline(v=mites$WatrCont[52],col='red',lty=2)
+text(x = mites$WatrCont[8]+50,y=7.5,expression(lambda == 1.7), cex=0.7, col = 'red')
+text(x = mites$WatrCont[11]+50,y=7.5,expression(lambda == 4.7), cex=0.7, col = 'red')
+text(x = mites$WatrCont[36]+50,y=7.5,expression(lambda == 0.5), cex=0.7, col = 'red')
+text(x = mites$WatrCont[52]+50,y=7.5,expression(lambda == 0.1), cex=0.7, col = 'red')
 ```
 ]
 
@@ -827,8 +932,8 @@ Presence-absence data takes another form:
 - Poisson distribution would not be appropriate to model this variable.
 
 ```{r,fig.height=5,echo=-1}
-  par(mypar); par(cex=1.4)
-  hist(mites$pa)
+par(mypar); par(cex=1.4)
+hist(mites$pa)
 ```
 
 ---
@@ -874,12 +979,13 @@ plot(x, dbinom(x, size = 50, prob = 0.9), type = 'h', lwd = 3, xlab = '# galumna
 ```{r,echo=F,fig.width=10, fig.height=5}
 x = seq(1, 50, 1)
 par(mypar);par(mfrow = c(1, 2), cex = 1.4)
-plot(x, dbinom(x, size = 50, prob = 0.9), type = 'h', lwd = 3, xlab = '# galumna', ylab = 'Probability', main = 'p = 0.9 n = 50')
+plot(x, dbinom(x, size = 50, prob = 0.9), 
+     type = 'h', lwd = 3, xlab = '# galumna', ylab = 'Probability', main = 'p = 0.9 n = 50')
 plot(x, dpois(x, lambda = 30), type = 'h', lwd = 3, xlab = '# galumna', ylab = 'Probability', main = 'lambda = 30')
 ```
 
 ---
-# Modelling with other distributions
+class: middle, center
 
 *Getting back to our problem... what do we do if we have other distributions?*
 
@@ -897,7 +1003,7 @@ In `R`, this means that we will move away from the (general) linear models funct
 
 A **generalized linear model** is made of a **linear predictor**:
 
-$$\eta_i = \underbrace{g(\mu_i)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$
+$$\eta_i = \underbrace{g(\mu)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$
 and,
 
 1. a **link** function $g(\mu_i)$ that **transforms the expected value** of $Y$ and describes how the mean $E(Y_i) = \mu_i$ depends on the linear predictor
@@ -915,7 +1021,7 @@ where the **dispersion parameter** $phi$ is a constant.
 So, for our **general linear model** with $\epsilon ∼ N(0, σ^2)$ and $Y_i \sim{} N(\mu_i, \sigma^2)$, we have the same linear predictor:
 
 
-$$\underbrace{g(\mu_i)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$
+$$\underbrace{g(\mu)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$
 the **identity** link function
 $$g(\mu_i) = \mu_i$$
 and, the variance function

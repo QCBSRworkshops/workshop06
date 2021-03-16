@@ -6,8 +6,7 @@
 
 #### Loading data ####
 
-setwd("~/Desktop")
-mites <- read.csv('mites.csv')
+mites <- read.csv('data/mites.csv')
 
 head(mites) 
 str(mites)
