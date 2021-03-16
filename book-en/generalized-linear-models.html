@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 16 Additional resources | Workshop 6: Generalized linear models</title>
+  <title>Chapter 6 Generalized Linear Models | Workshop 6: Generalized linear models</title>
   <meta name="description" content="Generalized linear models in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 16 Additional resources | Workshop 6: Generalized linear models" />
+  <meta property="og:title" content="Chapter 6 Generalized Linear Models | Workshop 6: Generalized linear models" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 16 Additional resources | Workshop 6: Generalized linear models" />
+  <meta name="twitter:title" content="Chapter 6 Generalized Linear Models | Workshop 6: Generalized linear models" />
   
   <meta name="twitter:description" content="Generalized linear models in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="summary.html"/>
-<link rel="next" href="references.html"/>
+<link rel="prev" href="the-distributions-of-biological-data.html"/>
+<link rel="next" href="binomial-glms-bernouilli.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -224,10 +224,86 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
-<div id="additional-resources" class="section level1">
-<h1><span class="header-section-number">Chapter 16</span> Additional resources</h1>
+<div id="generalized-linear-models" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> Generalized Linear Models</h1>
+<p>A <strong>generalized linear model</strong> is made of a <strong>linear predictor</strong>:</p>
+<p><span class="math display">\[\eta_i = \underbrace{g(\mu)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}\]</span>
+and,</p>
+<ol style="list-style-type: decimal">
+<li>a <strong>link</strong> function <span class="math inline">\(g(\mu_i)\)</span> that <strong>transforms the expected value</strong> of <span class="math inline">\(Y\)</span> and describes how the mean <span class="math inline">\(E(Y_i) = \mu_i\)</span> depends on the linear predictor</li>
+</ol>
+<p><span class="math display">\[g(\mu_i) = ηi\]</span></p>
+<ol start="2" style="list-style-type: decimal">
+<li>a <strong>variance</strong> function that describows how the variance <span class="math inline">\(\text{var}(Y_i)\)</span> depends on the mean</li>
+</ol>
+<p><span class="math display">\[\text{var}(Y_i) = \phi V(\mu)\]</span></p>
+<p>where the <strong>dispersion parameter</strong> <span class="math inline">\(\phi\)</span> is a constant.</p>
+<p>So, for our <strong>general linear model</strong> with <span class="math inline">\(\epsilon ∼ N(0, \sigma^2)\)</span> and <span class="math inline">\(Y_i \sim{} N(\mu_i, \sigma^2)\)</span>, we have the same linear predictor:</p>
+<p><span class="math display">\[\underbrace{g(\mu)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}\]</span></p>
+<p>the <strong>identity</strong> link function</p>
+<p><span class="math display">\[g(\mu_i) = \mu_i\]</span></p>
+<p>and, the variance function</p>
+<p><span class="math display">\[V(\mu_i) = 1\]</span></p>
+<p><em>This is equivalent to the normal linear model that we have learned before!</em></p>
+<p>In <code>R</code>, we can fit generalized linear models using the <code>glm()</code> function, which is similar to the <code>lm()</code> function, with the <code>family</code> argument taking the names of the <strong>link function</strong> (inside <code>link</code>) and, the <strong>variance function</strong>.:</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="generalized-linear-models.html#cb48-1"></a><span class="kw">glm</span>(formula,</span>
+<span id="cb48-2"><a href="generalized-linear-models.html#cb48-2"></a>    <span class="dt">family =</span> <span class="kw">gaussian</span>(<span class="dt">link =</span> <span class="st">&quot;identity&quot;</span>),</span>
+<span id="cb48-3"><a href="generalized-linear-models.html#cb48-3"></a>    data,</span>
+<span id="cb48-4"><a href="generalized-linear-models.html#cb48-4"></a>    ...)</span></code></pre></div>
+<p>This approach is extendable to other distribution families!</p>
+<table>
+<colgroup>
+<col width="28%" />
+<col width="27%" />
+<col width="20%" />
+<col width="16%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Distribution of <span class="math inline">\(Y\)</span></th>
+<th>Link function name</th>
+<th>Link function</th>
+<th>Model</th>
+<th><code>R</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Normal</td>
+<td>Identity</td>
+<td><span class="math inline">\(g(\mu) = \mu\)</span></td>
+<td><span class="math inline">\(\mu = \mathbf{X} \boldsymbol{\beta}\)</span></td>
+<td><code>gaussian(link="identity")</code></td>
+</tr>
+<tr class="even">
+<td>Binomial</td>
+<td>Logit</td>
+<td><span class="math inline">\(g(\mu) = \log\left(\dfrac{\mu}{1-\mu}\right)\)</span></td>
+<td><span class="math inline">\(\log\left(\dfrac{\mu}{1-\mu}\right) = \mathbf{X} \boldsymbol{\beta}\)</span></td>
+<td><code>binomial(link="logit")</code></td>
+</tr>
+<tr class="odd">
+<td>Poisson</td>
+<td>Log</td>
+<td><span class="math inline">\(g(\mu) = \log(\mu)\)</span></td>
+<td><span class="math inline">\(-\mu^{-1} = \mathbf{X} \boldsymbol{\beta}\)</span></td>
+<td><code>poisson(link="log")</code></td>
+</tr>
+<tr class="even">
+<td>Exponential</td>
+<td>Negative Inverse</td>
+<td><span class="math inline">\(g(\mu) = -\mu^{-1}\)</span></td>
+<td><span class="math inline">\(\log(\mu) = \mathbf{X} \boldsymbol{\beta}\)</span></td>
+<td><code>Gamma(link="inverse")</code></td>
+</tr>
+</tbody>
+</table>
 
 </div>
+
+
+
 <hr>
 <center> 
   <div class="footer">
@@ -239,8 +315,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="summary.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="the-distributions-of-biological-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="binomial-glms-bernouilli.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

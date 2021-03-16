@@ -188,7 +188,15 @@ text(x = mites$WatrCont[36]+50,y=7.5,expression(lambda == 0.5), cex=0.7, col = '
 text(x = mites$WatrCont[52]+50,y=7.5,expression(lambda == 0.1), cex=0.7, col = 'red')
 
 
-##Section: 04-glm-binary.R 
+##Section: 04-glm.R 
+
+glm(formula,
+    family = gaussian(link = "identity"),
+    data,
+    ...)
+
+
+##Section: 05-glm-binary.R 
 
 mites <- read.csv('mites.csv')
 model.lm <- lm(pa ~ WatrCont + Topo, data = mites)
@@ -245,21 +253,29 @@ XB <- X %*% B
 # We use the round() function so that all elements have 5 digits.
 round(fitted(model.CO2), digits = 5) == round(XB, digits = 5)
 
-# Let’s build a regression model of the presence/absence of a mite species (Galumna sp.)
-# as a function of water content and topography.
-# To do this, we need to use the glm() function and specify the family argument.
-logit.reg <- glm(pa ~ WatrCont + Topo, data = mites, family = binomial(link = "logit"))
+logit.reg <- glm(pa ~ WatrCont + Topo,
+  data = mites,
+  family = binomial(link = "logit"))
+
 # The logit function is the default for the binomial distribution,
 # so it is not necessary to include it in the "family" argument:
-logit.reg <- glm(pa ~ WatrCont + Topo, data = mites, family = binomial)
+logit.reg <- glm(pa ~ WatrCont + Topo,
+  data = mites,
+  family = binomial)
 summary(logit.reg)
 
 library(MASS)
 data(bacteria)
-model.bact1 <- glm(y ~ trt * week, family = binomial('logit'), data = bacteria)
-model.bact2 <- glm(y ~ trt + week, family = binomial('logit'), data = bacteria)
-model.bact3 <- glm(y ~ week, family = binomial('logit'), data = bacteria)
-anova(model.bact1, model.bact2, model.bact3, test = 'LRT')
+
+# what does the data look like?
+str(bacteria)
+
+model.bact1 <- glm(y ~ trt * week, data = bacteria, family = binomial)
+model.bact2 <- glm(y ~ trt + week, data = bacteria, family = binomial)
+model.bact3 <- glm(y ~ week, data = bacteria, family = binomial)
+
+# Let's compare these models using a likelihood ratio test (LRT).
+anova(model.bact1, model.bact2, model.bact3, test = "LRT")
 
 logit.reg
 
@@ -355,7 +371,7 @@ ylab("Probability of presence") +
 ggtitle("Probability of presence of Galumna sp. as a function of water content")
 
 
-##Section: 05-glm-proportion.R 
+##Section: 06-glm-proportion.R 
 
 mites <- read.csv('mites.csv')
 prop.reg <- glm(cbind(Galumna, totalabund - Galumna) ~ Topo + WatrCont,
@@ -370,7 +386,7 @@ prop.reg2 <- glm(prop ~ Topo + WatrCont,
 summary(prop.reg2)
 
 
-##Section: 06-glm-count.R 
+##Section: 07-glm-count.R 
 
 faramea <- read.csv("faramea.csv", header = TRUE)
 
@@ -443,17 +459,17 @@ glm.qp2 = glm(Galumna~WatrCont, data=mites, family=quasipoisson)
 anova(glm.qp2, glm.qp, test="Chisq")
 
 
-##Section: 07-other-distributions.R 
+##Section: 08-other-distributions.R 
 
 
 
 
-##Section: 08-final-considerations.R 
+##Section: 09-final-considerations.R 
 
 
 
 
-##Section: 09-references.R 
+##Section: 10-references.R 
 
 
 

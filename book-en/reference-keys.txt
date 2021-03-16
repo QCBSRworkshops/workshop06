@@ -14,9 +14,11 @@ recalling-linear-models-assumptions
 model-prediction
 so-what-do-we-do-now-transform-our-data
 the-distributions-of-biological-data
+generalized-linear-models
 binomial-glms-bernouilli
 the-link-function
 challenge-1
+challenge-1-solution
 interpreting-the-output-of-a-logistic-regression
 predictive-power-and-goodness-of-fit
 challenge-2
