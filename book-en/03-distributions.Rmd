@@ -190,5 +190,4 @@ Notice that probabilities of observations/predicted values (in orange,
 as for the lm model above) are now integers, and that both the variance
 and the mean of the distribution decline as $\lambda$ decreases with increasing
 water content. Why is the fitted line of predicted values curved? Why is
-this called a "generalized" linear model? Keep reading and you'll
-find out!
+this called a "generalized" linear model?
