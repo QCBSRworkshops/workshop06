@@ -263,8 +263,8 @@ function is logarithmic ensuring that fitted values are always positive.</p>
 </ul>
 <p>The negative binomial GLM can be built using the <code>glm.nb()</code> function from
 the <code>MASS</code> package:</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="negative-binomial-glms.html#cb94-1"></a>glm.negbin =<span class="st"> </span><span class="kw">glm.nb</span>(Faramea.occidentalis<span class="op">~</span>Elevation, <span class="dt">data=</span>faramea)</span>
-<span id="cb94-2"><a href="negative-binomial-glms.html#cb94-2"></a><span class="kw">summary</span>(glm.negbin)</span></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="negative-binomial-glms.html#cb95-1"></a>glm.negbin =<span class="st"> </span><span class="kw">glm.nb</span>(Faramea.occidentalis<span class="op">~</span>Elevation, <span class="dt">data=</span>faramea)</span>
+<span id="cb95-2"><a href="negative-binomial-glms.html#cb95-2"></a><span class="kw">summary</span>(glm.negbin)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm.nb(formula = Faramea.occidentalis ~ Elevation, data = faramea, 
@@ -305,27 +305,27 @@ symmetric and we are testing on the boundary.</p>
 relationship between the abundance of <em>Faramea occidentalis</em> and
 elevation.</p>
 <p>Use <code>summary</code> to get the parameters.</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="negative-binomial-glms.html#cb96-1"></a><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">1</span>, <span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="negative-binomial-glms.html#cb97-1"></a><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">1</span>, <span class="dv">1</span>]</span></code></pre></div>
 <pre><code>## [1] 2.369226</code></pre>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="negative-binomial-glms.html#cb98-1"></a><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="negative-binomial-glms.html#cb99-1"></a><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">1</span>]</span></code></pre></div>
 <pre><code>## [1] -0.007038124</code></pre>
 <p>Use the standard errors to build the confidence envelope.</p>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="negative-binomial-glms.html#cb100-1"></a><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">1</span>, <span class="dv">2</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="negative-binomial-glms.html#cb101-1"></a><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">1</span>, <span class="dv">2</span>]</span></code></pre></div>
 <pre><code>## [1] 0.4738409</code></pre>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="negative-binomial-glms.html#cb102-1"></a><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">2</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="negative-binomial-glms.html#cb103-1"></a><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">2</span>]</span></code></pre></div>
 <pre><code>## [1] 0.002496143</code></pre>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="negative-binomial-glms.html#cb104-1"></a>pp &lt;-<span class="st"> </span><span class="kw">predict</span>(glm.negbin, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">Elevation =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">800</span>), <span class="dt">se.fit =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb104-2"><a href="negative-binomial-glms.html#cb104-2"></a>linkinv &lt;-<span class="st"> </span><span class="kw">family</span>(glm.negbin)<span class="op">$</span>linkinv <span class="co">## inverse-link function</span></span>
-<span id="cb104-3"><a href="negative-binomial-glms.html#cb104-3"></a>pframe &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(pp<span class="op">$</span>fit)</span>
-<span id="cb104-4"><a href="negative-binomial-glms.html#cb104-4"></a><span class="kw">names</span>(pframe) &lt;-<span class="st"> &quot;pred0&quot;</span></span>
-<span id="cb104-5"><a href="negative-binomial-glms.html#cb104-5"></a>pframe<span class="op">$</span>pred &lt;-<span class="st"> </span><span class="kw">linkinv</span>(pp<span class="op">$</span>fit)</span>
-<span id="cb104-6"><a href="negative-binomial-glms.html#cb104-6"></a>sc &lt;-<span class="st"> </span><span class="kw">abs</span>(<span class="kw">qnorm</span>((<span class="dv">1</span><span class="fl">-0.95</span>)<span class="op">/</span><span class="dv">2</span>))  <span class="co">## Normal approx. to likelihood</span></span>
-<span id="cb104-7"><a href="negative-binomial-glms.html#cb104-7"></a>pframe &lt;-<span class="st"> </span><span class="kw">transform</span>(pframe, <span class="dt">lwr =</span> <span class="kw">linkinv</span>(pred0<span class="op">-</span>sc<span class="op">*</span>pp<span class="op">$</span>se.fit), <span class="dt">upr =</span> <span class="kw">linkinv</span>(pred0<span class="op">+</span>sc<span class="op">*</span>pp<span class="op">$</span>se.fit))</span>
-<span id="cb104-8"><a href="negative-binomial-glms.html#cb104-8"></a><span class="kw">plot</span>(faramea<span class="op">$</span>Elevation, faramea<span class="op">$</span>Faramea.occidentalis, <span class="dt">ylab =</span> <span class="st">&#39;Number of F. occidentalis&#39;</span>, <span class="dt">xlab =</span> <span class="st">&#39;Elevation(m)&#39;</span>)</span>
-<span id="cb104-9"><a href="negative-binomial-glms.html#cb104-9"></a><span class="kw">lines</span>(pframe<span class="op">$</span>pred, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb104-10"><a href="negative-binomial-glms.html#cb104-10"></a><span class="kw">lines</span>(pframe<span class="op">$</span>upr, <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">3</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb104-11"><a href="negative-binomial-glms.html#cb104-11"></a><span class="kw">lines</span>(pframe<span class="op">$</span>lwr, <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">3</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-64-1.png" width="672" /></p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="negative-binomial-glms.html#cb105-1"></a>pp &lt;-<span class="st"> </span><span class="kw">predict</span>(glm.negbin, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">Elevation =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">800</span>), <span class="dt">se.fit =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb105-2"><a href="negative-binomial-glms.html#cb105-2"></a>linkinv &lt;-<span class="st"> </span><span class="kw">family</span>(glm.negbin)<span class="op">$</span>linkinv <span class="co">## inverse-link function</span></span>
+<span id="cb105-3"><a href="negative-binomial-glms.html#cb105-3"></a>pframe &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(pp<span class="op">$</span>fit)</span>
+<span id="cb105-4"><a href="negative-binomial-glms.html#cb105-4"></a><span class="kw">names</span>(pframe) &lt;-<span class="st"> &quot;pred0&quot;</span></span>
+<span id="cb105-5"><a href="negative-binomial-glms.html#cb105-5"></a>pframe<span class="op">$</span>pred &lt;-<span class="st"> </span><span class="kw">linkinv</span>(pp<span class="op">$</span>fit)</span>
+<span id="cb105-6"><a href="negative-binomial-glms.html#cb105-6"></a>sc &lt;-<span class="st"> </span><span class="kw">abs</span>(<span class="kw">qnorm</span>((<span class="dv">1</span><span class="fl">-0.95</span>)<span class="op">/</span><span class="dv">2</span>))  <span class="co">## Normal approx. to likelihood</span></span>
+<span id="cb105-7"><a href="negative-binomial-glms.html#cb105-7"></a>pframe &lt;-<span class="st"> </span><span class="kw">transform</span>(pframe, <span class="dt">lwr =</span> <span class="kw">linkinv</span>(pred0<span class="op">-</span>sc<span class="op">*</span>pp<span class="op">$</span>se.fit), <span class="dt">upr =</span> <span class="kw">linkinv</span>(pred0<span class="op">+</span>sc<span class="op">*</span>pp<span class="op">$</span>se.fit))</span>
+<span id="cb105-8"><a href="negative-binomial-glms.html#cb105-8"></a><span class="kw">plot</span>(faramea<span class="op">$</span>Elevation, faramea<span class="op">$</span>Faramea.occidentalis, <span class="dt">ylab =</span> <span class="st">&#39;Number of F. occidentalis&#39;</span>, <span class="dt">xlab =</span> <span class="st">&#39;Elevation(m)&#39;</span>)</span>
+<span id="cb105-9"><a href="negative-binomial-glms.html#cb105-9"></a><span class="kw">lines</span>(pframe<span class="op">$</span>pred, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb105-10"><a href="negative-binomial-glms.html#cb105-10"></a><span class="kw">lines</span>(pframe<span class="op">$</span>upr, <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">3</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb105-11"><a href="negative-binomial-glms.html#cb105-11"></a><span class="kw">lines</span>(pframe<span class="op">$</span>lwr, <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">3</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-68-1.png" width="672" /></p>
 <p>We can see that the number of <em>Faramea occidentalis</em> significantly
 decreases with elevation. However, the confidence envelope of the NB
 model is large at low elevation.</p>
@@ -335,18 +335,18 @@ model is large at low elevation.</p>
 <p>Do you need to account for overdispersion?<br />
 Which covariates have a significant effect?<br />
 Select the best model!</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="negative-binomial-glms.html#cb105-1"></a>mites &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/mites.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="negative-binomial-glms.html#cb106-1"></a>mites &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/mites.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p>Drop each term in turn and compare the full model with a nested model using the command:</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="negative-binomial-glms.html#cb106-1"></a><span class="kw">drop1</span>(MyGLM, <span class="dt">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="negative-binomial-glms.html#cb107-1"></a><span class="kw">drop1</span>(MyGLM, <span class="dt">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
 <p>Specify manually a nested model, call it for example MyGLM2, and use the command:</p>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="negative-binomial-glms.html#cb107-1"></a><span class="kw">anova</span>(MyGLM, MyGLM2, <span class="dt">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="negative-binomial-glms.html#cb108-1"></a><span class="kw">anova</span>(MyGLM, MyGLM2, <span class="dt">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
 <p><strong>Solution</strong></p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="negative-binomial-glms.html#cb108-1"></a><span class="co"># Poisson GLM</span></span>
-<span id="cb108-2"><a href="negative-binomial-glms.html#cb108-2"></a>glm.p =<span class="st"> </span><span class="kw">glm</span>(Galumna<span class="op">~</span>WatrCont<span class="op">+</span>SubsDens, <span class="dt">data=</span>mites, <span class="dt">family=</span>poisson)</span>
-<span id="cb108-3"><a href="negative-binomial-glms.html#cb108-3"></a><span class="co"># quasi-Poisson GLM</span></span>
-<span id="cb108-4"><a href="negative-binomial-glms.html#cb108-4"></a>glm.qp =<span class="st"> </span><span class="kw">update</span>(glm.p,<span class="dt">family=</span>quasipoisson)</span>
-<span id="cb108-5"><a href="negative-binomial-glms.html#cb108-5"></a><span class="co"># model selection</span></span>
-<span id="cb108-6"><a href="negative-binomial-glms.html#cb108-6"></a><span class="kw">drop1</span>(glm.qp, <span class="dt">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="negative-binomial-glms.html#cb109-1"></a><span class="co"># Poisson GLM</span></span>
+<span id="cb109-2"><a href="negative-binomial-glms.html#cb109-2"></a>glm.p =<span class="st"> </span><span class="kw">glm</span>(Galumna<span class="op">~</span>WatrCont<span class="op">+</span>SubsDens, <span class="dt">data=</span>mites, <span class="dt">family=</span>poisson)</span>
+<span id="cb109-3"><a href="negative-binomial-glms.html#cb109-3"></a><span class="co"># quasi-Poisson GLM</span></span>
+<span id="cb109-4"><a href="negative-binomial-glms.html#cb109-4"></a>glm.qp =<span class="st"> </span><span class="kw">update</span>(glm.p,<span class="dt">family=</span>quasipoisson)</span>
+<span id="cb109-5"><a href="negative-binomial-glms.html#cb109-5"></a><span class="co"># model selection</span></span>
+<span id="cb109-6"><a href="negative-binomial-glms.html#cb109-6"></a><span class="kw">drop1</span>(glm.qp, <span class="dt">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
 <pre><code>## Single term deletions
 ## 
 ## Model:
@@ -357,9 +357,9 @@ Select the best model!</p>
 ## SubsDens  1   108.05       3.125   0.07708 .  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="negative-binomial-glms.html#cb110-1"></a><span class="co"># or</span></span>
-<span id="cb110-2"><a href="negative-binomial-glms.html#cb110-2"></a>glm.qp2 =<span class="st"> </span><span class="kw">glm</span>(Galumna<span class="op">~</span>WatrCont, <span class="dt">data=</span>mites, <span class="dt">family=</span>quasipoisson)</span>
-<span id="cb110-3"><a href="negative-binomial-glms.html#cb110-3"></a><span class="kw">anova</span>(glm.qp2, glm.qp, <span class="dt">test=</span><span class="st">&quot;Chisq&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="negative-binomial-glms.html#cb111-1"></a><span class="co"># or</span></span>
+<span id="cb111-2"><a href="negative-binomial-glms.html#cb111-2"></a>glm.qp2 =<span class="st"> </span><span class="kw">glm</span>(Galumna<span class="op">~</span>WatrCont, <span class="dt">data=</span>mites, <span class="dt">family=</span>quasipoisson)</span>
+<span id="cb111-3"><a href="negative-binomial-glms.html#cb111-3"></a><span class="kw">anova</span>(glm.qp2, glm.qp, <span class="dt">test=</span><span class="st">&quot;Chisq&quot;</span>)</span></code></pre></div>
 <pre><code>## Analysis of Deviance Table
 ## 
 ## Model 1: Galumna ~ WatrCont

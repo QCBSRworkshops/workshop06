@@ -126,13 +126,66 @@ summary(lm.abund)$sigma
 
 ##Section: 03-distributions.R 
 
+par(cex = 2)
+x = seq(1, 50, 1)
+plot(x, dpois(x, lambda = 1), type = "h", lwd = 3, xlab = "Frequency of Galumna", ylab = "Probability", main = "lambda = 1")
+plot(x, dpois(x, lambda = 10), type = "h", lwd = 3, xlab = "Frequency of Galumna", ylab = "Probability", main = "lambda = 10")
+plot(x, dpois(x, lambda = 30), type = "h", lwd = 3, xlab = "Frequency of Galumna", ylab = "Probability", main = "lambda = 30")
+
 mites <- read.csv('mites.csv')
+
 hist(mites$Galumna)
 mean(mites$Galumna)
 
 hist(mites$pa)
 
+par(cex = 2.1)
+barplot(setNames(c(.9, .1), c('absent (0)', 'present (1)')),
+        ylim = c(0, 1),
+        xlab = '', ylab = 'probability',
+        main = 'p = 0.1')
+barplot(setNames(c(.5, .5), c('absent (0)', 'present (1)')),
+        ylim = c(0, 1),
+        xlab = '', ylab = 'probability',
+        main = 'p = 0.5')
+barplot(setNames(c(.1, .9), c('absent (0)', 'present (1)')),
+        xlab = '', ylim = c(0, 1),
+        ylab = 'probability',
+        main = 'p = 0.9')
+
 sum(mites$pa) / nrow(mites)
+
+par(cex = 2.1)
+x = seq(1, 50, 1)
+plot(x, dbinom(x, size = 50, prob = 0.1), type = 'h', lwd = 3, xlab = '# galumna', ylab = 'Probability', main = 'p = 0.1 n = 50')
+plot(x, dbinom(x, size = 50, prob = 0.5), type = 'h', lwd = 3, xlab = '# galumna', ylab = 'Probability', main = 'p = 0.5 n = 50')
+plot(x, dbinom(x, size = 50, prob = 0.9), type = 'h', lwd = 3, xlab = '# galumna', ylab = 'Probability', main = 'p = 0.9 n = 50')
+
+#Code to generate figure that illustrates a poisson glm
+glm.pois <- glm(Galumna ~ WatrCont, data = mites, family='poisson')
+plot.poiss<-function(x,mymodel,mult=1,mycol='LightSalmon') {
+  yvar<-mymodel$model[,1]
+  xvar<-mymodel$model[,2]
+  lambd<-mymodel$fitted[x]
+  stick.val<-rep(xvar[x],9)+mult*dpois(0:8,lambd=lambd)
+  segments(rep(xvar[x],9),0:8,stick.val,0:8,col=mycol,lwd=3)
+}
+plot(Galumna ~ WatrCont, data = mites,cex.axis=1.2,cex.lab=1)
+points(Galumna ~ WatrCont, data = mites,pch=21)
+lines(x=seq(min(mites$WatrCont),max(mites$WatrCont),by=1),y=predict(glm.pois,newdata=data.frame('WatrCont' = seq(min(mites$WatrCont),max(mites$WatrCont),by=1)),type='response'))
+par(lend=3)
+plot.poiss(8,glm.pois,200)
+abline(v=mites$WatrCont[8],col='red',lty=2)
+plot.poiss(11,glm.pois,200)
+abline(v=mites$WatrCont[11],col='red',lty=2)
+plot.poiss(36,glm.pois,200)
+abline(v=mites$WatrCont[36],col='red',lty=2)
+plot.poiss(52,glm.pois,200)
+abline(v=mites$WatrCont[52],col='red',lty=2)
+text(x = mites$WatrCont[8]+50,y=7.5,expression(lambda == 1.7), cex=0.7, col = 'red')
+text(x = mites$WatrCont[11]+50,y=7.5,expression(lambda == 4.7), cex=0.7, col = 'red')
+text(x = mites$WatrCont[36]+50,y=7.5,expression(lambda == 0.5), cex=0.7, col = 'red')
+text(x = mites$WatrCont[52]+50,y=7.5,expression(lambda == 0.1), cex=0.7, col = 'red')
 
 
 ##Section: 04-glm-binary.R 
