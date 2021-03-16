@@ -1,0 +1,49 @@
+# Generalized Linear Models
+
+A **generalized linear model** is made of a **linear predictor**:
+
+$$\eta_i = \underbrace{g(\mu)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$
+and,
+
+1. a **link** function $g(\mu_i)$ that **transforms the expected value** of $Y$ and describes how the mean $E(Y_i) = \mu_i$ depends on the linear predictor
+
+$$g(\mu_i) = ηi$$
+
+2. a **variance** function that describows how the variance $\text{var}(Y_i)$ depends on the mean
+
+$$\text{var}(Y_i) = \phi V(\mu)$$
+
+where the **dispersion parameter** $\phi$ is a constant.
+
+So, for our **general linear model** with $\epsilon ∼ N(0, \sigma^2)$ and $Y_i \sim{} N(\mu_i, \sigma^2)$, we have the same linear predictor:
+
+
+$$\underbrace{g(\mu)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$
+
+the **identity** link function
+
+$$g(\mu_i) = \mu_i$$
+
+and, the variance function
+
+$$V(\mu_i) = 1$$
+
+*This is equivalent to the normal linear model that we have learned before!*
+
+In `R`, we can fit generalized linear models using the `glm()` function, which is similar to the `lm()` function, with the `family` argument taking the names of the **link function** (inside `link`) and, the **variance function**.:
+
+```{r, eval = FALSE, echo = TRUE}
+glm(formula,
+    family = gaussian(link = "identity"),
+    data,
+    ...)
+```
+
+This approach is extendable to other distribution families!
+
+| Distribution of $Y$ | Link function name | Link function | Model      | `R` |
+|---------------------|--------------------|---------------|------------|-----|
+| Normal              | Identity           | $g(\mu) = \mu$  | $\mu = \mathbf{X} \boldsymbol{\beta}$ | `gaussian(link="identity")` |
+| Binomial            | Logit              | $g(\mu) = \log\left(\dfrac{\mu}{1-\mu}\right)$  | $\log\left(\dfrac{\mu}{1-\mu}\right) = \mathbf{X} \boldsymbol{\beta}$ | `binomial(link="logit")`|
+| Poisson              | Log           | $g(\mu) = \log(\mu)$ | $-\mu^{-1} = \mathbf{X} \boldsymbol{\beta}$ | `poisson(link="log")`|
+| Exponential              | Negative Inverse           | $g(\mu) = -\mu^{-1}$  | $\log(\mu) = \mathbf{X} \boldsymbol{\beta}$ | `Gamma(link="inverse")` |

@@ -149,11 +149,11 @@ us to relax the normality assumption. In the case of a binary response
 variable, the link function is called the logit function and is given
 by:
 
-logit(*μ*) = log (*μ* / 1-*μ*) = *Xβ*
+$$logit(\mu) = log (\mu / 1-\mu) = X\beta$$
 
-where *μ* represents expected values (*i.e.* the probability that Y = 1
+where $\mu$ represents expected values (*i.e.* the probability that Y = 1
 because we observed the presence of a species, disease, success, or some
-other event). The ratio *μ* / 1-*μ* represents the odds that some
+other event). The ratio $\mu / 1-\mu$ represents the odds that some
 outcome occured and it transforms the expected values into continuous
 values from 0 to infinity. If we have a 0.8 probability of observing
 species X, then our odds are 4 times more likely to observe the species
@@ -166,14 +166,20 @@ still call this model a generalized **linear** model even though the
 plot of our response variable as a function of some explanatory variable
 doesn't look like a "straight line"!
 
+
+Let’s build a regression model of the presence/absence of a mite species (Galumna sp.) as a function of water content and topography. # To do this, we need to use the `glm()` function and specify the `family` argument.
+
+
 ```{r, echo = TRUE, eval = TRUE}
-# Let’s build a regression model of the presence/absence of a mite species (Galumna sp.)
-# as a function of water content and topography.
-# To do this, we need to use the glm() function and specify the family argument.
-logit.reg <- glm(pa ~ WatrCont + Topo, data = mites, family = binomial(link = "logit"))
+logit.reg <- glm(pa ~ WatrCont + Topo,
+  data = mites,
+  family = binomial(link = "logit"))
+
 # The logit function is the default for the binomial distribution,
 # so it is not necessary to include it in the "family" argument:
-logit.reg <- glm(pa ~ WatrCont + Topo, data = mites, family = binomial)
+logit.reg <- glm(pa ~ WatrCont + Topo,
+  data = mites,
+  family = binomial)
 summary(logit.reg)
 ```
 
@@ -184,17 +190,29 @@ Using the `bacteria` dataset (from the `MASS` package), model the
 presence of *H. influenzae* as a function of treatment and week of test.
 Start with a full model and reduce it to the most parsimonious model.
 
-Challenge 1: Solution
+Load the `MASS` package and the `bacteria` dataset:
 
 ```{r, echo = FALSE, eval = TRUE, warning=FALSE}
 library(MASS)
-```
-```{r, echo = TRUE, eval = TRUE}
 data(bacteria)
-model.bact1 <- glm(y ~ trt * week, family = binomial('logit'), data = bacteria)
-model.bact2 <- glm(y ~ trt + week, family = binomial('logit'), data = bacteria)
-model.bact3 <- glm(y ~ week, family = binomial('logit'), data = bacteria)
-anova(model.bact1, model.bact2, model.bact3, test = 'LRT')
+
+# what does the data look like?
+str(bacteria)
+```
+
+This dataset was made to test the presence of the bacteria *H. influenzae* in children with otitis media in the Northern Territory of Australia. Dr A. Leach tested the effects of a drug on 50 children with a history of otitis media in the Northern Territory of Australia. The children were randomized to the drug or a placebo. The presence of *H. influenzae* was checked at weeks 0, 2, 4, 6 and 11: 30 of the checks were missing and are not included in this data frame.
+
+
+#### Challenge 1: Solution
+
+
+```{r, echo = TRUE, eval = TRUE}
+model.bact1 <- glm(y ~ trt * week, data = bacteria, family = binomial)
+model.bact2 <- glm(y ~ trt + week, data = bacteria, family = binomial)
+model.bact3 <- glm(y ~ week, data = bacteria, family = binomial)
+
+# Let's compare these models using a likelihood ratio test (LRT).
+anova(model.bact1, model.bact2, model.bact3, test = "LRT")
 ```
 
 Based on these results, we select model #2 as the best candidate to model these data.
