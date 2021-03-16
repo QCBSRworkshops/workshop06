@@ -265,7 +265,7 @@ content.
 Looking at diagnostic plots for the presence-absence model and
 the proportion model also indicate that these models are also inappropriate:
 
-```{r, echo = TRUE, eval = TRUE}
+```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 7, fig.align="center"}
 # Plot the proportion model
 plot(prop ~ WatrCont, data = mites)
 abline(lm.prop)
@@ -276,7 +276,7 @@ abline(lm.prop)
 plot(lm.prop)
 ```
 
-```{r, echo = TRUE, eval = TRUE}
+```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 7, fig.align="center"}
 # Plot the presence/absence model
 plot(pa ~ WatrCont, data = mites)
 abline(lm.pa)
@@ -317,7 +317,7 @@ Let's take a look at what happens to the distribution when we vary the parameter
 
 Varying $\mu$ while $\sigma = 5$ shifts the mean of the distribution.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.align="center", fig.width = 7, fig.height = 7,}
 x = seq(1, 50, 0.1)
 plot(x, dnorm(x, mean = 20, sd = 5),
 type = 'l', lwd = 3,
@@ -330,7 +330,7 @@ legend('topleft', legend = c('20', '25', '30'), lty = 1, col = c(1,2,4), bty = '
 
 If we keep $\mu = 25$, varying $\sigma$ changes the shape of the distribution, where smaller $\sigma$ (low variance) means there is higher probability around the mean, while larger $\sigma$ spreads out the probabilities across the full range of values.
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, fig.align="center", fig.width = 7, fig.height = 7}
 x = seq(1, 50, 0.1)
 plot(x, dnorm(x, mean = 25, sd = 5), type = 'l', lwd = 3, xlab = '# galumna', ylab = 'Probability')
 points(x, dnorm(x, mean = 25, sd = 7.5), type = 'l', lwd = 3, col = 2)
