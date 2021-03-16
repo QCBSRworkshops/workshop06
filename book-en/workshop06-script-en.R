@@ -200,10 +200,16 @@ glm(formula,
 
 lm(Pres ~ ExpVar)
 
+par(cex = 1.2)
 Pres <- c(rep(1, 40), rep(0, 40))
 rnor <- function(x) rnorm(1, mean = ifelse(x == 1, 12.5, 7.5), sd = 2)
 ExpVar <- sapply(Pres, rnor)
-plot(ExpVar, Pres, ylim = c(-.5, 1.5), xlab = 'Explanatory variable', ylab = 'Presence', main = 'Binary variables and fitted values', pch = 16)
+plot(ExpVar, Pres, 
+     ylim = c(-.5, 1.5), 
+     xlab = 'Explanatory variable', 
+     ylab = 'Presence', 
+     main = 'Binary variables and fitted values', 
+     pch = 16)
 abline(lm(Pres ~ ExpVar), col = 'orange', lwd = 2)
 mtext(expression(symbol("\255")), at = 1.25, side = 4, line = 0.1, cex = 6, col = 'blue')
 mtext(expression(symbol("\256")), at = 3, side = 1, line = -2.2, cex = 6, col = 'blue')
