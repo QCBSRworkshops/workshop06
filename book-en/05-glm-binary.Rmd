@@ -1,24 +1,152 @@
 # (PART\*) GLMs with binary data {-}
 
-# Binomial GLMs (Bernouilli)
+# Binary variables
 
 A common response variable in ecological datasets is the binary
-variable: we observe a phenomenon $Y$ or its "absence". For example,
-species presence/absence is frequently recorded in ecological monitoring
-studies. We usually wish to determine whether a species' presence is
-affected by some environmental variables. Other examples include the
-presence/absence of a disease within a wild population, the
-success/failure to record a specific behaviour, and the survival/death
-of organisms. Usually, we are interested in questions such as: how do species occurrences vary in function of the environment?
+variable: we observe a phenomenon $Y$ or its "absence". For example, species presence/absence is frequently recorded in ecological monitoring studies. We usually wish to determine whether a species' presence is affected by some environmental variables. Other examples include the presence/absence of a disease within a wild population, the
+success/failure to record a specific behaviour, and the survival/death of organisms. Usually, we are interested in questions such as: how do species occurrences vary in function of the environment?
 
 $$Occurrences = f(Environment)$$
 
-A regression that has a binary response variable is one of
-many generalized linear models and is called a logistic regression or a
-logit model.
+Under a linear model, expected values can be out of the `[0, 1]` range with `lm()`:
 
-In `R`, presence (or success, survival...) is usually coded as `1` and
-absence (or failure, death...) as `0`. A logistic regression (or any other generalized linear model) is performed with the `glm()` function. This function is different from the basic `lm()` as it allows one to specify a statistical distribution other than the normal distribution.
+```{r, eval = FALSE, echo = TRUE}
+lm(Pres ~ ExpVar)
+```
+
+```{r,echo=FALSE, fig.show="hold", out.width="50%"}
+Pres <- c(rep(1, 40), rep(0, 40))
+rnor <- function(x) rnorm(1, mean = ifelse(x == 1, 12.5, 7.5), sd = 2)
+ExpVar <- sapply(Pres, rnor)
+plot(ExpVar, Pres, ylim = c(-.5, 1.5), xlab = 'Explanatory variable', ylab = 'Presence', main = 'Binary variables and fitted values', pch = 16)
+abline(lm(Pres ~ ExpVar), col = 'orange', lwd = 2)
+mtext(expression(symbol("\255")), at = 1.25, side = 4, line = 0.1, cex = 6, col = 'blue')
+mtext(expression(symbol("\256")), at = 3, side = 1, line = -2.2, cex = 6, col = 'blue')
+
+# histogram
+hist(Pres)
+```
+
+
+# GLM with binomial data: logit link
+
+A regression that has a binary response variable is one of
+many generalized linear models and is called a logistic regression or a logit model.
+
+A **generalized linear model** is made of a **linear predictor**:
+
+$$\underbrace{g(\mu_i)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$
+Consider that $Y_i ∼ B(n_i, p_i)$, and that we want to model the proportions of $Y_i^{}/n_i$. As such:
+
+$E(Y_i^{}/n_i) = p_i$ and $\text{var}(Y_i^{}/n_i) = \frac{1}{n_i}p_i(1-p_i)$
+, so that $V(\mu_i) = \mu_i(1-\mu_i)$.]
+
+We first move the probabilities $\mu_i$ to the *odds*:
+
+$$\text{odds}_i = \frac{\mu_i}{1-\mu_i}$$
+The odds puts our expected values on a `0` to `+Inf` scale.
+
+We then take logarithms, calculating the *logit* or log-odds:
+
+$$\eta_i = \text{logit}(\mu_i) = \log(\frac{\mu_i}{1-\mu_i})$$
+
+with $\mu$ being the expected values (probability that $Y = 1$ ), and with the expected values now ranging from `-Inf` to `+Inf`.
+
+We can understand that as if event A has probability p of occurring, then the odds of event A occurring is the ratio of the probability that A occurs to the probability that A does not occur: $p/(1−p)$. For example, if the probability that I will fail my courses  is 0.6, the odds that I will fail my courses is $0.6/(1 − 0.6) = 1.5$. This means that the probability of observing a failure in my courses is 1.5 times greater than the probability of not observing it (that is,
+$1.5 × 0.4 = 0.6$).
+
+In `R`, presence (or success, survival...) is usually coded as `1` and absence (or failure, death...) as `0`. A logistic regression (or any other generalized linear model) is performed with the `glm()` function. This function is different from the basic `lm()` as it allows one to specify a statistical distribution other than the normal distribution.
+
+A reminder about our `glm()` function:
+
+```{r, eval = FALSE, echo = TRUE}
+glm(formula,
+    family = ???,
+    data,
+    ...)
+```
+
+--
+
+| Distribution of $Y$ | Link function name | Link function | Model      | `R` |
+|---------------------|--------------------|---------------|------------|-----|
+| Normal              | Identity           | $g(\mu) = \mu$  | $\mu = \mathbf{X} \boldsymbol{\beta}$ | `gaussian(link="identity")` |
+| Binomial            | Logit              | $g(\mu) = \log\left(\dfrac{\mu}{1-\mu}\right)$  | $\log\left(\dfrac{\mu}{1-\mu}\right) = \mathbf{X} \boldsymbol{\beta}$ | `binomial(link="logit")`|
+| Poisson              | Log           | $g(\mu) = \log(\mu)$ | $-\mu^{-1} = \mathbf{X} \boldsymbol{\beta}$ | `poisson(link="log")`|
+| Exponential              | Negative Inverse           | $g(\mu) = -\mu^{-1}$  | $\log(\mu) = \mathbf{X} \boldsymbol{\beta}$ | `Gamma(link="inverse")` |
+
+--
+
+In `R`, we can therefore build a binomial GLM with a logit link as follows:
+
+```{r, eval = FALSE, echo = TRUE}
+glm(formula,
+    family = binomial(link = "logit"), # this is also known as logistic
+    data,
+    ...)
+```
+
+# Exercise 1
+
+Let's build our first generalized linear model! Here, we want to build a logistic regression model using the `mites` data
+
+```{r, echo = TRUE}
+# setwd('...')
+
+mites <- read.csv("data/mites.csv", header = TRUE)
+str(mites)
+```
+
+We can fit the logistic regression model of the presence of *Galumna* sp. as a function of water content and topography as follows, using the `glm()` function and the `family` argument:
+
+```{r}
+logit.reg <- glm(pa ~ WatrCont + Topo,
+                 data = mites,
+                 family = binomial(link = "logit"))
+```
+
+To see the model output, we run:
+```{r}
+summary(logit.reg)
+```
+
+Doesn't this structure resembles the one from `summary.lm()`? IT does, right? However you might notice that there are some special differences (e.g. dispersion parameter) we will discuss further in this book!
+
+# Challenge 1
+
+Using the `bacteria` dataset (from the `MASS` package), model the
+presence of *H. influenzae* as a function of treatment and week of test.
+Start with a full model and reduce it to the most parsimonious model.
+
+Load the `MASS` package and the `bacteria` dataset:
+
+```{r, echo = FALSE, eval = TRUE, warning=FALSE}
+library(MASS)
+data(bacteria)
+
+# what does the data look like?
+str(bacteria)
+```
+
+This dataset was made to test the presence of the bacteria *H. influenzae* in children with otitis media in the Northern Territory of Australia. Dr A. Leach tested the effects of a drug on 50 children with a history of otitis media in the Northern Territory of Australia. The children were randomized to the drug or a placebo. The presence of *H. influenzae* was checked at weeks 0, 2, 4, 6 and 11: 30 of the checks were missing and are not included in this data frame.
+
+
+## Challenge 1: Solution
+
+
+```{r, echo = TRUE, eval = TRUE}
+model.bact1 <- glm(y ~ trt * week, data = bacteria, family = binomial)
+model.bact2 <- glm(y ~ trt + week, data = bacteria, family = binomial)
+model.bact3 <- glm(y ~ week, data = bacteria, family = binomial)
+
+# Let's compare these models using a likelihood ratio test (LRT).
+anova(model.bact1, model.bact2, model.bact3, test = "LRT")
+```
+
+Based on these results, we select model #2 as the best candidate to model these data.
+
+
+# Binomial GLMs (Bernouilli)
 
 We've already seen that binary variables are not normally distributed (*i.e.*
 we see a peak at 0 and a peak at 1 and nothing in between). Like we have
@@ -167,7 +295,7 @@ plot of our response variable as a function of some explanatory variable
 doesn't look like a "straight line"!
 
 
-Let’s build a regression model of the presence/absence of a mite species (Galumna sp.) as a function of water content and topography. # To do this, we need to use the `glm()` function and specify the `family` argument.
+Let’s build a regression model of the presence/absence of a mite species (Galumna sp.) as a function of water content and topography. To do this, we need to use the `glm()` function and specify the `family` argument.
 
 
 ```{r, echo = TRUE, eval = TRUE}
@@ -183,39 +311,6 @@ logit.reg <- glm(pa ~ WatrCont + Topo,
 summary(logit.reg)
 ```
 
-
-### Challenge 1
-
-Using the `bacteria` dataset (from the `MASS` package), model the
-presence of *H. influenzae* as a function of treatment and week of test.
-Start with a full model and reduce it to the most parsimonious model.
-
-Load the `MASS` package and the `bacteria` dataset:
-
-```{r, echo = FALSE, eval = TRUE, warning=FALSE}
-library(MASS)
-data(bacteria)
-
-# what does the data look like?
-str(bacteria)
-```
-
-This dataset was made to test the presence of the bacteria *H. influenzae* in children with otitis media in the Northern Territory of Australia. Dr A. Leach tested the effects of a drug on 50 children with a history of otitis media in the Northern Territory of Australia. The children were randomized to the drug or a placebo. The presence of *H. influenzae* was checked at weeks 0, 2, 4, 6 and 11: 30 of the checks were missing and are not included in this data frame.
-
-
-#### Challenge 1: Solution
-
-
-```{r, echo = TRUE, eval = TRUE}
-model.bact1 <- glm(y ~ trt * week, data = bacteria, family = binomial)
-model.bact2 <- glm(y ~ trt + week, data = bacteria, family = binomial)
-model.bact3 <- glm(y ~ week, data = bacteria, family = binomial)
-
-# Let's compare these models using a likelihood ratio test (LRT).
-anova(model.bact1, model.bact2, model.bact3, test = "LRT")
-```
-
-Based on these results, we select model #2 as the best candidate to model these data.
 
 ## Interpreting the output of a logistic regression
 
@@ -338,19 +433,20 @@ Hence, the model explains 46.6% of the variability in the data.
 An adjusted McFadden's pseudo-R^2^, which penalizes for the number of
 predictors, can be calculated as below:
 
-![](images/McFadden.PNG)
+$$ R^2_{adj} = \frac{null~deviance - residual~deviance}{null~deviance} $$
+$$ R^2_{adj} = 1 - \frac{logL(M)-K}{logL(M_{null})} $$
 
 where **K** corresponds to the additional number of predictors in
 relation to the null model.
 
 The goodness-of-fit of logistic regression models can be expressed by
-variants of pseudo-R^2^ statistics, such as Maddala (1983) or Cragg and
+variants of $pseudo-R^2$ statistics, such as Maddala (1983) or Cragg and
 Uhler (1970) measures.
 
 When talking about logistic regressions, low R^2^ values are common.
 
 The R function ```DescTools::PseudoR2()``` makes it possible to calculate
-many types of pseudo-R^2^. By specifying ```which = all```, calculate all
+many types of $pseudo-R^2$. By specifying ```which = all```, calculate all
 of them at once.
 
 ```{r, echo = TRUE, eval = TRUE}
@@ -426,7 +522,8 @@ HLtest(object = fit)
 
 Assess goodness-of-fit and predictive power of the `model.bact2` model. How can you improve the predictive power of this model?
 
-**Solution**
+
+### Challenge 2: Solution
 
 ```{r, echo = TRUE, eval = TRUE}
 null.d <- model.bact2$null.deviance
@@ -461,8 +558,12 @@ predictor. Here is an example with the `ggplot2` package. See [workshop
 library(ggplot2)
 ```
 ```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 7, fig.align = "center", warning = FALSE, message = FALSE}
-ggplot(mites, aes(x = WatrCont, y = pa)) + geom_point() +
-stat_smooth(method = "glm", family= "binomial", se = FALSE) + xlab("Water content") +
-ylab("Probability of presence") +
-ggtitle("Probability of presence of Galumna sp. as a function of water content")
+ggplot(mites,
+  aes(x = WatrCont, y = pa)) +
+  geom_point() +
+  stat_smooth(method = "glm", family= "binomial", se = FALSE) +
+  labs(x = "Water content",
+  y = "Probability of presence",
+  title = "Probability of presence of Galumna sp. as a function of water content") +
+  theme_classic() # applies a simplified plot theme
 ```
