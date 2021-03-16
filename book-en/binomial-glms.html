@@ -225,10 +225,10 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>We will thus obtain a proportional number of “success” in observing individuals by dividing the counts by the total counts.</p>
 <p>In <code>glm()</code>, we have to provide prior weights if the response variable is the proportion of successes.</p>
 <p>Proportions can be modeled by providing both the number of “successes” and prior weights in the function</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="binomial-glms.html#cb59-1"></a>prop.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="kw">cbind</span>(Galumna, totalabund <span class="op">-</span><span class="st"> </span>Galumna) <span class="op">~</span><span class="st"> </span>Topo <span class="op">+</span><span class="st"> </span>WatrCont,</span>
-<span id="cb59-2"><a href="binomial-glms.html#cb59-2"></a>                <span class="dt">data =</span> mites,</span>
-<span id="cb59-3"><a href="binomial-glms.html#cb59-3"></a>                <span class="dt">family =</span> binomial)</span>
-<span id="cb59-4"><a href="binomial-glms.html#cb59-4"></a><span class="kw">summary</span>(prop.reg)</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="binomial-glms.html#cb72-1"></a>prop.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="kw">cbind</span>(Galumna, totalabund <span class="op">-</span><span class="st"> </span>Galumna) <span class="op">~</span><span class="st"> </span>Topo <span class="op">+</span><span class="st"> </span>WatrCont,</span>
+<span id="cb72-2"><a href="binomial-glms.html#cb72-2"></a>                <span class="dt">data =</span> mites,</span>
+<span id="cb72-3"><a href="binomial-glms.html#cb72-3"></a>                <span class="dt">family =</span> binomial)</span>
+<span id="cb72-4"><a href="binomial-glms.html#cb72-4"></a><span class="kw">summary</span>(prop.reg)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = cbind(Galumna, totalabund - Galumna) ~ Topo + WatrCont, 
@@ -254,11 +254,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## Number of Fisher Scoring iterations: 5</code></pre>
 <p>The weights can also be set explicitly in <code>glm()</code>:</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="binomial-glms.html#cb61-1"></a>prop.reg2 &lt;-<span class="st"> </span><span class="kw">glm</span>(prop <span class="op">~</span><span class="st"> </span>Topo <span class="op">+</span><span class="st"> </span>WatrCont,</span>
-<span id="cb61-2"><a href="binomial-glms.html#cb61-2"></a>                 <span class="dt">data =</span> mites,</span>
-<span id="cb61-3"><a href="binomial-glms.html#cb61-3"></a>                 <span class="dt">family =</span> binomial,</span>
-<span id="cb61-4"><a href="binomial-glms.html#cb61-4"></a>                 <span class="dt">weights =</span> totalabund)</span>
-<span id="cb61-5"><a href="binomial-glms.html#cb61-5"></a><span class="kw">summary</span>(prop.reg2)</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="binomial-glms.html#cb74-1"></a>prop.reg2 &lt;-<span class="st"> </span><span class="kw">glm</span>(prop <span class="op">~</span><span class="st"> </span>Topo <span class="op">+</span><span class="st"> </span>WatrCont,</span>
+<span id="cb74-2"><a href="binomial-glms.html#cb74-2"></a>                 <span class="dt">data =</span> mites,</span>
+<span id="cb74-3"><a href="binomial-glms.html#cb74-3"></a>                 <span class="dt">family =</span> binomial,</span>
+<span id="cb74-4"><a href="binomial-glms.html#cb74-4"></a>                 <span class="dt">weights =</span> totalabund)</span>
+<span id="cb74-5"><a href="binomial-glms.html#cb74-5"></a><span class="kw">summary</span>(prop.reg2)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = prop ~ Topo + WatrCont, family = binomial, data = mites, 

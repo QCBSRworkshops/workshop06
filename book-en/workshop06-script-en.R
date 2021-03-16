@@ -7,6 +7,12 @@ install.packages(c("ggplot2",
                    'DescTools')
                  )
 
+library(ggplot2)
+library(MASS)
+library(vcdExtra)
+library(bbmle)
+library(DescTools)
+
 
 ##Section: 02-introduction.R 
 
@@ -35,7 +41,7 @@ legend(x = 0, y = 25,
 
 # Use setwd() to set your working directory
 
-mites <- read.csv('data/mites.csv', 
+mites <- read.csv('data/mites.csv',
                   stringsAsFactors = TRUE)
 
 head(mites)
@@ -45,18 +51,18 @@ str(mites)
 par(mfrow = c(1, 3), cex = 1.4)
 
 plot(Galumna ~ WatrCont,
-     data = mites, 
-     xlab = 'Water content', 
+     data = mites,
+     xlab = 'Water content',
      ylab = 'Abundance')
 
 boxplot(WatrCont ~ pa,
-        data = mites, 
+        data = mites,
         xlab='Presence/Absence',
         ylab = 'Water content')
 
-plot(prop ~ WatrCont, 
-     data = mites, 
-     xlab = 'Water content', 
+plot(prop ~ WatrCont,
+     data = mites,
+     xlab = 'Water content',
      ylab = 'Proportion')
 
 lm.abund <- lm(Galumna ~ WatrCont, data = mites)
@@ -66,6 +72,11 @@ lm.pa <- lm(pa ~ WatrCont, data = mites)
 summary(lm.pa)
 
 lm.prop <- lm(prop ~ WatrCont, data = mites)
+
+summary(lm.abund)
+
+summary(lm.pa)
+
 summary(lm.prop)
 
 # Extracting the Pr(>|t|)
@@ -182,7 +193,7 @@ objects(logit.reg)
 pseudoR2 <- (logit.reg$null.deviance - logit.reg$deviance) / logit.reg$null.deviance
 pseudoR2
 
-logit.reg <- glm(pa ~ WatrCont + Topo, 
+logit.reg <- glm(pa ~ WatrCont + Topo,
                  data = mites, family = binomial(link = "logit"))
 DescTools::PseudoR2(logit.reg, which = "all")
 

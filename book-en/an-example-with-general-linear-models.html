@@ -222,10 +222,10 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 4</span> An example with general linear models</h1>
 <p>Let us use our prior knowledge on general linear models to explore the relationship between variables within the <em>Oribatid mite dataset</em>.</p>
 <p>Let us begin by loading this dataset into <code>R</code>:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="an-example-with-general-linear-models.html#cb2-1"></a><span class="co"># Use setwd() to set your working directory</span></span>
-<span id="cb2-2"><a href="an-example-with-general-linear-models.html#cb2-2"></a></span>
-<span id="cb2-3"><a href="an-example-with-general-linear-models.html#cb2-3"></a>mites &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;data/mites.csv&#39;</span>, </span>
-<span id="cb2-4"><a href="an-example-with-general-linear-models.html#cb2-4"></a>                  <span class="dt">stringsAsFactors =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="an-example-with-general-linear-models.html#cb9-1"></a><span class="co"># Use setwd() to set your working directory</span></span>
+<span id="cb9-2"><a href="an-example-with-general-linear-models.html#cb9-2"></a></span>
+<span id="cb9-3"><a href="an-example-with-general-linear-models.html#cb9-3"></a>mites &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;data/mites.csv&#39;</span>,</span>
+<span id="cb9-4"><a href="an-example-with-general-linear-models.html#cb9-4"></a>                  <span class="dt">stringsAsFactors =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p>The dataset that you just loaded is a subset from the classic ‘Oribatid
 mite dataset’, which has been used in numerous texts (e.g. Borcard,
 Gillet &amp; Legendre, <em>Numerical Ecology with R</em>), and which is available
@@ -233,7 +233,7 @@ in the <code>vegan</code> library.</p>
 <p>The Oribatid mite dataset has <strong>70 observations with moss and mite samples</strong> collected Station de Biologie des
 Laurentides from the Université de Montréal, within the municipality of Saint-Hippolyte, Québec (Canada). Each sample includes <strong>5</strong> variables of <strong>environmental measurements</strong> and abundance for <em>Galumna</em> sp. for each site.</p>
 <p>We can peek into the structure and the first six rows of the dataset using the <code>head()</code> and <code>str()</code> functions:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="an-example-with-general-linear-models.html#cb3-1"></a><span class="kw">head</span>(mites)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="an-example-with-general-linear-models.html#cb10-1"></a><span class="kw">head</span>(mites)</span></code></pre></div>
 <pre><code>##   Galumna pa totalabund        prop SubsDens WatrCont Substrate Shrub    Topo
 ## 1       8  1        140 0.057142857    39.18   350.15   Sphagn1   Few Hummock
 ## 2       3  1        268 0.011194030    54.99   434.81    Litter   Few Hummock
@@ -241,7 +241,7 @@ Laurentides from the Université de Montréal, within the municipality of Saint-
 ## 4       1  1        286 0.003496503    48.19   360.50   Sphagn1   Few Hummock
 ## 5       2  1        199 0.010050251    23.55   204.13   Sphagn1   Few Hummock
 ## 6       1  1        209 0.004784689    57.32   311.55   Sphagn1   Few Hummock</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="an-example-with-general-linear-models.html#cb5-1"></a><span class="kw">str</span>(mites)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="an-example-with-general-linear-models.html#cb12-1"></a><span class="kw">str</span>(mites)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    70 obs. of  9 variables:
 ##  $ Galumna   : int  8 3 1 1 2 1 1 1 2 5 ...
 ##  $ pa        : int  1 1 1 1 1 1 1 1 1 1 ...
@@ -292,59 +292,115 @@ Laurentides from the Université de Montréal, within the municipality of Saint-
 </div>
 <p>Let us attempt to be more specific and ask <strong>wether <em>Galumna</em>’s community values (abundance, occurrence and relative frequency) vary as a function of water content</strong>.</p>
 <p>We can begin by representing all three response variables against the predictor:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="an-example-with-general-linear-models.html#cb7-1"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="dt">cex =</span> <span class="fl">1.4</span>)</span>
-<span id="cb7-2"><a href="an-example-with-general-linear-models.html#cb7-2"></a></span>
-<span id="cb7-3"><a href="an-example-with-general-linear-models.html#cb7-3"></a><span class="kw">plot</span>(Galumna <span class="op">~</span><span class="st"> </span>WatrCont,</span>
-<span id="cb7-4"><a href="an-example-with-general-linear-models.html#cb7-4"></a>     <span class="dt">data =</span> mites, </span>
-<span id="cb7-5"><a href="an-example-with-general-linear-models.html#cb7-5"></a>     <span class="dt">xlab =</span> <span class="st">&#39;Water content&#39;</span>, </span>
-<span id="cb7-6"><a href="an-example-with-general-linear-models.html#cb7-6"></a>     <span class="dt">ylab =</span> <span class="st">&#39;Abundance&#39;</span>)</span>
-<span id="cb7-7"><a href="an-example-with-general-linear-models.html#cb7-7"></a></span>
-<span id="cb7-8"><a href="an-example-with-general-linear-models.html#cb7-8"></a><span class="kw">boxplot</span>(WatrCont <span class="op">~</span><span class="st"> </span>pa,</span>
-<span id="cb7-9"><a href="an-example-with-general-linear-models.html#cb7-9"></a>        <span class="dt">data =</span> mites, </span>
-<span id="cb7-10"><a href="an-example-with-general-linear-models.html#cb7-10"></a>        <span class="dt">xlab=</span><span class="st">&#39;Presence/Absence&#39;</span>,</span>
-<span id="cb7-11"><a href="an-example-with-general-linear-models.html#cb7-11"></a>        <span class="dt">ylab =</span> <span class="st">&#39;Water content&#39;</span>)</span>
-<span id="cb7-12"><a href="an-example-with-general-linear-models.html#cb7-12"></a></span>
-<span id="cb7-13"><a href="an-example-with-general-linear-models.html#cb7-13"></a><span class="kw">plot</span>(prop <span class="op">~</span><span class="st"> </span>WatrCont, </span>
-<span id="cb7-14"><a href="an-example-with-general-linear-models.html#cb7-14"></a>     <span class="dt">data =</span> mites, </span>
-<span id="cb7-15"><a href="an-example-with-general-linear-models.html#cb7-15"></a>     <span class="dt">xlab =</span> <span class="st">&#39;Water content&#39;</span>, </span>
-<span id="cb7-16"><a href="an-example-with-general-linear-models.html#cb7-16"></a>     <span class="dt">ylab =</span> <span class="st">&#39;Proportion&#39;</span>)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-7-1.png" width="1632" /></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="an-example-with-general-linear-models.html#cb14-1"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="dt">cex =</span> <span class="fl">1.4</span>)</span>
+<span id="cb14-2"><a href="an-example-with-general-linear-models.html#cb14-2"></a></span>
+<span id="cb14-3"><a href="an-example-with-general-linear-models.html#cb14-3"></a><span class="kw">plot</span>(Galumna <span class="op">~</span><span class="st"> </span>WatrCont,</span>
+<span id="cb14-4"><a href="an-example-with-general-linear-models.html#cb14-4"></a>     <span class="dt">data =</span> mites,</span>
+<span id="cb14-5"><a href="an-example-with-general-linear-models.html#cb14-5"></a>     <span class="dt">xlab =</span> <span class="st">&#39;Water content&#39;</span>,</span>
+<span id="cb14-6"><a href="an-example-with-general-linear-models.html#cb14-6"></a>     <span class="dt">ylab =</span> <span class="st">&#39;Abundance&#39;</span>)</span>
+<span id="cb14-7"><a href="an-example-with-general-linear-models.html#cb14-7"></a></span>
+<span id="cb14-8"><a href="an-example-with-general-linear-models.html#cb14-8"></a><span class="kw">boxplot</span>(WatrCont <span class="op">~</span><span class="st"> </span>pa,</span>
+<span id="cb14-9"><a href="an-example-with-general-linear-models.html#cb14-9"></a>        <span class="dt">data =</span> mites,</span>
+<span id="cb14-10"><a href="an-example-with-general-linear-models.html#cb14-10"></a>        <span class="dt">xlab=</span><span class="st">&#39;Presence/Absence&#39;</span>,</span>
+<span id="cb14-11"><a href="an-example-with-general-linear-models.html#cb14-11"></a>        <span class="dt">ylab =</span> <span class="st">&#39;Water content&#39;</span>)</span>
+<span id="cb14-12"><a href="an-example-with-general-linear-models.html#cb14-12"></a></span>
+<span id="cb14-13"><a href="an-example-with-general-linear-models.html#cb14-13"></a><span class="kw">plot</span>(prop <span class="op">~</span><span class="st"> </span>WatrCont,</span>
+<span id="cb14-14"><a href="an-example-with-general-linear-models.html#cb14-14"></a>     <span class="dt">data =</span> mites,</span>
+<span id="cb14-15"><a href="an-example-with-general-linear-models.html#cb14-15"></a>     <span class="dt">xlab =</span> <span class="st">&#39;Water content&#39;</span>,</span>
+<span id="cb14-16"><a href="an-example-with-general-linear-models.html#cb14-16"></a>     <span class="dt">ylab =</span> <span class="st">&#39;Proportion&#39;</span>)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-8-1.png" width="1632" /></p>
 <p>Indeed, <code>Galumna</code> seems to vary negatively as a function of <code>WatrCont</code>, <em>i</em>.<em>e</em>.
 <em>Galumna</em> sp. seems to prefer dryer sites.</p>
 <p>We can go step further and fit general linear models to test whether <code>Galumna</code>, <code>pa</code>, and/or <code>prop</code> vary as a function of <code>WatrCont</code></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="an-example-with-general-linear-models.html#cb8-1"></a>lm.abund &lt;-<span class="st"> </span><span class="kw">lm</span>(Galumna <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
-<span id="cb8-2"><a href="an-example-with-general-linear-models.html#cb8-2"></a><span class="co">## summary(lm.abund)</span></span>
-<span id="cb8-3"><a href="an-example-with-general-linear-models.html#cb8-3"></a></span>
-<span id="cb8-4"><a href="an-example-with-general-linear-models.html#cb8-4"></a>lm.pa &lt;-<span class="st"> </span><span class="kw">lm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
-<span id="cb8-5"><a href="an-example-with-general-linear-models.html#cb8-5"></a><span class="co">## summary(lm.pa)</span></span>
-<span id="cb8-6"><a href="an-example-with-general-linear-models.html#cb8-6"></a></span>
-<span id="cb8-7"><a href="an-example-with-general-linear-models.html#cb8-7"></a>lm.prop &lt;-<span class="st"> </span><span class="kw">lm</span>(prop <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
-<span id="cb8-8"><a href="an-example-with-general-linear-models.html#cb8-8"></a><span class="co">## summary(lm.prop)</span></span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="an-example-with-general-linear-models.html#cb9-1"></a><span class="co"># Extracting the Pr(&gt;|t|)</span></span>
-<span id="cb9-2"><a href="an-example-with-general-linear-models.html#cb9-2"></a></span>
-<span id="cb9-3"><a href="an-example-with-general-linear-models.html#cb9-3"></a><span class="kw">summary</span>(lm.abund)<span class="op">$</span>coefficients[, <span class="dv">4</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="an-example-with-general-linear-models.html#cb15-1"></a>lm.abund &lt;-<span class="st"> </span><span class="kw">lm</span>(Galumna <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
+<span id="cb15-2"><a href="an-example-with-general-linear-models.html#cb15-2"></a><span class="co">## summary(lm.abund)</span></span>
+<span id="cb15-3"><a href="an-example-with-general-linear-models.html#cb15-3"></a></span>
+<span id="cb15-4"><a href="an-example-with-general-linear-models.html#cb15-4"></a>lm.pa &lt;-<span class="st"> </span><span class="kw">lm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
+<span id="cb15-5"><a href="an-example-with-general-linear-models.html#cb15-5"></a><span class="co">## summary(lm.pa)</span></span>
+<span id="cb15-6"><a href="an-example-with-general-linear-models.html#cb15-6"></a></span>
+<span id="cb15-7"><a href="an-example-with-general-linear-models.html#cb15-7"></a>lm.prop &lt;-<span class="st"> </span><span class="kw">lm</span>(prop <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span></code></pre></div>
+<p>Then, we can check the model output to verify whether these relationships are statistically significant:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="an-example-with-general-linear-models.html#cb16-1"></a><span class="kw">summary</span>(lm.abund)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Galumna ~ WatrCont, data = mites)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -1.7210 -0.8236 -0.3270  0.3910  6.6772 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  3.439349   0.555825   6.188 3.98e-08 ***
+## WatrCont    -0.006045   0.001280  -4.723 1.21e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.514 on 68 degrees of freedom
+## Multiple R-squared:  0.247,  Adjusted R-squared:  0.2359 
+## F-statistic: 22.31 on 1 and 68 DF,  p-value: 1.206e-05</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="an-example-with-general-linear-models.html#cb18-1"></a><span class="kw">summary</span>(lm.pa)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = pa ~ WatrCont, data = mites)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.61320 -0.30889 -0.05498  0.30247  0.80073 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  1.1892142  0.1431306   8.309 6.03e-12 ***
+## WatrCont    -0.0020263  0.0003296  -6.148 4.68e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.3897 on 68 degrees of freedom
+## Multiple R-squared:  0.3573, Adjusted R-squared:  0.3478 
+## F-statistic:  37.8 on 1 and 68 DF,  p-value: 4.677e-08</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="an-example-with-general-linear-models.html#cb20-1"></a><span class="kw">summary</span>(lm.prop)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = prop ~ WatrCont, data = mites)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.010208 -0.004927 -0.002056  0.003240  0.049252 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  2.020e-02  3.294e-03   6.133 4.98e-08 ***
+## WatrCont    -3.516e-05  7.586e-06  -4.635 1.67e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.008971 on 68 degrees of freedom
+## Multiple R-squared:  0.2401, Adjusted R-squared:  0.2289 
+## F-statistic: 21.49 on 1 and 68 DF,  p-value: 1.665e-05</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="an-example-with-general-linear-models.html#cb22-1"></a><span class="co"># Extracting the Pr(&gt;|t|)</span></span>
+<span id="cb22-2"><a href="an-example-with-general-linear-models.html#cb22-2"></a></span>
+<span id="cb22-3"><a href="an-example-with-general-linear-models.html#cb22-3"></a><span class="kw">summary</span>(lm.abund)<span class="op">$</span>coefficients[, <span class="dv">4</span>]</span></code></pre></div>
 <pre><code>##  (Intercept)     WatrCont 
 ## 3.981563e-08 1.206117e-05</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="an-example-with-general-linear-models.html#cb11-1"></a><span class="kw">summary</span>(lm.pa)<span class="op">$</span>coefficients[, <span class="dv">4</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="an-example-with-general-linear-models.html#cb24-1"></a><span class="kw">summary</span>(lm.pa)<span class="op">$</span>coefficients[, <span class="dv">4</span>]</span></code></pre></div>
 <pre><code>##  (Intercept)     WatrCont 
 ## 6.030252e-12 4.676755e-08</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="an-example-with-general-linear-models.html#cb13-1"></a><span class="kw">summary</span>(lm.prop)<span class="op">$</span>coefficients[, <span class="dv">4</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="an-example-with-general-linear-models.html#cb26-1"></a><span class="kw">summary</span>(lm.prop)<span class="op">$</span>coefficients[, <span class="dv">4</span>]</span></code></pre></div>
 <pre><code>##  (Intercept)     WatrCont 
 ## 4.977432e-08 1.665437e-05</code></pre>
 <p>We can see a strong and significant relationship for all three models, concerning each one of the three response variables!</p>
 <p>Nevertheless, we cannot forget the most important step: verifying if the assumptions for these general linear models have not been violated.</p>
 <p>Let us begin by validating these models to make sure that we respect assumptions of linear models, starting with the abundance model.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="an-example-with-general-linear-models.html#cb15-1"></a><span class="kw">plot</span>(Galumna <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
-<span id="cb15-2"><a href="an-example-with-general-linear-models.html#cb15-2"></a><span class="kw">abline</span>(lm.abund)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="an-example-with-general-linear-models.html#cb28-1"></a><span class="kw">plot</span>(Galumna <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
+<span id="cb28-2"><a href="an-example-with-general-linear-models.html#cb28-2"></a><span class="kw">abline</span>(lm.abund)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>The model does not fit well. It predicts negative abundance values when
-WatrCont exceeds 600, which does not make any sense. Also, the model
-does poorly at predicting high abundance values at low values of
-WatrCont.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="an-example-with-general-linear-models.html#cb16-1"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="dt">cex =</span> <span class="fl">1.4</span>)</span>
-<span id="cb16-2"><a href="an-example-with-general-linear-models.html#cb16-2"></a><span class="kw">plot</span>(lm.abund)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p><img src="images/6_diagplots.jpeg" /></p>
+<code>WatrCont</code> exceeds <code>600</code>, which does not make any sense. Also, the model
+does poorly at predicting high abundance values at low values of <code>WatrCont</code>.</p>
+<p>We can also check the model diagnostic plots:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="an-example-with-general-linear-models.html#cb29-1"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="dt">cex =</span> <span class="fl">1.4</span>)</span>
+<span id="cb29-2"><a href="an-example-with-general-linear-models.html#cb29-2"></a><span class="kw">plot</span>(lm.abund)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Diagnostic plots show that the data/model violate assumptions of
 homogeneity of variance (the graph on the left shows that residuals are
 larger at higher fitted values) and normality (the graph on the right
@@ -354,21 +410,21 @@ the dotted line). Therefore, we need to reject this model, and can’t
 use it to conclude that Galumna abundance varies as a function of water
 content. Looking at diagnostic plots for the presence-absence model and
 the proportion model also indicate that these models are inappropriate:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="an-example-with-general-linear-models.html#cb17-1"></a><span class="co">#Proportion</span></span>
-<span id="cb17-2"><a href="an-example-with-general-linear-models.html#cb17-2"></a><span class="kw">plot</span>(prop <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
-<span id="cb17-3"><a href="an-example-with-general-linear-models.html#cb17-3"></a><span class="kw">abline</span>(lm.prop)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="an-example-with-general-linear-models.html#cb18-1"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="dt">cex =</span> <span class="fl">1.4</span>)</span>
-<span id="cb18-2"><a href="an-example-with-general-linear-models.html#cb18-2"></a><span class="kw">plot</span>(lm.prop)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-12-2.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="an-example-with-general-linear-models.html#cb19-1"></a><span class="co">#Présence/Absence</span></span>
-<span id="cb19-2"><a href="an-example-with-general-linear-models.html#cb19-2"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="dt">cex =</span> <span class="fl">1.4</span>)</span>
-<span id="cb19-3"><a href="an-example-with-general-linear-models.html#cb19-3"></a><span class="kw">plot</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
-<span id="cb19-4"><a href="an-example-with-general-linear-models.html#cb19-4"></a><span class="kw">abline</span>(lm.pa)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-12-3.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="an-example-with-general-linear-models.html#cb20-1"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="dt">cex =</span> <span class="fl">1.4</span>)</span>
-<span id="cb20-2"><a href="an-example-with-general-linear-models.html#cb20-2"></a><span class="kw">plot</span>(lm.pa)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-12-4.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="an-example-with-general-linear-models.html#cb30-1"></a><span class="co">#Proportion</span></span>
+<span id="cb30-2"><a href="an-example-with-general-linear-models.html#cb30-2"></a><span class="kw">plot</span>(prop <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
+<span id="cb30-3"><a href="an-example-with-general-linear-models.html#cb30-3"></a><span class="kw">abline</span>(lm.prop)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="an-example-with-general-linear-models.html#cb31-1"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="dt">cex =</span> <span class="fl">1.4</span>)</span>
+<span id="cb31-2"><a href="an-example-with-general-linear-models.html#cb31-2"></a><span class="kw">plot</span>(lm.prop)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-16-2.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="an-example-with-general-linear-models.html#cb32-1"></a><span class="co">#Présence/Absence</span></span>
+<span id="cb32-2"><a href="an-example-with-general-linear-models.html#cb32-2"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="dt">cex =</span> <span class="fl">1.4</span>)</span>
+<span id="cb32-3"><a href="an-example-with-general-linear-models.html#cb32-3"></a><span class="kw">plot</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
+<span id="cb32-4"><a href="an-example-with-general-linear-models.html#cb32-4"></a><span class="kw">abline</span>(lm.pa)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-16-3.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="an-example-with-general-linear-models.html#cb33-1"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="dt">cex =</span> <span class="fl">1.4</span>)</span>
+<span id="cb33-2"><a href="an-example-with-general-linear-models.html#cb33-2"></a><span class="kw">plot</span>(lm.pa)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-16-4.png" width="672" style="display: block; margin: auto;" /></p>
 <p>It is quite common with biological datasets that assumptions of
 homogeneity of variance (homoscedasticity) and normality are not met.
 These two assumptions are the main problem with linear models, and the
@@ -402,7 +458,7 @@ x<sub>i</sub>) and σ<sup>2</sup>.</p>
 and the linear model that we fitted earlier. You will need values for
 β<sub>0</sub> and β<sub>1</sub> (regression coefficients) and ε<sub>i</sub> (the deviation of
 observed values from the regression line)</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="an-example-with-general-linear-models.html#cb21-1"></a><span class="kw">coef</span>(lm.abund)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="an-example-with-general-linear-models.html#cb34-1"></a><span class="kw">coef</span>(lm.abund)</span></code></pre></div>
 <pre><code>##  (Intercept)     WatrCont 
 ##  3.439348672 -0.006044788</code></pre>
 <p>This model predicts that for a water content value of, say, 300, we
@@ -413,7 +469,7 @@ predicted values, we need to add ε<sub>i</sub>. This is where we use the normal
 distribution. For x = 300, our model predicts that ε<sub>i</sub> should follow a
 normal distribution with mean = 1.63. We can find the σ<sup>2</sup> value for our
 abundance model by extracting it from the model summary:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="an-example-with-general-linear-models.html#cb23-1"></a><span class="kw">summary</span>(lm.abund)<span class="op">$</span>sigma</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="an-example-with-general-linear-models.html#cb36-1"></a><span class="kw">summary</span>(lm.abund)<span class="op">$</span>sigma</span></code></pre></div>
 <pre><code>## [1] 1.513531</code></pre>
 <p>We find that sigma is roughly 1.51. We now have all the coefficients
 that we need to model Galumna abundance. At a water content of 300,

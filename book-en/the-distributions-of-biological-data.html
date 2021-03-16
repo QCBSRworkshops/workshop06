@@ -254,15 +254,15 @@ number of seeds in a plot, etc. Our variable mites$Galumna seems to
 follow a Poisson distribution with a low value of λ (indeed, if we
 calculate the mean abundance of Galumna across all samples using the
 function mean(), we find that it is close to zero):</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="the-distributions-of-biological-data.html#cb25-1"></a><span class="kw">hist</span>(mites<span class="op">$</span>Galumna)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="the-distributions-of-biological-data.html#cb26-1"></a><span class="kw">mean</span>(mites<span class="op">$</span>Galumna)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="the-distributions-of-biological-data.html#cb38-1"></a><span class="kw">hist</span>(mites<span class="op">$</span>Galumna)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="the-distributions-of-biological-data.html#cb39-1"></a><span class="kw">mean</span>(mites<span class="op">$</span>Galumna)</span></code></pre></div>
 <pre><code>## [1] 0.9571429</code></pre>
 <p>Our variable mites$pa (presence-absence) takes yet another form. It
 consists of only zeros and ones, such that a Poisson distribution would
 not be appropriate to model this variable.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="the-distributions-of-biological-data.html#cb28-1"></a><span class="kw">hist</span>(mites<span class="op">$</span>pa)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="the-distributions-of-biological-data.html#cb41-1"></a><span class="kw">hist</span>(mites<span class="op">$</span>pa)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>We need a distribution with a range that only includes two possible
 outcomes: zero or one. The "Bernoulli" distribution is such a
 distribution. It is often the first distribution that students of
@@ -278,7 +278,7 @@ probabilities of presence (<em>p</em>):</p>
 <p><img src="images/6_bernouill.jpeg" /></p>
 <p>We can calculate the number of sites where Galumna is present out of the
 total number of sites to get an idea of what <em>p</em> might be in our case:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="the-distributions-of-biological-data.html#cb29-1"></a><span class="kw">sum</span>(mites<span class="op">$</span>pa) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(mites)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="the-distributions-of-biological-data.html#cb42-1"></a><span class="kw">sum</span>(mites<span class="op">$</span>pa) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(mites)</span></code></pre></div>
 <pre><code>## [1] 0.3571429</code></pre>
 <p><em>p</em> for the variable mites$pa is more or less 0.36, such that roughly
 twice as many sites have the outcome "Galumna absent" (0) than the
