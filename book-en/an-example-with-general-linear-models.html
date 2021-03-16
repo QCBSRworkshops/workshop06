@@ -422,14 +422,14 @@ the proportion model also indicate that these models are also inappropriate:</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="an-example-with-general-linear-models.html#cb33-1"></a><span class="co"># Plot the proportion model</span></span>
 <span id="cb33-2"><a href="an-example-with-general-linear-models.html#cb33-2"></a><span class="kw">plot</span>(prop <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
 <span id="cb33-3"><a href="an-example-with-general-linear-models.html#cb33-3"></a><span class="kw">abline</span>(lm.prop)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="an-example-with-general-linear-models.html#cb34-1"></a><span class="co"># Diagnostic plots</span></span>
 <span id="cb34-2"><a href="an-example-with-general-linear-models.html#cb34-2"></a><span class="kw">plot</span>(lm.prop)</span></code></pre></div>
 <p><img src="book-en_files/figure-html/unnamed-chunk-20-1.png" width="50%" height="50%" /><img src="book-en_files/figure-html/unnamed-chunk-20-2.png" width="50%" height="50%" /><img src="book-en_files/figure-html/unnamed-chunk-20-3.png" width="50%" height="50%" /><img src="book-en_files/figure-html/unnamed-chunk-20-4.png" width="50%" height="50%" /></p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="an-example-with-general-linear-models.html#cb35-1"></a><span class="co"># Plot the presence/absence model</span></span>
 <span id="cb35-2"><a href="an-example-with-general-linear-models.html#cb35-2"></a><span class="kw">plot</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
 <span id="cb35-3"><a href="an-example-with-general-linear-models.html#cb35-3"></a><span class="kw">abline</span>(lm.pa)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="an-example-with-general-linear-models.html#cb36-1"></a><span class="co"># Diagnostic plots</span></span>
 <span id="cb36-2"><a href="an-example-with-general-linear-models.html#cb36-2"></a><span class="kw">plot</span>(lm.pa)</span></code></pre></div>
 <p><img src="book-en_files/figure-html/unnamed-chunk-22-1.png" width="50%" height="50%" /><img src="book-en_files/figure-html/unnamed-chunk-22-2.png" width="50%" height="50%" /><img src="book-en_files/figure-html/unnamed-chunk-22-3.png" width="50%" height="50%" /><img src="book-en_files/figure-html/unnamed-chunk-22-4.png" width="50%" height="50%" /></p>
@@ -454,9 +454,9 @@ variable), but <span class="math inline">\(\sigma^2\)</span> has the same value 
 <p>with <span class="math inline">\(N(\cdot)\)</span> meaning that <span class="math inline">\(Y_i\)</span> is drawn from a <strong>normal distribution</strong> with parameters <span class="math inline">\(\mu\)</span> (mean; which depends on <span class="math inline">\(x_i\)</span>) and <span class="math inline">\(\sigma\)</span> (variance; which has the same value for all <span class="math inline">\(Y_i\)</span>s).</p>
 <p>Let’s take a look at what happens to the distribution when we vary the parameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span>.</p>
 <p>Varying <span class="math inline">\(\mu\)</span> while <span class="math inline">\(\sigma = 5\)</span> shifts the mean of the distribution.</p>
-<p><img src="book-en_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>If we keep <span class="math inline">\(\mu = 25\)</span>, varying <span class="math inline">\(\sigma\)</span> changes the shape of the distribution, where smaller <span class="math inline">\(\sigma\)</span> (low variance) means there is higher probability around the mean, while larger <span class="math inline">\(\sigma\)</span> spreads out the probabilities across the full range of values.</p>
-<p><img src="book-en_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div id="model-prediction" class="section level3">
 <h3><span class="header-section-number">4.1.1</span> Model prediction</h3>
 <p>When the assumptions of the linear model are not met, model prediction becomes problematic. Let’s work through an example to demonstrate some of the problems that arise from a poorly fitted model.</p>
