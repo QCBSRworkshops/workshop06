@@ -198,6 +198,53 @@ glm(formula,
 
 ##Section: 05-glm-binary.R 
 
+lm(Pres ~ ExpVar)
+
+Pres <- c(rep(1, 40), rep(0, 40))
+rnor <- function(x) rnorm(1, mean = ifelse(x == 1, 12.5, 7.5), sd = 2)
+ExpVar <- sapply(Pres, rnor)
+plot(ExpVar, Pres, ylim = c(-.5, 1.5), xlab = 'Explanatory variable', ylab = 'Presence', main = 'Binary variables and fitted values', pch = 16)
+abline(lm(Pres ~ ExpVar), col = 'orange', lwd = 2)
+mtext(expression(symbol("\255")), at = 1.25, side = 4, line = 0.1, cex = 6, col = 'blue')
+mtext(expression(symbol("\256")), at = 3, side = 1, line = -2.2, cex = 6, col = 'blue')
+
+# histogram
+hist(Pres)
+
+glm(formula,
+    family = ???,
+    data,
+    ...)
+
+glm(formula,
+    family = binomial(link = "logit"), # this is also known as logistic
+    data,
+    ...)
+
+# setwd('...')
+
+mites <- read.csv("data/mites.csv", header = TRUE)
+str(mites)
+
+logit.reg <- glm(pa ~ WatrCont + Topo,
+                 data = mites,
+                 family = binomial(link = "logit"))
+
+summary(logit.reg)
+
+library(MASS)
+data(bacteria)
+
+# what does the data look like?
+str(bacteria)
+
+model.bact1 <- glm(y ~ trt * week, data = bacteria, family = binomial)
+model.bact2 <- glm(y ~ trt + week, data = bacteria, family = binomial)
+model.bact3 <- glm(y ~ week, data = bacteria, family = binomial)
+
+# Let's compare these models using a likelihood ratio test (LRT).
+anova(model.bact1, model.bact2, model.bact3, test = "LRT")
+
 mites <- read.csv('mites.csv')
 model.lm <- lm(pa ~ WatrCont + Topo, data = mites)
 # Let's get the expected values for the response variable.
@@ -263,19 +310,6 @@ logit.reg <- glm(pa ~ WatrCont + Topo,
   data = mites,
   family = binomial)
 summary(logit.reg)
-
-library(MASS)
-data(bacteria)
-
-# what does the data look like?
-str(bacteria)
-
-model.bact1 <- glm(y ~ trt * week, data = bacteria, family = binomial)
-model.bact2 <- glm(y ~ trt + week, data = bacteria, family = binomial)
-model.bact3 <- glm(y ~ week, data = bacteria, family = binomial)
-
-# Let's compare these models using a likelihood ratio test (LRT).
-anova(model.bact1, model.bact2, model.bact3, test = "LRT")
 
 logit.reg
 
@@ -365,10 +399,14 @@ HLtest(Rsq(model.bact2))
 # Fit is adequate.
 
 library(ggplot2)
-ggplot(mites, aes(x = WatrCont, y = pa)) + geom_point() +
-stat_smooth(method = "glm", family= "binomial", se = FALSE) + xlab("Water content") +
-ylab("Probability of presence") +
-ggtitle("Probability of presence of Galumna sp. as a function of water content")
+ggplot(mites,
+  aes(x = WatrCont, y = pa)) +
+  geom_point() +
+  stat_smooth(method = "glm", family= "binomial", se = FALSE) +
+  labs(x = "Water content",
+  y = "Probability of presence",
+  title = "Probability of presence of Galumna sp. as a function of water content") +
+  theme_classic() # applies a simplified plot theme
 
 
 ##Section: 06-glm-proportion.R 

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 17 Conclusion on GLMs with count data | Workshop 6: Generalized linear models</title>
+  <title>Chapter 10 Challenge 1 | Workshop 6: Generalized linear models</title>
   <meta name="description" content="Generalized linear models in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 17 Conclusion on GLMs with count data | Workshop 6: Generalized linear models" />
+  <meta property="og:title" content="Chapter 10 Challenge 1 | Workshop 6: Generalized linear models" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 17 Conclusion on GLMs with count data | Workshop 6: Generalized linear models" />
+  <meta name="twitter:title" content="Chapter 10 Challenge 1 | Workshop 6: Generalized linear models" />
   
   <meta name="twitter:description" content="Generalized linear models in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="negative-binomial-glms.html"/>
-<link rel="next" href="other-distributions.html"/>
+<link rel="prev" href="exercise-1.html"/>
+<link rel="next" href="binomial-glms-bernouilli.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -229,21 +229,42 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
-<div id="conclusion-on-glms-with-count-data" class="section level1">
-<h1><span class="header-section-number">Chapter 17</span> Conclusion on GLMs with count data</h1>
-<p>All the GLMs introduced (Poisson, quasi-Poisson and NB) to model count
-data use the same log-linear mean function (log(<em>µ</em>) = <strong>X</strong>.<em>β</em>), but
-make different assumptions about the remaining likelihood. Quasi-Poisson
-and NB are favored to deal with overdispersion. However, in some cases
-the data may contains too many zeros and zero-augmented models can be
-useful as they extend the mean function by modifying (typically,
-increasing) the likelihood of zero counts (e.g. zero-inflated Poisson
-[ZIP]).</p>
-
+<div id="challenge-1" class="section level1">
+<h1><span class="header-section-number">Chapter 10</span> Challenge 1</h1>
+<p>Using the <code>bacteria</code> dataset (from the <code>MASS</code> package), model the
+presence of <em>H. influenzae</em> as a function of treatment and week of test.
+Start with a full model and reduce it to the most parsimonious model.</p>
+<p>Load the <code>MASS</code> package and the <code>bacteria</code> dataset:</p>
+<pre><code>## &#39;data.frame&#39;:    220 obs. of  6 variables:
+##  $ y   : Factor w/ 2 levels &quot;n&quot;,&quot;y&quot;: 2 2 2 2 2 2 1 2 2 2 ...
+##  $ ap  : Factor w/ 2 levels &quot;a&quot;,&quot;p&quot;: 2 2 2 2 1 1 1 1 1 1 ...
+##  $ hilo: Factor w/ 2 levels &quot;hi&quot;,&quot;lo&quot;: 1 1 1 1 1 1 1 1 2 2 ...
+##  $ week: int  0 2 4 11 0 2 6 11 0 2 ...
+##  $ ID  : Factor w/ 50 levels &quot;X01&quot;,&quot;X02&quot;,&quot;X03&quot;,..: 1 1 1 1 2 2 2 2 3 3 ...
+##  $ trt : Factor w/ 3 levels &quot;placebo&quot;,&quot;drug&quot;,..: 1 1 1 1 3 3 3 3 2 2 ...</code></pre>
+<p>This dataset was made to test the presence of the bacteria <em>H. influenzae</em> in children with otitis media in the Northern Territory of Australia. Dr A. Leach tested the effects of a drug on 50 children with a history of otitis media in the Northern Territory of Australia. The children were randomized to the drug or a placebo. The presence of <em>H. influenzae</em> was checked at weeks 0, 2, 4, 6 and 11: 30 of the checks were missing and are not included in this data frame.</p>
+<div id="challenge-1-solution" class="section level2">
+<h2><span class="header-section-number">10.1</span> Challenge 1: Solution</h2>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="challenge-1.html#cb58-1"></a>model.bact1 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>trt <span class="op">*</span><span class="st"> </span>week, <span class="dt">data =</span> bacteria, <span class="dt">family =</span> binomial)</span>
+<span id="cb58-2"><a href="challenge-1.html#cb58-2"></a>model.bact2 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>trt <span class="op">+</span><span class="st"> </span>week, <span class="dt">data =</span> bacteria, <span class="dt">family =</span> binomial)</span>
+<span id="cb58-3"><a href="challenge-1.html#cb58-3"></a>model.bact3 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>week, <span class="dt">data =</span> bacteria, <span class="dt">family =</span> binomial)</span>
+<span id="cb58-4"><a href="challenge-1.html#cb58-4"></a></span>
+<span id="cb58-5"><a href="challenge-1.html#cb58-5"></a><span class="co"># Let&#39;s compare these models using a likelihood ratio test (LRT).</span></span>
+<span id="cb58-6"><a href="challenge-1.html#cb58-6"></a><span class="kw">anova</span>(model.bact1, model.bact2, model.bact3, <span class="dt">test =</span> <span class="st">&quot;LRT&quot;</span>)</span></code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: y ~ trt * week
+## Model 2: y ~ trt + week
+## Model 3: y ~ week
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)  
+## 1       214     203.12                       
+## 2       216     203.81 -2  -0.6854  0.70984  
+## 3       218     210.91 -2  -7.1026  0.02869 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Based on these results, we select model #2 as the best candidate to model these data.</p>
 </div>
-
-
-
+</div>
 <hr>
 <center> 
   <div class="footer">
@@ -255,8 +276,8 @@ increasing) the likelihood of zero counts (e.g. zero-inflated Poisson
           </div>
         </div>
       </div>
-<a href="negative-binomial-glms.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="other-distributions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="exercise-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="binomial-glms-bernouilli.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

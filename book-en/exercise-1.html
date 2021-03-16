@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 17 Conclusion on GLMs with count data | Workshop 6: Generalized linear models</title>
+  <title>Chapter 9 Exercise 1 | Workshop 6: Generalized linear models</title>
   <meta name="description" content="Generalized linear models in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 17 Conclusion on GLMs with count data | Workshop 6: Generalized linear models" />
+  <meta property="og:title" content="Chapter 9 Exercise 1 | Workshop 6: Generalized linear models" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 17 Conclusion on GLMs with count data | Workshop 6: Generalized linear models" />
+  <meta name="twitter:title" content="Chapter 9 Exercise 1 | Workshop 6: Generalized linear models" />
   
   <meta name="twitter:description" content="Generalized linear models in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="negative-binomial-glms.html"/>
-<link rel="next" href="other-distributions.html"/>
+<link rel="prev" href="glm-with-binomial-data-logit-link.html"/>
+<link rel="next" href="challenge-1.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -229,21 +229,55 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
-<div id="conclusion-on-glms-with-count-data" class="section level1">
-<h1><span class="header-section-number">Chapter 17</span> Conclusion on GLMs with count data</h1>
-<p>All the GLMs introduced (Poisson, quasi-Poisson and NB) to model count
-data use the same log-linear mean function (log(<em>µ</em>) = <strong>X</strong>.<em>β</em>), but
-make different assumptions about the remaining likelihood. Quasi-Poisson
-and NB are favored to deal with overdispersion. However, in some cases
-the data may contains too many zeros and zero-augmented models can be
-useful as they extend the mean function by modifying (typically,
-increasing) the likelihood of zero counts (e.g. zero-inflated Poisson
-[ZIP]).</p>
-
+<div id="exercise-1" class="section level1">
+<h1><span class="header-section-number">Chapter 9</span> Exercise 1</h1>
+<p>Let’s build our first generalized linear model! Here, we want to build a logistic regression model using the <code>mites</code> data</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="exercise-1.html#cb52-1"></a><span class="co"># setwd(&#39;...&#39;)</span></span>
+<span id="cb52-2"><a href="exercise-1.html#cb52-2"></a></span>
+<span id="cb52-3"><a href="exercise-1.html#cb52-3"></a>mites &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/mites.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb52-4"><a href="exercise-1.html#cb52-4"></a><span class="kw">str</span>(mites)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    70 obs. of  9 variables:
+##  $ Galumna   : int  8 3 1 1 2 1 1 1 2 5 ...
+##  $ pa        : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ totalabund: int  140 268 186 286 199 209 162 126 123 166 ...
+##  $ prop      : num  0.05714 0.01119 0.00538 0.0035 0.01005 ...
+##  $ SubsDens  : num  39.2 55 46.1 48.2 23.6 ...
+##  $ WatrCont  : num  350 435 372 360 204 ...
+##  $ Substrate : chr  &quot;Sphagn1&quot; &quot;Litter&quot; &quot;Interface&quot; &quot;Sphagn1&quot; ...
+##  $ Shrub     : chr  &quot;Few&quot; &quot;Few&quot; &quot;Few&quot; &quot;Few&quot; ...
+##  $ Topo      : chr  &quot;Hummock&quot; &quot;Hummock&quot; &quot;Hummock&quot; &quot;Hummock&quot; ...</code></pre>
+<p>We can fit the logistic regression model of the presence of <em>Galumna</em> sp. as a function of water content and topography as follows, using the <code>glm()</code> function and the <code>family</code> argument:</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="exercise-1.html#cb54-1"></a>logit.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Topo,</span>
+<span id="cb54-2"><a href="exercise-1.html#cb54-2"></a>                 <span class="dt">data =</span> mites,</span>
+<span id="cb54-3"><a href="exercise-1.html#cb54-3"></a>                 <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>))</span></code></pre></div>
+<p>To see the model output, we run:</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="exercise-1.html#cb55-1"></a><span class="kw">summary</span>(logit.reg)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = pa ~ WatrCont + Topo, family = binomial(link = &quot;logit&quot;), 
+##     data = mites)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.0387  -0.5589  -0.1594   0.4112   2.0252  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  4.464402   1.670622   2.672 0.007533 ** 
+## WatrCont    -0.015813   0.004535  -3.487 0.000489 ***
+## TopoHummock  2.090757   0.735348   2.843 0.004466 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 91.246  on 69  degrees of freedom
+## Residual deviance: 48.762  on 67  degrees of freedom
+## AIC: 54.762
+## 
+## Number of Fisher Scoring iterations: 6</code></pre>
+<p>Doesn’t this structure resembles the one from <code>summary.lm()</code>? IT does, right? However you might notice that there are some special differences (e.g. dispersion parameter) we will discuss further in this book!</p>
 </div>
-
-
-
 <hr>
 <center> 
   <div class="footer">
@@ -255,8 +289,8 @@ increasing) the likelihood of zero counts (e.g. zero-inflated Poisson
           </div>
         </div>
       </div>
-<a href="negative-binomial-glms.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="other-distributions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="glm-with-binomial-data-logit-link.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="challenge-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

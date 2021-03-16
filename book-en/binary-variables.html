@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 17 Conclusion on GLMs with count data | Workshop 6: Generalized linear models</title>
+  <title>Chapter 7 Binary variables | Workshop 6: Generalized linear models</title>
   <meta name="description" content="Generalized linear models in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 17 Conclusion on GLMs with count data | Workshop 6: Generalized linear models" />
+  <meta property="og:title" content="Chapter 7 Binary variables | Workshop 6: Generalized linear models" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 17 Conclusion on GLMs with count data | Workshop 6: Generalized linear models" />
+  <meta name="twitter:title" content="Chapter 7 Binary variables | Workshop 6: Generalized linear models" />
   
   <meta name="twitter:description" content="Generalized linear models in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="negative-binomial-glms.html"/>
-<link rel="next" href="other-distributions.html"/>
+<link rel="prev" href="generalized-linear-models.html"/>
+<link rel="next" href="glm-with-binomial-data-logit-link.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -229,21 +229,16 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
-<div id="conclusion-on-glms-with-count-data" class="section level1">
-<h1><span class="header-section-number">Chapter 17</span> Conclusion on GLMs with count data</h1>
-<p>All the GLMs introduced (Poisson, quasi-Poisson and NB) to model count
-data use the same log-linear mean function (log(<em>µ</em>) = <strong>X</strong>.<em>β</em>), but
-make different assumptions about the remaining likelihood. Quasi-Poisson
-and NB are favored to deal with overdispersion. However, in some cases
-the data may contains too many zeros and zero-augmented models can be
-useful as they extend the mean function by modifying (typically,
-increasing) the likelihood of zero counts (e.g. zero-inflated Poisson
-[ZIP]).</p>
-
+<div id="binary-variables" class="section level1">
+<h1><span class="header-section-number">Chapter 7</span> Binary variables</h1>
+<p>A common response variable in ecological datasets is the binary
+variable: we observe a phenomenon <span class="math inline">\(Y\)</span> or its “absence”. For example, species presence/absence is frequently recorded in ecological monitoring studies. We usually wish to determine whether a species’ presence is affected by some environmental variables. Other examples include the presence/absence of a disease within a wild population, the
+success/failure to record a specific behaviour, and the survival/death of organisms. Usually, we are interested in questions such as: how do species occurrences vary in function of the environment?</p>
+<p><span class="math display">\[Occurrences = f(Environment)\]</span></p>
+<p>Under a linear model, expected values can be out of the <code>[0, 1]</code> range with <code>lm()</code>:</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="binary-variables.html#cb49-1"></a><span class="kw">lm</span>(Pres <span class="op">~</span><span class="st"> </span>ExpVar)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-37-1.png" width="50%" /><img src="book-en_files/figure-html/unnamed-chunk-37-2.png" width="50%" /></p>
 </div>
-
-
-
 <hr>
 <center> 
   <div class="footer">
@@ -255,8 +250,8 @@ increasing) the likelihood of zero counts (e.g. zero-inflated Poisson
           </div>
         </div>
       </div>
-<a href="negative-binomial-glms.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="other-distributions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="generalized-linear-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="glm-with-binomial-data-logit-link.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

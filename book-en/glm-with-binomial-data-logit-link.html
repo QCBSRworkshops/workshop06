@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 17 Conclusion on GLMs with count data | Workshop 6: Generalized linear models</title>
+  <title>Chapter 8 GLM with binomial data: logit link | Workshop 6: Generalized linear models</title>
   <meta name="description" content="Generalized linear models in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 17 Conclusion on GLMs with count data | Workshop 6: Generalized linear models" />
+  <meta property="og:title" content="Chapter 8 GLM with binomial data: logit link | Workshop 6: Generalized linear models" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 17 Conclusion on GLMs with count data | Workshop 6: Generalized linear models" />
+  <meta name="twitter:title" content="Chapter 8 GLM with binomial data: logit link | Workshop 6: Generalized linear models" />
   
   <meta name="twitter:description" content="Generalized linear models in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="negative-binomial-glms.html"/>
-<link rel="next" href="other-distributions.html"/>
+<link rel="prev" href="binary-variables.html"/>
+<link rel="next" href="exercise-1.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -229,21 +229,85 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
-<div id="conclusion-on-glms-with-count-data" class="section level1">
-<h1><span class="header-section-number">Chapter 17</span> Conclusion on GLMs with count data</h1>
-<p>All the GLMs introduced (Poisson, quasi-Poisson and NB) to model count
-data use the same log-linear mean function (log(<em>µ</em>) = <strong>X</strong>.<em>β</em>), but
-make different assumptions about the remaining likelihood. Quasi-Poisson
-and NB are favored to deal with overdispersion. However, in some cases
-the data may contains too many zeros and zero-augmented models can be
-useful as they extend the mean function by modifying (typically,
-increasing) the likelihood of zero counts (e.g. zero-inflated Poisson
-[ZIP]).</p>
-
+<div id="glm-with-binomial-data-logit-link" class="section level1">
+<h1><span class="header-section-number">Chapter 8</span> GLM with binomial data: logit link</h1>
+<p>A regression that has a binary response variable is one of
+many generalized linear models and is called a logistic regression or a logit model.</p>
+<p>A <strong>generalized linear model</strong> is made of a <strong>linear predictor</strong>:</p>
+<p><span class="math display">\[\underbrace{g(\mu_i)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}\]</span>
+Consider that <span class="math inline">\(Y_i ∼ B(n_i, p_i)\)</span>, and that we want to model the proportions of <span class="math inline">\(Y_i^{}/n_i\)</span>. As such:</p>
+<p><span class="math inline">\(E(Y_i^{}/n_i) = p_i\)</span> and <span class="math inline">\(\text{var}(Y_i^{}/n_i) = \frac{1}{n_i}p_i(1-p_i)\)</span>
+, so that <span class="math inline">\(V(\mu_i) = \mu_i(1-\mu_i)\)</span>.]</p>
+<p>We first move the probabilities <span class="math inline">\(\mu_i\)</span> to the <em>odds</em>:</p>
+<p><span class="math display">\[\text{odds}_i = \frac{\mu_i}{1-\mu_i}\]</span>
+The odds puts our expected values on a <code>0</code> to <code>+Inf</code> scale.</p>
+<p>We then take logarithms, calculating the <em>logit</em> or log-odds:</p>
+<p><span class="math display">\[\eta_i = \text{logit}(\mu_i) = \log(\frac{\mu_i}{1-\mu_i})\]</span></p>
+<p>with <span class="math inline">\(\mu\)</span> being the expected values (probability that <span class="math inline">\(Y = 1\)</span> ), and with the expected values now ranging from <code>-Inf</code> to <code>+Inf</code>.</p>
+<p>We can understand that as if event A has probability p of occurring, then the odds of event A occurring is the ratio of the probability that A occurs to the probability that A does not occur: <span class="math inline">\(p/(1−p)\)</span>. For example, if the probability that I will fail my courses is 0.6, the odds that I will fail my courses is <span class="math inline">\(0.6/(1 − 0.6) = 1.5\)</span>. This means that the probability of observing a failure in my courses is 1.5 times greater than the probability of not observing it (that is,
+<span class="math inline">\(1.5 × 0.4 = 0.6\)</span>).</p>
+<p>In <code>R</code>, presence (or success, survival…) is usually coded as <code>1</code> and absence (or failure, death…) as <code>0</code>. A logistic regression (or any other generalized linear model) is performed with the <code>glm()</code> function. This function is different from the basic <code>lm()</code> as it allows one to specify a statistical distribution other than the normal distribution.</p>
+<p>A reminder about our <code>glm()</code> function:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="glm-with-binomial-data-logit-link.html#cb50-1"></a><span class="kw">glm</span>(formula,</span>
+<span id="cb50-2"><a href="glm-with-binomial-data-logit-link.html#cb50-2"></a>    <span class="dt">family =</span> ???,</span>
+<span id="cb50-3"><a href="glm-with-binomial-data-logit-link.html#cb50-3"></a>    data,</span>
+<span id="cb50-4"><a href="glm-with-binomial-data-logit-link.html#cb50-4"></a>    ...)</span></code></pre></div>
+<p>–</p>
+<table>
+<colgroup>
+<col width="28%" />
+<col width="27%" />
+<col width="20%" />
+<col width="16%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Distribution of <span class="math inline">\(Y\)</span></th>
+<th>Link function name</th>
+<th>Link function</th>
+<th>Model</th>
+<th><code>R</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Normal</td>
+<td>Identity</td>
+<td><span class="math inline">\(g(\mu) = \mu\)</span></td>
+<td><span class="math inline">\(\mu = \mathbf{X} \boldsymbol{\beta}\)</span></td>
+<td><code>gaussian(link="identity")</code></td>
+</tr>
+<tr class="even">
+<td>Binomial</td>
+<td>Logit</td>
+<td><span class="math inline">\(g(\mu) = \log\left(\dfrac{\mu}{1-\mu}\right)\)</span></td>
+<td><span class="math inline">\(\log\left(\dfrac{\mu}{1-\mu}\right) = \mathbf{X} \boldsymbol{\beta}\)</span></td>
+<td><code>binomial(link="logit")</code></td>
+</tr>
+<tr class="odd">
+<td>Poisson</td>
+<td>Log</td>
+<td><span class="math inline">\(g(\mu) = \log(\mu)\)</span></td>
+<td><span class="math inline">\(-\mu^{-1} = \mathbf{X} \boldsymbol{\beta}\)</span></td>
+<td><code>poisson(link="log")</code></td>
+</tr>
+<tr class="even">
+<td>Exponential</td>
+<td>Negative Inverse</td>
+<td><span class="math inline">\(g(\mu) = -\mu^{-1}\)</span></td>
+<td><span class="math inline">\(\log(\mu) = \mathbf{X} \boldsymbol{\beta}\)</span></td>
+<td><code>Gamma(link="inverse")</code></td>
+</tr>
+</tbody>
+</table>
+<p>–</p>
+<p>In <code>R</code>, we can therefore build a binomial GLM with a logit link as follows:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="glm-with-binomial-data-logit-link.html#cb51-1"></a><span class="kw">glm</span>(formula,</span>
+<span id="cb51-2"><a href="glm-with-binomial-data-logit-link.html#cb51-2"></a>    <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="co"># this is also known as logistic</span></span>
+<span id="cb51-3"><a href="glm-with-binomial-data-logit-link.html#cb51-3"></a>    data,</span>
+<span id="cb51-4"><a href="glm-with-binomial-data-logit-link.html#cb51-4"></a>    ...)</span></code></pre></div>
 </div>
-
-
-
 <hr>
 <center> 
   <div class="footer">
@@ -255,8 +319,8 @@ increasing) the likelihood of zero counts (e.g. zero-inflated Poisson
           </div>
         </div>
       </div>
-<a href="negative-binomial-glms.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="other-distributions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="binary-variables.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="exercise-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
