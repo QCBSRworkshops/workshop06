@@ -91,7 +91,7 @@ by modifying and improving its content as part of the <br> *Le*arning *a*nd *D*e
 
  **2022** - **2021** - **2020**
 
-[Pedro Henrique P. Braga](ph.pereirabraga@gmail.com)
+[Pedro Henrique P. Braga](https://github.com/pedrohbraga)
 <br>
 [Katherine Hébert]()
 <br>
@@ -384,6 +384,22 @@ plot(lm.simNormData)
 ]
 
 ???
+
+Residuals: residual =  observed y   –   model-predicted y
+
+Outliers: observations with large residuals, i.e. the observed value for a point is very different from the one predicted by the regression model.
+
+Leverage points: A leverage point is defined as an observation that has a value of x that is far away from the mean of x. 
+
+Influential observations: An influential observation is defined as an observation that changes the slope of the line. Thus, influential points have a large influence on the fit of the model. One method to find influential points is to compare the fit of the model with and without each observation.
+
+1. Allows one to checkthe assumption of linearity and homoscedasticity;
+
+2. QQ-plot allows the comparison of the residuals to "ideal" normal observations;
+
+3. Scale-location plot (square rooted standardized residual vs. predicted value) is useful for checking the assumption of homoscedasticity;
+
+4. Cook's Distance, which is a measure of the influence of each observation on the regression coefficients.
 
 ---
 
@@ -898,11 +914,10 @@ plot.poiss(36,glm.pois,200)
 abline(v=mites$WatrCont[36],col='red',lty=2)
 plot.poiss(52,glm.pois,200)
 abline(v=mites$WatrCont[52],col='red',lty=2)
-text(x = mites$WatrCont[8]+50,y=7.5,expression(lambda == 1.7),cex=0.7,col='red')
-text(x = mites$WatrCont[11]+50,y=7.5,expression(lambda == 4.7),cex=0.7,col='red')
-text(x = mites$WatrCont[36]+50,y=7.5,expression(lambda == 0.5),cex=0.7,col='red')
-text(x = mites$WatrCont[52]+50,y=7.5,expression(lambda == 0.1),cex=0.7,col='red')
-
+text(x = mites$WatrCont[8]+50,y=7.5,expression(lambda == 1.7), cex=0.7, col = 'red')
+text(x = mites$WatrCont[11]+50,y=7.5,expression(lambda == 4.7), cex=0.7, col = 'red')
+text(x = mites$WatrCont[36]+50,y=7.5,expression(lambda == 0.5), cex=0.7, col = 'red')
+text(x = mites$WatrCont[52]+50,y=7.5,expression(lambda == 0.1), cex=0.7, col = 'red')
 ```
 ]
 
@@ -962,7 +977,8 @@ plot(x, dbinom(x, size = 50, prob = 0.9), type = 'h', lwd = 3, xlab = '# galumna
 ```{r,echo=F,fig.width=10, fig.height=5}
 x = seq(1, 50, 1)
 par(mypar);par(mfrow = c(1, 2), cex = 1.4)
-plot(x, dbinom(x, size = 50, prob = 0.9), type = 'h', lwd = 3, xlab = '# galumna', ylab = 'Probability', main = 'p = 0.9 n = 50')
+plot(x, dbinom(x, size = 50, prob = 0.9), 
+     type = 'h', lwd = 3, xlab = '# galumna', ylab = 'Probability', main = 'p = 0.9 n = 50')
 plot(x, dpois(x, lambda = 30), type = 'h', lwd = 3, xlab = '# galumna', ylab = 'Probability', main = 'lambda = 30')
 ```
 
@@ -985,7 +1001,7 @@ In `R`, this means that we will move away from the (general) linear models funct
 
 A **generalized linear model** is made of a **linear predictor**:
 
-$$\eta_i = \underbrace{g(\mu_i)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$
+$$\eta_i = \underbrace{g(\mu)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$
 and,
 
 1. a **link** function $g(\mu_i)$ that **transforms the expected value** of $Y$ and describes how the mean $E(Y_i) = \mu_i$ depends on the linear predictor
@@ -1003,7 +1019,7 @@ where the **dispersion parameter** $phi$ is a constant.
 So, for our **general linear model** with $\epsilon ∼ N(0, σ^2)$ and $Y_i \sim{} N(\mu_i, \sigma^2)$, we have the same linear predictor:
 
 
-$$\underbrace{g(\mu_i)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$
+$$\underbrace{g(\mu)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$
 the **identity** link function
 $$g(\mu_i) = \mu_i$$
 and, the variance function
