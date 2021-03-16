@@ -3,39 +3,46 @@
 # Binomial GLMs (Bernouilli)
 
 A common response variable in ecological datasets is the binary
-variable: we observe a phenomenon X or its "absence". For example,
+variable: we observe a phenomenon $Y$ or its "absence". For example,
 species presence/absence is frequently recorded in ecological monitoring
 studies. We usually wish to determine whether a species' presence is
 affected by some environmental variables. Other examples include the
 presence/absence of a disease within a wild population, the
 success/failure to record a specific behaviour, and the survival/death
-of organisms. A regression that has a binary response variable is one of
+of organisms. Usually, we are interested in questions such as: how do species occurrences vary in function of the environment?
+
+$$Occurrences = f(Environment)$$
+
+A regression that has a binary response variable is one of
 many generalized linear models and is called a logistic regression or a
 logit model.
 
-In R, presence (or success, survival...) is usually coded as 1 and
-absence (or failure, death...) as 0. A logistic regression (or any other
+In `R`, presence (or success, survival...) is usually coded as `1` and
+absence (or failure, death...) as `0`. A logistic regression (or any other
 generalized linear model) is performed with the `glm()` function. This
 function is different from the basic `lm()` as it allows one to specify
-a statistical distribution other than the normal distribution. We've
-already seen that binary variables are not normally distributed (*i.e.*
+a statistical distribution other than the normal distribution.
+
+We've already seen that binary variables are not normally distributed (*i.e.*
 we see a peak at 0 and a peak at 1 and nothing in between). Like we have
 seen in the previous section, the Bernoulli distribution is well suited
 for binary response variables. The mean of this distribution is the
-probability *p* of observing an outcome and the variance is *p*\*(1 -
-*p*). The (1 - *p*) term represents the probability of **not** observing
+probability $p$ of observing an outcome and the variance is $p/(1 -
+p)$. The $(1 - p)$ term represents the probability of **not** observing
 an outcome. In R, we specify the distribution with the `family`
 argument. For the logistic regression, we code it as:
-`family='binomial'`. Remember that the Bernoulli distribution is a
+`family="binomial"`. Remember that the Bernoulli distribution is a
 special case of the binomial distribution when the number of repetitions
 is 1: R will "understand" that it is a Bernoulli distribution.
 
-When predicting the probability of observing some phenomenon Y, which is
+When predicting the probability of observing some phenomenon $Y$, which is
 a binary variable, the expected values should be bound between 0 and 1:
 that's the range of a probability value! If we use a basic linear model
 to relate a binary response variable to various explanatory variables,
-we might obtain fitted values outside of the [0,1] range, which is
-nonsensical. The following example will help you understand why a basic
+we might obtain fitted values outside of the `[0,1]` range, which is
+nonsensical.
+
+The following example will help you understand why a basic
 linear model is inappropriate here. The next subsection will show you
 how to avoid this problem with a link function. Briefly, a link function
 is used to linearize the relationship between predicted values of the
@@ -68,15 +75,15 @@ In the case of a simple linear model of a normally distributed
 continuous response variable, the following equation gives the expected
 values:
 
-*μ* = *Xβ*
+$$ \mu = X\beta $$
 
-where *μ* is the expected value of the response variable, *X* is the
-model matrix (*i.e.* representing your data) and *β* corresponds to the
+where $\mu$ is the expected value of the response variable, $X$ is the
+model matrix (*i.e.* representing your data) and $\beta$ corresponds to the
 parameters we estimate from the data (*i.e.* the intercept and the
 slope). The right-hand side of this equation is called the linear
 predictor. In mathematical terms, it is the matrix product of the model
-matrix *X* of a statistical model and the vector of estimated parameters
-*β*. Let's have a look at this in R:
+matrix $X$ of a statistical model and the vector of estimated parameters
+$\beta$. Let's have a look at this in `R`:
 
 ```{r, echo = FALSE, eval = TRUE}
 #Short function added in order to print only the desired number of lines for the next chunk!
@@ -124,9 +131,9 @@ expected values, *i.e.* a link function. A link function can be
 understood as a transformation of the expected values so that it can be
 **linearly related** to the linear predictor:
 
-*g*(*μ*) = *Xβ*
+$$g(\mu) = X\beta$$
 
-where *g*(*μ*) is the link function for the expected values. This allows
+where $g(\mu)$ is the link function for the expected values. This allows
 us to relax the normality assumption. In the case of a binary response
 variable, the link function is called the logit function and is given
 by:
@@ -158,6 +165,7 @@ logit.reg <- glm(pa ~ WatrCont + Topo, data = mites, family = binomial(link = "l
 logit.reg <- glm(pa ~ WatrCont + Topo, data = mites, family = binomial)
 summary(logit.reg)
 ```
+
 
 ### Challenge 1
 
@@ -196,7 +204,7 @@ logit.reg
 
 How to obtain the odds of the slope? Use the "exp()" function to put
 the coefficients back on the odds scale. Mathematically, this line of
-code corresponds to:  
+code corresponds to:
 **exp(model coefficients) = exp(log(μ / (1 - μ)) = u / (1 - μ)**.
 
 This corresponds to an odds ratio!
@@ -256,14 +264,14 @@ observing *Galumna* sp. when the topography is Hummock.
 
 Let's calculate this probability without using the exp() function:
 
-First we start with our odds ratio for topography from the logit.reg model:  
+First we start with our odds ratio for topography from the logit.reg model:
 **µ/ (1 - µ) = 8.09**
 
- Let's rearrange this to isolate µ  
-**µ = 8.09(1 - µ) = 8.09 - 8.09µ**  
-**8.09µ + µ = 8.09**  
-**µ(8.09 + 1) = 8.09**  
-**µ = 8.09 / (8.09 + 1)**  
+ Let's rearrange this to isolate µ
+**µ = 8.09(1 - µ) = 8.09 - 8.09µ**
+**8.09µ + µ = 8.09**
+**µ(8.09 + 1) = 8.09**
+**µ = 8.09 / (8.09 + 1)**
 **µ = 1 / (1 + (1 / 8.09)) = 0.89**
 
 We obtained the same result!
@@ -317,7 +325,7 @@ many types of pseudo-R^2^. By specifying ```which = all```, calculate all
 of them at once.
 
 ```{r, echo = TRUE, eval = TRUE}
-logit.reg <- glm(pa ~ WatrCont + Topo, 
+logit.reg <- glm(pa ~ WatrCont + Topo,
                  data = mites, family = binomial(link = "logit"))
 DescTools::PseudoR2(logit.reg, which = "all")
 ```
@@ -409,7 +417,7 @@ This is very low!
 
 Adding informative explanatory variables could increase the explanatory power of the model.
 
-But, do not be afraid of non-significant results! 
+But, do not be afraid of non-significant results!
 
 ## Plotting results
 

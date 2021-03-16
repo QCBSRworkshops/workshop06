@@ -12,7 +12,7 @@ In [Workshop 4](https://qcbsrworkshops.github.io/workshop04/pres-en/workshop04-p
 
 ## General linear models
 
-### Definition 
+### Definition
 
 The general form of our function $Y = f(X_1)$ as a linear function can be represented by:
 
@@ -41,7 +41,7 @@ $$Y = \beta_0 + \beta_1X_i + \varepsilon$$
 2\. The error term $\varepsilon$ has the same variance given any value of the explanatory variable (i.e. homoskedasticity), and the error terms are not correlated across observations (i.e. no autocorrelation):
 
 $$\mathbb{V}{\rm ar} (\epsilon_i | \mathbf{X} ) = \sigma^2_\epsilon,\ \forall i = 1,..,N$$
-and, 
+and,
 
 $$\mathbb{C}{\rm ov} (\epsilon_i, \epsilon_j) = 0,\ i \neq j$$
 
@@ -78,21 +78,21 @@ legend(x = 0, y = 25,
 
 # An example with general linear models
 
-Let us use our prior knowledge on general linear models to explore the relationship between variables within the *Oribatid mite dataset*. 
+Let us use our prior knowledge on general linear models to explore the relationship between variables within the *Oribatid mite dataset*.
 
 Let us begin by loading this dataset into `R`:
 
 ```{r echo=TRUE}
 # Use setwd() to set your working directory
 
-mites <- read.csv('data/mites.csv', 
+mites <- read.csv('data/mites.csv',
                   stringsAsFactors = TRUE)
 ```
 
 The dataset that you just loaded is a subset from the classic 'Oribatid
 mite dataset', which has been used in numerous texts (e.g. Borcard,
 Gillet & Legendre, *Numerical Ecology with R*), and which is available
-in the `vegan` library. 
+in the `vegan` library.
 
 The Oribatid mite dataset has **70 observations with moss and mite samples** collected Station de Biologie des
 Laurentides from the Université de Montréal, within the municipality of Saint-Hippolyte, Québec (Canada). Each sample includes **5** variables of **environmental measurements** and abundance for *Galumna* sp. for each site.
@@ -112,7 +112,7 @@ Our first glance into the dataset already allows us to separate potential respon
 
 Response variables:
 
-1. Occurrence: `pa` 
+1. Occurrence: `pa`
 2. Abundance: `Galumna`
 3. Relative Frequency or Proportion: `prop`
 </div>
@@ -169,18 +169,18 @@ We can begin by representing all three response variables against the predictor:
 par(mfrow = c(1, 3), cex = 1.4)
 
 plot(Galumna ~ WatrCont,
-     data = mites, 
-     xlab = 'Water content', 
+     data = mites,
+     xlab = 'Water content',
      ylab = 'Abundance')
 
 boxplot(WatrCont ~ pa,
-        data = mites, 
+        data = mites,
         xlab='Presence/Absence',
         ylab = 'Water content')
 
-plot(prop ~ WatrCont, 
-     data = mites, 
-     xlab = 'Water content', 
+plot(prop ~ WatrCont,
+     data = mites,
+     xlab = 'Water content',
      ylab = 'Proportion')
 ```
 
@@ -197,6 +197,19 @@ lm.pa <- lm(pa ~ WatrCont, data = mites)
 summary(lm.pa)
 
 lm.prop <- lm(prop ~ WatrCont, data = mites)
+```
+
+Then, we can check the model output to verify whether these relationships are statistically significant:
+
+```{r, echo = TRUE, eval = TRUE}
+summary(lm.abund)
+```
+
+```{r, echo = TRUE, eval = TRUE}
+summary(lm.pa)
+```
+
+```{r, echo = TRUE, eval = TRUE}
 summary(lm.prop)
 ```
 
@@ -210,7 +223,7 @@ summary(lm.prop)$coefficients[, 4]
 
 We can see a strong and significant relationship for all three models, concerning each one of the three response variables!
 
-Nevertheless, we cannot forget the most important step: verifying if the assumptions for these general linear models have not been violated. 
+Nevertheless, we cannot forget the most important step: verifying if the assumptions for these general linear models have not been violated.
 
 Let us begin by validating these models to make sure that we respect assumptions of linear models, starting with the abundance model.
 
@@ -220,16 +233,16 @@ abline(lm.abund)
 ```
 
 The model does not fit well. It predicts negative abundance values when
-WatrCont exceeds 600, which does not make any sense. Also, the model
-does poorly at predicting high abundance values at low values of
-WatrCont.
+`WatrCont` exceeds `600`, which does not make any sense. Also, the model
+does poorly at predicting high abundance values at low values of `WatrCont`.
+
+We can also check the model diagnostic plots:
 
 ```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 7, fig.align = "center"}
 par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.abund)
 ```
 
-![](images/6_diagplots.jpeg)
 
 Diagnostic plots show that the data/model violate assumptions of
 homogeneity of variance (the graph on the left shows that residuals are

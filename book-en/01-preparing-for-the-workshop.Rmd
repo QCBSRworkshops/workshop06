@@ -4,7 +4,6 @@
 
 A significant limitation of general linear models is that they cannot accommodate response variables that do not have a normal error distribution - a situation that is very common when analyzing biological data. 
 
-
 In this workshop, you will learn how to use **generalized linear models**, which are powerful tools to overcome some of the distributional assumptions of linear models. Especifically, we will:
 
 1. Distinguish generalized linear models from general linear models (including many of their equations!).
@@ -25,10 +24,10 @@ To prepare for this workshop, you must download and install the earliest RStudio
 -    [Mites](https://raw.githubusercontent.com/QCBSRworkshops/workshop06/main/book-en/data/mites.csv)
 -    [Faramea](https://github.com/QCBSRworkshops/workshop06/blob/main/book-en/data/faramea.csv)
 
-Finally, this workshop requires the following `R` packages:
+
+This workshop requires the following `R` packages:
 
 -    [ggplot2](https://cran.r-project.org/package=ggplot2) 
--    [lme4](https://cran.r-project.org/package=lme4) 
 -    [MASS](https://cran.r-project.org/package=MASS) 
 -    [vcdExtra](https://cran.r-project.org/package=vcdExtra) 
 -    [bbmle](https://cran.r-project.org/package=bbmle)
@@ -45,4 +44,14 @@ install.packages(c("ggplot2",
                  )
 ```
 
+To load these packages, run:
 
+```{r, echo = TRUE}
+library(ggplot2)
+library(MASS)
+library(vcdExtra)
+library(bbmle)
+library(DescTools)
+```
+
+This workshop will build up your knowledge on models along side with some of their important equations. *Do not run to the mountains!* This will be achieved progressively and you will feel proud of yourself after!
