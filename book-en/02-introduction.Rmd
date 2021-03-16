@@ -168,16 +168,21 @@ We can begin by representing all three response variables against the predictor:
 ```{r, fig.width=17, fig.height=6}
 par(mfrow = c(1, 3), cex = 1.4)
 
+```{r, echo = TRUE, eval = TRUE}
 plot(Galumna ~ WatrCont,
      data = mites,
      xlab = 'Water content',
      ylab = 'Abundance')
+```
 
+```{r, echo = TRUE, eval = TRUE}
 boxplot(WatrCont ~ pa,
         data = mites,
         xlab='Presence/Absence',
         ylab = 'Water content')
+```
 
+```{r, echo = TRUE, eval = TRUE}
 plot(prop ~ WatrCont,
      data = mites,
      xlab = 'Water content',
@@ -220,6 +225,12 @@ summary(lm.abund)$coefficients[, 4]
 summary(lm.pa)$coefficients[, 4]
 summary(lm.prop)$coefficients[, 4]
 ```
+Yes, there is a strong and significant relationship for all 3 response variables! **Wait a minute...** We are forgetting something important here! What about the assumptions of linear models?
+
+## Recalling linear models: assumptions
+
+Let's validate these models to make sure that we
+respect assumptions of linear models, starting with the abundance model.
 
 We can see a strong and significant relationship for all three models, concerning each one of the three response variables!
 
@@ -238,11 +249,9 @@ does poorly at predicting high abundance values at low values of `WatrCont`.
 
 We can also check the model diagnostic plots:
 
-```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 7, fig.align = "center"}
-par(mfrow = c(2, 2), cex = 1.4)
+```{r, echo = TRUE, eval = TRUE, fig.show="hold", out.width = "50%", out.height = "50%"}
 plot(lm.abund)
 ```
-
 
 Diagnostic plots show that the data/model violate assumptions of
 homogeneity of variance (the graph on the left shows that residuals are
@@ -251,124 +260,152 @@ indicates that residuals are not distributed as expected from a normal
 distribution, i.e. many points are far from predicted values given by
 the dotted line). Therefore, we need to reject this model, and can't
 use it to conclude that Galumna abundance varies as a function of water
-content. Looking at diagnostic plots for the presence-absence model and
-the proportion model also indicate that these models are inappropriate:
+content.
 
-```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 7, fig.align = "center"}
-#Proportion
+Looking at diagnostic plots for the presence-absence model and
+the proportion model also indicate that these models are also inappropriate:
+
+```{r, echo = TRUE, eval = TRUE}
+# Plot the proportion model
 plot(prop ~ WatrCont, data = mites)
 abline(lm.prop)
-par(mfrow = c(2, 2), cex = 1.4)
+```
+
+```{r, echo = TRUE, eval = TRUE, fig.show = "hold", out.width="50%", out.height="50%"}
+# Diagnostic plots
 plot(lm.prop)
-#Présence/Absence
-par(mfrow = c(1, 1), cex = 1.4)
+```
+
+```{r, echo = TRUE, eval = TRUE}
+# Plot the presence/absence model
 plot(pa ~ WatrCont, data = mites)
 abline(lm.pa)
-par(mfrow = c(2, 2), cex = 1.4)
+```
+
+```{r, echo = TRUE, eval = TRUE, fig.show = "hold", out.width="50%", out.height="50%"}
+# Diagnostic plots
 plot(lm.pa)
 ```
 
-It is quite common with biological datasets that assumptions of
-homogeneity of variance (homoscedasticity) and normality are not met.
-These two assumptions are the main problem with linear models, and the
-main reason why we need generalized linear models. Lets revisit the
-basic equation for a linear model to better understand where these
-assumptions come from. The equation for a linear model is:
+Let's take a step back here and review the assumptions of linear models, and where they come from. Remember our simple linear model?
 
-y~i~ = β~0~ + β~1~x~i~ + ε~i~, where:
+$$Y_i = \beta_0 + \beta_1X_i + \varepsilon$$
 
--   y~i~ is the predicted value for the response variable,
--   β~0~ is the intercept of the regression line between y and x,
--   β~1~ is the slope of the regression line between y and x,
--   x~i~ is the value for the explanatory variable,
--   ε~i~ are the residuals of the model, which are drawn from a normal
-    distribution with a varying mean but a constant variance.
+where:
 
-This last point about ε~i~ is important. This is where assumptions of
-normality and homoscedasticity originate. It means that the residuals
+- $Y_i$ is the predicted value of a response variable
+- $\beta_0$ is the *unknown coefficient* **intercept**
+- \beta_1$ is the *unknown coefficient* **slope**
+- $X_i$ is the value of the explanatory variable
+- $\varepsilon_i$ is the model residual drawn from a normal distribution with a varying mean but a constant variance.
+
+
+This last point about $\varepsilon_i$ is important. This is where assumptions of
+normality and homoscedasticity originate. **It means that the residuals
 (the distance between each observation and the regression line) can be
-predicted by drawing random values from a normal distribution. Recall
-that all normal distributions have two parameters, μ (the mean of the
-distribution) and σ^2^ (the variance of the distribution):
+predicted by drawing random values from a normal distribution.**
 
-![](images/6_normal_params.jpeg)
+Recall
+that all normal distributions have two parameters, $\mu$ (the mean of the distribution) and $\sigma^2$ (the variance of the distribution). In a linear model, $\mu$ changes based on values of $X$ (the predictor
+variable), but $\sigma^2$ has the same value for all values of $Y$. Our simple linear can also be written as this:
 
-In a linear model, μ changes based on values of x (the predictor
-variable), but σ^2^ has the same value for all values of Y. Indeed,
-another equation to represent linear models is:
+$$Y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$
 
-y~i~ \~ *N*(μ = β~0~ + β~1~x~i~, σ^2^),
+with $N(\cdot)$ meaning that $Y_i$ is drawn from a **normal distribution** with parameters $\mu$ (mean; which depends on $x_i$) and $\sigma$ (variance; which has the same value for all $Y_i$s).
 
-which literally means that any given observation (y~i~) is drawn from a
-normal distribution with parameters μ (which depends on the value of
-x~i~) and σ^2^.
+Let's take a look at what happens to the distribution when we vary the parameters $\mu$ and $\sigma$.
 
-Predict Galumna abundance at a water content = 300 using this equation
-and the linear model that we fitted earlier. You will need values for
-β~0~ and β~1~ (regression coefficients) and ε~i~ (the deviation of
-observed values from the regression line)
+Varying $\mu$ while $\sigma = 5$ shifts the mean of the distribution.
 
-```{r, echo = TRUE, eval = TRUE}
+```{r, echo = FALSE}
+x = seq(1, 50, 0.1)
+plot(x, dnorm(x, mean = 20, sd = 5),
+type = 'l', lwd = 3,
+xlab = '# galumna', ylab = 'Probability')
+points(x, dnorm(x, mean = 25, sd = 5),
+type = 'l', lwd = 3, col = 2)
+points(x, dnorm(x, mean = 30, sd = 5), type = 'l', lwd = 3, col = 4)
+legend('topleft', legend = c('20', '25', '30'), lty = 1, col = c(1,2,4), bty = 'n', lwd = 2, cex = 1.1)
+```
+
+If we keep $\mu = 25$, varying $\sigma$ changes the shape of the distribution, where smaller $\sigma$ (low variance) means there is higher probability around the mean, while larger $\sigma$ spreads out the probabilities across the full range of values.
+
+```{r, echo=FALSE}
+x = seq(1, 50, 0.1)
+plot(x, dnorm(x, mean = 25, sd = 5), type = 'l', lwd = 3, xlab = '# galumna', ylab = 'Probability')
+points(x, dnorm(x, mean = 25, sd = 7.5), type = 'l', lwd = 3, col = 2)
+points(x, dnorm(x, mean = 25, sd = 10), type = 'l', lwd = 3, col = 4)
+legend('topleft', legend = c('5', '7.5', '10'), lty = 1, col = c(1,2,4), bty = 'n', lwd = 2, cex = 1.1)
+```
+
+### Model prediction
+
+When the assumptions of the linear model are not met, model prediction becomes problematic. Let's work through an example to demonstrate some of the problems that arise from a poorly fitted model.
+
+Remember that when we predict, we aim at estimating the *unknown coefficients* $\beta_0$ and $\beta_1$ so that a line effectively predicting every value of $Y$ as a function of $X$ can be drawn!
+
+$$Y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$
+
+Let's predict *Galumna* abundance at a water content = 300 using the linear model we fit above. **What are the parameters of the normal distribution used to model $Y$ when water content is $300$?**
+
+Let's begin by obtaining the parameters $\mu$ and $\sigma^2$ for a normal distribution corresponding to our equation. To obtain the coefficients from our models, we can use the function `coef()`:
+
+```{r, echo = TRUE}
 coef(lm.abund)
 ```
 
-This model predicts that for a water content value of, say, 300, we
-should obtain a Galumna abundance of 1.63:
+These coefficients would allow us to predict *Galumna* abundance if there was no error. However, we know that error is an **irrevocable** part of our model. To get our predicted values, we therefore also need to add \varepsilon. This is where we use the normal
+distribution! For $X$ = 300, our model predicts that \varepsilon should follow a normal distribution with mean = 1.63. We can extract the variance ($\sigma^2$) from our model summary:
 
-3.44 + (-0.006 x 300) = 1.63.
-
-That is the expected abundance if there was no residual. To get our
-predicted values, we need to add ε~i~. This is where we use the normal
-distribution. For x = 300, our model predicts that ε~i~ should follow a
-normal distribution with mean = 1.63. We can find the σ^2^ value for our
-abundance model by extracting it from the model summary:
-
-```{r, echo = TRUE, eval = TRUE}
+```{r, echo = TRUE}
 summary(lm.abund)$sigma
 ```
 
-We find that sigma is roughly 1.51. We now have all the coefficients
-that we need to model Galumna abundance. At a water content of 300,
-residuals should follow a normal distribution with parameters μ = 1.63
-and σ^2^ = 1.51.
+We can plug these values into the equation we just discussed above:
+$$Y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$
+$\mu = 3.44 + (-0.006 \times 300) = 1.63$
 
-At a water content of 400, residuals ε~i~ should follow a normal
-distribution with parameters μ = 3.44 + (-0.006 x 400) = 1.02 and σ^2^ =
-1.51, etc. Each y~i~ value is modeled using a different normal
-distribution, with a mean that depends on x~i~. The variance of all of
-those normal distributions (σ^2^), however, is the same. Function lm()
-finds the optimal σ^2^ value that minimizes the total residual sum of
-square and uses it for all normal distributions used to model y.
-Graphically, this looks like this:
+$\sigma^2 = 1.51$
 
-![](images/6_lm_assump.jpeg)
+This tells us that randomly drawn $Y$ values when water content is $300$ should be on average $1.63$ and have a variance of $1.51$. In other words, at $x = 300$, residuals should follow a normal distribution with $\mu = 1.63$ and $\sigma^2 = 1.51$. At $x = 400$, we get $\mu = 1.02$ and $\sigma^2 = 1.51$, etc.
+
+
+At a water content of 400, residuals \varepsilon should follow a normal
+distribution with parameters $\mu = 3.44 + (-0.006 x 400) = 1.02$ and $\sigma^2 = 1.51$, etc. Each $Y$ value is modeled using a normal distribution with a mean that depends on $X_i$, but with a variance that is constant $\sigma^2 = 1.51$ across all $X_i$ values. Graphically, this looks like this:
+
+![](images/modelPredic.png)
 
 The four normal distributions on this graph represent the probability of
 observing a given Galumna abundance for 4 different water content
 values. The mean of the normal distribution varies as a function of
-water content (hence μ decreases with water content), but σ^2^ is always
-1.51 (i.e. the variance is homogeneous across all values of x). This
-model is inappropriate for at least two reasons:
+water content (hence $\mu$  decreases with water content), but $\sigma^2$ is always 1.51 (i.e. the variance is homogeneous across all values of $X$).
 
-1\. Values are on average farther from the regression line at low water
-content values. That is, there is more residual variance around the
-predicted values for low values of x, such that ε~i~ varies as a
-function of x, thus violating the assumption of homoscedasticity. It
-makes no sense to use a constant value of σ^2^: the normal distributions
-used to predict y at low values of x should ideally be wider (have a
-larger σ^2^) than normal distributions used to predict y at large x
-values, but linear models do not permit this.
+This model is inappropriate for at least two reasons:
 
-2\. It makes no sense to use a normal distribution to predict y based on
-x. Our response variable is abundance, which can only take integer
-values. Yet, at water content = 300, the abundance value that our model
-predicts to be the most probable is 1.63! We know that the probability
-of observing 1.63 individuals at water content = 300 is actually zero,
-as is the probability of observing any fraction (non-integers). Our
-predicted values should be modeled using a distribution that only
-predicts integers, rather than a continuous distribution like the normal
-distribution. This is a very common problem, as biological data often
-follows one of the myriad other statistical distributions besides the
-normal distribution.
+**1.  Values are on average further from the regression line at low water content values.** That is, there is more residual variance around the predicted values for low values of $X$, such that $\varepsilon$ varies as a function of $X$, thus violating the assumption of homoscedasticity. It makes no sense to use a constant value of $\sigma^2$: the normal distributions used to predict $Y$ at low values of $X$ should ideally be wider (have a larger $\sigma^2$) than normal distributions used to predict $Y$ at large $X$ values, but linear models do not permit this.
 
-Generalized linear models can solve these two problems. Keep reading!
+**2. The residuals do not follow a normal distribution with constant variance across all values of** $X$. The variance of the residuals' distribution changes as a function of $X$ (see the spread of the data points around the trendline!).
+
+**3. The predicted values do not make sense, given the observations.** Our response variable is abundance, which can only take integer values. Yet, at water content = 300, the abundance value that our model predicts to be the most probable is 1.63! We know that the probability of observing 1.63 individuals at water content = 300 is actually zero, as is the probability of observing any fraction (non-integers). Our predicted values should be modeled using a distribution that only predicts integers, rather than a continuous distribution like the normal distribution. This is a very common problem, as biological data often follows one of the myriad other statistical distributions besides the normal distribution.
+
+### So, what do we do now? Transform our data?
+
+Very often, data will not "behave" and will violate the assumptions we have seen, showing evidence for **non-normality** and/or **heteroskedasticity**.
+
+We have been told to **transform** our data using logarithmic, square-root, and cosine transformations to get around these problems. Unfortunately, transformations not always work and come with a few drawbacks:
+
+**1.**  They change the response variable (!), making interpretation challenging;
+**2.**  They may not simulateneously improve linearity and homogeneity of variance;
+**3.**  The boundaries of the sample space change.
+
+For instance, our simple linear model:
+
+$$Y_i = \beta_0 + \beta_1X_i + \varepsilon$$
+
+looks like this under a log-transform:
+
+$$E(\log{Y_i}) = \beta_0 + \beta_1X_i $$
+
+It is, of course, much less intuitive to interpret that for every $300$ units increase in water content, Galumna abundance takes the form of $\log(1.63)$...
+
+Thankfully, the **normal distribution is not our only option!**
