@@ -1,8 +1,8 @@
 # (PART\*) GLMs with proportion data {-}
 
-# Binomial GLMS
+# Binomial GLMs and proportions
 
-Sometimes, proportion data are more similar to logistic regression than you think...
+Sometimes, proportion data are more similar to logistic regression than you think.
 
 In discrete counts, we can, for instance, measure the number of presence of individuals in relation to the total number of populations sampled.
 
