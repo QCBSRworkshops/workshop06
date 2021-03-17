@@ -254,12 +254,13 @@ variance of the distribution (i.e. the mean and the variance of a
 Poisson distribution are equal). Here are 3 examples of Poisson
 distributions with different values of <span class="math inline">\(\lambda\)</span>, corresponding in this case to
 the mean number of <em>Galumna</em> observed in a fictive set of samples:</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="the-distributions-of-biological-data.html#cb41-1"></a><span class="kw">par</span>(<span class="dt">cex =</span> <span class="dv">2</span>)</span>
-<span id="cb41-2"><a href="the-distributions-of-biological-data.html#cb41-2"></a>x =<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span>, <span class="dv">50</span>, <span class="dv">1</span>)</span>
-<span id="cb41-3"><a href="the-distributions-of-biological-data.html#cb41-3"></a><span class="kw">plot</span>(x, <span class="kw">dpois</span>(x, <span class="dt">lambda =</span> <span class="dv">1</span>), <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">xlab =</span> <span class="st">&quot;Frequency of Galumna&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Probability&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;lambda = 1&quot;</span>)</span>
-<span id="cb41-4"><a href="the-distributions-of-biological-data.html#cb41-4"></a><span class="kw">plot</span>(x, <span class="kw">dpois</span>(x, <span class="dt">lambda =</span> <span class="dv">10</span>), <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">xlab =</span> <span class="st">&quot;Frequency of Galumna&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Probability&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;lambda = 10&quot;</span>)</span>
-<span id="cb41-5"><a href="the-distributions-of-biological-data.html#cb41-5"></a><span class="kw">plot</span>(x, <span class="kw">dpois</span>(x, <span class="dt">lambda =</span> <span class="dv">30</span>), <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">xlab =</span> <span class="st">&quot;Frequency of Galumna&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Probability&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;lambda = 30&quot;</span>)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-27-1.png" width="33%" /><img src="book-en_files/figure-html/unnamed-chunk-27-2.png" width="33%" /><img src="book-en_files/figure-html/unnamed-chunk-27-3.png" width="33%" /></p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="the-distributions-of-biological-data.html#cb40-1"></a><span class="co"># examples of Poisson distributions with different values of lambda</span></span>
+<span id="cb40-2"><a href="the-distributions-of-biological-data.html#cb40-2"></a><span class="kw">par</span>(<span class="dt">cex =</span> <span class="dv">2</span>)</span>
+<span id="cb40-3"><a href="the-distributions-of-biological-data.html#cb40-3"></a>x =<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span>, <span class="dv">50</span>, <span class="dv">1</span>)</span>
+<span id="cb40-4"><a href="the-distributions-of-biological-data.html#cb40-4"></a><span class="kw">plot</span>(x, <span class="kw">dpois</span>(x, <span class="dt">lambda =</span> <span class="dv">1</span>), <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">xlab =</span> <span class="st">&quot;Frequency of Galumna&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Probability&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;lambda = 1&quot;</span>)</span>
+<span id="cb40-5"><a href="the-distributions-of-biological-data.html#cb40-5"></a><span class="kw">plot</span>(x, <span class="kw">dpois</span>(x, <span class="dt">lambda =</span> <span class="dv">10</span>), <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">xlab =</span> <span class="st">&quot;Frequency of Galumna&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Probability&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;lambda = 10&quot;</span>)</span>
+<span id="cb40-6"><a href="the-distributions-of-biological-data.html#cb40-6"></a><span class="kw">plot</span>(x, <span class="kw">dpois</span>(x, <span class="dt">lambda =</span> <span class="dv">30</span>), <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">xlab =</span> <span class="st">&quot;Frequency of Galumna&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Probability&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;lambda = 30&quot;</span>)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-26-1.png" width="33%" /><img src="book-en_files/figure-html/unnamed-chunk-26-2.png" width="33%" /><img src="book-en_files/figure-html/unnamed-chunk-26-3.png" width="33%" /></p>
 <p>Note that at low <span class="math inline">\(\lambda\)</span> values (when the mean is close to zero), the
 distribution is skewed to the right, while at large <span class="math inline">\(\lambda\)</span> values (large
 mean) the distribution is symmetrical. The variance increases with the
@@ -270,15 +271,16 @@ number of seeds in a plot, etc. Our variable mites <code>$Galumna</code> seems t
 follow a Poisson distribution with a low value of <span class="math inline">\(\lambda\)</span> (indeed, if we
 calculate the mean abundance of <em>Galumna</em> across all samples using the
 function <code>mean()</code>, we find that it is close to zero):</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="the-distributions-of-biological-data.html#cb42-1"></a><span class="kw">hist</span>(mites<span class="op">$</span>Galumna)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-29-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="the-distributions-of-biological-data.html#cb43-1"></a><span class="kw">mean</span>(mites<span class="op">$</span>Galumna)</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="the-distributions-of-biological-data.html#cb41-1"></a><span class="co"># Explore the dataset</span></span>
+<span id="cb41-2"><a href="the-distributions-of-biological-data.html#cb41-2"></a><span class="kw">hist</span>(mites<span class="op">$</span>Galumna)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-28-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="the-distributions-of-biological-data.html#cb42-1"></a><span class="kw">mean</span>(mites<span class="op">$</span>Galumna)</span></code></pre></div>
 <pre><code>## [1] 0.9571429</code></pre>
 <p>Our variable <code>$pa</code> (presence-absence) takes yet another form. It
 consists of only zeros and ones, such that a Poisson distribution would
 not be appropriate to model this variable.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="the-distributions-of-biological-data.html#cb45-1"></a><span class="kw">hist</span>(mites<span class="op">$</span>pa)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-30-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="the-distributions-of-biological-data.html#cb44-1"></a><span class="kw">hist</span>(mites<span class="op">$</span>pa)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-29-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>We need a distribution with a range that only includes two possible
 outcomes: zero or one. The <strong>Bernoulli</strong> distribution is such a
 distribution. It is often the first distribution that students of
@@ -291,10 +293,11 @@ can use the Bernouilli distribution to calculate the probability of
 obtaining the outcome “<em>Galumna</em> present” (1) vs. “<em>Galumna</em> absent”
 (0). Here are some examples of Bernoulli distributions with various
 probabilities of presence (<span class="math inline">\(p\)</span>):</p>
-<p><img src="book-en_files/figure-html/unnamed-chunk-31-1.png" width="30%" /><img src="book-en_files/figure-html/unnamed-chunk-31-2.png" width="30%" /><img src="book-en_files/figure-html/unnamed-chunk-31-3.png" width="30%" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-30-1.png" width="30%" /><img src="book-en_files/figure-html/unnamed-chunk-30-2.png" width="30%" /><img src="book-en_files/figure-html/unnamed-chunk-30-3.png" width="30%" /></p>
 <p>We can calculate the number of sites where <em>Galumna</em> is present out of the
 total number of sites to get an idea of what <span class="math inline">\(p\)</span> might be in our case:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="the-distributions-of-biological-data.html#cb46-1"></a><span class="kw">sum</span>(mites<span class="op">$</span>pa) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(mites)</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="the-distributions-of-biological-data.html#cb45-1"></a><span class="co"># Calculate probabilities of presence of Galumna (p)</span></span>
+<span id="cb45-2"><a href="the-distributions-of-biological-data.html#cb45-2"></a><span class="kw">sum</span>(mites<span class="op">$</span>pa) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(mites)</span></code></pre></div>
 <pre><code>## [1] 0.3571429</code></pre>
 <p><span class="math inline">\(p\)</span> for the variable mites <code>$pa</code> is more or less <code>0.36</code>, such that roughly
 twice as many sites have the outcome “<em>Galumna</em> absent” (0) than the
@@ -314,7 +317,7 @@ distribution with <span class="math inline">\(n\)</span> = 50 samples (i.e. “
 proportion of samples in which <em>Galumna</em> is present. We would have 30 data
 points, corresponding to the 30 regions. Here are some examples of
 binomial distributions with <span class="math inline">\(n\)</span> = 50 and 3 different values of <span class="math inline">\(p\)</span>:</p>
-<p><img src="book-en_files/figure-html/unnamed-chunk-33-1.png" width="33%" /><img src="book-en_files/figure-html/unnamed-chunk-33-2.png" width="33%" /><img src="book-en_files/figure-html/unnamed-chunk-33-3.png" width="33%" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-32-1.png" width="33%" /><img src="book-en_files/figure-html/unnamed-chunk-32-2.png" width="33%" /><img src="book-en_files/figure-html/unnamed-chunk-32-3.png" width="33%" /></p>
 <p>Notice that the binomial distribution is right-skewed at low <span class="math inline">\(p\)</span> values
 but left-skewed at high <span class="math inline">\(p\)</span> values. This is the main difference with the
 Poisson distribution: the binomial distribution has an upper limit to
@@ -344,7 +347,7 @@ positive ranges. By simply switching the distribution of error terms
 (<span class="math inline">\(\varepsilon\)</span>) from normal to Poisson, we solved most of the problems of our
 abundance linear model. This new model is <em>almost</em> a Poisson
 generalized linear model, which basically looks like this:</p>
-<p><img src="book-en_files/figure-html/unnamed-chunk-34-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-33-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Notice that probabilities of observations/predicted values (in orange,
 as for the lm model above) are now integers, and that both the variance
 and the mean of the distribution decline as <span class="math inline">\(\lambda\)</span> decreases with increasing

@@ -331,28 +331,34 @@ elevation.</p>
 <span id="cb105-9"><a href="negative-binomial-glms.html#cb105-9"></a><span class="kw">lines</span>(pframe<span class="op">$</span>pred, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
 <span id="cb105-10"><a href="negative-binomial-glms.html#cb105-10"></a><span class="kw">lines</span>(pframe<span class="op">$</span>upr, <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">3</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
 <span id="cb105-11"><a href="negative-binomial-glms.html#cb105-11"></a><span class="kw">lines</span>(pframe<span class="op">$</span>lwr, <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">3</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-69-1.png" width="672" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-67-1.png" width="672" /></p>
 <p>We can see that the number of <em>Faramea occidentalis</em> significantly
 decreases with elevation. However, the confidence envelope of the NB
 model is large at low elevation.</p>
 <div id="challenge-3" class="section level3">
 <h3><span class="header-section-number">12.1.1</span> Challenge 3</h3>
 <p>Use the <code>mites</code> dataset! Model the abundance of the species Galumna as a function of the substrate characteristics (water content <code>WatrCont</code> and density <code>SubsDens</code>)</p>
-<p>Do you need to account for overdispersion?<br />
-Which covariates have a significant effect?<br />
+<p>Do you need to account for overdispersion?
+Which covariates have a significant effect?
 Select the best model!</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="negative-binomial-glms.html#cb106-1"></a>mites &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/mites.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="negative-binomial-glms.html#cb106-1"></a><span class="co"># Challenge 3</span></span>
+<span id="cb106-2"><a href="negative-binomial-glms.html#cb106-2"></a></span>
+<span id="cb106-3"><a href="negative-binomial-glms.html#cb106-3"></a>mites &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/mites.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p>Drop each term in turn and compare the full model with a nested model using the command:</p>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="negative-binomial-glms.html#cb107-1"></a><span class="kw">drop1</span>(MyGLM, <span class="dt">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="negative-binomial-glms.html#cb107-1"></a><span class="co"># This is how to do model comparison by dropping terms in turn</span></span>
+<span id="cb107-2"><a href="negative-binomial-glms.html#cb107-2"></a><span class="kw">drop1</span>(MyGLM, <span class="dt">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
 <p>Specify manually a nested model, call it for example MyGLM2, and use the command:</p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="negative-binomial-glms.html#cb108-1"></a><span class="kw">anova</span>(MyGLM, MyGLM2, <span class="dt">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="negative-binomial-glms.html#cb108-1"></a><span class="co"># You can also manually specify a nested model and compare it to your full model with this command:</span></span>
+<span id="cb108-2"><a href="negative-binomial-glms.html#cb108-2"></a><span class="kw">anova</span>(MyGLM, MyGLM2, <span class="dt">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
 <p><strong>Solution</strong></p>
 <div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="negative-binomial-glms.html#cb109-1"></a><span class="co"># Poisson GLM</span></span>
 <span id="cb109-2"><a href="negative-binomial-glms.html#cb109-2"></a>glm.p =<span class="st"> </span><span class="kw">glm</span>(Galumna<span class="op">~</span>WatrCont<span class="op">+</span>SubsDens, <span class="dt">data=</span>mites, <span class="dt">family=</span>poisson)</span>
-<span id="cb109-3"><a href="negative-binomial-glms.html#cb109-3"></a><span class="co"># quasi-Poisson GLM</span></span>
-<span id="cb109-4"><a href="negative-binomial-glms.html#cb109-4"></a>glm.qp =<span class="st"> </span><span class="kw">update</span>(glm.p,<span class="dt">family=</span>quasipoisson)</span>
-<span id="cb109-5"><a href="negative-binomial-glms.html#cb109-5"></a><span class="co"># model selection</span></span>
-<span id="cb109-6"><a href="negative-binomial-glms.html#cb109-6"></a><span class="kw">drop1</span>(glm.qp, <span class="dt">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
+<span id="cb109-3"><a href="negative-binomial-glms.html#cb109-3"></a></span>
+<span id="cb109-4"><a href="negative-binomial-glms.html#cb109-4"></a><span class="co"># quasi-Poisson GLM</span></span>
+<span id="cb109-5"><a href="negative-binomial-glms.html#cb109-5"></a>glm.qp =<span class="st"> </span><span class="kw">update</span>(glm.p,<span class="dt">family=</span>quasipoisson)</span>
+<span id="cb109-6"><a href="negative-binomial-glms.html#cb109-6"></a></span>
+<span id="cb109-7"><a href="negative-binomial-glms.html#cb109-7"></a><span class="co"># model selection</span></span>
+<span id="cb109-8"><a href="negative-binomial-glms.html#cb109-8"></a><span class="kw">drop1</span>(glm.qp, <span class="dt">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
 <pre><code>## Single term deletions
 ## 
 ## Model:

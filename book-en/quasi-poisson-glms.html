@@ -314,7 +314,7 @@ to follow a F distribution with <em>p</em><sub>2</sub>-<em>p</em><sub>1</sub> an
 of freedom.</p></li>
 </ul>
 <p>Try also deviance analysis to test for the effect of Elevation</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="quasi-poisson-glms.html#cb93-1"></a>null.model &lt;-<span class="st"> </span><span class="kw">glm</span>(Faramea.occidentalis <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, </span>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="quasi-poisson-glms.html#cb93-1"></a>null.model &lt;-<span class="st"> </span><span class="kw">glm</span>(Faramea.occidentalis <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</span>
 <span id="cb93-2"><a href="quasi-poisson-glms.html#cb93-2"></a>                  <span class="dt">data =</span> faramea,</span>
 <span id="cb93-3"><a href="quasi-poisson-glms.html#cb93-3"></a>                  <span class="dt">family =</span> quasipoisson)</span>
 <span id="cb93-4"><a href="quasi-poisson-glms.html#cb93-4"></a><span class="kw">anova</span>(null.model, glm.quasipoisson, <span class="dt">test =</span> <span class="st">&quot;Chisq&quot;</span>)</span></code></pre></div>

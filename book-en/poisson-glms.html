@@ -268,8 +268,11 @@ Increasing Elevation by one increases μ by factor of exp( <span class="math inl
 <h2><span class="header-section-number">10.1</span> Poisson GLMs in <code>R</code></h2>
 <p>Fitting a Poisson GLM in R requires only setting <code>family = poisson</code> in
 the <code>glm()</code> function. By default the link function is log.</p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="poisson-glms.html#cb82-1"></a>glm.poisson =<span class="st"> </span><span class="kw">glm</span>(Faramea.occidentalis<span class="op">~</span>Elevation, <span class="dt">data=</span>faramea, <span class="dt">family=</span>poisson)</span>
-<span id="cb82-2"><a href="poisson-glms.html#cb82-2"></a><span class="kw">summary</span>(glm.poisson)</span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="poisson-glms.html#cb82-1"></a><span class="co"># Fit a Poisson GLM</span></span>
+<span id="cb82-2"><a href="poisson-glms.html#cb82-2"></a>glm.poisson =<span class="st"> </span><span class="kw">glm</span>(Faramea.occidentalis <span class="op">~</span><span class="st"> </span>Elevation,</span>
+<span id="cb82-3"><a href="poisson-glms.html#cb82-3"></a>  <span class="dt">data =</span> faramea,</span>
+<span id="cb82-4"><a href="poisson-glms.html#cb82-4"></a>  <span class="dt">family =</span> poisson) <span class="co"># this is what makes it a Poisson GLM! Note the default link is log.</span></span>
+<span id="cb82-5"><a href="poisson-glms.html#cb82-5"></a><span class="kw">summary</span>(glm.poisson)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = Faramea.occidentalis ~ Elevation, family = poisson, 
@@ -343,7 +346,7 @@ is greater to the former by 9.5 times, the model is then
 <p><strong>Overdispersion</strong> As a consequence overdispersion can be computed for
 any model using the parameter φ:</p>
 <pre><code>                      φ = residual deviance / residual degrees of freedom
-                      
+
 * φ &lt; 1 indicates underdispersion
 * φ = 1 indicates no overdispersion
 * φ &gt; 1 indicates overdispersion</code></pre>

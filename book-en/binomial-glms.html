@@ -236,8 +236,14 @@ variable: we observe a phenomenon <span class="math inline">\(Y\)</span> or its 
 success/failure to record a specific behaviour, and the survival/death of organisms. Usually, we are interested in questions such as: how do species occurrences vary in function of the environment?</p>
 <p><span class="math display">\[Occurrences = f(Environment)\]</span></p>
 <p>Under a linear model, expected values can be out of the <code>[0, 1]</code> range with <code>lm()</code>:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="binomial-glms.html#cb49-1"></a><span class="kw">lm</span>(Pres <span class="op">~</span><span class="st"> </span>ExpVar)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-37-1.png" width="50%" /><img src="book-en_files/figure-html/unnamed-chunk-37-2.png" width="50%" /></p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="binomial-glms.html#cb48-1"></a><span class="co"># set up some binary data</span></span>
+<span id="cb48-2"><a href="binomial-glms.html#cb48-2"></a>Pres &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">40</span>), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">40</span>))</span>
+<span id="cb48-3"><a href="binomial-glms.html#cb48-3"></a>rnor &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">rnorm</span>(<span class="dv">1</span>, <span class="dt">mean =</span> <span class="kw">ifelse</span>(x <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="fl">12.5</span>, <span class="fl">7.5</span>), <span class="dt">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb48-4"><a href="binomial-glms.html#cb48-4"></a>ExpVar &lt;-<span class="st"> </span><span class="kw">sapply</span>(Pres, rnor)</span>
+<span id="cb48-5"><a href="binomial-glms.html#cb48-5"></a></span>
+<span id="cb48-6"><a href="binomial-glms.html#cb48-6"></a><span class="co"># linear model with binary data...</span></span>
+<span id="cb48-7"><a href="binomial-glms.html#cb48-7"></a><span class="kw">lm</span>(Pres <span class="op">~</span><span class="st"> </span>ExpVar)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-36-1.png" width="50%" /><img src="book-en_files/figure-html/unnamed-chunk-36-2.png" width="50%" /></p>
 <div id="glm-with-binomial-data-logit-link" class="section level2">
 <h2><span class="header-section-number">7.1</span> GLM with binomial data: logit link</h2>
 <p>A regression that has a binary response variable is one of
@@ -257,10 +263,10 @@ The odds puts our expected values on a <code>0</code> to <code>+Inf</code> scale
 <span class="math inline">\(1.5 × 0.4 = 0.6\)</span>).</p>
 <p>In <code>R</code>, presence (or success, survival…) is usually coded as <code>1</code> and absence (or failure, death…) as <code>0</code>. A logistic regression (or any other generalized linear model) is performed with the <code>glm()</code> function. This function is different from the basic <code>lm()</code> as it allows one to specify a statistical distribution other than the normal distribution.</p>
 <p>A reminder about our <code>glm()</code> function:</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="binomial-glms.html#cb50-1"></a><span class="kw">glm</span>(formula,</span>
-<span id="cb50-2"><a href="binomial-glms.html#cb50-2"></a>    <span class="dt">family =</span> ???,</span>
-<span id="cb50-3"><a href="binomial-glms.html#cb50-3"></a>    data,</span>
-<span id="cb50-4"><a href="binomial-glms.html#cb50-4"></a>    ...)</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="binomial-glms.html#cb49-1"></a><span class="kw">glm</span>(formula,</span>
+<span id="cb49-2"><a href="binomial-glms.html#cb49-2"></a>    <span class="dt">family =</span> ???, <span class="co"># this argument allows us to set a probability distribution!</span></span>
+<span id="cb49-3"><a href="binomial-glms.html#cb49-3"></a>    data,</span>
+<span id="cb49-4"><a href="binomial-glms.html#cb49-4"></a>    ...)</span></code></pre></div>
 <p>–</p>
 <table>
 <colgroup>
@@ -312,18 +318,19 @@ The odds puts our expected values on a <code>0</code> to <code>+Inf</code> scale
 </table>
 <p>–</p>
 <p>In <code>R</code>, we can therefore build a binomial GLM with a logit link as follows:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="binomial-glms.html#cb51-1"></a><span class="kw">glm</span>(formula,</span>
-<span id="cb51-2"><a href="binomial-glms.html#cb51-2"></a>    <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="co"># this is also known as logistic</span></span>
-<span id="cb51-3"><a href="binomial-glms.html#cb51-3"></a>    data,</span>
-<span id="cb51-4"><a href="binomial-glms.html#cb51-4"></a>    ...)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="binomial-glms.html#cb50-1"></a><span class="co"># This is the syntax for a binomial GLM with a logit link</span></span>
+<span id="cb50-2"><a href="binomial-glms.html#cb50-2"></a>family =<span class="st"> </span><span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="co"># this is also known as logistic</span></span>
+<span id="cb50-3"><a href="binomial-glms.html#cb50-3"></a>    data,</span>
+<span id="cb50-4"><a href="binomial-glms.html#cb50-4"></a>    ...<span class="er">)</span></span></code></pre></div>
 </div>
 <div id="exercise-1" class="section level2">
 <h2><span class="header-section-number">7.2</span> Exercise 1</h2>
 <p>Let’s build our first generalized linear model! Here, we want to build a logistic regression model using the <code>mites</code> data</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="binomial-glms.html#cb52-1"></a><span class="co"># setwd(&#39;...&#39;)</span></span>
-<span id="cb52-2"><a href="binomial-glms.html#cb52-2"></a></span>
-<span id="cb52-3"><a href="binomial-glms.html#cb52-3"></a>mites &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/mites.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb52-4"><a href="binomial-glms.html#cb52-4"></a><span class="kw">str</span>(mites)</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="binomial-glms.html#cb51-1"></a><span class="co"># Exercise 1 - our first GLM!</span></span>
+<span id="cb51-2"><a href="binomial-glms.html#cb51-2"></a><span class="co"># setwd(&#39;...&#39;)</span></span>
+<span id="cb51-3"><a href="binomial-glms.html#cb51-3"></a></span>
+<span id="cb51-4"><a href="binomial-glms.html#cb51-4"></a>mites &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/mites.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb51-5"><a href="binomial-glms.html#cb51-5"></a><span class="kw">str</span>(mites)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    70 obs. of  9 variables:
 ##  $ Galumna   : int  8 3 1 1 2 1 1 1 2 5 ...
 ##  $ pa        : int  1 1 1 1 1 1 1 1 1 1 ...
@@ -335,11 +342,11 @@ The odds puts our expected values on a <code>0</code> to <code>+Inf</code> scale
 ##  $ Shrub     : chr  &quot;Few&quot; &quot;Few&quot; &quot;Few&quot; &quot;Few&quot; ...
 ##  $ Topo      : chr  &quot;Hummock&quot; &quot;Hummock&quot; &quot;Hummock&quot; &quot;Hummock&quot; ...</code></pre>
 <p>We can fit the logistic regression model of the presence of <em>Galumna</em> sp. as a function of water content and topography as follows, using the <code>glm()</code> function and the <code>family</code> argument:</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="binomial-glms.html#cb54-1"></a>logit.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Topo,</span>
-<span id="cb54-2"><a href="binomial-glms.html#cb54-2"></a>                 <span class="dt">data =</span> mites,</span>
-<span id="cb54-3"><a href="binomial-glms.html#cb54-3"></a>                 <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="binomial-glms.html#cb53-1"></a>logit.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Topo,</span>
+<span id="cb53-2"><a href="binomial-glms.html#cb53-2"></a>                 <span class="dt">data =</span> mites,</span>
+<span id="cb53-3"><a href="binomial-glms.html#cb53-3"></a>                 <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>))</span></code></pre></div>
 <p>To see the model output, we run:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="binomial-glms.html#cb55-1"></a><span class="kw">summary</span>(logit.reg)</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="binomial-glms.html#cb54-1"></a><span class="kw">summary</span>(logit.reg)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = pa ~ WatrCont + Topo, family = binomial(link = &quot;logit&quot;), 
@@ -382,12 +389,15 @@ Start with a full model and reduce it to the most parsimonious model.</p>
 <p>This dataset was made to test the presence of the bacteria <em>H. influenzae</em> in children with otitis media in the Northern Territory of Australia. Dr A. Leach tested the effects of a drug on 50 children with a history of otitis media in the Northern Territory of Australia. The children were randomized to the drug or a placebo. The presence of <em>H. influenzae</em> was checked at weeks 0, 2, 4, 6 and 11: 30 of the checks were missing and are not included in this data frame.</p>
 <div id="challenge-1-solution" class="section level3">
 <h3><span class="header-section-number">7.3.1</span> Challenge 1: Solution</h3>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="binomial-glms.html#cb58-1"></a>model.bact1 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>trt <span class="op">*</span><span class="st"> </span>week, <span class="dt">data =</span> bacteria, <span class="dt">family =</span> binomial)</span>
-<span id="cb58-2"><a href="binomial-glms.html#cb58-2"></a>model.bact2 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>trt <span class="op">+</span><span class="st"> </span>week, <span class="dt">data =</span> bacteria, <span class="dt">family =</span> binomial)</span>
-<span id="cb58-3"><a href="binomial-glms.html#cb58-3"></a>model.bact3 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>week, <span class="dt">data =</span> bacteria, <span class="dt">family =</span> binomial)</span>
-<span id="cb58-4"><a href="binomial-glms.html#cb58-4"></a></span>
-<span id="cb58-5"><a href="binomial-glms.html#cb58-5"></a><span class="co"># Let&#39;s compare these models using a likelihood ratio test (LRT).</span></span>
-<span id="cb58-6"><a href="binomial-glms.html#cb58-6"></a><span class="kw">anova</span>(model.bact1, model.bact2, model.bact3, <span class="dt">test =</span> <span class="st">&quot;LRT&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="binomial-glms.html#cb57-1"></a><span class="co"># Challenge 1 - Solution</span></span>
+<span id="cb57-2"><a href="binomial-glms.html#cb57-2"></a></span>
+<span id="cb57-3"><a href="binomial-glms.html#cb57-3"></a><span class="co"># Fit models (full to most parsimonious)</span></span>
+<span id="cb57-4"><a href="binomial-glms.html#cb57-4"></a>model.bact1 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>trt <span class="op">*</span><span class="st"> </span>week, <span class="dt">data =</span> bacteria, <span class="dt">family =</span> binomial)</span>
+<span id="cb57-5"><a href="binomial-glms.html#cb57-5"></a>model.bact2 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>trt <span class="op">+</span><span class="st"> </span>week, <span class="dt">data =</span> bacteria, <span class="dt">family =</span> binomial)</span>
+<span id="cb57-6"><a href="binomial-glms.html#cb57-6"></a>model.bact3 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>week, <span class="dt">data =</span> bacteria, <span class="dt">family =</span> binomial)</span>
+<span id="cb57-7"><a href="binomial-glms.html#cb57-7"></a></span>
+<span id="cb57-8"><a href="binomial-glms.html#cb57-8"></a><span class="co"># Let&#39;s compare these models using a likelihood ratio test (LRT).</span></span>
+<span id="cb57-9"><a href="binomial-glms.html#cb57-9"></a><span class="kw">anova</span>(model.bact1, model.bact2, model.bact3, <span class="dt">test =</span> <span class="st">&quot;LRT&quot;</span>)</span></code></pre></div>
 <pre><code>## Analysis of Deviance Table
 ## 
 ## Model 1: y ~ trt * week
@@ -399,6 +409,7 @@ Start with a full model and reduce it to the most parsimonious model.</p>
 ## 3       218     210.91 -2  -7.1026  0.02869 *
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="binomial-glms.html#cb59-1"></a><span class="co"># Which model is the best candidate?</span></span></code></pre></div>
 <p>Based on these results, we select model #2 as the best candidate to model these data.</p>
 </div>
 </div>
@@ -406,7 +417,8 @@ Start with a full model and reduce it to the most parsimonious model.</p>
 <h2><span class="header-section-number">7.4</span> Interpreting the output of a logistic regression</h2>
 <p>The output of our logistic regression indicates that both water
 content and topography are significant:</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="binomial-glms.html#cb60-1"></a><span class="kw">summary</span>(logit.reg)<span class="op">$</span>coefficients</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="binomial-glms.html#cb60-1"></a><span class="co"># Extracting model coefficients</span></span>
+<span id="cb60-2"><a href="binomial-glms.html#cb60-2"></a><span class="kw">summary</span>(logit.reg)<span class="op">$</span>coefficients</span></code></pre></div>
 <pre><code>##                Estimate  Std. Error   z value     Pr(&gt;|z|)
 ## (Intercept)  4.46440199 1.670622482  2.672299 0.0075333598
 ## WatrCont    -0.01581255 0.004535069 -3.486728 0.0004889684
@@ -444,7 +456,8 @@ However, we can look what happens to the differences for a one-unit change to <s
 <p>As <span class="math inline">\(x_1\)</span> increases by one unit, the odds increase by a factor of <span class="math inline">\(\exp(\beta_1)\)</span>.Note
 that the odds values here are considered when all other parameters are kept constant.</p>
 <p>With this, we can now interpret the results of our model:</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="binomial-glms.html#cb62-1"></a>logit.reg</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="binomial-glms.html#cb62-1"></a><span class="co"># model output</span></span>
+<span id="cb62-2"><a href="binomial-glms.html#cb62-2"></a>logit.reg</span></code></pre></div>
 <pre><code>## 
 ## Call:  glm(formula = pa ~ WatrCont + Topo, family = binomial(link = &quot;logit&quot;), 
 ##     data = mites)
@@ -457,7 +470,8 @@ that the odds values here are considered when all other parameters are kept cons
 ## Null Deviance:       91.25 
 ## Residual Deviance: 48.76     AIC: 54.76</code></pre>
 <p>For a one-unit increase (or decrease) in our coefficients, we can obtain the odds for the presence of mites.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="binomial-glms.html#cb64-1"></a><span class="kw">exp</span>(logit.reg<span class="op">$</span>coefficient[<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="binomial-glms.html#cb64-1"></a><span class="co"># odds for the presence of mites</span></span>
+<span id="cb64-2"><a href="binomial-glms.html#cb64-2"></a><span class="kw">exp</span>(logit.reg<span class="op">$</span>coefficient[<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>])</span></code></pre></div>
 <pre><code>##    WatrCont TopoHummock 
 ##   0.9843118   8.0910340</code></pre>
 <p>The topography parameter value is 8.09. It means that
@@ -516,7 +530,7 @@ it looks like this:</p>
 <p>The <strong>saturated (or full) deviance model</strong> is a model with all explanatory variables:</p>
 <div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="binomial-glms.html#cb67-1"></a>full.model &lt;-<span class="st"> </span><span class="kw">glm</span>(response.variable <span class="op">~</span><span class="st"> </span>., <span class="dt">family =</span> binomial)</span></code></pre></div>
 <p>Residual and null deviances are already stored in the <code>glm object</code>:</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="binomial-glms.html#cb68-1"></a><span class="co"># .</span></span>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="binomial-glms.html#cb68-1"></a><span class="co"># extract residual and null deviances</span></span>
 <span id="cb68-2"><a href="binomial-glms.html#cb68-2"></a><span class="kw">objects</span>(logit.reg)</span></code></pre></div>
 <pre><code>##  [1] &quot;aic&quot;               &quot;boundary&quot;          &quot;call&quot;             
 ##  [4] &quot;coefficients&quot;      &quot;contrasts&quot;         &quot;control&quot;          
@@ -529,8 +543,9 @@ it looks like this:</p>
 ## [25] &quot;rank&quot;              &quot;residuals&quot;         &quot;terms&quot;            
 ## [28] &quot;weights&quot;           &quot;xlevels&quot;           &quot;y&quot;</code></pre>
 <p>We can then use these deviance values to calculate the pseudo-R<sup>2</sup> value:</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="binomial-glms.html#cb70-1"></a>pseudoR2 &lt;-<span class="st"> </span>(logit.reg<span class="op">$</span>null.deviance <span class="op">-</span><span class="st"> </span>logit.reg<span class="op">$</span>deviance) <span class="op">/</span><span class="st"> </span>logit.reg<span class="op">$</span>null.deviance</span>
-<span id="cb70-2"><a href="binomial-glms.html#cb70-2"></a>pseudoR2</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="binomial-glms.html#cb70-1"></a><span class="co"># calculate the pseudo-R2</span></span>
+<span id="cb70-2"><a href="binomial-glms.html#cb70-2"></a>pseudoR2 &lt;-<span class="st"> </span>(logit.reg<span class="op">$</span>null.deviance <span class="op">-</span><span class="st"> </span>logit.reg<span class="op">$</span>deviance) <span class="op">/</span><span class="st"> </span>logit.reg<span class="op">$</span>null.deviance</span>
+<span id="cb70-3"><a href="binomial-glms.html#cb70-3"></a>pseudoR2</span></code></pre></div>
 <pre><code>## [1] 0.4655937</code></pre>
 <p>Hence, the model explains 46.6% of the variability in the data.</p>
 <p>An adjusted McFadden’s pseudo-R<sup>2</sup>, which penalizes for the number of
@@ -545,9 +560,11 @@ Uhler (1970) measures.</p>
 <p>The R function <code>DescTools::PseudoR2()</code> makes it possible to calculate
 many types of <span class="math inline">\(pseudo-R^2\)</span>. By specifying <code>which = all</code>, calculate all
 of them at once.</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="binomial-glms.html#cb72-1"></a>logit.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Topo,</span>
-<span id="cb72-2"><a href="binomial-glms.html#cb72-2"></a>                 <span class="dt">data =</span> mites, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
-<span id="cb72-3"><a href="binomial-glms.html#cb72-3"></a>DescTools<span class="op">::</span><span class="kw">PseudoR2</span>(logit.reg, <span class="dt">which =</span> <span class="st">&quot;all&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="binomial-glms.html#cb72-1"></a><span class="co"># Calculate many pseudo-R2!</span></span>
+<span id="cb72-2"><a href="binomial-glms.html#cb72-2"></a>logit.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Topo,</span>
+<span id="cb72-3"><a href="binomial-glms.html#cb72-3"></a>                 <span class="dt">data =</span> mites,</span>
+<span id="cb72-4"><a href="binomial-glms.html#cb72-4"></a>                 <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
+<span id="cb72-5"><a href="binomial-glms.html#cb72-5"></a>DescTools<span class="op">::</span><span class="kw">PseudoR2</span>(logit.reg, <span class="dt">which =</span> <span class="st">&quot;all&quot;</span>)</span></code></pre></div>
 <pre><code>##        McFadden     McFaddenAdj        CoxSnell      Nagelkerke   AldrichNelson 
 ##       0.4655937       0.3998373       0.4549662       0.6245898       0.3776866 
 ## VeallZimmermann           Efron McKelveyZavoina            Tjur             AIC 
@@ -559,10 +576,15 @@ of them at once.</p>
 <p>Assess goodness-of-fit and predictive power of the <code>model.bact2</code> model. How can you improve the predictive power of this model?</p>
 <div id="challenge-2-solution" class="section level4">
 <h4><span class="header-section-number">7.5.1.1</span> Challenge 2: Solution</h4>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="binomial-glms.html#cb74-1"></a>null.d &lt;-<span class="st"> </span>model.bact2<span class="op">$</span>null.deviance</span>
-<span id="cb74-2"><a href="binomial-glms.html#cb74-2"></a>resid.d &lt;-<span class="st"> </span>model.bact2<span class="op">$</span>deviance</span>
-<span id="cb74-3"><a href="binomial-glms.html#cb74-3"></a>bact.pseudoR2 &lt;-<span class="st"> </span>(null.d <span class="op">-</span><span class="st"> </span>resid.d) <span class="op">/</span><span class="st"> </span>null.d</span>
-<span id="cb74-4"><a href="binomial-glms.html#cb74-4"></a>bact.pseudoR2</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="binomial-glms.html#cb74-1"></a><span class="co"># Challenge 2 - Solution</span></span>
+<span id="cb74-2"><a href="binomial-glms.html#cb74-2"></a></span>
+<span id="cb74-3"><a href="binomial-glms.html#cb74-3"></a><span class="co"># Extract null and residual deviance</span></span>
+<span id="cb74-4"><a href="binomial-glms.html#cb74-4"></a>null.d &lt;-<span class="st"> </span>model.bact2<span class="op">$</span>null.deviance</span>
+<span id="cb74-5"><a href="binomial-glms.html#cb74-5"></a>resid.d &lt;-<span class="st"> </span>model.bact2<span class="op">$</span>deviance</span>
+<span id="cb74-6"><a href="binomial-glms.html#cb74-6"></a></span>
+<span id="cb74-7"><a href="binomial-glms.html#cb74-7"></a><span class="co"># Calculate pseudo-R2</span></span>
+<span id="cb74-8"><a href="binomial-glms.html#cb74-8"></a>bact.pseudoR2 &lt;-<span class="st"> </span>(null.d <span class="op">-</span><span class="st"> </span>resid.d) <span class="op">/</span><span class="st"> </span>null.d</span>
+<span id="cb74-9"><a href="binomial-glms.html#cb74-9"></a>bact.pseudoR2</span></code></pre></div>
 <pre><code>## [1] 0.0624257</code></pre>
 <p>This is very low!</p>
 <p>Adding informative explanatory variables could increase the explanatory power of the model.</p>

@@ -251,10 +251,11 @@ and,</p>
 <p><span class="math display">\[V(\mu_i) = 1\]</span></p>
 <p><em>This is equivalent to the normal linear model that we have learned before!</em></p>
 <p>In <code>R</code>, we can fit generalized linear models using the <code>glm()</code> function, which is similar to the <code>lm()</code> function, with the <code>family</code> argument taking the names of the <strong>link function</strong> (inside <code>link</code>) and, the <strong>variance function</strong>.:</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="generalized-linear-models.html#cb48-1"></a><span class="kw">glm</span>(formula,</span>
-<span id="cb48-2"><a href="generalized-linear-models.html#cb48-2"></a>    <span class="dt">family =</span> <span class="kw">gaussian</span>(<span class="dt">link =</span> <span class="st">&quot;identity&quot;</span>),</span>
-<span id="cb48-3"><a href="generalized-linear-models.html#cb48-3"></a>    data,</span>
-<span id="cb48-4"><a href="generalized-linear-models.html#cb48-4"></a>    ...)</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="generalized-linear-models.html#cb47-1"></a><span class="co"># This is what the glm() function syntax looks like (don&#39;t run this)</span></span>
+<span id="cb47-2"><a href="generalized-linear-models.html#cb47-2"></a><span class="kw">glm</span>(formula,</span>
+<span id="cb47-3"><a href="generalized-linear-models.html#cb47-3"></a>    <span class="dt">family =</span> <span class="kw">gaussian</span>(<span class="dt">link =</span> <span class="st">&quot;identity&quot;</span>),</span>
+<span id="cb47-4"><a href="generalized-linear-models.html#cb47-4"></a>    data,</span>
+<span id="cb47-5"><a href="generalized-linear-models.html#cb47-5"></a>    ...)</span></code></pre></div>
 <p>This approach is extendable to other distribution families!</p>
 <table>
 <colgroup>

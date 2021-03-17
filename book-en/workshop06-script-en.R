@@ -48,8 +48,6 @@ head(mites)
 
 str(mites)
 
-par(mfrow = c(1, 3), cex = 1.4)
-
 plot(Galumna ~ WatrCont,
      data = mites,
      xlab = 'Water content',
@@ -65,14 +63,18 @@ plot(prop ~ WatrCont,
      xlab = 'Water content',
      ylab = 'Proportion')
 
+# Fit the models
+
+# Abundance model
 lm.abund <- lm(Galumna ~ WatrCont, data = mites)
-summary(lm.abund)
 
+# Presence-absence model
 lm.pa <- lm(pa ~ WatrCont, data = mites)
-summary(lm.pa)
 
+# Proportion model
 lm.prop <- lm(prop ~ WatrCont, data = mites)
 
+# Check the model output with the summary() function
 summary(lm.abund)
 
 summary(lm.pa)
@@ -85,9 +87,11 @@ summary(lm.abund)$coefficients[, 4]
 summary(lm.pa)$coefficients[, 4]
 summary(lm.prop)$coefficients[, 4]
 
+# Plot the abundance model
 plot(Galumna ~ WatrCont, data = mites)
 abline(lm.abund)
 
+# Diagnostic plots
 plot(lm.abund)
 
 # Plot the proportion model
@@ -104,6 +108,7 @@ abline(lm.pa)
 # Diagnostic plots
 plot(lm.pa)
 
+# Demonstrating normal distributions with different means
 x = seq(1, 50, 0.1)
 plot(x, dnorm(x, mean = 20, sd = 5),
 type = 'l', lwd = 3,
@@ -113,32 +118,39 @@ type = 'l', lwd = 3, col = 2)
 points(x, dnorm(x, mean = 30, sd = 5), type = 'l', lwd = 3, col = 4)
 legend('topleft', legend = c('20', '25', '30'), lty = 1, col = c(1,2,4), bty = 'n', lwd = 2, cex = 1.1)
 
+# Demonstrating normal distributions with different variance
 x = seq(1, 50, 0.1)
 plot(x, dnorm(x, mean = 25, sd = 5), type = 'l', lwd = 3, xlab = '# galumna', ylab = 'Probability')
 points(x, dnorm(x, mean = 25, sd = 7.5), type = 'l', lwd = 3, col = 2)
 points(x, dnorm(x, mean = 25, sd = 10), type = 'l', lwd = 3, col = 4)
 legend('topleft', legend = c('5', '7.5', '10'), lty = 1, col = c(1,2,4), bty = 'n', lwd = 2, cex = 1.1)
 
+# Extract model coefficients
 coef(lm.abund)
 
+# Extract variance from the model summary
 summary(lm.abund)$sigma
 
 
 ##Section: 03-distributions.R 
 
+# examples of Poisson distributions with different values of lambda
 par(cex = 2)
 x = seq(1, 50, 1)
 plot(x, dpois(x, lambda = 1), type = "h", lwd = 3, xlab = "Frequency of Galumna", ylab = "Probability", main = "lambda = 1")
 plot(x, dpois(x, lambda = 10), type = "h", lwd = 3, xlab = "Frequency of Galumna", ylab = "Probability", main = "lambda = 10")
 plot(x, dpois(x, lambda = 30), type = "h", lwd = 3, xlab = "Frequency of Galumna", ylab = "Probability", main = "lambda = 30")
 
+# Load the dataset
 mites <- read.csv('mites.csv')
 
+# Explore the dataset
 hist(mites$Galumna)
 mean(mites$Galumna)
 
 hist(mites$pa)
 
+# examples of Bernoulli distributions with various probabilities of presence (p)
 par(cex = 2.1)
 barplot(setNames(c(.9, .1), c('absent (0)', 'present (1)')),
         ylim = c(0, 1),
@@ -153,8 +165,10 @@ barplot(setNames(c(.1, .9), c('absent (0)', 'present (1)')),
         ylab = 'probability',
         main = 'p = 0.9')
 
+# Calculate probabilities of presence of Galumna (p)
 sum(mites$pa) / nrow(mites)
 
+# examples of binomial distributions with n = 50 and 3 different values of p
 par(cex = 2.1)
 x = seq(1, 50, 1)
 plot(x, dbinom(x, size = 50, prob = 0.1), type = 'h', lwd = 3, xlab = '# galumna', ylab = 'Probability', main = 'p = 0.1 n = 50')
@@ -190,6 +204,7 @@ text(x = mites$WatrCont[52]+50,y=7.5,expression(lambda == 0.1), cex=0.7, col = '
 
 ##Section: 04-glm.R 
 
+# This is what the glm() function syntax looks like (don't run this)
 glm(formula,
     family = gaussian(link = "identity"),
     data,
@@ -198,17 +213,23 @@ glm(formula,
 
 ##Section: 05-glm-binary.R 
 
+# set up some binary data
+Pres <- c(rep(1, 40), rep(0, 40))
+rnor <- function(x) rnorm(1, mean = ifelse(x == 1, 12.5, 7.5), sd = 2)
+ExpVar <- sapply(Pres, rnor)
+
+# linear model with binary data...
 lm(Pres ~ ExpVar)
 
 par(cex = 1.2)
 Pres <- c(rep(1, 40), rep(0, 40))
 rnor <- function(x) rnorm(1, mean = ifelse(x == 1, 12.5, 7.5), sd = 2)
 ExpVar <- sapply(Pres, rnor)
-plot(ExpVar, Pres, 
-     ylim = c(-.5, 1.5), 
-     xlab = 'Explanatory variable', 
-     ylab = 'Presence', 
-     main = 'Binary variables and fitted values', 
+plot(ExpVar, Pres,
+     ylim = c(-.5, 1.5),
+     xlab = 'Explanatory variable',
+     ylab = 'Presence',
+     main = 'Binary variables and fitted values',
      pch = 16)
 abline(lm(Pres ~ ExpVar), col = 'orange', lwd = 2)
 mtext(expression(symbol("\255")), at = 1.25, side = 4, line = 0.1, cex = 6, col = 'blue')
@@ -218,15 +239,16 @@ mtext(expression(symbol("\256")), at = 3, side = 1, line = -2.2, cex = 6, col = 
 hist(Pres)
 
 glm(formula,
-    family = ???,
+    family = ???, # this argument allows us to set a probability distribution!
     data,
     ...)
 
-glm(formula,
-    family = binomial(link = "logit"), # this is also known as logistic
+# This is the syntax for a binomial GLM with a logit link
+family = binomial(link = "logit"), # this is also known as logistic
     data,
     ...)
 
+# Exercise 1 - our first GLM!
 # setwd('...')
 
 mites <- read.csv("data/mites.csv", header = TRUE)
@@ -238,12 +260,16 @@ logit.reg <- glm(pa ~ WatrCont + Topo,
 
 summary(logit.reg)
 
+# Challenge 1 - Set up!
 library(MASS)
 data(bacteria)
 
 # what does the data look like?
 str(bacteria)
 
+# Challenge 1 - Solution
+
+# Fit models (full to most parsimonious)
 model.bact1 <- glm(y ~ trt * week, data = bacteria, family = binomial)
 model.bact2 <- glm(y ~ trt + week, data = bacteria, family = binomial)
 model.bact3 <- glm(y ~ week, data = bacteria, family = binomial)
@@ -251,36 +277,44 @@ model.bact3 <- glm(y ~ week, data = bacteria, family = binomial)
 # Let's compare these models using a likelihood ratio test (LRT).
 anova(model.bact1, model.bact2, model.bact3, test = "LRT")
 
+# Which model is the best candidate?
+
+# Extracting model coefficients
 summary(logit.reg)$coefficients
 
+# model output
 logit.reg
 
+# odds for the presence of mites
 exp(logit.reg$coefficient[2:3])
 
-# .
+# extract residual and null deviances
 objects(logit.reg)
 
+# calculate the pseudo-R2
 pseudoR2 <- (logit.reg$null.deviance - logit.reg$deviance) / logit.reg$null.deviance
 pseudoR2
 
+# Calculate many pseudo-R2!
 logit.reg <- glm(pa ~ WatrCont + Topo,
-                 data = mites, family = binomial(link = "logit"))
+                 data = mites,
+                 family = binomial(link = "logit"))
 DescTools::PseudoR2(logit.reg, which = "all")
 
+# Challenge 2 - Solution
+
+# Extract null and residual deviance
 null.d <- model.bact2$null.deviance
 resid.d <- model.bact2$deviance
+
+# Calculate pseudo-R2
 bact.pseudoR2 <- (null.d - resid.d) / null.d
 bact.pseudoR2
-#REMOVED BECAUSE IT USES binomTools PACKAGE, NO LONGER AVAILABLE ON CRAN
-library(binomTools)
-HLtest(Rsq(model.bact2))
-# Chi-square statistic:  7.812347  with  8  df
-# P-value:  0.4520122
-# Fit is adequate.
 
 
 ##Section: 06-glm-proportion.R 
 
+# Let's try this process again with proportion data!
 mites <- read.csv('mites.csv')
 prop.reg <- glm(cbind(Galumna, totalabund - Galumna) ~ Topo + WatrCont,
                 data = mites,
@@ -290,20 +324,25 @@ summary(prop.reg)
 prop.reg2 <- glm(prop ~ Topo + WatrCont,
                  data = mites,
                  family = binomial,
-                 weights = totalabund)
+                 weights = totalabund) # provide prior weights
 summary(prop.reg2)
 
 
 ##Section: 07-glm-count.R 
 
+# Load the dataset
 faramea <- read.csv("faramea.csv", header = TRUE)
 
+# Histogram of F. occidentalis count data
 hist(faramea$Faramea.occidentalis, breaks=seq(0,45,1), xlab=expression(paste("Number of ",
 italic(Faramea~occidentalis))), ylab="Frequency", main="", col="grey")
 
 plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'F. occidentalis individuals', xlab = 'Elevation(m)')
 
-glm.poisson = glm(Faramea.occidentalis~Elevation, data=faramea, family=poisson)
+# Fit a Poisson GLM
+glm.poisson = glm(Faramea.occidentalis ~ Elevation,
+  data = faramea,
+  family = poisson) # this is what makes it a Poisson GLM! Note the default link is log.
 summary(glm.poisson)
 
 # intercept
@@ -324,7 +363,7 @@ glm.quasipoisson = update(glm.poisson,family=quasipoisson)
 # output
 summary(glm.quasipoisson)
 
-null.model <- glm(Faramea.occidentalis ~ 1, 
+null.model <- glm(Faramea.occidentalis ~ 1,
                   data = faramea,
                   family = quasipoisson)
 anova(null.model, glm.quasipoisson, test = "Chisq")
@@ -352,16 +391,22 @@ lines(pframe$pred, lwd = 2)
 lines(pframe$upr, col = 2, lty = 3, lwd = 2)
 lines(pframe$lwr, col = 2, lty = 3, lwd = 2)
 
+# Challenge 3
+
 mites <- read.csv("data/mites.csv", header = TRUE)
 
+# This is how to do model comparison by dropping terms in turn
 drop1(MyGLM, test = "Chi")
 
+# You can also manually specify a nested model and compare it to your full model with this command:
 anova(MyGLM, MyGLM2, test = "Chi")
 
 # Poisson GLM
 glm.p = glm(Galumna~WatrCont+SubsDens, data=mites, family=poisson)
+
 # quasi-Poisson GLM
 glm.qp = update(glm.p,family=quasipoisson)
+
 # model selection
 drop1(glm.qp, test = "Chi")
 # or

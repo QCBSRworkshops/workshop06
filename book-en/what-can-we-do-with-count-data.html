@@ -238,19 +238,21 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li>Exhibits larger variance for large values</li>
 </ul>
 <p>To illustrate count data we will use a new dataset called <code>faramea</code>.</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="what-can-we-do-with-count-data.html#cb80-1"></a>faramea &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;faramea.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="what-can-we-do-with-count-data.html#cb80-1"></a><span class="co"># Load the dataset</span></span>
+<span id="cb80-2"><a href="what-can-we-do-with-count-data.html#cb80-2"></a>faramea &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;faramea.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p>In this dataset, the number of trees of the species <em>Faramea
 occidentalis</em> was measured in 43 quadrats in Barro Colorado Island in
 Panama. For each quadrat, environmental characteristics were also
 recorded such as elevation or precipitation. Let’s take a look at the
 number of <em>Faramea occidentalis</em> found at each quadrat.</p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="what-can-we-do-with-count-data.html#cb81-1"></a><span class="kw">hist</span>(faramea<span class="op">$</span>Faramea.occidentalis, <span class="dt">breaks=</span><span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">45</span>,<span class="dv">1</span>), <span class="dt">xlab=</span><span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Number of &quot;</span>,</span>
-<span id="cb81-2"><a href="what-can-we-do-with-count-data.html#cb81-2"></a><span class="kw">italic</span>(Faramea<span class="op">~</span>occidentalis))), <span class="dt">ylab=</span><span class="st">&quot;Frequency&quot;</span>, <span class="dt">main=</span><span class="st">&quot;&quot;</span>, <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-57-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="what-can-we-do-with-count-data.html#cb81-1"></a><span class="co"># Histogram of F. occidentalis count data</span></span>
+<span id="cb81-2"><a href="what-can-we-do-with-count-data.html#cb81-2"></a><span class="kw">hist</span>(faramea<span class="op">$</span>Faramea.occidentalis, <span class="dt">breaks=</span><span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">45</span>,<span class="dv">1</span>), <span class="dt">xlab=</span><span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Number of &quot;</span>,</span>
+<span id="cb81-3"><a href="what-can-we-do-with-count-data.html#cb81-3"></a><span class="kw">italic</span>(Faramea<span class="op">~</span>occidentalis))), <span class="dt">ylab=</span><span class="st">&quot;Frequency&quot;</span>, <span class="dt">main=</span><span class="st">&quot;&quot;</span>, <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-55-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>In this example, we want to test whether elevation (a continuous
 explanatory variable) influences <em>Faramea occidentalis</em> abundance.
 We can see that there are only positive and integer values.</p>
-<p><img src="book-en_files/figure-html/unnamed-chunk-58-1.png" width="672" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-56-1.png" width="672" /></p>
 <p>Hence, a Poisson GLM (i.e. a simple Poisson regression) seems to be a
 good choice to model the number of <em>Faramea occidentalis</em> as a function
 of elevation. Poisson GLMs are usually a good way to start modeling
