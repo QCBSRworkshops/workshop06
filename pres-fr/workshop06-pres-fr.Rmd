@@ -1202,7 +1202,7 @@ Comme le lien inverse est non linéaire, l'interprétation du coefficient est di
 Voyons ce qui arrive aux coefficients pour un changement d'une unité à $x_1$ :
 
 $$\Delta{y_i} = \dfrac{\exp[\beta_0 + (\color{red}{x_{1i} + 1})\beta_1 + x_{2i}\beta_2]}{1 + \exp{[\beta_0 + (\color{red}{x_{1i} + 1})\beta_1 + x_{2i}\beta_2]}} - \dfrac{\exp[\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2]}{1 + \exp{[\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2]}}$$
-$$\Delta{y_i} = \exp{(\beta_0)}\{\exp{(\beta_1)}\} $$
+$$\Delta{y_i} = exp(\beta_1) $$
 
 As $x$ increases by one unit, the odds increase by a factor of  $\exp(\beta_1)$.
 
