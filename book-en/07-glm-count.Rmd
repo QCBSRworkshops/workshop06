@@ -11,6 +11,7 @@ Count data is characterized by:
 To illustrate count data we will use a new dataset called `faramea`.
 
 ```{r, echo = TRUE, eval = TRUE}
+# Load the dataset
 faramea <- read.csv("faramea.csv", header = TRUE)
 ```
 
@@ -21,6 +22,7 @@ recorded such as elevation or precipitation. Let's take a look at the
 number of *Faramea occidentalis* found at each quadrat.
 
 ```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 5, fig.align = "center"}
+# Histogram of F. occidentalis count data
 hist(faramea$Faramea.occidentalis, breaks=seq(0,45,1), xlab=expression(paste("Number of ",
 italic(Faramea~occidentalis))), ylab="Frequency", main="", col="grey")
 ```
@@ -104,7 +106,10 @@ Fitting a Poisson GLM in R requires only setting `family = poisson` in
 the `glm()` function. By default the link function is log.
 
 ```{r, echo = TRUE, eval = TRUE}
-glm.poisson = glm(Faramea.occidentalis~Elevation, data=faramea, family=poisson)
+# Fit a Poisson GLM
+glm.poisson = glm(Faramea.occidentalis ~ Elevation,
+  data = faramea,
+  family = poisson) # this is what makes it a Poisson GLM! Note the default link is log.
 summary(glm.poisson)
 ```
 
@@ -141,7 +146,7 @@ $$\text{residual deviance} = 2 \, log(L(y;\,y)) - 2 \, log(L(y;\, \mu))$$
 
 In a Poisson GLM, the residual deviance should be close to the residual
 degrees of freedom. However, our residual deviance is much higher
-than the degrees of freedom of our model! 
+than the degrees of freedom of our model!
 
 $$388.12 >> 41$$
 
@@ -175,7 +180,7 @@ is greater to the former by 9.5 times, the model is then
 any model using the parameter φ:
 
                           φ = residual deviance / residual degrees of freedom
-                          
+
     * φ < 1 indicates underdispersion
     * φ = 1 indicates no overdispersion
     * φ > 1 indicates overdispersion
@@ -270,7 +275,7 @@ GLMs and dealing with overdispersion:
     will be based on the criterion D~1~\* - D\*~2~ which is assumed to
     follow a χ² distribution with *p*~2~-*p*~1~ degrees of freedom when
     GLM1 is correct.
-    
+
 -   In some cases φ is not known. For instance, this occurs when you run
     a GLM with a normal error distribution. In that case, φ can be
     estimated *a posteriori* using the residual deviance of the larger
@@ -282,7 +287,7 @@ GLMs and dealing with overdispersion:
 Try also deviance analysis to test for the effect of Elevation
 
 ```{r, echo = TRUE, eval = TRUE}
-null.model <- glm(Faramea.occidentalis ~ 1, 
+null.model <- glm(Faramea.occidentalis ~ 1,
                   data = faramea,
                   family = quasipoisson)
 anova(null.model, glm.quasipoisson, test = "Chisq")
@@ -395,21 +400,25 @@ model is large at low elevation.
 
 Use the ```mites``` dataset! Model the abundance of the species Galumna as a function of the substrate characteristics (water content ```WatrCont``` and density ```SubsDens```)
 
-Do you need to account for overdispersion?  
-Which covariates have a significant effect?  
-Select the best model!  
+Do you need to account for overdispersion?
+Which covariates have a significant effect?
+Select the best model!
 
 ```{r, echo = TRUE, eval = TRUE}
+# Challenge 3
+
 mites <- read.csv("data/mites.csv", header = TRUE)
 ```
 
 Drop each term in turn and compare the full model with a nested model using the command:
 ```{r, echo = TRUE, eval = FALSE}
+# This is how to do model comparison by dropping terms in turn
 drop1(MyGLM, test = "Chi")
 ```
 
 Specify manually a nested model, call it for example MyGLM2, and use the command:
 ```{r, echo = TRUE, eval = FALSE}
+# You can also manually specify a nested model and compare it to your full model with this command:
 anova(MyGLM, MyGLM2, test = "Chi")
 ```
 
@@ -418,8 +427,10 @@ anova(MyGLM, MyGLM2, test = "Chi")
 ```{r, echo = TRUE, eval = TRUE}
 # Poisson GLM
 glm.p = glm(Galumna~WatrCont+SubsDens, data=mites, family=poisson)
+
 # quasi-Poisson GLM
 glm.qp = update(glm.p,family=quasipoisson)
+
 # model selection
 drop1(glm.qp, test = "Chi")
 # or

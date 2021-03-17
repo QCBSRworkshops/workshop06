@@ -11,6 +11,11 @@ $$Occurrences = f(Environment)$$
 Under a linear model, expected values can be out of the `[0, 1]` range with `lm()`:
 
 ```{r, eval = FALSE, echo = TRUE}
+# set up some binary data
+Pres <- c(rep(1, 40), rep(0, 40))
+rnor <- function(x) rnorm(1, mean = ifelse(x == 1, 12.5, 7.5), sd = 2)
+ExpVar <- sapply(Pres, rnor)
+
 # linear model with binary data...
 lm(Pres ~ ExpVar)
 ```
@@ -129,6 +134,7 @@ Start with a full model and reduce it to the most parsimonious model.
 Load the `MASS` package and the `bacteria` dataset:
 
 ```{r, echo = FALSE, eval = TRUE, warning=FALSE}
+# Challenge 1 - Set up!
 library(MASS)
 data(bacteria)
 
@@ -143,12 +149,17 @@ This dataset was made to test the presence of the bacteria *H. influenzae* in ch
 
 
 ```{r, echo = TRUE, eval = TRUE}
+# Challenge 1 - Solution
+
+# Fit models (full to most parsimonious)
 model.bact1 <- glm(y ~ trt * week, data = bacteria, family = binomial)
 model.bact2 <- glm(y ~ trt + week, data = bacteria, family = binomial)
 model.bact3 <- glm(y ~ week, data = bacteria, family = binomial)
 
 # Let's compare these models using a likelihood ratio test (LRT).
 anova(model.bact1, model.bact2, model.bact3, test = "LRT")
+
+# Which model is the best candidate?
 ```
 
 Based on these results, we select model #2 as the best candidate to model these data.
@@ -160,6 +171,7 @@ The output of our logistic regression indicates that both water
 content and topography are significant:
 
 ```{r, echo = TRUE, eval = TRUE}
+# Extracting model coefficients
 summary(logit.reg)$coefficients
 ```
 
@@ -217,12 +229,14 @@ that the odds values here are considered when all other parameters are kept cons
 With this, we can now interpret the results of our model:
 
 ```{r, echo = TRUE}
+# model output
 logit.reg
 ```
 
 For a one-unit increase (or decrease) in our coefficients, we can obtain the odds for the presence of mites.
 
 ```{r}
+# odds for the presence of mites
 exp(logit.reg$coefficient[2:3])
 ```
 
@@ -304,13 +318,14 @@ full.model <- glm(response.variable ~ ., family = binomial)
 Residual and null deviances are already stored in the `glm object`:
 
 ```{r, echo = TRUE, eval = TRUE}
-# .
+# extract residual and null deviances
 objects(logit.reg)
 ```
 
 We can then use these deviance values to calculate the pseudo-R^2^ value:
 
 ```{r}
+# calculate the pseudo-R2
 pseudoR2 <- (logit.reg$null.deviance - logit.reg$deviance) / logit.reg$null.deviance
 pseudoR2
 ```
@@ -336,8 +351,10 @@ many types of $pseudo-R^2$. By specifying ```which = all```, calculate all
 of them at once.
 
 ```{r, echo = TRUE, eval = TRUE}
+# Calculate many pseudo-R2!
 logit.reg <- glm(pa ~ WatrCont + Topo,
-                 data = mites, family = binomial(link = "logit"))
+                 data = mites,
+                 family = binomial(link = "logit"))
 DescTools::PseudoR2(logit.reg, which = "all")
 ```
 
@@ -349,19 +366,17 @@ Assess goodness-of-fit and predictive power of the `model.bact2` model. How can 
 #### Challenge 2: Solution
 
 ```{r, echo = TRUE, eval = TRUE}
+# Challenge 2 - Solution
+
+# Extract null and residual deviance
 null.d <- model.bact2$null.deviance
 resid.d <- model.bact2$deviance
+
+# Calculate pseudo-R2
 bact.pseudoR2 <- (null.d - resid.d) / null.d
 bact.pseudoR2
 ```
-```{r, echo = FALSE, eval = FALSE}
-### REMOVED BECAUSE IT USES binomTools PACKAGE, NO LONGER AVAILABLE ON CRAN
-library(binomTools)
-HLtest(Rsq(model.bact2))
-# Chi-square statistic:  7.812347  with  8  df
-# P-value:  0.4520122
-# Fit is adequate.
-```
+
 This is very low!
 
 Adding informative explanatory variables could increase the explanatory power of the model.
