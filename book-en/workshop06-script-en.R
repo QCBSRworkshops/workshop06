@@ -251,147 +251,21 @@ model.bact3 <- glm(y ~ week, data = bacteria, family = binomial)
 # Let's compare these models using a likelihood ratio test (LRT).
 anova(model.bact1, model.bact2, model.bact3, test = "LRT")
 
-mites <- read.csv('mites.csv')
-model.lm <- lm(pa ~ WatrCont + Topo, data = mites)
-# Let's get the expected values for the response variable.
-fitted(model.lm)
-
-# Some values are lower than 0, which does not make sense for a
-# logistic regression. Let’s try the same model with a binomial
-# distribution instead.
-
-model.glm <- glm(pa ~ WatrCont + Topo,
-  data = mites,
-  family = "binomial")
-  # Notice the "family" argument to specify the distribution.
-fitted(model.glm)
-# All values are bound between 0 and 1.
-
-#Short function added in order to print only the desired number of lines for the next chunk!
-#Source: https://bookdown.org/yihui/rmarkdown-cookbook/hook-truncate.html
-# save the built-in output hook
-hook_output <- knitr::knit_hooks$get("output")
-
-# set a new output hook to truncate text output
-knitr::knit_hooks$set(output = function(x, options) {
-  if (!is.null(n <- options$out.lines)) {
-    x <- xfun::split_lines(x)
-    if (length(x) > n) {
-      # truncate the output
-      x <- c(head(x, n), "....\n")
-    }
-    x <- paste(x, collapse = "\n")
-  }
-  hook_output(x, options)
-})
-# Load the CO2 dataset. We used it during workshop 4!
-data(CO2)
-head(CO2)
-
-# Build the model
-model.CO2 <- lm(uptake ~ conc, data = CO2)
-
-# Extract the design matrix of the model
-X <- model.matrix(model.CO2)
-# And the estimated coefficients.
-B <- model.CO2$coefficients
-
-# Let’s multiply both X and B matrices to obtain the linear predictor.
-# The "%*%" symbol indicates that it is a matrix product.
-XB <- X %*% B
-
-# Compare the values of XB to the values obtained with the predict() function.
-# All statements should be TRUE.
-
-# We use the round() function so that all elements have 5 digits.
-round(fitted(model.CO2), digits = 5) == round(XB, digits = 5)
-
-logit.reg <- glm(pa ~ WatrCont + Topo,
-  data = mites,
-  family = binomial(link = "logit"))
-
-# The logit function is the default for the binomial distribution,
-# so it is not necessary to include it in the "family" argument:
-logit.reg <- glm(pa ~ WatrCont + Topo,
-  data = mites,
-  family = binomial)
-summary(logit.reg)
+summary(logit.reg)$coefficients
 
 logit.reg
 
-exp(logit.reg$coefficients[2])
+exp(logit.reg$coefficient[2:3])
 
-exp(confint(logit.reg)[2,])
-
-# Residual and null deviances are already stored in the glm object.
+# .
 objects(logit.reg)
+
 pseudoR2 <- (logit.reg$null.deviance - logit.reg$deviance) / logit.reg$null.deviance
 pseudoR2
 
 logit.reg <- glm(pa ~ WatrCont + Topo,
                  data = mites, family = binomial(link = "logit"))
 DescTools::PseudoR2(logit.reg, which = "all")
-
-#REMOVED BECAUSE PACKAGE binomTools IS NO LONGER ON THE CRAN (delete this section?)
-Recently, [Tjur
-(2009)](http://www.tandfonline.com/doi/abs/10.1198/tast.2009.08210#.VFpKZYcc4ow)
-proposed a new statistic, the coefficient of discrimination (*D*), to
-evaluate the predictive power of logistic regression models.
-Intuitively, *D* is a measure of how well a logistic regression can
-classify an outcome as a success or a failure. In mathematical terms, it
-is the difference between the means of expected probability values for
-successes (*i.e.* Y =1) and failures (*i.e.* Y = 0):
-
-D = π~1~ - π~0~
-
-where π~1~ is the mean of expected probability
-values when the outcome is observed and π~0~ is the
-mean of expected probability values when the outcome is not observed. A
-*D* value close to 1 indicates that the model gives a high probability
-of observing an outcome to cases where the outcome was actually observed
-and a low probability of observing an outcome to cases where the outcome
-was not observed. A *D* value close to 0 indicates that the model is not
-efficient at discriminating between the occurrences and "non
-occurrences" of an outcome. The following code shows how to obtain *D*
-and how to plot the histograms of π~1~ and
-π~0~.
-
-
-install.packages("binomTools")
-library("binomTools")
-# The Rsq function computes several fit indices,
-# including the coefficient of discrimination.
-# For information on the other fit indices, see Tjur (2009).
-# The plot shows the distribution of expected values when the outcome is observed
-# and not observed.
-# Ideally, the overlap between the two histograms should be small.
-fit <- Rsq(object = logit.reg)
-fit
-# R-square measures and the coefficient of discrimination, 'D':
-#
-#    R2mod     R2res     R2cor     D
-#    0.5205221 0.5024101 0.5025676 0.5114661
-#
-# Number of binomial observations:  70
-# Number of binary observation:  70
-# Average group size:  1
-plot(fit, which = "hist")
-
-To assess the goodness-of-fit of a logistic regression, the diagnostic
-plots (see workshop 4) are not useful. Instead, you can do a
-[Hosmer-Lemeshow
-test](http://en.wikipedia.org/wiki/Hosmer-Lemeshow_test) to evaluate
-whether your model is appropriate. This test separates the expected
-values (ordered from smallest to largest) in groups of approximately
-equal size. Ten is usually the recommended group number. In each group,
-we compare the observed and expected number of outcomes. It is similar
-to a chi-square test with G - 2 degrees of freedom (G is the number of
-groups). In R, this test is available in the `binomTools` package.
-
-fit <- Rsq(object = logit.reg)
-HLtest(object = fit)
-# The p value is 0.9051814. Hence, we do not reject the model.
-# We can consider it as appropriate for the data.
 
 null.d <- model.bact2$null.deviance
 resid.d <- model.bact2$deviance
@@ -403,16 +277,6 @@ HLtest(Rsq(model.bact2))
 # Chi-square statistic:  7.812347  with  8  df
 # P-value:  0.4520122
 # Fit is adequate.
-
-library(ggplot2)
-ggplot(mites,
-  aes(x = WatrCont, y = pa)) +
-  geom_point() +
-  stat_smooth(method = "glm", family= "binomial", se = FALSE) +
-  labs(x = "Water content",
-  y = "Probability of presence",
-  title = "Probability of presence of Galumna sp. as a function of water content") +
-  theme_classic() # applies a simplified plot theme
 
 
 ##Section: 06-glm-proportion.R 

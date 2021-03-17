@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 9 Binomial GLMS | Workshop 6: Generalized linear models</title>
+  <title>Chapter 7 Binomial GLMs | Workshop 6: Generalized linear models</title>
   <meta name="description" content="Generalized linear models in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 9 Binomial GLMS | Workshop 6: Generalized linear models" />
+  <meta property="og:title" content="Chapter 7 Binomial GLMs | Workshop 6: Generalized linear models" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 9 Binomial GLMS | Workshop 6: Generalized linear models" />
+  <meta name="twitter:title" content="Chapter 7 Binomial GLMs | Workshop 6: Generalized linear models" />
   
   <meta name="twitter:description" content="Generalized linear models in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="binomial-glms-bernouilli.html"/>
-<link rel="next" href="what-can-we-do-with-count-data.html"/>
+<link rel="prev" href="generalized-linear-models.html"/>
+<link rel="next" href="binomial-glms-and-proportions.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -160,42 +160,40 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5" data-path="the-distributions-of-biological-data.html"><a href="the-distributions-of-biological-data.html"><i class="fa fa-check"></i><b>5</b> The distributions of biological data</a></li>
 <li class="chapter" data-level="6" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>6</b> Generalized Linear Models</a></li>
 <li class="part"><span><b>GLMs with binary data</b></span></li>
-<li class="chapter" data-level="7" data-path="binary-variables.html"><a href="binary-variables.html"><i class="fa fa-check"></i><b>7</b> Binary variables</a><ul>
-<li class="chapter" data-level="7.1" data-path="binary-variables.html"><a href="binary-variables.html#glm-with-binomial-data-logit-link"><i class="fa fa-check"></i><b>7.1</b> GLM with binomial data: logit link</a></li>
-<li class="chapter" data-level="7.2" data-path="binary-variables.html"><a href="binary-variables.html#exercise-1"><i class="fa fa-check"></i><b>7.2</b> Exercise 1</a></li>
-<li class="chapter" data-level="7.3" data-path="binary-variables.html"><a href="binary-variables.html#challenge-1"><i class="fa fa-check"></i><b>7.3</b> Challenge 1</a><ul>
-<li class="chapter" data-level="7.3.1" data-path="binary-variables.html"><a href="binary-variables.html#challenge-1-solution"><i class="fa fa-check"></i><b>7.3.1</b> Challenge 1: Solution</a></li>
+<li class="chapter" data-level="7" data-path="binomial-glms.html"><a href="binomial-glms.html"><i class="fa fa-check"></i><b>7</b> Binomial GLMs</a><ul>
+<li class="chapter" data-level="7.1" data-path="binomial-glms.html"><a href="binomial-glms.html#glm-with-binomial-data-logit-link"><i class="fa fa-check"></i><b>7.1</b> GLM with binomial data: logit link</a></li>
+<li class="chapter" data-level="7.2" data-path="binomial-glms.html"><a href="binomial-glms.html#exercise-1"><i class="fa fa-check"></i><b>7.2</b> Exercise 1</a></li>
+<li class="chapter" data-level="7.3" data-path="binomial-glms.html"><a href="binomial-glms.html#challenge-1"><i class="fa fa-check"></i><b>7.3</b> Challenge 1</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="binomial-glms.html"><a href="binomial-glms.html#challenge-1-solution"><i class="fa fa-check"></i><b>7.3.1</b> Challenge 1: Solution</a></li>
 </ul></li>
+<li class="chapter" data-level="7.4" data-path="binomial-glms.html"><a href="binomial-glms.html#interpreting-the-output-of-a-logistic-regression"><i class="fa fa-check"></i><b>7.4</b> Interpreting the output of a logistic regression</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="binomial-glms.html"><a href="binomial-glms.html#an-example-using-the-identity-link"><i class="fa fa-check"></i><b>7.4.1</b> An example using the identity link</a></li>
+<li class="chapter" data-level="7.4.2" data-path="binomial-glms.html"><a href="binomial-glms.html#interpreting-the-coefficients-using-the-logit-link"><i class="fa fa-check"></i><b>7.4.2</b> Interpreting the coefficients using the logit link</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html"><i class="fa fa-check"></i><b>8</b> Binomial GLMs (Bernouilli)</a><ul>
-<li class="chapter" data-level="8.1" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#the-link-function"><i class="fa fa-check"></i><b>8.1</b> The link function</a></li>
-<li class="chapter" data-level="8.2" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#interpreting-the-output-of-a-logistic-regression"><i class="fa fa-check"></i><b>8.2</b> Interpreting the output of a logistic regression</a></li>
-<li class="chapter" data-level="8.3" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#predictive-power-and-goodness-of-fit"><i class="fa fa-check"></i><b>8.3</b> Predictive power and goodness-of-fit</a><ul>
-<li class="chapter" data-level="8.3.1" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#challenge-2"><i class="fa fa-check"></i><b>8.3.1</b> Challenge 2</a></li>
-<li class="chapter" data-level="8.3.2" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#challenge-2-solution"><i class="fa fa-check"></i><b>8.3.2</b> Challenge 2: Solution</a></li>
+<li class="chapter" data-level="7.5" data-path="binomial-glms.html"><a href="binomial-glms.html#predictive-power-and-goodness-of-fit"><i class="fa fa-check"></i><b>7.5</b> Predictive power and goodness-of-fit</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="binomial-glms.html"><a href="binomial-glms.html#challenge-2"><i class="fa fa-check"></i><b>7.5.1</b> Challenge 2</a></li>
 </ul></li>
-<li class="chapter" data-level="8.4" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#plotting-results"><i class="fa fa-check"></i><b>8.4</b> Plotting results</a></li>
 </ul></li>
 <li class="part"><span><b>GLMs with proportion data</b></span></li>
-<li class="chapter" data-level="9" data-path="binomial-glms.html"><a href="binomial-glms.html"><i class="fa fa-check"></i><b>9</b> Binomial GLMS</a></li>
+<li class="chapter" data-level="8" data-path="binomial-glms-and-proportions.html"><a href="binomial-glms-and-proportions.html"><i class="fa fa-check"></i><b>8</b> Binomial GLMs and proportions</a></li>
 <li class="part"><span><b>GLMs with count data</b></span></li>
-<li class="chapter" data-level="10" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html"><i class="fa fa-check"></i><b>10</b> What can we do with count data?</a></li>
-<li class="chapter" data-level="11" data-path="poisson-glms.html"><a href="poisson-glms.html"><i class="fa fa-check"></i><b>11</b> Poisson GLMs</a><ul>
-<li class="chapter" data-level="11.1" data-path="poisson-glms.html"><a href="poisson-glms.html#the-problem-of-overdispersion"><i class="fa fa-check"></i><b>11.1</b> The problem of overdispersion</a></li>
+<li class="chapter" data-level="9" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html"><i class="fa fa-check"></i><b>9</b> What can we do with count data?</a></li>
+<li class="chapter" data-level="10" data-path="poisson-glms.html"><a href="poisson-glms.html"><i class="fa fa-check"></i><b>10</b> Poisson GLMs</a><ul>
+<li class="chapter" data-level="10.1" data-path="poisson-glms.html"><a href="poisson-glms.html#the-problem-of-overdispersion"><i class="fa fa-check"></i><b>10.1</b> The problem of overdispersion</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="quasi-poisson-glms.html"><a href="quasi-poisson-glms.html"><i class="fa fa-check"></i><b>12</b> Quasi-Poisson GLMs</a></li>
-<li class="chapter" data-level="13" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html"><i class="fa fa-check"></i><b>13</b> Negative binomial GLMs</a><ul>
-<li class="chapter" data-level="13.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>13.1</b> Plotting the final GLM to the data</a><ul>
-<li class="chapter" data-level="13.1.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#challenge-3"><i class="fa fa-check"></i><b>13.1.1</b> Challenge 3</a></li>
+<li class="chapter" data-level="11" data-path="quasi-poisson-glms.html"><a href="quasi-poisson-glms.html"><i class="fa fa-check"></i><b>11</b> Quasi-Poisson GLMs</a></li>
+<li class="chapter" data-level="12" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html"><i class="fa fa-check"></i><b>12</b> Negative binomial GLMs</a><ul>
+<li class="chapter" data-level="12.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>12.1</b> Plotting the final GLM to the data</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#challenge-3"><i class="fa fa-check"></i><b>12.1.1</b> Challenge 3</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="conclusion-on-glms-with-count-data.html"><a href="conclusion-on-glms-with-count-data.html"><i class="fa fa-check"></i><b>14</b> Conclusion on GLMs with count data</a></li>
+<li class="chapter" data-level="13" data-path="conclusion-on-glms-with-count-data.html"><a href="conclusion-on-glms-with-count-data.html"><i class="fa fa-check"></i><b>13</b> Conclusion on GLMs with count data</a></li>
 <li class="part"><span><b>Other distributions</b></span></li>
-<li class="chapter" data-level="15" data-path="other-distributions.html"><a href="other-distributions.html"><i class="fa fa-check"></i><b>15</b> Other distributions</a></li>
+<li class="chapter" data-level="14" data-path="other-distributions.html"><a href="other-distributions.html"><i class="fa fa-check"></i><b>14</b> Other distributions</a></li>
 <li class="part"><span><b>Additional GLM resources</b></span></li>
-<li class="chapter" data-level="16" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>16</b> Summary</a></li>
-<li class="chapter" data-level="17" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>17</b> Additional resources</a></li>
-<li class="chapter" data-level="18" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>18</b> References</a></li>
+<li class="chapter" data-level="15" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>15</b> Summary</a></li>
+<li class="chapter" data-level="16" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>16</b> Additional resources</a></li>
+<li class="chapter" data-level="17" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>17</b> References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/qcbsRworkshops" target="blank">QCBS R Workshop Series</a></li>
 
@@ -231,71 +229,347 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
 <div id="binomial-glms" class="section level1">
-<h1><span class="header-section-number">Chapter 9</span> Binomial GLMS</h1>
-<p>Sometimes, proportion data are more similar to logistic regression than you think…</p>
-<p>In discrete counts, we can, for instance, measure the number of presence of individuals in relation to the total number of populations sampled.</p>
-<p>We will thus obtain a proportional number of “success” in observing individuals by dividing the counts by the total counts.</p>
-<p>In <code>glm()</code>, we have to provide prior weights if the response variable is the proportion of successes.</p>
-<p>Proportions can be modeled by providing both the number of “successes” and prior weights in the function</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="binomial-glms.html#cb86-1"></a>prop.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="kw">cbind</span>(Galumna, totalabund <span class="op">-</span><span class="st"> </span>Galumna) <span class="op">~</span><span class="st"> </span>Topo <span class="op">+</span><span class="st"> </span>WatrCont,</span>
-<span id="cb86-2"><a href="binomial-glms.html#cb86-2"></a>                <span class="dt">data =</span> mites,</span>
-<span id="cb86-3"><a href="binomial-glms.html#cb86-3"></a>                <span class="dt">family =</span> binomial)</span>
-<span id="cb86-4"><a href="binomial-glms.html#cb86-4"></a><span class="kw">summary</span>(prop.reg)</span></code></pre></div>
+<h1><span class="header-section-number">Chapter 7</span> Binomial GLMs</h1>
+<p>A common response variable in ecological datasets is the binary
+variable: we observe a phenomenon <span class="math inline">\(Y\)</span> or its “absence”. For example, species presence/absence is frequently recorded in ecological monitoring studies. We usually wish to determine whether a species’ presence is affected by some environmental variables. Other examples include the presence/absence of a disease within a wild population, the
+success/failure to record a specific behaviour, and the survival/death of organisms. Usually, we are interested in questions such as: how do species occurrences vary in function of the environment?</p>
+<p><span class="math display">\[Occurrences = f(Environment)\]</span></p>
+<p>Under a linear model, expected values can be out of the <code>[0, 1]</code> range with <code>lm()</code>:</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="binomial-glms.html#cb49-1"></a><span class="kw">lm</span>(Pres <span class="op">~</span><span class="st"> </span>ExpVar)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-37-1.png" width="50%" /><img src="book-en_files/figure-html/unnamed-chunk-37-2.png" width="50%" /></p>
+<div id="glm-with-binomial-data-logit-link" class="section level2">
+<h2><span class="header-section-number">7.1</span> GLM with binomial data: logit link</h2>
+<p>A regression that has a binary response variable is one of
+many generalized linear models and is called a logistic regression or a logit model.</p>
+<p>A <strong>generalized linear model</strong> is made of a <strong>linear predictor</strong>:</p>
+<p><span class="math display">\[\underbrace{g(\mu_i)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}\]</span>
+Consider that <span class="math inline">\(Y_i ∼ B(n_i, p_i)\)</span>, and that we want to model the proportions of <span class="math inline">\(Y_i^{}/n_i\)</span>. As such:</p>
+<p><span class="math inline">\(E(Y_i^{}/n_i) = p_i\)</span> and <span class="math inline">\(\text{var}(Y_i^{}/n_i) = \frac{1}{n_i}p_i(1-p_i)\)</span>
+, so that <span class="math inline">\(V(\mu_i) = \mu_i(1-\mu_i)\)</span>.]</p>
+<p>We first move the probabilities <span class="math inline">\(\mu_i\)</span> to the <em>odds</em>:</p>
+<p><span class="math display">\[\text{odds}_i = \frac{\mu_i}{1-\mu_i}\]</span>
+The odds puts our expected values on a <code>0</code> to <code>+Inf</code> scale.</p>
+<p>We then take logarithms, calculating the <em>logit</em> or log-odds:</p>
+<p><span class="math display">\[\eta_i = \text{logit}(\mu_i) = \log(\frac{\mu_i}{1-\mu_i})\]</span></p>
+<p>with <span class="math inline">\(\mu\)</span> being the expected values (probability that <span class="math inline">\(Y = 1\)</span> ), and with the expected values now ranging from <code>-Inf</code> to <code>+Inf</code>.</p>
+<p>We can understand that as if event A has probability p of occurring, then the odds of event A occurring is the ratio of the probability that A occurs to the probability that A does not occur: <span class="math inline">\(p/(1−p)\)</span>. For example, if the probability that I will fail my courses is 0.6, the odds that I will fail my courses is <span class="math inline">\(0.6/(1 − 0.6) = 1.5\)</span>. This means that the probability of observing a failure in my courses is 1.5 times greater than the probability of not observing it (that is,
+<span class="math inline">\(1.5 × 0.4 = 0.6\)</span>).</p>
+<p>In <code>R</code>, presence (or success, survival…) is usually coded as <code>1</code> and absence (or failure, death…) as <code>0</code>. A logistic regression (or any other generalized linear model) is performed with the <code>glm()</code> function. This function is different from the basic <code>lm()</code> as it allows one to specify a statistical distribution other than the normal distribution.</p>
+<p>A reminder about our <code>glm()</code> function:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="binomial-glms.html#cb50-1"></a><span class="kw">glm</span>(formula,</span>
+<span id="cb50-2"><a href="binomial-glms.html#cb50-2"></a>    <span class="dt">family =</span> ???,</span>
+<span id="cb50-3"><a href="binomial-glms.html#cb50-3"></a>    data,</span>
+<span id="cb50-4"><a href="binomial-glms.html#cb50-4"></a>    ...)</span></code></pre></div>
+<p>–</p>
+<table>
+<colgroup>
+<col width="28%" />
+<col width="27%" />
+<col width="20%" />
+<col width="16%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Distribution of <span class="math inline">\(Y\)</span></th>
+<th>Link function name</th>
+<th>Link function</th>
+<th>Model</th>
+<th><code>R</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Normal</td>
+<td>Identity</td>
+<td><span class="math inline">\(g(\mu) = \mu\)</span></td>
+<td><span class="math inline">\(\mu = \mathbf{X} \boldsymbol{\beta}\)</span></td>
+<td><code>gaussian(link="identity")</code></td>
+</tr>
+<tr class="even">
+<td>Binomial</td>
+<td>Logit</td>
+<td><span class="math inline">\(g(\mu) = \log\left(\dfrac{\mu}{1-\mu}\right)\)</span></td>
+<td><span class="math inline">\(\log\left(\dfrac{\mu}{1-\mu}\right) = \mathbf{X} \boldsymbol{\beta}\)</span></td>
+<td><code>binomial(link="logit")</code></td>
+</tr>
+<tr class="odd">
+<td>Poisson</td>
+<td>Log</td>
+<td><span class="math inline">\(g(\mu) = \log(\mu)\)</span></td>
+<td><span class="math inline">\(-\mu^{-1} = \mathbf{X} \boldsymbol{\beta}\)</span></td>
+<td><code>poisson(link="log")</code></td>
+</tr>
+<tr class="even">
+<td>Exponential</td>
+<td>Negative Inverse</td>
+<td><span class="math inline">\(g(\mu) = -\mu^{-1}\)</span></td>
+<td><span class="math inline">\(\log(\mu) = \mathbf{X} \boldsymbol{\beta}\)</span></td>
+<td><code>Gamma(link="inverse")</code></td>
+</tr>
+</tbody>
+</table>
+<p>–</p>
+<p>In <code>R</code>, we can therefore build a binomial GLM with a logit link as follows:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="binomial-glms.html#cb51-1"></a><span class="kw">glm</span>(formula,</span>
+<span id="cb51-2"><a href="binomial-glms.html#cb51-2"></a>    <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="co"># this is also known as logistic</span></span>
+<span id="cb51-3"><a href="binomial-glms.html#cb51-3"></a>    data,</span>
+<span id="cb51-4"><a href="binomial-glms.html#cb51-4"></a>    ...)</span></code></pre></div>
+</div>
+<div id="exercise-1" class="section level2">
+<h2><span class="header-section-number">7.2</span> Exercise 1</h2>
+<p>Let’s build our first generalized linear model! Here, we want to build a logistic regression model using the <code>mites</code> data</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="binomial-glms.html#cb52-1"></a><span class="co"># setwd(&#39;...&#39;)</span></span>
+<span id="cb52-2"><a href="binomial-glms.html#cb52-2"></a></span>
+<span id="cb52-3"><a href="binomial-glms.html#cb52-3"></a>mites &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/mites.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb52-4"><a href="binomial-glms.html#cb52-4"></a><span class="kw">str</span>(mites)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    70 obs. of  9 variables:
+##  $ Galumna   : int  8 3 1 1 2 1 1 1 2 5 ...
+##  $ pa        : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ totalabund: int  140 268 186 286 199 209 162 126 123 166 ...
+##  $ prop      : num  0.05714 0.01119 0.00538 0.0035 0.01005 ...
+##  $ SubsDens  : num  39.2 55 46.1 48.2 23.6 ...
+##  $ WatrCont  : num  350 435 372 360 204 ...
+##  $ Substrate : chr  &quot;Sphagn1&quot; &quot;Litter&quot; &quot;Interface&quot; &quot;Sphagn1&quot; ...
+##  $ Shrub     : chr  &quot;Few&quot; &quot;Few&quot; &quot;Few&quot; &quot;Few&quot; ...
+##  $ Topo      : chr  &quot;Hummock&quot; &quot;Hummock&quot; &quot;Hummock&quot; &quot;Hummock&quot; ...</code></pre>
+<p>We can fit the logistic regression model of the presence of <em>Galumna</em> sp. as a function of water content and topography as follows, using the <code>glm()</code> function and the <code>family</code> argument:</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="binomial-glms.html#cb54-1"></a>logit.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Topo,</span>
+<span id="cb54-2"><a href="binomial-glms.html#cb54-2"></a>                 <span class="dt">data =</span> mites,</span>
+<span id="cb54-3"><a href="binomial-glms.html#cb54-3"></a>                 <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>))</span></code></pre></div>
+<p>To see the model output, we run:</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="binomial-glms.html#cb55-1"></a><span class="kw">summary</span>(logit.reg)</span></code></pre></div>
 <pre><code>## 
 ## Call:
-## glm(formula = cbind(Galumna, totalabund - Galumna) ~ Topo + WatrCont, 
-##     family = binomial, data = mites)
+## glm(formula = pa ~ WatrCont + Topo, family = binomial(link = &quot;logit&quot;), 
+##     data = mites)
 ## 
 ## Deviance Residuals: 
 ##     Min       1Q   Median       3Q      Max  
-## -1.4808  -0.9699  -0.6327  -0.1798   4.1688  
+## -2.0387  -0.5589  -0.1594   0.4112   2.0252  
 ## 
 ## Coefficients:
 ##              Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept) -3.288925   0.422109  -7.792 6.61e-15 ***
-## TopoHummock  0.578332   0.274928   2.104   0.0354 *  
-## WatrCont    -0.005886   0.001086  -5.420 5.97e-08 ***
+## (Intercept)  4.464402   1.670622   2.672 0.007533 ** 
+## WatrCont    -0.015813   0.004535  -3.487 0.000489 ***
+## TopoHummock  2.090757   0.735348   2.843 0.004466 ** 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## (Dispersion parameter for binomial family taken to be 1)
 ## 
-##     Null deviance: 140.702  on 69  degrees of freedom
-## Residual deviance:  85.905  on 67  degrees of freedom
-## AIC: 158.66
+##     Null deviance: 91.246  on 69  degrees of freedom
+## Residual deviance: 48.762  on 67  degrees of freedom
+## AIC: 54.762
 ## 
-## Number of Fisher Scoring iterations: 5</code></pre>
-<p>The weights can also be set explicitly in <code>glm()</code>:</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="binomial-glms.html#cb88-1"></a>prop.reg2 &lt;-<span class="st"> </span><span class="kw">glm</span>(prop <span class="op">~</span><span class="st"> </span>Topo <span class="op">+</span><span class="st"> </span>WatrCont,</span>
-<span id="cb88-2"><a href="binomial-glms.html#cb88-2"></a>                 <span class="dt">data =</span> mites,</span>
-<span id="cb88-3"><a href="binomial-glms.html#cb88-3"></a>                 <span class="dt">family =</span> binomial,</span>
-<span id="cb88-4"><a href="binomial-glms.html#cb88-4"></a>                 <span class="dt">weights =</span> totalabund)</span>
-<span id="cb88-5"><a href="binomial-glms.html#cb88-5"></a><span class="kw">summary</span>(prop.reg2)</span></code></pre></div>
+## Number of Fisher Scoring iterations: 6</code></pre>
+<p>Doesn’t this structure resembles the one from <code>summary.lm()</code>? IT does, right? However you might notice that there are some special differences (e.g. dispersion parameter) we will discuss further in this book!</p>
+</div>
+<div id="challenge-1" class="section level2">
+<h2><span class="header-section-number">7.3</span> Challenge 1</h2>
+<p>Using the <code>bacteria</code> dataset (from the <code>MASS</code> package), model the
+presence of <em>H. influenzae</em> as a function of treatment and week of test.
+Start with a full model and reduce it to the most parsimonious model.</p>
+<p>Load the <code>MASS</code> package and the <code>bacteria</code> dataset:</p>
+<pre><code>## &#39;data.frame&#39;:    220 obs. of  6 variables:
+##  $ y   : Factor w/ 2 levels &quot;n&quot;,&quot;y&quot;: 2 2 2 2 2 2 1 2 2 2 ...
+##  $ ap  : Factor w/ 2 levels &quot;a&quot;,&quot;p&quot;: 2 2 2 2 1 1 1 1 1 1 ...
+##  $ hilo: Factor w/ 2 levels &quot;hi&quot;,&quot;lo&quot;: 1 1 1 1 1 1 1 1 2 2 ...
+##  $ week: int  0 2 4 11 0 2 6 11 0 2 ...
+##  $ ID  : Factor w/ 50 levels &quot;X01&quot;,&quot;X02&quot;,&quot;X03&quot;,..: 1 1 1 1 2 2 2 2 3 3 ...
+##  $ trt : Factor w/ 3 levels &quot;placebo&quot;,&quot;drug&quot;,..: 1 1 1 1 3 3 3 3 2 2 ...</code></pre>
+<p>This dataset was made to test the presence of the bacteria <em>H. influenzae</em> in children with otitis media in the Northern Territory of Australia. Dr A. Leach tested the effects of a drug on 50 children with a history of otitis media in the Northern Territory of Australia. The children were randomized to the drug or a placebo. The presence of <em>H. influenzae</em> was checked at weeks 0, 2, 4, 6 and 11: 30 of the checks were missing and are not included in this data frame.</p>
+<div id="challenge-1-solution" class="section level3">
+<h3><span class="header-section-number">7.3.1</span> Challenge 1: Solution</h3>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="binomial-glms.html#cb58-1"></a>model.bact1 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>trt <span class="op">*</span><span class="st"> </span>week, <span class="dt">data =</span> bacteria, <span class="dt">family =</span> binomial)</span>
+<span id="cb58-2"><a href="binomial-glms.html#cb58-2"></a>model.bact2 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>trt <span class="op">+</span><span class="st"> </span>week, <span class="dt">data =</span> bacteria, <span class="dt">family =</span> binomial)</span>
+<span id="cb58-3"><a href="binomial-glms.html#cb58-3"></a>model.bact3 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>week, <span class="dt">data =</span> bacteria, <span class="dt">family =</span> binomial)</span>
+<span id="cb58-4"><a href="binomial-glms.html#cb58-4"></a></span>
+<span id="cb58-5"><a href="binomial-glms.html#cb58-5"></a><span class="co"># Let&#39;s compare these models using a likelihood ratio test (LRT).</span></span>
+<span id="cb58-6"><a href="binomial-glms.html#cb58-6"></a><span class="kw">anova</span>(model.bact1, model.bact2, model.bact3, <span class="dt">test =</span> <span class="st">&quot;LRT&quot;</span>)</span></code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: y ~ trt * week
+## Model 2: y ~ trt + week
+## Model 3: y ~ week
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)  
+## 1       214     203.12                       
+## 2       216     203.81 -2  -0.6854  0.70984  
+## 3       218     210.91 -2  -7.1026  0.02869 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Based on these results, we select model #2 as the best candidate to model these data.</p>
+</div>
+</div>
+<div id="interpreting-the-output-of-a-logistic-regression" class="section level2">
+<h2><span class="header-section-number">7.4</span> Interpreting the output of a logistic regression</h2>
+<p>The output of our logistic regression indicates that both water
+content and topography are significant:</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="binomial-glms.html#cb60-1"></a><span class="kw">summary</span>(logit.reg)<span class="op">$</span>coefficients</span></code></pre></div>
+<pre><code>##                Estimate  Std. Error   z value     Pr(&gt;|z|)
+## (Intercept)  4.46440199 1.670622482  2.672299 0.0075333598
+## WatrCont    -0.01581255 0.004535069 -3.486728 0.0004889684
+## TopoHummock  2.09075654 0.735348234  2.843220 0.0044660283</code></pre>
+<p>But how do we interpret the slope coefficients? Remember that we applied
+a transformation on our expected values (<em>i.e.</em> the probability that Y = 1
+so we have to use an inverse function to properly interpret the results.</p>
+<div id="an-example-using-the-identity-link" class="section level3">
+<h3><span class="header-section-number">7.4.1</span> An example using the identity link</h3>
+<p>If we were to use the identity link function, the interpretation is much easier.
+Assuming we have a binary outcome <span class="math inline">\(y\)</span> and two covariates <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span> and a constant.
+The probability of a successful outcome ( <span class="math inline">\(y = 1\)</span> ) is given by:</p>
+<p><span class="math display">\[Pr(y_i = 1) = p = g^{-1(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}\]</span></p>
+<p>where <span class="math inline">\(g^{-1}()\)</span> is the <strong>inverse link function</strong>.</p>
+<p>For the identity link, the interpretation of the <span class="math inline">\(\beta_1\)</span> coefficient is straighforward
+For one-unit increase in <span class="math inline">\(x_1\)</span>, <span class="math inline">\(\beta_1\)</span> dictates a constant difference in the outcome.</p>
+<p><span class="math inline">\(\Delta{y_i} = [\beta_0 + (\color{red}{x_{1i} + 1})\beta_1 + x_{2i}\beta_2] - (\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)\)</span></p>
+<p><span class="math inline">\(\Delta{y_i} = \beta_1\)</span></p>
+</div>
+<div id="interpreting-the-coefficients-using-the-logit-link" class="section level3">
+<h3><span class="header-section-number">7.4.2</span> Interpreting the coefficients using the logit link</h3>
+<p>In a linear logistic model with two covariates <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>, we have:</p>
+<p><span class="math display">\[log({\dfrac{p}{1-p}})=\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2\]</span></p>
+<p>This corresponds to a log odds ratio! We can the use an exponential function to
+rewrite that model to get the odds ratio:</p>
+<p><span class="math display">\[\dfrac{p}{1-p}=exp(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)\]</span></p>
+<p>If we want to convert the odds into probability, given a coefficient <span class="math inline">\(\alpha\)</span> we would use the inverse logit link function (also known as the logistic function):</p>
+<p><span class="math display">\[ Pr(y_i = 1) = logit^{-1}(\alpha) = \dfrac{1}{1 + exp(-\alpha)} = (\dfrac{1}{1 + exp(-\alpha)}) * (\dfrac{exp(\alpha)}{exp(\alpha)}) = \dfrac{exp(\alpha)}{exp(\alpha) + 1}\]</span></p>
+<p>Now going back to our model, this gives us:</p>
+<p><span class="math display">\[Pr(y_i = 1) = \dfrac{exp(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}{1 + exp{(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}}\]</span></p>
+<p>Since the inverse link is nonlinear, it is difficult to interpret the coefficient.
+However, we can look what happens to the differences for a one-unit change to <span class="math inline">\(x_1\)</span>:</p>
+<p><span class="math display">\[\Delta{y_i} = \dfrac{\exp[\beta_0 + (\color{red}{x_{1i} + 1})\beta_1 + x_{2i}\beta_2]}{1 + \exp{[\beta_0 + (\color{red}{x_{1i} + 1})\beta_1 + x_{2i}\beta_2]}} - \dfrac{\exp[\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2]}{1 + \exp{[\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2]}}\]</span></p>
+<p><span class="math display">\[\Delta{y_i} = \exp(\beta_1)\ \]</span></p>
+<p>As <span class="math inline">\(x_1\)</span> increases by one unit, the odds increase by a factor of <span class="math inline">\(\exp(\beta_1)\)</span>.Note
+that the odds values here are considered when all other parameters are kept constant.</p>
+<p>With this, we can now interpret the results of our model:</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="binomial-glms.html#cb62-1"></a>logit.reg</span></code></pre></div>
 <pre><code>## 
-## Call:
-## glm(formula = prop ~ Topo + WatrCont, family = binomial, data = mites, 
-##     weights = totalabund)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -1.4808  -0.9699  -0.6327  -0.1798   4.1688  
+## Call:  glm(formula = pa ~ WatrCont + Topo, family = binomial(link = &quot;logit&quot;), 
+##     data = mites)
 ## 
 ## Coefficients:
-##              Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept) -3.288925   0.422109  -7.792 6.61e-15 ***
-## TopoHummock  0.578332   0.274928   2.104   0.0354 *  
-## WatrCont    -0.005886   0.001086  -5.420 5.97e-08 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## (Intercept)     WatrCont  TopoHummock  
+##     4.46440     -0.01581      2.09076  
 ## 
-## (Dispersion parameter for binomial family taken to be 1)
-## 
-##     Null deviance: 140.702  on 69  degrees of freedom
-## Residual deviance:  85.905  on 67  degrees of freedom
-## AIC: 158.66
-## 
-## Number of Fisher Scoring iterations: 5</code></pre>
+## Degrees of Freedom: 69 Total (i.e. Null);  67 Residual
+## Null Deviance:       91.25 
+## Residual Deviance: 48.76     AIC: 54.76</code></pre>
+<p>For a one-unit increase (or decrease) in our coefficients, we can obtain the odds for the presence of mites.</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="binomial-glms.html#cb64-1"></a><span class="kw">exp</span>(logit.reg<span class="op">$</span>coefficient[<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>])</span></code></pre></div>
+<pre><code>##    WatrCont TopoHummock 
+##   0.9843118   8.0910340</code></pre>
+<p>The topography parameter value is 8.09. It means that
+the probability of observing <em>Galumna</em> sp. is 8.09 times more likely
+when the topography is hummock compared to blanket.</p>
+<p>When the odds value is smaller than 1, interpretation is a little bit
+more complicated. When this is the case, we have to take the inverse
+value (<em>i.e.</em> 1 divided by the odds) to facilitate interpretation. The
+interpretation is then how <strong>LESS</strong> likely it is to observe the event of
+interest. For water content, the odds is 0.984. The inverse is:
+<span class="math display">\[\dfrac{1}{0.984} = 1.0159\]</span>.
+This means that a one-unit increase in water content decreases
+the likelihood of observing <em>Galumna</em> sp. by 1.0159. We can also
+subtract 1 from the odds value to obtain a percentage:
+<span class="math inline">\((1.0159 - 1) * 100 = 1.59%\)</span>. So there is a 1.59% decrease in probability
+of observing <em>Galumna</em> sp. with a one-unit increase in water content.
+To convince ourselves that it is an appropriate interpretation, we can plot
+the presence of <em>Galumna</em> sp. as a function of water content. We see that,
+on average, <em>Galumna</em> sp. presence is higher at lower water content than its “absence”.</p>
+<p><img src="images/galumna_pa.png" width="400" /></p>
+</div>
+</div>
+<div id="predictive-power-and-goodness-of-fit" class="section level2">
+<h2><span class="header-section-number">7.5</span> Predictive power and goodness-of-fit</h2>
+<p>An easy and intuitive way to evaluate the predictive power of your model
+is to compare its deviance to the deviance of a null model. Deviance can
+be understood as a generalisation of the residual sum of squares when
+models are estimated by maximum likelihood (i.e. it is how parameters
+are estimated in GLM). This allows us to compute a pseudo-R<sup>2</sup>
+statistic, which is analogous to the coefficient of determination R<sup>2</sup>
+in ordinary least square regression (i.e. the basic method for linear
+models). The generic formula to compute a pseudo-R<sup>2</sup> is given by:</p>
+<p><span class="math display">\[\text{pseudo-R}^2 = \dfrac{\text{null deviance} - \text{residual deviance}}{\text{null deviance}}\]</span></p>
+<p>where “null deviance” is the deviance of the null model and “residual
+deviance” is the deviance of the model of interest. The difference is
+divided by the null deviance so that the result is bound between 0 and
+1.</p>
+<p>The unit deviance is a measure of distance between <span class="math inline">\(y\)</span> and <span class="math inline">\(μ\)</span>.</p>
+<p><span class="math display">\[{\displaystyle d(y,y)=0}\]</span>
+<span class="math display">\[{\displaystyle d(y,\mu )&gt;0\quad \forall y\neq \mu }\]</span></p>
+<p>The total deviance <span class="math inline">\({\displaystyle D(\mathbf {y} ,{\hat {\boldsymbol {\mu }}})}\)</span> of a model with predictions <span class="math inline">\({\hat {\boldsymbol {\mu }}}\)</span> of the observation <span class="math inline">\(\mathbf {y}\)</span> is the sum of its unit deviances:
+<span class="math display">\[{\displaystyle D(\mathbf {y} ,{\hat {\boldsymbol {\mu }}})=\sum _{i}d(y_{i},{\hat {\mu }}_{i})}\]</span>
+Now, the deviance of a model that has estimates <span class="math inline">\({\hat {\mu }}=E[Y|{\hat {\theta }}_{0}]\)</span> can be defined by its <strong>likelihood</strong>:
+<span class="math display">\[D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(y\mid {\hat {\theta }}_{s}){\big )}-\log {\big (}p(y\mid {\hat {\theta }}_{0}){\big )}{\Big )}\]</span>
+with <span class="math inline">\(\hat \theta_0\)</span> denoting the fitted values of the parameters in the reduced model, while <span class="math inline">\({\displaystyle {\hat {\theta }}_{s}}\hat \theta_s\)</span> denotes the fitted parameters for the saturated model.</p>
+<p>The <strong>residual deviance</strong> is defined as 2 times the log-likelihood ratio of the full model compared to the reduced model:
+<span class="math display">\[D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(\text{saturated model}){\big )}-\log {\big (}p(\text{reduced model}){\big )}{\Big )}\]</span></p>
+<p>And, the <strong>null deviance</strong> is defined 2 times the log-likelihood ratio of
+the full model compared to the null model (i.e. predictors are set to 1).</p>
+<p><span class="math display">\[D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(\text{saturated model}){\big )}-\log {\big (}p(\text{null model}){\big )}{\Big )}\]</span></p>
+<p>Now we can run this in R. Let us compare the deviance of your model
+(residual deviance) to the deviance of a null model (null deviance).
+The <strong>null model</strong> is a model without any explanatory variable and
+it looks like this:</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="binomial-glms.html#cb66-1"></a>null.model &lt;-<span class="st"> </span><span class="kw">glm</span>(response.variable <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">family =</span> binomial)</span></code></pre></div>
+<p>The <strong>saturated (or full) deviance model</strong> is a model with all explanatory variables:</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="binomial-glms.html#cb67-1"></a>full.model &lt;-<span class="st"> </span><span class="kw">glm</span>(response.variable <span class="op">~</span><span class="st"> </span>., <span class="dt">family =</span> binomial)</span></code></pre></div>
+<p>Residual and null deviances are already stored in the <code>glm object</code>:</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="binomial-glms.html#cb68-1"></a><span class="co"># .</span></span>
+<span id="cb68-2"><a href="binomial-glms.html#cb68-2"></a><span class="kw">objects</span>(logit.reg)</span></code></pre></div>
+<pre><code>##  [1] &quot;aic&quot;               &quot;boundary&quot;          &quot;call&quot;             
+##  [4] &quot;coefficients&quot;      &quot;contrasts&quot;         &quot;control&quot;          
+##  [7] &quot;converged&quot;         &quot;data&quot;              &quot;deviance&quot;         
+## [10] &quot;df.null&quot;           &quot;df.residual&quot;       &quot;effects&quot;          
+## [13] &quot;family&quot;            &quot;fitted.values&quot;     &quot;formula&quot;          
+## [16] &quot;iter&quot;              &quot;linear.predictors&quot; &quot;method&quot;           
+## [19] &quot;model&quot;             &quot;null.deviance&quot;     &quot;offset&quot;           
+## [22] &quot;prior.weights&quot;     &quot;qr&quot;                &quot;R&quot;                
+## [25] &quot;rank&quot;              &quot;residuals&quot;         &quot;terms&quot;            
+## [28] &quot;weights&quot;           &quot;xlevels&quot;           &quot;y&quot;</code></pre>
+<p>We can then use these deviance values to calculate the pseudo-R<sup>2</sup> value:</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="binomial-glms.html#cb70-1"></a>pseudoR2 &lt;-<span class="st"> </span>(logit.reg<span class="op">$</span>null.deviance <span class="op">-</span><span class="st"> </span>logit.reg<span class="op">$</span>deviance) <span class="op">/</span><span class="st"> </span>logit.reg<span class="op">$</span>null.deviance</span>
+<span id="cb70-2"><a href="binomial-glms.html#cb70-2"></a>pseudoR2</span></code></pre></div>
+<pre><code>## [1] 0.4655937</code></pre>
+<p>Hence, the model explains 46.6% of the variability in the data.</p>
+<p>An adjusted McFadden’s pseudo-R<sup>2</sup>, which penalizes for the number of
+predictors, can be calculated as below:</p>
+<p><span class="math display">\[ R^2_{adj} = 1 - \frac{logL(M)-K}{logL(M_{null})} \]</span></p>
+<p>where <strong>K</strong> corresponds to the additional number of predictors in
+relation to the null model.</p>
+<p>The goodness-of-fit of logistic regression models can be expressed by
+variants of <span class="math inline">\(pseudo-R^2\)</span> statistics, such as Maddala (1983) or Cragg and
+Uhler (1970) measures.</p>
+<p>When talking about logistic regressions, low R<sup>2</sup> values are common.</p>
+<p>The R function <code>DescTools::PseudoR2()</code> makes it possible to calculate
+many types of <span class="math inline">\(pseudo-R^2\)</span>. By specifying <code>which = all</code>, calculate all
+of them at once.</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="binomial-glms.html#cb72-1"></a>logit.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Topo,</span>
+<span id="cb72-2"><a href="binomial-glms.html#cb72-2"></a>                 <span class="dt">data =</span> mites, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
+<span id="cb72-3"><a href="binomial-glms.html#cb72-3"></a>DescTools<span class="op">::</span><span class="kw">PseudoR2</span>(logit.reg, <span class="dt">which =</span> <span class="st">&quot;all&quot;</span>)</span></code></pre></div>
+<pre><code>##        McFadden     McFaddenAdj        CoxSnell      Nagelkerke   AldrichNelson 
+##       0.4655937       0.3998373       0.4549662       0.6245898       0.3776866 
+## VeallZimmermann           Efron McKelveyZavoina            Tjur             AIC 
+##       0.6674318       0.5024101       0.7064093       0.5114661      54.7623962 
+##             BIC          logLik         logLik0              G2 
+##      61.5078819     -24.3811981     -45.6229593      42.4835224</code></pre>
+<div id="challenge-2" class="section level3">
+<h3><span class="header-section-number">7.5.1</span> Challenge 2</h3>
+<p>Assess goodness-of-fit and predictive power of the <code>model.bact2</code> model. How can you improve the predictive power of this model?</p>
+<div id="challenge-2-solution" class="section level4">
+<h4><span class="header-section-number">7.5.1.1</span> Challenge 2: Solution</h4>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="binomial-glms.html#cb74-1"></a>null.d &lt;-<span class="st"> </span>model.bact2<span class="op">$</span>null.deviance</span>
+<span id="cb74-2"><a href="binomial-glms.html#cb74-2"></a>resid.d &lt;-<span class="st"> </span>model.bact2<span class="op">$</span>deviance</span>
+<span id="cb74-3"><a href="binomial-glms.html#cb74-3"></a>bact.pseudoR2 &lt;-<span class="st"> </span>(null.d <span class="op">-</span><span class="st"> </span>resid.d) <span class="op">/</span><span class="st"> </span>null.d</span>
+<span id="cb74-4"><a href="binomial-glms.html#cb74-4"></a>bact.pseudoR2</span></code></pre></div>
+<pre><code>## [1] 0.0624257</code></pre>
+<p>This is very low!</p>
+<p>Adding informative explanatory variables could increase the explanatory power of the model.</p>
+<p>But, do not be afraid of non-significant results!</p>
 
+</div>
+</div>
+</div>
 </div>
 
 
@@ -311,8 +585,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="binomial-glms-bernouilli.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="what-can-we-do-with-count-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="generalized-linear-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="binomial-glms-and-proportions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 9 What can we do with count data? | Workshop 6: Generalized linear models</title>
+  <title>Chapter 8 Binomial GLMs and proportions | Workshop 6: Generalized linear models</title>
   <meta name="description" content="Generalized linear models in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 9 What can we do with count data? | Workshop 6: Generalized linear models" />
+  <meta property="og:title" content="Chapter 8 Binomial GLMs and proportions | Workshop 6: Generalized linear models" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 9 What can we do with count data? | Workshop 6: Generalized linear models" />
+  <meta name="twitter:title" content="Chapter 8 Binomial GLMs and proportions | Workshop 6: Generalized linear models" />
   
   <meta name="twitter:description" content="Generalized linear models in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="binomial-glms-and-proportions.html"/>
-<link rel="next" href="poisson-glms.html"/>
+<link rel="prev" href="binomial-glms.html"/>
+<link rel="next" href="what-can-we-do-with-count-data.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -228,23 +228,76 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
-<div id="what-can-we-do-with-count-data" class="section level1">
-<h1><span class="header-section-number">Chapter 9</span> What can we do with count data?</h1>
-<p>To illustrate count data we will use a new dataset called faramea.</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="what-can-we-do-with-count-data.html#cb80-1"></a>faramea &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;faramea.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
-<p>In this dataset, the number of trees of the species <em>Faramea
-occidentalis</em> was measured in 43 quadrats in Barro Colorado Island in
-Panama. For each quadrat, environmental characteristics were also
-recorded such as elevation or precipitation. Let’s take a look at the
-number of <em>Faramea occidentalis</em> found at each quadrat.</p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="what-can-we-do-with-count-data.html#cb81-1"></a><span class="kw">hist</span>(faramea<span class="op">$</span>Faramea.occidentalis, <span class="dt">breaks=</span><span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">45</span>,<span class="dv">1</span>), <span class="dt">xlab=</span><span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Number of &quot;</span>,</span>
-<span id="cb81-2"><a href="what-can-we-do-with-count-data.html#cb81-2"></a><span class="kw">italic</span>(Faramea<span class="op">~</span>occidentalis))), <span class="dt">ylab=</span><span class="st">&quot;Frequency&quot;</span>, <span class="dt">main=</span><span class="st">&quot;&quot;</span>, <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-57-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p><img src="images/plot_faramea_abd.png" class="align-center" width="500" /></p>
-<p>We can see that there are only positive and integer values. Given these
-specificities, the Poisson distribution, described above, seems to be
-the perfect choice to model this data.</p>
+<div id="binomial-glms-and-proportions" class="section level1">
+<h1><span class="header-section-number">Chapter 8</span> Binomial GLMs and proportions</h1>
+<p>Sometimes, proportion data are more similar to logistic regression than you think.</p>
+<p>In discrete counts, we can, for instance, measure the number of presence of individuals in relation to the total number of populations sampled.</p>
+<p>We will thus obtain a proportional number of “success” in observing individuals by dividing the counts by the total counts.</p>
+<p>In <code>glm()</code>, we have to provide prior weights if the response variable is the proportion of successes.</p>
+<p>Proportions can be modeled by providing both the number of “successes” and prior weights in the function</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="binomial-glms-and-proportions.html#cb76-1"></a>prop.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="kw">cbind</span>(Galumna, totalabund <span class="op">-</span><span class="st"> </span>Galumna) <span class="op">~</span><span class="st"> </span>Topo <span class="op">+</span><span class="st"> </span>WatrCont,</span>
+<span id="cb76-2"><a href="binomial-glms-and-proportions.html#cb76-2"></a>                <span class="dt">data =</span> mites,</span>
+<span id="cb76-3"><a href="binomial-glms-and-proportions.html#cb76-3"></a>                <span class="dt">family =</span> binomial)</span>
+<span id="cb76-4"><a href="binomial-glms-and-proportions.html#cb76-4"></a><span class="kw">summary</span>(prop.reg)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = cbind(Galumna, totalabund - Galumna) ~ Topo + WatrCont, 
+##     family = binomial, data = mites)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.4808  -0.9699  -0.6327  -0.1798   4.1688  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -3.288925   0.422109  -7.792 6.61e-15 ***
+## TopoHummock  0.578332   0.274928   2.104   0.0354 *  
+## WatrCont    -0.005886   0.001086  -5.420 5.97e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 140.702  on 69  degrees of freedom
+## Residual deviance:  85.905  on 67  degrees of freedom
+## AIC: 158.66
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+<p>The weights can also be set explicitly in <code>glm()</code>:</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="binomial-glms-and-proportions.html#cb78-1"></a>prop.reg2 &lt;-<span class="st"> </span><span class="kw">glm</span>(prop <span class="op">~</span><span class="st"> </span>Topo <span class="op">+</span><span class="st"> </span>WatrCont,</span>
+<span id="cb78-2"><a href="binomial-glms-and-proportions.html#cb78-2"></a>                 <span class="dt">data =</span> mites,</span>
+<span id="cb78-3"><a href="binomial-glms-and-proportions.html#cb78-3"></a>                 <span class="dt">family =</span> binomial,</span>
+<span id="cb78-4"><a href="binomial-glms-and-proportions.html#cb78-4"></a>                 <span class="dt">weights =</span> totalabund)</span>
+<span id="cb78-5"><a href="binomial-glms-and-proportions.html#cb78-5"></a><span class="kw">summary</span>(prop.reg2)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = prop ~ Topo + WatrCont, family = binomial, data = mites, 
+##     weights = totalabund)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.4808  -0.9699  -0.6327  -0.1798   4.1688  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -3.288925   0.422109  -7.792 6.61e-15 ***
+## TopoHummock  0.578332   0.274928   2.104   0.0354 *  
+## WatrCont    -0.005886   0.001086  -5.420 5.97e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 140.702  on 69  degrees of freedom
+## Residual deviance:  85.905  on 67  degrees of freedom
+## AIC: 158.66
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+
 </div>
+
+
+
 <hr>
 <center> 
   <div class="footer">
@@ -256,8 +309,8 @@ the perfect choice to model this data.</p>
           </div>
         </div>
       </div>
-<a href="binomial-glms-and-proportions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="poisson-glms.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="binomial-glms.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="what-can-we-do-with-count-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

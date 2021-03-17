@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 13 Negative binomial GLMs | Workshop 6: Generalized linear models</title>
+  <title>Chapter 12 Negative binomial GLMs | Workshop 6: Generalized linear models</title>
   <meta name="description" content="Generalized linear models in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 13 Negative binomial GLMs | Workshop 6: Generalized linear models" />
+  <meta property="og:title" content="Chapter 12 Negative binomial GLMs | Workshop 6: Generalized linear models" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 13 Negative binomial GLMs | Workshop 6: Generalized linear models" />
+  <meta name="twitter:title" content="Chapter 12 Negative binomial GLMs | Workshop 6: Generalized linear models" />
   
   <meta name="twitter:description" content="Generalized linear models in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -160,42 +160,40 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5" data-path="the-distributions-of-biological-data.html"><a href="the-distributions-of-biological-data.html"><i class="fa fa-check"></i><b>5</b> The distributions of biological data</a></li>
 <li class="chapter" data-level="6" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>6</b> Generalized Linear Models</a></li>
 <li class="part"><span><b>GLMs with binary data</b></span></li>
-<li class="chapter" data-level="7" data-path="binary-variables.html"><a href="binary-variables.html"><i class="fa fa-check"></i><b>7</b> Binary variables</a><ul>
-<li class="chapter" data-level="7.1" data-path="binary-variables.html"><a href="binary-variables.html#glm-with-binomial-data-logit-link"><i class="fa fa-check"></i><b>7.1</b> GLM with binomial data: logit link</a></li>
-<li class="chapter" data-level="7.2" data-path="binary-variables.html"><a href="binary-variables.html#exercise-1"><i class="fa fa-check"></i><b>7.2</b> Exercise 1</a></li>
-<li class="chapter" data-level="7.3" data-path="binary-variables.html"><a href="binary-variables.html#challenge-1"><i class="fa fa-check"></i><b>7.3</b> Challenge 1</a><ul>
-<li class="chapter" data-level="7.3.1" data-path="binary-variables.html"><a href="binary-variables.html#challenge-1-solution"><i class="fa fa-check"></i><b>7.3.1</b> Challenge 1: Solution</a></li>
+<li class="chapter" data-level="7" data-path="binomial-glms.html"><a href="binomial-glms.html"><i class="fa fa-check"></i><b>7</b> Binomial GLMs</a><ul>
+<li class="chapter" data-level="7.1" data-path="binomial-glms.html"><a href="binomial-glms.html#glm-with-binomial-data-logit-link"><i class="fa fa-check"></i><b>7.1</b> GLM with binomial data: logit link</a></li>
+<li class="chapter" data-level="7.2" data-path="binomial-glms.html"><a href="binomial-glms.html#exercise-1"><i class="fa fa-check"></i><b>7.2</b> Exercise 1</a></li>
+<li class="chapter" data-level="7.3" data-path="binomial-glms.html"><a href="binomial-glms.html#challenge-1"><i class="fa fa-check"></i><b>7.3</b> Challenge 1</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="binomial-glms.html"><a href="binomial-glms.html#challenge-1-solution"><i class="fa fa-check"></i><b>7.3.1</b> Challenge 1: Solution</a></li>
 </ul></li>
+<li class="chapter" data-level="7.4" data-path="binomial-glms.html"><a href="binomial-glms.html#interpreting-the-output-of-a-logistic-regression"><i class="fa fa-check"></i><b>7.4</b> Interpreting the output of a logistic regression</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="binomial-glms.html"><a href="binomial-glms.html#an-example-using-the-identity-link"><i class="fa fa-check"></i><b>7.4.1</b> An example using the identity link</a></li>
+<li class="chapter" data-level="7.4.2" data-path="binomial-glms.html"><a href="binomial-glms.html#interpreting-the-coefficients-using-the-logit-link"><i class="fa fa-check"></i><b>7.4.2</b> Interpreting the coefficients using the logit link</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html"><i class="fa fa-check"></i><b>8</b> Binomial GLMs (Bernouilli)</a><ul>
-<li class="chapter" data-level="8.1" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#the-link-function"><i class="fa fa-check"></i><b>8.1</b> The link function</a></li>
-<li class="chapter" data-level="8.2" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#interpreting-the-output-of-a-logistic-regression"><i class="fa fa-check"></i><b>8.2</b> Interpreting the output of a logistic regression</a></li>
-<li class="chapter" data-level="8.3" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#predictive-power-and-goodness-of-fit"><i class="fa fa-check"></i><b>8.3</b> Predictive power and goodness-of-fit</a><ul>
-<li class="chapter" data-level="8.3.1" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#challenge-2"><i class="fa fa-check"></i><b>8.3.1</b> Challenge 2</a></li>
-<li class="chapter" data-level="8.3.2" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#challenge-2-solution"><i class="fa fa-check"></i><b>8.3.2</b> Challenge 2: Solution</a></li>
+<li class="chapter" data-level="7.5" data-path="binomial-glms.html"><a href="binomial-glms.html#predictive-power-and-goodness-of-fit"><i class="fa fa-check"></i><b>7.5</b> Predictive power and goodness-of-fit</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="binomial-glms.html"><a href="binomial-glms.html#challenge-2"><i class="fa fa-check"></i><b>7.5.1</b> Challenge 2</a></li>
 </ul></li>
-<li class="chapter" data-level="8.4" data-path="binomial-glms-bernouilli.html"><a href="binomial-glms-bernouilli.html#plotting-results"><i class="fa fa-check"></i><b>8.4</b> Plotting results</a></li>
 </ul></li>
 <li class="part"><span><b>GLMs with proportion data</b></span></li>
-<li class="chapter" data-level="9" data-path="binomial-glms.html"><a href="binomial-glms.html"><i class="fa fa-check"></i><b>9</b> Binomial GLMS</a></li>
+<li class="chapter" data-level="8" data-path="binomial-glms-and-proportions.html"><a href="binomial-glms-and-proportions.html"><i class="fa fa-check"></i><b>8</b> Binomial GLMs and proportions</a></li>
 <li class="part"><span><b>GLMs with count data</b></span></li>
-<li class="chapter" data-level="10" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html"><i class="fa fa-check"></i><b>10</b> What can we do with count data?</a></li>
-<li class="chapter" data-level="11" data-path="poisson-glms.html"><a href="poisson-glms.html"><i class="fa fa-check"></i><b>11</b> Poisson GLMs</a><ul>
-<li class="chapter" data-level="11.1" data-path="poisson-glms.html"><a href="poisson-glms.html#the-problem-of-overdispersion"><i class="fa fa-check"></i><b>11.1</b> The problem of overdispersion</a></li>
+<li class="chapter" data-level="9" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html"><i class="fa fa-check"></i><b>9</b> What can we do with count data?</a></li>
+<li class="chapter" data-level="10" data-path="poisson-glms.html"><a href="poisson-glms.html"><i class="fa fa-check"></i><b>10</b> Poisson GLMs</a><ul>
+<li class="chapter" data-level="10.1" data-path="poisson-glms.html"><a href="poisson-glms.html#the-problem-of-overdispersion"><i class="fa fa-check"></i><b>10.1</b> The problem of overdispersion</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="quasi-poisson-glms.html"><a href="quasi-poisson-glms.html"><i class="fa fa-check"></i><b>12</b> Quasi-Poisson GLMs</a></li>
-<li class="chapter" data-level="13" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html"><i class="fa fa-check"></i><b>13</b> Negative binomial GLMs</a><ul>
-<li class="chapter" data-level="13.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>13.1</b> Plotting the final GLM to the data</a><ul>
-<li class="chapter" data-level="13.1.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#challenge-3"><i class="fa fa-check"></i><b>13.1.1</b> Challenge 3</a></li>
+<li class="chapter" data-level="11" data-path="quasi-poisson-glms.html"><a href="quasi-poisson-glms.html"><i class="fa fa-check"></i><b>11</b> Quasi-Poisson GLMs</a></li>
+<li class="chapter" data-level="12" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html"><i class="fa fa-check"></i><b>12</b> Negative binomial GLMs</a><ul>
+<li class="chapter" data-level="12.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>12.1</b> Plotting the final GLM to the data</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#challenge-3"><i class="fa fa-check"></i><b>12.1.1</b> Challenge 3</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="conclusion-on-glms-with-count-data.html"><a href="conclusion-on-glms-with-count-data.html"><i class="fa fa-check"></i><b>14</b> Conclusion on GLMs with count data</a></li>
+<li class="chapter" data-level="13" data-path="conclusion-on-glms-with-count-data.html"><a href="conclusion-on-glms-with-count-data.html"><i class="fa fa-check"></i><b>13</b> Conclusion on GLMs with count data</a></li>
 <li class="part"><span><b>Other distributions</b></span></li>
-<li class="chapter" data-level="15" data-path="other-distributions.html"><a href="other-distributions.html"><i class="fa fa-check"></i><b>15</b> Other distributions</a></li>
+<li class="chapter" data-level="14" data-path="other-distributions.html"><a href="other-distributions.html"><i class="fa fa-check"></i><b>14</b> Other distributions</a></li>
 <li class="part"><span><b>Additional GLM resources</b></span></li>
-<li class="chapter" data-level="16" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>16</b> Summary</a></li>
-<li class="chapter" data-level="17" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>17</b> Additional resources</a></li>
-<li class="chapter" data-level="18" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>18</b> References</a></li>
+<li class="chapter" data-level="15" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>15</b> Summary</a></li>
+<li class="chapter" data-level="16" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>16</b> Additional resources</a></li>
+<li class="chapter" data-level="17" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>17</b> References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/qcbsRworkshops" target="blank">QCBS R Workshop Series</a></li>
 
@@ -231,7 +229,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
 <div id="negative-binomial-glms" class="section level1">
-<h1><span class="header-section-number">Chapter 13</span> Negative binomial GLMs</h1>
+<h1><span class="header-section-number">Chapter 12</span> Negative binomial GLMs</h1>
 <p>GLM with a negative binomial (NB) distribution are favored when
 overdispersion is extreme. The NB distribution contains an additional
 parameter <em>k</em>, particularly handy for count data containing a
@@ -270,8 +268,8 @@ function is logarithmic ensuring that fitted values are always positive.</p>
 </ul>
 <p>The negative binomial GLM can be built using the <code>glm.nb()</code> function from
 the <code>MASS</code> package:</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="negative-binomial-glms.html#cb105-1"></a>glm.negbin =<span class="st"> </span><span class="kw">glm.nb</span>(Faramea.occidentalis<span class="op">~</span>Elevation, <span class="dt">data=</span>faramea)</span>
-<span id="cb105-2"><a href="negative-binomial-glms.html#cb105-2"></a><span class="kw">summary</span>(glm.negbin)</span></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="negative-binomial-glms.html#cb95-1"></a>glm.negbin =<span class="st"> </span><span class="kw">glm.nb</span>(Faramea.occidentalis<span class="op">~</span>Elevation, <span class="dt">data=</span>faramea)</span>
+<span id="cb95-2"><a href="negative-binomial-glms.html#cb95-2"></a><span class="kw">summary</span>(glm.negbin)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm.nb(formula = Faramea.occidentalis ~ Elevation, data = faramea, 
@@ -307,53 +305,53 @@ the variance of the NB distribution. Its standard error is also
 provided, but care is needed with its use as the interval is not
 symmetric and we are testing on the boundary.</p>
 <div id="plotting-the-final-glm-to-the-data" class="section level2">
-<h2><span class="header-section-number">13.1</span> Plotting the final GLM to the data</h2>
+<h2><span class="header-section-number">12.1</span> Plotting the final GLM to the data</h2>
 <p>The NB GLMs appear to be the best fit to our data. We can plot the
 relationship between the abundance of <em>Faramea occidentalis</em> and
 elevation.</p>
 <p>Use <code>summary</code> to get the parameters.</p>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="negative-binomial-glms.html#cb107-1"></a><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">1</span>, <span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="negative-binomial-glms.html#cb97-1"></a><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">1</span>, <span class="dv">1</span>]</span></code></pre></div>
 <pre><code>## [1] 2.369226</code></pre>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="negative-binomial-glms.html#cb109-1"></a><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="negative-binomial-glms.html#cb99-1"></a><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">1</span>]</span></code></pre></div>
 <pre><code>## [1] -0.007038124</code></pre>
 <p>Use the standard errors to build the confidence envelope.</p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="negative-binomial-glms.html#cb111-1"></a><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">1</span>, <span class="dv">2</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="negative-binomial-glms.html#cb101-1"></a><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">1</span>, <span class="dv">2</span>]</span></code></pre></div>
 <pre><code>## [1] 0.4738409</code></pre>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="negative-binomial-glms.html#cb113-1"></a><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">2</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="negative-binomial-glms.html#cb103-1"></a><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">2</span>]</span></code></pre></div>
 <pre><code>## [1] 0.002496143</code></pre>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="negative-binomial-glms.html#cb115-1"></a>pp &lt;-<span class="st"> </span><span class="kw">predict</span>(glm.negbin, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">Elevation =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">800</span>), <span class="dt">se.fit =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb115-2"><a href="negative-binomial-glms.html#cb115-2"></a>linkinv &lt;-<span class="st"> </span><span class="kw">family</span>(glm.negbin)<span class="op">$</span>linkinv <span class="co">## inverse-link function</span></span>
-<span id="cb115-3"><a href="negative-binomial-glms.html#cb115-3"></a>pframe &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(pp<span class="op">$</span>fit)</span>
-<span id="cb115-4"><a href="negative-binomial-glms.html#cb115-4"></a><span class="kw">names</span>(pframe) &lt;-<span class="st"> &quot;pred0&quot;</span></span>
-<span id="cb115-5"><a href="negative-binomial-glms.html#cb115-5"></a>pframe<span class="op">$</span>pred &lt;-<span class="st"> </span><span class="kw">linkinv</span>(pp<span class="op">$</span>fit)</span>
-<span id="cb115-6"><a href="negative-binomial-glms.html#cb115-6"></a>sc &lt;-<span class="st"> </span><span class="kw">abs</span>(<span class="kw">qnorm</span>((<span class="dv">1</span><span class="fl">-0.95</span>)<span class="op">/</span><span class="dv">2</span>))  <span class="co">## Normal approx. to likelihood</span></span>
-<span id="cb115-7"><a href="negative-binomial-glms.html#cb115-7"></a>pframe &lt;-<span class="st"> </span><span class="kw">transform</span>(pframe, <span class="dt">lwr =</span> <span class="kw">linkinv</span>(pred0<span class="op">-</span>sc<span class="op">*</span>pp<span class="op">$</span>se.fit), <span class="dt">upr =</span> <span class="kw">linkinv</span>(pred0<span class="op">+</span>sc<span class="op">*</span>pp<span class="op">$</span>se.fit))</span>
-<span id="cb115-8"><a href="negative-binomial-glms.html#cb115-8"></a><span class="kw">plot</span>(faramea<span class="op">$</span>Elevation, faramea<span class="op">$</span>Faramea.occidentalis, <span class="dt">ylab =</span> <span class="st">&#39;Number of F. occidentalis&#39;</span>, <span class="dt">xlab =</span> <span class="st">&#39;Elevation(m)&#39;</span>)</span>
-<span id="cb115-9"><a href="negative-binomial-glms.html#cb115-9"></a><span class="kw">lines</span>(pframe<span class="op">$</span>pred, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb115-10"><a href="negative-binomial-glms.html#cb115-10"></a><span class="kw">lines</span>(pframe<span class="op">$</span>upr, <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">3</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb115-11"><a href="negative-binomial-glms.html#cb115-11"></a><span class="kw">lines</span>(pframe<span class="op">$</span>lwr, <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">3</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-76-1.png" width="672" /></p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="negative-binomial-glms.html#cb105-1"></a>pp &lt;-<span class="st"> </span><span class="kw">predict</span>(glm.negbin, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">Elevation =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">800</span>), <span class="dt">se.fit =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb105-2"><a href="negative-binomial-glms.html#cb105-2"></a>linkinv &lt;-<span class="st"> </span><span class="kw">family</span>(glm.negbin)<span class="op">$</span>linkinv <span class="co">## inverse-link function</span></span>
+<span id="cb105-3"><a href="negative-binomial-glms.html#cb105-3"></a>pframe &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(pp<span class="op">$</span>fit)</span>
+<span id="cb105-4"><a href="negative-binomial-glms.html#cb105-4"></a><span class="kw">names</span>(pframe) &lt;-<span class="st"> &quot;pred0&quot;</span></span>
+<span id="cb105-5"><a href="negative-binomial-glms.html#cb105-5"></a>pframe<span class="op">$</span>pred &lt;-<span class="st"> </span><span class="kw">linkinv</span>(pp<span class="op">$</span>fit)</span>
+<span id="cb105-6"><a href="negative-binomial-glms.html#cb105-6"></a>sc &lt;-<span class="st"> </span><span class="kw">abs</span>(<span class="kw">qnorm</span>((<span class="dv">1</span><span class="fl">-0.95</span>)<span class="op">/</span><span class="dv">2</span>))  <span class="co">## Normal approx. to likelihood</span></span>
+<span id="cb105-7"><a href="negative-binomial-glms.html#cb105-7"></a>pframe &lt;-<span class="st"> </span><span class="kw">transform</span>(pframe, <span class="dt">lwr =</span> <span class="kw">linkinv</span>(pred0<span class="op">-</span>sc<span class="op">*</span>pp<span class="op">$</span>se.fit), <span class="dt">upr =</span> <span class="kw">linkinv</span>(pred0<span class="op">+</span>sc<span class="op">*</span>pp<span class="op">$</span>se.fit))</span>
+<span id="cb105-8"><a href="negative-binomial-glms.html#cb105-8"></a><span class="kw">plot</span>(faramea<span class="op">$</span>Elevation, faramea<span class="op">$</span>Faramea.occidentalis, <span class="dt">ylab =</span> <span class="st">&#39;Number of F. occidentalis&#39;</span>, <span class="dt">xlab =</span> <span class="st">&#39;Elevation(m)&#39;</span>)</span>
+<span id="cb105-9"><a href="negative-binomial-glms.html#cb105-9"></a><span class="kw">lines</span>(pframe<span class="op">$</span>pred, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb105-10"><a href="negative-binomial-glms.html#cb105-10"></a><span class="kw">lines</span>(pframe<span class="op">$</span>upr, <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">3</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb105-11"><a href="negative-binomial-glms.html#cb105-11"></a><span class="kw">lines</span>(pframe<span class="op">$</span>lwr, <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">3</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-68-1.png" width="672" /></p>
 <p>We can see that the number of <em>Faramea occidentalis</em> significantly
 decreases with elevation. However, the confidence envelope of the NB
 model is large at low elevation.</p>
 <div id="challenge-3" class="section level3">
-<h3><span class="header-section-number">13.1.1</span> Challenge 3</h3>
+<h3><span class="header-section-number">12.1.1</span> Challenge 3</h3>
 <p>Use the <code>mites</code> dataset! Model the abundance of the species Galumna as a function of the substrate characteristics (water content <code>WatrCont</code> and density <code>SubsDens</code>)</p>
 <p>Do you need to account for overdispersion?<br />
 Which covariates have a significant effect?<br />
 Select the best model!</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="negative-binomial-glms.html#cb116-1"></a>mites &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/mites.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="negative-binomial-glms.html#cb106-1"></a>mites &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/mites.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p>Drop each term in turn and compare the full model with a nested model using the command:</p>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="negative-binomial-glms.html#cb117-1"></a><span class="kw">drop1</span>(MyGLM, <span class="dt">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="negative-binomial-glms.html#cb107-1"></a><span class="kw">drop1</span>(MyGLM, <span class="dt">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
 <p>Specify manually a nested model, call it for example MyGLM2, and use the command:</p>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="negative-binomial-glms.html#cb118-1"></a><span class="kw">anova</span>(MyGLM, MyGLM2, <span class="dt">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="negative-binomial-glms.html#cb108-1"></a><span class="kw">anova</span>(MyGLM, MyGLM2, <span class="dt">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
 <p><strong>Solution</strong></p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="negative-binomial-glms.html#cb119-1"></a><span class="co"># Poisson GLM</span></span>
-<span id="cb119-2"><a href="negative-binomial-glms.html#cb119-2"></a>glm.p =<span class="st"> </span><span class="kw">glm</span>(Galumna<span class="op">~</span>WatrCont<span class="op">+</span>SubsDens, <span class="dt">data=</span>mites, <span class="dt">family=</span>poisson)</span>
-<span id="cb119-3"><a href="negative-binomial-glms.html#cb119-3"></a><span class="co"># quasi-Poisson GLM</span></span>
-<span id="cb119-4"><a href="negative-binomial-glms.html#cb119-4"></a>glm.qp =<span class="st"> </span><span class="kw">update</span>(glm.p,<span class="dt">family=</span>quasipoisson)</span>
-<span id="cb119-5"><a href="negative-binomial-glms.html#cb119-5"></a><span class="co"># model selection</span></span>
-<span id="cb119-6"><a href="negative-binomial-glms.html#cb119-6"></a><span class="kw">drop1</span>(glm.qp, <span class="dt">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="negative-binomial-glms.html#cb109-1"></a><span class="co"># Poisson GLM</span></span>
+<span id="cb109-2"><a href="negative-binomial-glms.html#cb109-2"></a>glm.p =<span class="st"> </span><span class="kw">glm</span>(Galumna<span class="op">~</span>WatrCont<span class="op">+</span>SubsDens, <span class="dt">data=</span>mites, <span class="dt">family=</span>poisson)</span>
+<span id="cb109-3"><a href="negative-binomial-glms.html#cb109-3"></a><span class="co"># quasi-Poisson GLM</span></span>
+<span id="cb109-4"><a href="negative-binomial-glms.html#cb109-4"></a>glm.qp =<span class="st"> </span><span class="kw">update</span>(glm.p,<span class="dt">family=</span>quasipoisson)</span>
+<span id="cb109-5"><a href="negative-binomial-glms.html#cb109-5"></a><span class="co"># model selection</span></span>
+<span id="cb109-6"><a href="negative-binomial-glms.html#cb109-6"></a><span class="kw">drop1</span>(glm.qp, <span class="dt">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
 <pre><code>## Single term deletions
 ## 
 ## Model:
@@ -364,9 +362,9 @@ Select the best model!</p>
 ## SubsDens  1   108.05       3.125   0.07708 .  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="negative-binomial-glms.html#cb121-1"></a><span class="co"># or</span></span>
-<span id="cb121-2"><a href="negative-binomial-glms.html#cb121-2"></a>glm.qp2 =<span class="st"> </span><span class="kw">glm</span>(Galumna<span class="op">~</span>WatrCont, <span class="dt">data=</span>mites, <span class="dt">family=</span>quasipoisson)</span>
-<span id="cb121-3"><a href="negative-binomial-glms.html#cb121-3"></a><span class="kw">anova</span>(glm.qp2, glm.qp, <span class="dt">test=</span><span class="st">&quot;Chisq&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="negative-binomial-glms.html#cb111-1"></a><span class="co"># or</span></span>
+<span id="cb111-2"><a href="negative-binomial-glms.html#cb111-2"></a>glm.qp2 =<span class="st"> </span><span class="kw">glm</span>(Galumna<span class="op">~</span>WatrCont, <span class="dt">data=</span>mites, <span class="dt">family=</span>quasipoisson)</span>
+<span id="cb111-3"><a href="negative-binomial-glms.html#cb111-3"></a><span class="kw">anova</span>(glm.qp2, glm.qp, <span class="dt">test=</span><span class="st">&quot;Chisq&quot;</span>)</span></code></pre></div>
 <pre><code>## Analysis of Deviance Table
 ## 
 ## Model 1: Galumna ~ WatrCont
