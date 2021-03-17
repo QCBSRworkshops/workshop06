@@ -301,6 +301,8 @@ faramea <- read.csv("faramea.csv", header = TRUE)
 hist(faramea$Faramea.occidentalis, breaks=seq(0,45,1), xlab=expression(paste("Number of ",
 italic(Faramea~occidentalis))), ylab="Frequency", main="", col="grey")
 
+plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'F. occidentalis individuals', xlab = 'Elevation(m)')
+
 glm.poisson = glm(Faramea.occidentalis~Elevation, data=faramea, family=poisson)
 summary(glm.poisson)
 

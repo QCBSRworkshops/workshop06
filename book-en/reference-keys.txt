@@ -29,6 +29,7 @@ challenge-2-solution
 binomial-glms-and-proportions
 what-can-we-do-with-count-data
 poisson-glms
+poisson-glms-in-r
 the-problem-of-overdispersion
 quasi-poisson-glms
 negative-binomial-glms
