@@ -8,7 +8,7 @@ In discrete counts, we can, for instance, measure the number of presence of indi
 
 We will thus obtain a proportional number of "success" in observing individuals by dividing the counts by the total counts.
 
-In ```glm()```, we have to provide prior weights if the response variable is the proportion of successes.
+In `glm()`, we have to provide prior weights if the response variable is the proportion of successes.
   
 Proportions can be modeled by providing both the number of "successes" and prior weights in the function
 
@@ -22,7 +22,7 @@ prop.reg <- glm(cbind(Galumna, totalabund - Galumna) ~ Topo + WatrCont,
 summary(prop.reg)
 ```
 
-The weights can also be set explicitly in ```glm()```:
+The weights can also be set explicitly in `glm()`:
 
 ```{r, echo = TRUE, eval = TRUE}
 prop.reg2 <- glm(prop ~ Topo + WatrCont,
