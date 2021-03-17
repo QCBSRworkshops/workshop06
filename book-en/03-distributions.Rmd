@@ -26,6 +26,7 @@ distributions with different values of $\lambda$, corresponding in this case to
 the mean number of *Galumna* observed in a fictive set of samples:
 
 ```{r, fig.show= "hold", out.width="33%", fig.height = 9}
+# examples of Poisson distributions with different values of lambda
 par(cex = 2)
 x = seq(1, 50, 1)
 plot(x, dpois(x, lambda = 1), type = "h", lwd = 3, xlab = "Frequency of Galumna", ylab = "Probability", main = "lambda = 1")
@@ -45,10 +46,12 @@ calculate the mean abundance of *Galumna* across all samples using the
 function `mean()`, we find that it is close to zero):
 
 ```{r, echo = FALSE, eval = TRUE}
+# Load the dataset
 mites <- read.csv('mites.csv')
 ```
 
 ```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 7, fig.align = "center"}
+# Explore the dataset
 hist(mites$Galumna)
 mean(mites$Galumna)
 ```
@@ -75,6 +78,7 @@ obtaining the outcome "*Galumna* present" (1) vs. "*Galumna* absent"
 probabilities of presence ($p$):
 
 ```{r, echo=FALSE, fig.show="hold", out.width="30%", fig.height = 9}
+# examples of Bernoulli distributions with various probabilities of presence (p)
 par(cex = 2.1)
 barplot(setNames(c(.9, .1), c('absent (0)', 'present (1)')),
         ylim = c(0, 1),
@@ -94,6 +98,7 @@ We can calculate the number of sites where *Galumna* is present out of the
 total number of sites to get an idea of what $p$ might be in our case:
 
 ```{r, echo = TRUE, eval = TRUE}
+# Calculate probabilities of presence of Galumna (p)
 sum(mites$pa) / nrow(mites)
 ```
 
@@ -118,6 +123,7 @@ points, corresponding to the 30 regions. Here are some examples of
 binomial distributions with $n$ = 50 and 3 different values of $p$:
 
 ```{r, echo=FALSE, fig.show="hold", out.width="33%", fig.height = 9}
+# examples of binomial distributions with n = 50 and 3 different values of p
 par(cex = 2.1)
 x = seq(1, 50, 1)
 plot(x, dbinom(x, size = 50, prob = 0.1), type = 'h', lwd = 3, xlab = '# galumna', ylab = 'Probability', main = 'p = 0.1 n = 50')

@@ -165,9 +165,6 @@ Let us attempt to be more specific and ask **wether *Galumna*'s community values
 
 We can begin by representing all three response variables against the predictor:
 
-```{r, fig.width=17, fig.height=6}
-par(mfrow = c(1, 3), cex = 1.4)
-
 ```{r, echo = TRUE, eval = TRUE}
 plot(Galumna ~ WatrCont,
      data = mites,
@@ -195,18 +192,22 @@ Indeed, `Galumna` seems to vary negatively as a function of `WatrCont`, *i*.*e*.
 We can go step further and fit general linear models to test whether `Galumna`, `pa`, and/or `prop` vary as a function of `WatrCont`
 
 ```{r, eval = -c(2, 5, 8)}
+# Fit the models
+
+# Abundance model
 lm.abund <- lm(Galumna ~ WatrCont, data = mites)
-summary(lm.abund)
 
+# Presence-absence model
 lm.pa <- lm(pa ~ WatrCont, data = mites)
-summary(lm.pa)
 
+# Proportion model
 lm.prop <- lm(prop ~ WatrCont, data = mites)
 ```
 
 Then, we can check the model output to verify whether these relationships are statistically significant:
 
 ```{r, echo = TRUE, eval = TRUE}
+# Check the model output with the summary() function
 summary(lm.abund)
 ```
 
@@ -239,6 +240,7 @@ Nevertheless, we cannot forget the most important step: verifying if the assumpt
 Let us begin by validating these models to make sure that we respect assumptions of linear models, starting with the abundance model.
 
 ```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 7, fig.align = "center"}
+# Plot the abundance model
 plot(Galumna ~ WatrCont, data = mites)
 abline(lm.abund)
 ```
@@ -250,6 +252,7 @@ does poorly at predicting high abundance values at low values of `WatrCont`.
 We can also check the model diagnostic plots:
 
 ```{r, echo = TRUE, eval = TRUE, fig.show="hold", out.width = "50%", out.height = "50%"}
+# Diagnostic plots
 plot(lm.abund)
 ```
 
@@ -318,6 +321,7 @@ Let's take a look at what happens to the distribution when we vary the parameter
 Varying $\mu$ while $\sigma = 5$ shifts the mean of the distribution.
 
 ```{r, echo = FALSE, fig.align="center", fig.width = 7, fig.height = 7}
+# Demonstrating normal distributions with different means
 x = seq(1, 50, 0.1)
 plot(x, dnorm(x, mean = 20, sd = 5),
 type = 'l', lwd = 3,
@@ -331,6 +335,7 @@ legend('topleft', legend = c('20', '25', '30'), lty = 1, col = c(1,2,4), bty = '
 If we keep $\mu = 25$, varying $\sigma$ changes the shape of the distribution, where smaller $\sigma$ (low variance) means there is higher probability around the mean, while larger $\sigma$ spreads out the probabilities across the full range of values.
 
 ```{r, echo=FALSE, fig.align="center", fig.width = 7, fig.height = 7}
+# Demonstrating normal distributions with different variance
 x = seq(1, 50, 0.1)
 plot(x, dnorm(x, mean = 25, sd = 5), type = 'l', lwd = 3, xlab = '# galumna', ylab = 'Probability')
 points(x, dnorm(x, mean = 25, sd = 7.5), type = 'l', lwd = 3, col = 2)
@@ -351,6 +356,7 @@ Let's predict *Galumna* abundance at a water content = 300 using the linear mode
 Let's begin by obtaining the parameters $\mu$ and $\sigma^2$ for a normal distribution corresponding to our equation. To obtain the coefficients from our models, we can use the function `coef()`:
 
 ```{r, echo = TRUE}
+# Extract model coefficients
 coef(lm.abund)
 ```
 
@@ -358,6 +364,7 @@ These coefficients would allow us to predict *Galumna* abundance if there was no
 distribution! For $X$ = 300, our model predicts that \varepsilon should follow a normal distribution with mean = 1.63. We can extract the variance ($\sigma^2$) from our model summary:
 
 ```{r, echo = TRUE}
+# Extract variance from the model summary
 summary(lm.abund)$sigma
 ```
 

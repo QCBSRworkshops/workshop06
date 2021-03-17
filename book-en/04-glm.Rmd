@@ -33,6 +33,7 @@ $$V(\mu_i) = 1$$
 In `R`, we can fit generalized linear models using the `glm()` function, which is similar to the `lm()` function, with the `family` argument taking the names of the **link function** (inside `link`) and, the **variance function**.:
 
 ```{r, eval = FALSE, echo = TRUE}
+# This is what the glm() function syntax looks like (don't run this)
 glm(formula,
     family = gaussian(link = "identity"),
     data,

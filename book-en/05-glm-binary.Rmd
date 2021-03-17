@@ -11,6 +11,7 @@ $$Occurrences = f(Environment)$$
 Under a linear model, expected values can be out of the `[0, 1]` range with `lm()`:
 
 ```{r, eval = FALSE, echo = TRUE}
+# linear model with binary data...
 lm(Pres ~ ExpVar)
 ```
 
@@ -19,11 +20,11 @@ par(cex = 1.2)
 Pres <- c(rep(1, 40), rep(0, 40))
 rnor <- function(x) rnorm(1, mean = ifelse(x == 1, 12.5, 7.5), sd = 2)
 ExpVar <- sapply(Pres, rnor)
-plot(ExpVar, Pres, 
-     ylim = c(-.5, 1.5), 
-     xlab = 'Explanatory variable', 
-     ylab = 'Presence', 
-     main = 'Binary variables and fitted values', 
+plot(ExpVar, Pres,
+     ylim = c(-.5, 1.5),
+     xlab = 'Explanatory variable',
+     ylab = 'Presence',
+     main = 'Binary variables and fitted values',
      pch = 16)
 abline(lm(Pres ~ ExpVar), col = 'orange', lwd = 2)
 mtext(expression(symbol("\255")), at = 1.25, side = 4, line = 0.1, cex = 6, col = 'blue')
@@ -67,7 +68,7 @@ A reminder about our `glm()` function:
 
 ```{r, eval = FALSE, echo = TRUE}
 glm(formula,
-    family = ???,
+    family = ???, # this argument allows us to set a probability distribution!
     data,
     ...)
 ```
@@ -86,8 +87,8 @@ glm(formula,
 In `R`, we can therefore build a binomial GLM with a logit link as follows:
 
 ```{r, eval = FALSE, echo = TRUE}
-glm(formula,
-    family = binomial(link = "logit"), # this is also known as logistic
+# This is the syntax for a binomial GLM with a logit link
+family = binomial(link = "logit"), # this is also known as logistic
     data,
     ...)
 ```
@@ -97,6 +98,7 @@ glm(formula,
 Let's build our first generalized linear model! Here, we want to build a logistic regression model using the `mites` data
 
 ```{r, echo = TRUE}
+# Exercise 1 - our first GLM!
 # setwd('...')
 
 mites <- read.csv("data/mites.csv", header = TRUE)
@@ -198,7 +200,7 @@ If we want to convert the odds into probability, given a coefficient $\alpha$ we
 
 $$ Pr(y_i = 1) = logit^{-1}(\alpha) = \dfrac{1}{1 + exp(-\alpha)} = (\dfrac{1}{1 + exp(-\alpha)}) * (\dfrac{exp(\alpha)}{exp(\alpha)}) = \dfrac{exp(\alpha)}{exp(\alpha) + 1}$$
 
-Now going back to our model, this gives us: 
+Now going back to our model, this gives us:
 
 $$Pr(y_i = 1) = \dfrac{exp(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}{1 + exp{(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}}$$
 
