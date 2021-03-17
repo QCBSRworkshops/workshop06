@@ -1,6 +1,6 @@
 # (PART\*) GLMs with binary data {-}
 
-# Binary variables
+# Binomial GLMs
 
 A common response variable in ecological datasets is the binary
 variable: we observe a phenomenon $Y$ or its "absence". For example, species presence/absence is frequently recorded in ecological monitoring studies. We usually wish to determine whether a species' presence is affected by some environmental variables. Other examples include the presence/absence of a disease within a wild population, the
@@ -152,204 +152,79 @@ anova(model.bact1, model.bact2, model.bact3, test = "LRT")
 Based on these results, we select model #2 as the best candidate to model these data.
 
 
-# Binomial GLMs (Bernouilli)
-
-We've already seen that binary variables are not normally distributed (*i.e.*
-we see a peak at 0 and a peak at 1 and nothing in between). Like we have
-seen in the previous section, the Bernoulli distribution is well suited
-for binary response variables. The mean of this distribution is the
-probability $p$ of observing an outcome and the variance is $p/(1 -
-p)$. The $(1 - p)$ term represents the probability of **not** observing
-an outcome. In `R`, we specify the distribution with the `family`
-argument. For the logistic regression, we code it as:
-`family="binomial"`. Remember that the Bernoulli distribution is a
-special case of the binomial distribution when the number of repetitions
-is 1: R will "understand" that it is a Bernoulli distribution.
-
-When predicting the probability of observing some phenomenon $Y$, which is
-a binary variable, the expected values should be bound between 0 and 1:
-that's the range of a probability value! If we use a basic linear model
-to relate a binary response variable to various explanatory variables,
-we might obtain fitted values outside of the $[0,1]$ range, which is
-nonsensical.
-
-The following example will help you understand why a basic
-linear model is inappropriate here. The next subsection will show you
-how to avoid this problem with a link function. Briefly, a link function
-is used to linearize the relationship between predicted values of the
-response variable and the linear predictor (see next subsection).
-
-```{r, echo = FALSE, eval = TRUE}
-mites <- read.csv('mites.csv')
-```
-```{r, echo = TRUE, eval = TRUE}
-model.lm <- lm(pa ~ WatrCont + Topo, data = mites)
-# Let's get the expected values for the response variable.
-fitted(model.lm)
-
-# Some values are lower than 0, which does not make sense for a
-# logistic regression. Let’s try the same model with a binomial
-# distribution instead.
-
-model.glm <- glm(pa ~ WatrCont + Topo,
-  data = mites,
-  family = "binomial")
-  # Notice the "family" argument to specify the distribution.
-fitted(model.glm)
-# All values are bound between 0 and 1.
-```
-
-## The link function
-
-To move away from the traditional linear model and to avoid its biases,
-we need to specify two things when using a logistic regression: a
-distribution for the residuals of the model and a link function for the
-expected values. We already presented the Bernoulli distribution in the
-previous section so let's have a look at what the link function is.
-
-In the case of a simple linear model of a normally distributed
-continuous response variable, the following equation gives the expected
-values:
-
-$$ \mu = X\beta $$
-
-where $\mu$ is the expected value of the response variable, $X$ is the
-model matrix (*i.e.* representing your data) and $\beta$ corresponds to the
-parameters we estimate from the data (*i.e.* the intercept and the
-slope). The right-hand side of this equation is called the linear
-predictor. In mathematical terms, it is the matrix product of the model
-matrix $X$ of a statistical model and the vector of estimated parameters
-$\beta$. Let's have a look at this in `R`:
-
-```{r, echo = FALSE, eval = TRUE}
-#Short function added in order to print only the desired number of lines for the next chunk!
-#Source: https://bookdown.org/yihui/rmarkdown-cookbook/hook-truncate.html
-# save the built-in output hook
-hook_output <- knitr::knit_hooks$get("output")
-
-# set a new output hook to truncate text output
-knitr::knit_hooks$set(output = function(x, options) {
-  if (!is.null(n <- options$out.lines)) {
-    x <- xfun::split_lines(x)
-    if (length(x) > n) {
-      # truncate the output
-      x <- c(head(x, n), "....\n")
-    }
-    x <- paste(x, collapse = "\n")
-  }
-  hook_output(x, options)
-})
-```
-```{r, echo = TRUE, eval = TRUE, out.lines = 10}
-# Load the CO2 dataset. We used it during workshop 4!
-data(CO2)
-head(CO2)
-```
-
-Build a linear model of plant CO2 uptake as a function of CO2 ambient concentration.
-
-```{r, echo = TRUE, eval = TRUE, out.lines = 10}
-# Build the model
-model.CO2 <- lm(uptake ~ conc, data = CO2)
-
-# Extract the design matrix of the model
-X <- model.matrix(model.CO2)
-# And the estimated coefficients.
-B <- model.CO2$coefficients
-
-# Let’s multiply both X and B matrices to obtain the linear predictor.
-# The "%*%" symbol indicates that it is a matrix product.
-XB <- X %*% B
-
-# Compare the values of XB to the values obtained with the predict() function.
-# All statements should be TRUE.
-
-# We use the round() function so that all elements have 5 digits.
-round(fitted(model.CO2), digits = 5) == round(XB, digits = 5)
-```
-
-When using a simple linear model with a normally distributed response
-variable, the linear predictor is directly equal to the expected values
-of the model. But, what if our response variable is not normally
-distributed? If that is the case, we have to use a transformation on the
-expected values, *i.e.* a link function. A link function can be
-understood as a transformation of the expected values so that it can be
-**linearly related** to the linear predictor:
-
-$$g(\mu) = X\beta$$
-
-where $g(\mu)$ is the link function for the expected values. This allows
-us to relax the normality assumption. In the case of a binary response
-variable, the link function is called the logit function and is given
-by:
-
-$$logit(\mu) = log (\mu / 1-\mu) = X\beta$$
-
-where $\mu$ represents expected values (*i.e.* the probability that Y = 1
-because we observed the presence of a species, disease, success, or some
-other event). The ratio $\mu / 1-\mu$ represents the odds that some
-outcome occured and it transforms the expected values into continuous
-values from 0 to infinity. If we have a 0.8 probability of observing
-species X, then our odds are 4 times more likely to observe the species
-than to not observe it: 0.8/(1-0.8) = 4. The log transformation, called
-the log odds, allows values to be spread across -infinity to infinity.
-Hence, the logit function took the expected values of a model and
-transformed them into continuous values without boundaries. The expected
-values can now be directly related to a linear predictor. This is why we
-still call this model a generalized **linear** model even though the
-plot of our response variable as a function of some explanatory variable
-doesn't look like a "straight line"!
-
-
-Let’s build a regression model of the presence/absence of a mite species (Galumna sp.) as a function of water content and topography. To do this, we need to use the `glm()` function and specify the `family` argument.
-
-
-```{r, echo = TRUE, eval = TRUE}
-logit.reg <- glm(pa ~ WatrCont + Topo,
-  data = mites,
-  family = binomial(link = "logit"))
-
-# The logit function is the default for the binomial distribution,
-# so it is not necessary to include it in the "family" argument:
-logit.reg <- glm(pa ~ WatrCont + Topo,
-  data = mites,
-  family = binomial)
-summary(logit.reg)
-```
-
-
 ## Interpreting the output of a logistic regression
 
-The output of the previous logistic regression indicates that both water
-content and topography are significant, but how do we interpret the
-slope coefficients? Remember that we applied a transformation on our
-expected values (*i.e.* the probability that Y = 1) so we have to use a
-reverse function to properly interpret the results. We can use the
-natural exponential function `ex` to obtain the odds of probability of
-success for each explanatory variable.
+The output of our logistic regression indicates that both water
+content and topography are significant:
 
 ```{r, echo = TRUE, eval = TRUE}
+summary(logit.reg)$coefficients
+```
+
+But how do we interpret the slope coefficients? Remember that we applied
+a transformation on our expected values (*i.e.* the probability that Y = 1
+so we have to use an inverse function to properly interpret the results.
+
+### An example using the identity link
+
+If we were to use the identity link function, the interpretation is much easier.
+Assuming we have a binary outcome $y$ and two covariates $x_1$ and $x_2$ and a constant.
+The probability of a successful outcome ( $y = 1$ ) is given by:
+
+$$Pr(y_i = 1) = p = g^{-1(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}$$
+
+where $g^{-1}()$ is the **inverse link function**.
+
+For the identity link, the interpretation of the $\beta_1$ coefficient is straighforward
+For one-unit increase in $x_1$, $\beta_1$ dictates a constant difference in the outcome.
+
+$\Delta{y_i} = [\beta_0 + (\color{red}{x_{1i} + 1})\beta_1 + x_{2i}\beta_2] - (\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)$
+
+$\Delta{y_i} = \beta_1$
+
+
+### Interpreting the coefficients using the logit link
+
+In a linear logistic model with two covariates $x_1$ and $x_2$, we have:
+
+$$log({\dfrac{p}{1-p}})=\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2$$
+
+This corresponds to a log odds ratio! We can the use an exponential function to
+rewrite that model to get the odds ratio:
+
+$$\dfrac{p}{1-p}=exp(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)$$
+
+If we want to convert the odds into probability, given a coefficient $\alpha$ we would use the inverse logit link function (also known as the logistic function):
+
+$$ Pr(y_i = 1) = logit^{-1}(\alpha) = \dfrac{1}{1 + exp(-\alpha)} = (\dfrac{1}{1 + exp(-\alpha)}) * (\dfrac{exp(\alpha)}{exp(\alpha)}) = \dfrac{exp(\alpha)}{exp(\alpha) + 1}$$
+
+Now going back to our model, this gives us: 
+
+$$Pr(y_i = 1) = \dfrac{exp(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}{1 + exp{(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}}$$
+
+Since the inverse link is nonlinear, it is difficult to interpret the coefficient.
+However, we can look what happens to the differences for a one-unit change to $x_1$:
+
+$$\Delta{y_i} = \dfrac{\exp[\beta_0 + (\color{red}{x_{1i} + 1})\beta_1 + x_{2i}\beta_2]}{1 + \exp{[\beta_0 + (\color{red}{x_{1i} + 1})\beta_1 + x_{2i}\beta_2]}} - \dfrac{\exp[\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2]}{1 + \exp{[\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2]}}$$
+
+$$\Delta{y_i} = \exp(\beta_1)\ $$
+
+As $x_1$ increases by one unit, the odds increase by a factor of  $\exp(\beta_1)$.Note
+that the odds values here are considered when all other parameters are kept constant.
+
+With this, we can now interpret the results of our model:
+
+```{r, echo = TRUE}
 logit.reg
 ```
 
-How to obtain the odds of the slope? Use the "exp()" function to put
-the coefficients back on the odds scale. Mathematically, this line of
-code corresponds to:
-**exp(model coefficients) = exp(log(μ / (1 - μ)) = u / (1 - μ)**.
+For a one-unit increase (or decrease) in our coefficients, we can obtain the odds for the presence of mites.
 
-This corresponds to an odds ratio!
-
-```{r, echo = TRUE, eval = TRUE}
-exp(logit.reg$coefficients[2])
+```{r}
+exp(logit.reg$coefficient[2:3])
 ```
 
-To obtain confidence intervals on the odds scale:
-```{r, echo = TRUE, eval = TRUE, message = FALSE}
-exp(confint(logit.reg)[2,])
-```
-
-Note that the odds values here are considered when all other parameters
-are kept constant. The topography parameter value is 8.09. It means that
+The topography parameter value is 8.09. It means that
 the probability of observing *Galumna* sp. is 8.09 times more likely
 when the topography is hummock compared to blanket.
 
@@ -357,54 +232,19 @@ When the odds value is smaller than 1, interpretation is a little bit
 more complicated. When this is the case, we have to take the inverse
 value (*i.e.* 1 divided by the odds) to facilitate interpretation. The
 interpretation is then how **LESS** likely it is to observe the event of
-interest. For water content, the odds is 0.984. The inverse is 1 / 0.984
-= 1.0159. This means that a one-unit increase in water content decreases
+interest. For water content, the odds is 0.984. The inverse is:
+$$\dfrac{1}{0.984} = 1.0159$$.
+This means that a one-unit increase in water content decreases
 the likelihood of observing *Galumna* sp. by 1.0159. We can also
-substract 1 from the odds value to obtain a percentage: (1.0159 - 1) \*
-100 = 1.59% decrease in probability of observing *Galumna* sp. with a
-one-unit increase in water content. To convince ourselves that it is an
-appropriate interpretation, we can plot the presence of *Galumna* sp. as
-a function of water content. We see that, on average, *Galumna* sp.
-presence is higher at lower water content than its "absence".
+subtract 1 from the odds value to obtain a percentage:
+$(1.0159 - 1) * 100 = 1.59%$. So there is a 1.59% decrease in probability
+of observing *Galumna* sp. with a one-unit increase in water content.
+To convince ourselves that it is an appropriate interpretation, we can plot
+the presence of *Galumna* sp. as a function of water content. We see that,
+on average, *Galumna* sp. presence is higher at lower water content than its "absence".
 
 ![](images/galumna_pa.png){width="400"}
 
-When the parameter estimate is between 0 and 1 on the odds scales, it
-indicates a negative relationship between the response variable and the
-explanatory variable. If the parameter is greater than 1, it indicates a
-positive relationship between the response variable and the explanatory
-variable. If the confidence interval includes 1, it indicates that the
-variable is not significant. Remember that a value of 1 on the odds
-scale means that the probability of Y = 1 is the same as the probability
-of Y = 0 (*i.e.* when p = 0.5, 0.5/(1-0.5) = 1).
-
-If you want to obtain the probabilities instead of the odds for each
-explanatory variable, the inverse logit function is what you need:
-
-logit^-1^ = 1/(1+1/exp(x))
-
-where x is the parameter to transform from log odds to the probability
-scale. The parameter estimate of topography in our `logit.reg` model is
-2.091, which is on the log odds scale. So, the probability value is
-given by:
-
-1/(1+1/exp(2.091)) = 0.89 which is the same as 1/(1+1/8.09). Remember
-that the value 8.09 is on the odds scale. We have a 0.89 probability of
-observing *Galumna* sp. when the topography is Hummock.
-
-Let's calculate this probability without using the exp() function:
-
-First we start with our odds ratio for topography from the logit.reg model:
-**µ/ (1 - µ) = 8.09**
-
- Let's rearrange this to isolate µ
-**µ = 8.09(1 - µ) = 8.09 - 8.09µ**
-**8.09µ + µ = 8.09**
-**µ(8.09 + 1) = 8.09**
-**µ = 8.09 / (8.09 + 1)**
-**µ = 1 / (1 + (1 / 8.09)) = 0.89**
-
-We obtained the same result!
 
 ## Predictive power and goodness-of-fit
 
@@ -415,21 +255,60 @@ models are estimated by maximum likelihood (i.e. it is how parameters
 are estimated in GLM). This allows us to compute a pseudo-R^2^
 statistic, which is analogous to the coefficient of determination R^2^
 in ordinary least square regression (i.e. the basic method for linear
-models). The null model is a model without any explanatory variable. Its
-notation in R is:
-`null.model <- glm(Response.variable ~ 1, family = binomial)`. The
-generic formula to compute a pseudo-R^2^ is given by:
+models). The generic formula to compute a pseudo-R^2^ is given by:
 
-Pseudo-R^2^ = (null deviance -- residual deviance) / null deviance
+$$\text{pseudo-R}^2 = \dfrac{\text{null deviance} - \text{residual deviance}}{\text{null deviance}}$$
 
 where "null deviance" is the deviance of the null model and "residual
 deviance" is the deviance of the model of interest. The difference is
 divided by the null deviance so that the result is bound between 0 and
 1.
 
+The unit deviance is a measure of distance between $y$ and $μ$.
+
+$${\displaystyle d(y,y)=0}$$
+$${\displaystyle d(y,\mu )>0\quad \forall y\neq \mu }$$
+
+The total deviance ${\displaystyle D(\mathbf {y} ,{\hat {\boldsymbol {\mu }}})}$ of a model with predictions ${\hat {\boldsymbol {\mu }}}$ of the observation $\mathbf {y}$ is the sum of its unit deviances:
+$${\displaystyle D(\mathbf {y} ,{\hat {\boldsymbol {\mu }}})=\sum _{i}d(y_{i},{\hat {\mu }}_{i})}$$
+Now, the deviance of a model that has estimates  ${\hat {\mu }}=E[Y|{\hat {\theta }}_{0}]$ can be defined by its **likelihood**:
+$$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(y\mid {\hat {\theta }}_{s}){\big )}-\log {\big (}p(y\mid {\hat {\theta }}_{0}){\big )}{\Big )}$$
+with $\hat \theta_0$ denoting the fitted values of the parameters in the reduced model, while ${\displaystyle {\hat {\theta }}_{s}}\hat \theta_s$ denotes the fitted parameters for the saturated model.
+
+The **residual deviance** is defined as 2 times the log-likelihood ratio of the full model compared to the reduced model:
+$$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(\text{saturated model}){\big )}-\log {\big (}p(\text{reduced model}){\big )}{\Big )}$$
+
+And, the **null deviance** is defined  2 times the log-likelihood ratio of
+the full model compared to the null model (i.e. predictors are set to 1).
+
+$$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(\text{saturated model}){\big )}-\log {\big (}p(\text{null model}){\big )}{\Big )}$$
+
+
+Now we can run this in R. Let us compare the deviance of your model
+(residual deviance) to the deviance of a null model (null deviance).
+The **null model** is a model without any explanatory variable and
+it looks like this:
+
+```r
+null.model <- glm(response.variable ~ 1, family = binomial)
+```
+
+The **saturated (or full) deviance model** is a model with all explanatory variables:
+
+```r
+full.model <- glm(response.variable ~ ., family = binomial)
+```
+
+Residual and null deviances are already stored in the `glm object`:
+
 ```{r, echo = TRUE, eval = TRUE}
-# Residual and null deviances are already stored in the glm object.
+# .
 objects(logit.reg)
+```
+
+We can then use these deviance values to calculate the pseudo-R^2^ value:
+
+```{r}
 pseudoR2 <- (logit.reg$null.deviance - logit.reg$deviance) / logit.reg$null.deviance
 pseudoR2
 ```
@@ -439,7 +318,6 @@ Hence, the model explains 46.6% of the variability in the data.
 An adjusted McFadden's pseudo-R^2^, which penalizes for the number of
 predictors, can be calculated as below:
 
-$$ R^2_{adj} = \frac{null~deviance - residual~deviance}{null~deviance} $$
 $$ R^2_{adj} = 1 - \frac{logL(M)-K}{logL(M_{null})} $$
 
 where **K** corresponds to the additional number of predictors in
@@ -461,75 +339,12 @@ logit.reg <- glm(pa ~ WatrCont + Topo,
 DescTools::PseudoR2(logit.reg, which = "all")
 ```
 
-```{r, echo = FALSE, eval = FALSE}
-### REMOVED BECAUSE PACKAGE binomTools IS NO LONGER ON THE CRAN (delete this section?)
-Recently, [Tjur
-(2009)](http://www.tandfonline.com/doi/abs/10.1198/tast.2009.08210#.VFpKZYcc4ow)
-proposed a new statistic, the coefficient of discrimination (*D*), to
-evaluate the predictive power of logistic regression models.
-Intuitively, *D* is a measure of how well a logistic regression can
-classify an outcome as a success or a failure. In mathematical terms, it
-is the difference between the means of expected probability values for
-successes (*i.e.* Y =1) and failures (*i.e.* Y = 0):
-
-D = π~1~ - π~0~
-
-where π~1~ is the mean of expected probability
-values when the outcome is observed and π~0~ is the
-mean of expected probability values when the outcome is not observed. A
-*D* value close to 1 indicates that the model gives a high probability
-of observing an outcome to cases where the outcome was actually observed
-and a low probability of observing an outcome to cases where the outcome
-was not observed. A *D* value close to 0 indicates that the model is not
-efficient at discriminating between the occurrences and "non
-occurrences" of an outcome. The following code shows how to obtain *D*
-and how to plot the histograms of π~1~ and
-π~0~.
-
-
-install.packages("binomTools")
-library("binomTools")
-# The Rsq function computes several fit indices,
-# including the coefficient of discrimination.
-# For information on the other fit indices, see Tjur (2009).
-# The plot shows the distribution of expected values when the outcome is observed
-# and not observed.
-# Ideally, the overlap between the two histograms should be small.
-fit <- Rsq(object = logit.reg)
-fit
-# R-square measures and the coefficient of discrimination, 'D':
-#
-#    R2mod     R2res     R2cor     D
-#    0.5205221 0.5024101 0.5025676 0.5114661
-#
-# Number of binomial observations:  70
-# Number of binary observation:  70
-# Average group size:  1
-plot(fit, which = "hist")
-
-To assess the goodness-of-fit of a logistic regression, the diagnostic
-plots (see workshop 4) are not useful. Instead, you can do a
-[Hosmer-Lemeshow
-test](http://en.wikipedia.org/wiki/Hosmer-Lemeshow_test) to evaluate
-whether your model is appropriate. This test separates the expected
-values (ordered from smallest to largest) in groups of approximately
-equal size. Ten is usually the recommended group number. In each group,
-we compare the observed and expected number of outcomes. It is similar
-to a chi-square test with G - 2 degrees of freedom (G is the number of
-groups). In R, this test is available in the `binomTools` package.
-
-fit <- Rsq(object = logit.reg)
-HLtest(object = fit)
-# The p value is 0.9051814. Hence, we do not reject the model.
-# We can consider it as appropriate for the data.
-```
-
 ### Challenge 2
 
 Assess goodness-of-fit and predictive power of the `model.bact2` model. How can you improve the predictive power of this model?
 
 
-### Challenge 2: Solution
+#### Challenge 2: Solution
 
 ```{r, echo = TRUE, eval = TRUE}
 null.d <- model.bact2$null.deviance
@@ -550,26 +365,3 @@ This is very low!
 Adding informative explanatory variables could increase the explanatory power of the model.
 
 But, do not be afraid of non-significant results!
-
-## Plotting results
-
-Once we've created a model and verified its validity, we can plot the
-results to show how the response variable is related to some explanatory
-variables. One way to graphically summarise the data is by plotting both
-the response variable and the expected values as a function of some
-predictor. Here is an example with the `ggplot2` package. See [workshop
-3](r_workshop3) for more information on this package.
-
-```{r, echo = FALSE, eval = TRUE, warning = FALSE}
-library(ggplot2)
-```
-```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 7, fig.align = "center", warning = FALSE, message = FALSE}
-ggplot(mites,
-  aes(x = WatrCont, y = pa)) +
-  geom_point() +
-  stat_smooth(method = "glm", family= "binomial", se = FALSE) +
-  labs(x = "Water content",
-  y = "Probability of presence",
-  title = "Probability of presence of Galumna sp. as a function of water content") +
-  theme_classic() # applies a simplified plot theme
-```
