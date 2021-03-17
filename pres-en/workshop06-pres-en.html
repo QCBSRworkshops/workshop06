@@ -64,7 +64,7 @@ by modifying and improving its content as part of the &lt;br&gt; *Le*arning *a*n
 &lt;br&gt;
 [Mathieu Vaillancourt](mathieu.vaillancourt.2@ulaval.ca)
 &lt;br&gt;
-
+[Esteban G. Bernoske]()
 
 ]
 ]
@@ -101,30 +101,37 @@ by modifying and improving its content as part of the &lt;br&gt; *Le*arning *a*n
 
 ---
 
+# Required material
 
-# Required packages
+To follow this workshop, you are required to have downloaded and installed the earliest [RStudio](https://rstudio.com/products/rstudio/download/#download) and [R](https://cran.rstudio.com/) versions.
 
-In addition to the earliest RStudio and R versions, this workshop requires the following packages:
+&lt;br&gt;
 
+.pull-left[
+You must also use these packages:
 1. [ggplot2](https://cran.r-project.org/package=ggplot2)
 3. [MASS](https://cran.r-project.org/package=MASS)
 4. [vcdExtra](https://cran.r-project.org/package=vcdExtra)
 5. [bbmle](https://cran.r-project.org/package=bbmle)
 6. [DescTools](https://cran.r-project.org/package=DescTools)
+]
 
-&lt;br&gt;
+.pull-right[
+
 
 To install them from CRAN, run:
 
 
 ```r
-install.packages(c("ggplot2", 
-                   'MASS', 
-                   'vcdExtra',
-                   'bbmle',
-                   'DescTools')
-                 )
+install.packages(
+  c("ggplot2", 
+    'MASS', 
+    'vcdExtra',
+    'bbmle',
+    'DescTools')
+)
 ```
+]
 
 ---
 
@@ -857,6 +864,14 @@ hist(mites$pa)
 
 We can use the Bernouilli distribution to calculate the probability Galumna present (`1`) vs. absent (`0`).
 
+???
+
+A Bernoulli event is one for which the probability the event occurs is p and the probability the event does not occur is 1-p; i.e., the event is has two possible outcomes (usually viewed as success or failure) occurring with
+probability p and 1-p, respectively.
+
+A Bernoulli distribution is the pair of probabilities of a Bernoulli event, which is too simple to be interesting. However, it is implicitly used in “yesno” decision processes where the choice occurs with the same probability
+from trial to trial (e.g., the customer chooses to go down aisle 1 with probability p).
+
 ---
 # Biological data &amp; distributions: Binomial
 
@@ -874,6 +889,13 @@ We can use the Bernouilli distribution to calculate the probability Galumna pres
 **Main difference with Poisson distribution**: the binomial has an upper limit to its range, corresponding to `\(n\)`. Consequently, it is right-skewed at low p values but left-skewed at high `\(p\)` values
 
 &lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-29-1.png" width="720" style="display: block; margin: auto;" /&gt;
+
+???
+
+Now, while the Bernoulli distribution represents the success or failure of a single Bernoulli trial. The Binomial Distribution represents the number of
+successes and failures in n independent Bernoulli trials for some given value of n.
+
+A Bernoulli random variable has two possible outcomes: 0 or 1. A binomial distribution is the sum of independent and identically distributed Bernoulli random variables.
 
 ---
 class: middle, center
@@ -897,14 +919,28 @@ A **generalized linear model** is made of a **linear predictor**:
 `$$\eta_i = \underbrace{g(\mu)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$`
 and,
 
-1. a **link** function `\(g(\mu_i)\)` that **transforms the expected value** of `\(Y\)` and describes how the mean `\(E(Y_i) = \mu_i\)` depends on the linear predictor
+1. a **link** function `\(g(\mu_i)\)` that ***transforms the expected values*** `\(E(Y_i)\)`, and describes how the mean of the process `\(Y\)`, `\(E(Y_i) = \mu_i\)`, depends on the linear predictor
 
 `$$g(\mu_i) = ηi$$`
 
-2\. a **variance** function that describows how the variance `\(\text{var}(Y_i)\)` depends on the mean
+2\. a **variance** function that describes how the variance of the process `\(Y\)`, `\(\text{var}(Y_i)\)`, depends on the mean
 
 `$$\text{var}(Y_i) = \phi V(\mu)$$`
 where the **dispersion parameter** `\(phi\)` is a constant.
+
+???
+
+The link function relates the expected value of the response to the linear predictors in the model, so that the relationship between the predictors and the response can be modeled with linear regression.
+
+How is that different from transforming the variable?
+
+We often log-transform data because the values of y do not appear to be normally distributed around their average.
+
+When we transform the data in general linear models, we are no longer claiming that y is normally distributed around a mean, given the x values; we are now claiming that our new outcome variable, ln(yi) (if we used log), is normally distributed.
+
+In the case of the glm Poisson model, however, the link function does not change the distribution of the actual observations in some way to make them something other than Poisson distributed. Instead, the link function defines the relationship of the x variables directly to the mean of the Poisson distributed y. The individual observations then vary around this expected value accordingly.
+
+The mean of the log is not the log of the mean: one may not take the exponent of the mean of ln(y) to get the mean of y. On the other hand, the link function allows you to do that!
 
 ---
 # General linear models as a GLM
@@ -961,6 +997,18 @@ This approach is extendable to other distribution families!
 | Binomial            | Logit              | `\(g(\mu) = \log\left(\dfrac{\mu}{1-\mu}\right)\)`  | `\(\log\left(\dfrac{\mu}{1-\mu}\right) = \mathbf{X} \boldsymbol{\beta}\)` | `binomial(link="logit")`| 
 | Poisson              | Log           | `\(g(\mu) = \log(\mu)\)` | `\(-\mu^{-1} = \mathbf{X} \boldsymbol{\beta}\)` | `poisson(link="log")`|
 | Exponential              | Negative Inverse           | `\(g(\mu) = -\mu^{-1}\)`  | `\(\log(\mu) = \mathbf{X} \boldsymbol{\beta}\)` | `Gamma(link="inverse")` |
+
+???
+
+How is that different from transforming the variable?
+
+We often log-transform data because the values of y do not appear to be normally distributed around their average.
+
+When we transform the data in general linear models, we are no longer claiming that y is normally distributed around a mean, given the x values; we are now claiming that our new outcome variable, ln(yi) (if we used log), is normally distributed.
+
+In the case of the glm Poisson model, however, the link function does not change the distribution of the actual observations in some way to make them something other than Poisson distributed. Instead, the link function defines the relationship of the x variables directly to the mean of the Poisson distributed y. The individual observations then vary around this expected value accordingly.
+
+The mean of the log is not the log of the mean: one may not take the exponent of the mean of ln(y) to get the mean of y. On the other hand, the link function allows you to do that!
 
 ---
 class: inverse, center, middle
