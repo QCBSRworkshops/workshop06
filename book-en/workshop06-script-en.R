@@ -350,8 +350,8 @@ summary(glm.poisson)$coefficients[1,1]
 # slope of elevation
 summary(glm.poisson)$coefficients[2,1]
 
-    Null deviance: 414.81  on 42  degrees of freedom
-Residual deviance: 388.12  on 41  degrees of freedom
+#     Null deviance: 414.81  on 42  degrees of freedom
+# Residual deviance: 388.12  on 41  degrees of freedom
 
 mean(faramea$Faramea.occidentalis)
 var(faramea$Faramea.occidentalis)
@@ -379,16 +379,24 @@ summary(glm.negbin)$coefficients[2, 1]
 summary(glm.negbin)$coefficients[1, 2]
 summary(glm.negbin)$coefficients[2, 2]
 
-pp <- predict(glm.negbin, newdata = data.frame(Elevation = 1:800), se.fit = TRUE)
-linkinv <- family(glm.negbin)$linkinv inverse-link function
+# Make model predicitions
+pp <- predict(glm.negbin,
+  newdata = data.frame(Elevation = 1:800),
+  se.fit = TRUE)
+linkinv <- family(glm.negbin)$linkinv # inverse-link function
+
+# Prepare to plot model results
 pframe <- as.data.frame(pp$fit)
 names(pframe) <- "pred0"
 pframe$pred <- linkinv(pp$fit)
-sc <- abs(qnorm((1-0.95)/2))  Normal approx. to likelihood
+sc <- abs(qnorm((1-0.95)/2))  # Normal approx. to likelihood
 pframe <- transform(pframe, lwr = linkinv(pred0-sc*pp$se.fit), upr = linkinv(pred0+sc*pp$se.fit))
-plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'Number of F. occidentalis', xlab = 'Elevation(m)')
-lines(pframe$pred, lwd = 2)
-lines(pframe$upr, col = 2, lty = 3, lwd = 2)
+
+# Plot!
+plot(faramea$Elevation, faramea$Faramea.occidentalis,
+  ylab = 'Number of F. occidentalis', xlab = 'Elevation(m)')
+lines(pframe$pred, lwd = 2) # predicted values
+lines(pframe$upr, col = 2, lty = 3, lwd = 2) # show error bounds
 lines(pframe$lwr, col = 2, lty = 3, lwd = 2)
 
 # Challenge 3
