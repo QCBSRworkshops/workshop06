@@ -30,7 +30,6 @@ explanatory variable) influences *Faramea occidentalis* abundance.
 We can see that there are only positive and integer values.
 
 ```{r, echo=F,fig.height=4.0}
-par(mypar);par(cex = 1.4)
 plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'F. occidentalis individuals', xlab = 'Elevation(m)')
 ```
 
@@ -39,7 +38,9 @@ good choice to model the number of *Faramea occidentalis* as a function
 of elevation. Poisson GLMs are usually a good way to start modeling
 count data.
 
-# The Poisson distribution
+# Poisson GLMs
+
+##The Poisson distribution
 
 The Poisson distribution specifies the probability of a
 discrete random variable $Y$ and is given by:
@@ -97,7 +98,7 @@ $$\mu_i = e^{\alpha} \times e^{\beta_1^{\text{Elevation}_i}} \times e^{\beta_2^{
 
 If $β_j = 0$ then $exp(β_j) = 1$ and $μ$ is not related to $x_j$. If $β_j > 0$ then $μ$ increases if $x_j$ increases; if $β_j < 0$ then $μ$ decreases if $x_j$ increases.
 
-## Poisson GLM in `R`
+## Poisson GLMs in `R`
 
 Fitting a Poisson GLM in R requires only setting `family = poisson` in
 the `glm()` function. By default the link function is log.
@@ -107,9 +108,13 @@ glm.poisson = glm(Faramea.occidentalis~Elevation, data=faramea, family=poisson)
 summary(glm.poisson)
 ```
 
-The output is similar to a '**lm**' output (see [Workshop 4]()) and gives
-you the parameter estimates which can also be retrieved using other
-functions:
+Intercept = $\alpha$
+
+Elevation = $\beta$
+
+The output is similar to a '**lm**' output (see[Workshop 4](https://github.com/QCBSRworkshops/workshop04))
+and gives us the parameter estimates which can also
+be retrieved using other functions:
 
 ```{r, echo = TRUE, eval = TRUE}
 # intercept
@@ -117,6 +122,28 @@ summary(glm.poisson)$coefficients[1,1]
 # slope of elevation
 summary(glm.poisson)$coefficients[2,1]
 ```
+
+Now we can estimate the residual and null deviances. In our
+model the unknown parameters are the intercept ($\alpha$)
+and the slope of elevation ($\beta$):
+
+$$log(\mu_i) = 1.769 - 0.0027 \times \text{Elevation}_i$$
+
+which we can also write as:
+
+$$\mu_i = e^{1.769 - 0.0027 \times \text{Elevation}_i}$$
+Remember that to estimate the unknown parameter, maximum likelihood estimation is used.
+
+The residual deviance is defined as twice the difference between
+the log-likelihood of a model that provides a perfect fit and the log-likelihood of our model.
+
+$$\text{residual deviance} = 2 \, log(L(y;\,y)) - 2 \, log(L(y;\, \mu))$$
+
+In a Poisson GLM, the residual deviance should be close to the residual
+degrees of freedom. However, our residual deviance is much higher
+than the degrees of freedom of our model! 
+
+$$388.12 >> 41$$
 
 ## The problem of overdispersion
 
