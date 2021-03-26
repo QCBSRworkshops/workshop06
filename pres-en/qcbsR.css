@@ -169,7 +169,6 @@ a:hover {
 
 
 /* MathJax */
-
 .mjx-chtml{ font-size: 100% !important; }
 
 
@@ -329,7 +328,7 @@ table, td, th {
 }
 .pull-right {
   float: right;
-  width: 48%;
+  width: 49%;
 }
 
 .pull-right, .pull-right p {
@@ -342,9 +341,8 @@ table, td, th {
 }
 .pull-right2 {
   float: right;
-  width: 30%;
+  width: 31%;
 }
-
 
 .pull-right2, .pull-right2 p {
   padding-left: 0rem ;
@@ -352,15 +350,15 @@ table, td, th {
 
 .pull-left3 {
   float: left;
-  width: 58%;
+  width: 57%;
 }
 .pull-right3 {
   float: right;
-  width: 41%;
+  width: 42%;
 }
 
 .pull-right3, .pull-right3 p {
-  padding-left: 0.5rem ;
+  padding-left: 0rem ;
 }
 
 .left-code {
@@ -380,7 +378,6 @@ table, td, th {
   padding-left: 0rem ;
 }
 
-
 .pull-left4 {
   float: left;
   width: 37%;
@@ -395,7 +392,11 @@ table, td, th {
   padding-left: 0rem ;
 }
 
+.column-left{ float: left; width: 31.333%; }
+.column-right{ float: right; width: 31.333%; }
+.column-centre{ display: inline-block; width: 31.333%; }
 
-.smaller {
-  font-size: 75%;
-}
+/* Font colour */
+
+.red { color: red; }
+.lightgray  { color: lightgray; }
