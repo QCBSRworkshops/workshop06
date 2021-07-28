@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapitre 10 GLM avec une distribution binomiale négative | Atelier 6: Modèles linéaires généralisés en R</title>
   <meta name="description" content="Modèles linéaires généralisés en R" />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapitre 10 GLM avec une distribution binomiale négative | Atelier 6: Modèles linéaires généralisés en R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
-  <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
+  <meta property="og:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
   <meta property="og:description" content="Modèles linéaires généralisés en R" />
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
@@ -19,7 +19,7 @@
   <meta name="twitter:title" content="Chapitre 10 GLM avec une distribution binomiale négative | Atelier 6: Modèles linéaires généralisés en R" />
   
   <meta name="twitter:description" content="Modèles linéaires généralisés en R" />
-  <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
+  <meta name="twitter:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
 
 <meta name="author" content="Développé et entretenu par les contributeurs et les contributrices de la Série d’ateliers R du CSBQ." />
 
@@ -50,6 +50,8 @@
 
 
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -115,6 +117,7 @@ code span.va { color: #000000; } /* Variable */
 code span.vs { color: #4e9a06; } /* VerbatimString */
 code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
 </style>
+
 
 <link rel="stylesheet" href="assets/qcbs-style.css" type="text/css" />
 </head>
@@ -308,16 +311,16 @@ entre le nombre de <em>Faramea occidentalis</em> et l’élévation.</p>
 <pre><code>## [1] 0.4738409</code></pre>
 <div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="glm-avec-une-distribution-binomiale-négative.html#cb92-1"></a><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">2</span>]</span></code></pre></div>
 <pre><code>## [1] 0.002496143</code></pre>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="glm-avec-une-distribution-binomiale-négative.html#cb94-1"></a>pp &lt;-<span class="st"> </span><span class="kw">predict</span>(glm.negbin, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">Elevation =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">800</span>), </span>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="glm-avec-une-distribution-binomiale-négative.html#cb94-1"></a>pp &lt;-<span class="st"> </span><span class="kw">predict</span>(glm.negbin, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">Elevation =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">800</span>),</span>
 <span id="cb94-2"><a href="glm-avec-une-distribution-binomiale-négative.html#cb94-2"></a>    <span class="dt">se.fit =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb94-3"><a href="glm-avec-une-distribution-binomiale-négative.html#cb94-3"></a>linkinv &lt;-<span class="st"> </span><span class="kw">family</span>(glm.negbin)<span class="op">$</span>linkinv  <span class="co">## inverse-link function</span></span>
 <span id="cb94-4"><a href="glm-avec-une-distribution-binomiale-négative.html#cb94-4"></a>pframe &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(pp<span class="op">$</span>fit)</span>
 <span id="cb94-5"><a href="glm-avec-une-distribution-binomiale-négative.html#cb94-5"></a><span class="kw">names</span>(pframe) &lt;-<span class="st"> &quot;pred0&quot;</span></span>
 <span id="cb94-6"><a href="glm-avec-une-distribution-binomiale-négative.html#cb94-6"></a>pframe<span class="op">$</span>pred &lt;-<span class="st"> </span><span class="kw">linkinv</span>(pp<span class="op">$</span>fit)</span>
 <span id="cb94-7"><a href="glm-avec-une-distribution-binomiale-négative.html#cb94-7"></a>sc &lt;-<span class="st"> </span><span class="kw">abs</span>(<span class="kw">qnorm</span>((<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.95</span>)<span class="op">/</span><span class="dv">2</span>))  <span class="co">## Normal approx. to likelihood</span></span>
-<span id="cb94-8"><a href="glm-avec-une-distribution-binomiale-négative.html#cb94-8"></a>pframe &lt;-<span class="st"> </span><span class="kw">transform</span>(pframe, <span class="dt">lwr =</span> <span class="kw">linkinv</span>(pred0 <span class="op">-</span><span class="st"> </span>sc <span class="op">*</span><span class="st"> </span>pp<span class="op">$</span>se.fit), </span>
+<span id="cb94-8"><a href="glm-avec-une-distribution-binomiale-négative.html#cb94-8"></a>pframe &lt;-<span class="st"> </span><span class="kw">transform</span>(pframe, <span class="dt">lwr =</span> <span class="kw">linkinv</span>(pred0 <span class="op">-</span><span class="st"> </span>sc <span class="op">*</span><span class="st"> </span>pp<span class="op">$</span>se.fit),</span>
 <span id="cb94-9"><a href="glm-avec-une-distribution-binomiale-négative.html#cb94-9"></a>    <span class="dt">upr =</span> <span class="kw">linkinv</span>(pred0 <span class="op">+</span><span class="st"> </span>sc <span class="op">*</span><span class="st"> </span>pp<span class="op">$</span>se.fit))</span>
-<span id="cb94-10"><a href="glm-avec-une-distribution-binomiale-négative.html#cb94-10"></a><span class="kw">plot</span>(faramea<span class="op">$</span>Elevation, faramea<span class="op">$</span>Faramea.occidentalis, <span class="dt">ylab =</span> <span class="st">&quot;Nombre de F. occidentalis&quot;</span>, </span>
+<span id="cb94-10"><a href="glm-avec-une-distribution-binomiale-négative.html#cb94-10"></a><span class="kw">plot</span>(faramea<span class="op">$</span>Elevation, faramea<span class="op">$</span>Faramea.occidentalis, <span class="dt">ylab =</span> <span class="st">&quot;Nombre de F. occidentalis&quot;</span>,</span>
 <span id="cb94-11"><a href="glm-avec-une-distribution-binomiale-négative.html#cb94-11"></a>    <span class="dt">xlab =</span> <span class="st">&quot;Élévation(m)&quot;</span>)</span>
 <span id="cb94-12"><a href="glm-avec-une-distribution-binomiale-négative.html#cb94-12"></a><span class="kw">lines</span>(pframe<span class="op">$</span>pred, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
 <span id="cb94-13"><a href="glm-avec-une-distribution-binomiale-négative.html#cb94-13"></a><span class="kw">lines</span>(pframe<span class="op">$</span>upr, <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">3</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
@@ -411,6 +414,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": false
 },
 "fontsettings": {

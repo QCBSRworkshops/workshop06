@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapitre 5 GLM avec une distribution binomiale (Bernouilli) | Atelier 6: Modèles linéaires généralisés en R</title>
   <meta name="description" content="Modèles linéaires généralisés en R" />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapitre 5 GLM avec une distribution binomiale (Bernouilli) | Atelier 6: Modèles linéaires généralisés en R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
-  <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
+  <meta property="og:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
   <meta property="og:description" content="Modèles linéaires généralisés en R" />
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
@@ -19,7 +19,7 @@
   <meta name="twitter:title" content="Chapitre 5 GLM avec une distribution binomiale (Bernouilli) | Atelier 6: Modèles linéaires généralisés en R" />
   
   <meta name="twitter:description" content="Modèles linéaires généralisés en R" />
-  <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
+  <meta name="twitter:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
 
 <meta name="author" content="Développé et entretenu par les contributeurs et les contributrices de la Série d’ateliers R du CSBQ." />
 
@@ -50,6 +50,8 @@
 
 
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -115,6 +117,7 @@ code span.va { color: #000000; } /* Variable */
 code span.vs { color: #4e9a06; } /* VerbatimString */
 code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
 </style>
+
 
 <link rel="stylesheet" href="assets/qcbs-style.css" type="text/css" />
 </head>
@@ -284,8 +287,8 @@ prédicteur linéaire (voir sous-section suivante).</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb33-1"></a><span class="co"># La fonction «fitted()» extrait les valeurs prédites de la</span></span>
 <span id="cb33-2"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb33-2"></a><span class="co"># variable réponse du modèle linéaire.  Certaines valeurs</span></span>
 <span id="cb33-3"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb33-3"></a><span class="co"># sont en-dessous de 0, ce qui ne fait pas de sens pour une</span></span>
-<span id="cb33-4"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb33-4"></a><span class="co"># régression logistique.  Essayons le même modèle, mais avec</span></span>
-<span id="cb33-5"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb33-5"></a><span class="co"># une distribution binomiale cette fois-ci.  Remarquez</span></span>
+<span id="cb33-4"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb33-4"></a><span class="co"># régression logistique.  Essayons le même modèle, mais</span></span>
+<span id="cb33-5"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb33-5"></a><span class="co"># avec une distribution binomiale cette fois-ci.  Remarquez</span></span>
 <span id="cb33-6"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb33-6"></a><span class="co"># l&#39;argument «family» pour spécifier la distribution.</span></span>
 <span id="cb33-7"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb33-7"></a>model.glm &lt;-<span class="st"> </span><span class="kw">glm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Topo, <span class="dt">data =</span> mites, <span class="dt">family =</span> binomial)</span>
 <span id="cb33-8"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb33-8"></a><span class="kw">fitted</span>(model.glm)</span></code></pre></div>
@@ -352,14 +355,14 @@ Regardons cela de plus près dans R :</p>
 <span id="cb38-6"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb38-6"></a>X &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(model.CO2)</span>
 <span id="cb38-7"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb38-7"></a><span class="co"># Les paramètres estimés sont extraits ainsi :</span></span>
 <span id="cb38-8"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb38-8"></a>B &lt;-<span class="st"> </span>model.CO2<span class="op">$</span>coefficients</span>
-<span id="cb38-9"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb38-9"></a><span class="co"># On multiple X et B pour obtenir le prédicteur linéaire.  Le</span></span>
-<span id="cb38-10"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb38-10"></a><span class="co"># symbole «%*%» indique qu&#39;on veut effectuer le produit</span></span>
+<span id="cb38-9"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb38-9"></a><span class="co"># On multiple X et B pour obtenir le prédicteur linéaire.</span></span>
+<span id="cb38-10"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb38-10"></a><span class="co"># Le symbole «%*%» indique qu&#39;on veut effectuer le produit</span></span>
 <span id="cb38-11"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb38-11"></a><span class="co"># matriciel.</span></span>
 <span id="cb38-12"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb38-12"></a>XB &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>B</span>
 <span id="cb38-13"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb38-13"></a><span class="co"># On compare les valeurs de XB aux valeurs obtenues avec la</span></span>
-<span id="cb38-14"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb38-14"></a><span class="co"># fonction fitted().  Toutes les déclarations devraient être</span></span>
-<span id="cb38-15"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb38-15"></a><span class="co"># vraies (i.e. TRUE).  On utilise la fonction round() pour</span></span>
-<span id="cb38-16"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb38-16"></a><span class="co"># que tous les éléments aient cinq décimales.</span></span>
+<span id="cb38-14"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb38-14"></a><span class="co"># fonction fitted().  Toutes les déclarations devraient</span></span>
+<span id="cb38-15"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb38-15"></a><span class="co"># être vraies (i.e. TRUE).  On utilise la fonction round()</span></span>
+<span id="cb38-16"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb38-16"></a><span class="co"># pour que tous les éléments aient cinq décimales.</span></span>
 <span id="cb38-17"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb38-17"></a><span class="kw">round</span>(<span class="kw">fitted</span>(model.CO2), <span class="dt">digits =</span> <span class="dv">5</span>) <span class="op">==</span><span class="st"> </span><span class="kw">round</span>(XB, <span class="dt">digits =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>##    [,1]
 ## 1  TRUE
@@ -401,16 +404,18 @@ valeurs prédites peuvent ainsi être reliées à un prédicteur linéaire.
 C’est pour cette raison qu’on appelle ce modèle un modèle <strong>linéaire</strong>
 généralisé même si la relation entre la variable réponse et la variable
 explicative ne ressemble pas nécessairement à une «ligne droite» !</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb40-1"></a><span class="co"># On construit un modèle de régression de la présence/absence</span></span>
-<span id="cb40-2"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb40-2"></a><span class="co"># d&#39;une espèce de mite (Galumna sp.)  en fonction du contenu</span></span>
-<span id="cb40-3"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb40-3"></a><span class="co"># en eau du sol et de la topographie.  On utilise la fonction</span></span>
-<span id="cb40-4"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb40-4"></a><span class="co"># glm() et on spécifie l&#39;argument «family».</span></span>
-<span id="cb40-5"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb40-5"></a>logit.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Topo, <span class="dt">data =</span> mites, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
-<span id="cb40-6"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb40-6"></a><span class="co"># La fonction de lien «logit» est la fonction par défaut pour</span></span>
-<span id="cb40-7"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb40-7"></a><span class="co"># une régression logistique, ce qui signifie qu&#39;il n&#39;est pas</span></span>
-<span id="cb40-8"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb40-8"></a><span class="co"># nécessaire de l&#39;indiquer avec l&#39;argument «family»:</span></span>
-<span id="cb40-9"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb40-9"></a>logit.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Topo, <span class="dt">data =</span> mites, <span class="dt">family =</span> binomial)</span>
-<span id="cb40-10"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb40-10"></a><span class="kw">summary</span>(logit.reg)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb40-1"></a><span class="co"># On construit un modèle de régression de la</span></span>
+<span id="cb40-2"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb40-2"></a><span class="co"># présence/absence d&#39;une espèce de mite (Galumna sp.)  en</span></span>
+<span id="cb40-3"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb40-3"></a><span class="co"># fonction du contenu en eau du sol et de la topographie.</span></span>
+<span id="cb40-4"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb40-4"></a><span class="co"># On utilise la fonction glm() et on spécifie l&#39;argument</span></span>
+<span id="cb40-5"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb40-5"></a><span class="co"># «family».</span></span>
+<span id="cb40-6"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb40-6"></a>logit.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Topo, <span class="dt">data =</span> mites, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
+<span id="cb40-7"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb40-7"></a><span class="co"># La fonction de lien «logit» est la fonction par défaut</span></span>
+<span id="cb40-8"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb40-8"></a><span class="co"># pour une régression logistique, ce qui signifie qu&#39;il</span></span>
+<span id="cb40-9"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb40-9"></a><span class="co"># n&#39;est pas nécessaire de l&#39;indiquer avec l&#39;argument</span></span>
+<span id="cb40-10"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb40-10"></a><span class="co"># «family»:</span></span>
+<span id="cb40-11"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb40-11"></a>logit.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Topo, <span class="dt">data =</span> mites, <span class="dt">family =</span> binomial)</span>
+<span id="cb40-12"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb40-12"></a><span class="kw">summary</span>(logit.reg)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = pa ~ WatrCont + Topo, family = binomial, data = mites)
@@ -450,9 +455,9 @@ réduisez-le jusqu’à obtenir le modèle le plus parcimonieux possible.</p>
 ##  $ ID  : Factor w/ 50 levels &quot;X01&quot;,&quot;X02&quot;,&quot;X03&quot;,..: 1 1 1 1 2 2 2 2 3 3 ...
 ##  $ trt : Factor w/ 3 levels &quot;placebo&quot;,&quot;drug&quot;,..: 1 1 1 1 3 3 3 3 2 2 ...</code></pre>
 <p><strong>Solution</strong></p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb44-1"></a>model.bact1 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>trt <span class="op">*</span><span class="st"> </span>week, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="st">&quot;logit&quot;</span>), </span>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb44-1"></a>model.bact1 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>trt <span class="op">*</span><span class="st"> </span>week, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="st">&quot;logit&quot;</span>),</span>
 <span id="cb44-2"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb44-2"></a>    <span class="dt">data =</span> bacteria)</span>
-<span id="cb44-3"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb44-3"></a>model.bact2 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>trt <span class="op">+</span><span class="st"> </span>week, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="st">&quot;logit&quot;</span>), </span>
+<span id="cb44-3"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb44-3"></a>model.bact2 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>trt <span class="op">+</span><span class="st"> </span>week, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="st">&quot;logit&quot;</span>),</span>
 <span id="cb44-4"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb44-4"></a>    <span class="dt">data =</span> bacteria)</span>
 <span id="cb44-5"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb44-5"></a>model.bact3 &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>week, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="st">&quot;logit&quot;</span>), <span class="dt">data =</span> bacteria)</span>
 <span id="cb44-6"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb44-6"></a><span class="kw">anova</span>(model.bact1, model.bact2, model.bact3, <span class="dt">test =</span> <span class="st">&quot;LRT&quot;</span>)</span></code></pre></div>
@@ -640,8 +645,8 @@ fois les valeurs observées et prédites de la variable réponse en
 fonction d’une variable explicative sur un même graphique. Voici un
 exemple avec le paquet <code>ggplot2</code>. Revoir <a href="r_workshop3">l’atelier 3</a>
 pour plus d’informations sur ce paquet.</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb61-1"></a><span class="kw">ggplot</span>(mites, <span class="kw">aes</span>(<span class="dt">x =</span> WatrCont, <span class="dt">y =</span> pa)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">stat_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>, </span>
-<span id="cb61-2"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb61-2"></a>    <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Water content&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb61-1"></a><span class="kw">ggplot</span>(mites, <span class="kw">aes</span>(<span class="dt">x =</span> WatrCont, <span class="dt">y =</span> pa)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">stat_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>,</span>
+<span id="cb61-2"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb61-2"></a>    <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Water content&quot;</span>) <span class="op">+</span></span>
 <span id="cb61-3"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#cb61-3"></a><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Probabilité de présence&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Probabilité de présence de Galumna sp. en fonction du contenu en eau&quot;</span>)</span></code></pre></div>
 <p><img src="book-fr_files/figure-html/unnamed-chunk-37-1.png" width="672" style="display: block; margin: auto;" /></p>
 
@@ -685,6 +690,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": false
 },
 "fontsettings": {
