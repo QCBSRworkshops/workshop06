@@ -35,7 +35,7 @@ mypar = list(mar = c(3, 3, 1, 0.5),
 options(repos=structure(c(CRAN = "http://cran.r-project.org")))
 
 # Install xaringanExtra
-
+install.packages("remotes", quiet = TRUE)
 if(nzchar(system.file(package = "xaringanExtra")) == FALSE) {remotes::install_github("gadenbuie/xaringanExtra", upgrade = "always")}
 
 # Include copy-to-clipboard icons
