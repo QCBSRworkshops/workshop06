@@ -1778,27 +1778,29 @@ class: inverse, center, middle
 First, import the `faramea.csv` into `R`.
 
 
-
 ```r
-faramea &lt;- read.csv('faramea.csv', header = TRUE)
+faramea &lt;- read.csv('data/faramea.csv', 
+                    header = TRUE, 
+                    stringsAsFactors = TRUE)
 ```
 
-The number of trees of the species *Faramea occidentalis* was assessed in 43 quadrats in Barro Colorado Island (Panama). For each quadrat, environmental characteristics (such as elevation and precipitation) were also recorded.
+The number of trees of the species *Faramea occidentalis* was assessed in `\(43\)` quadrats in Barro Colorado Island (Panama). For each quadrat, environmental characteristics (such as, elevation and precipitation) were also recorded.
 
-Let's investigate the histogram of the number of *Faramea occidentalis*.
+Let us investigate the histogram of the frequency of *Faramea occidentalis*.
 
 ---
 # Modeling count data
 
 .large[What is count data?]
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-64-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-62-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
-Count data are characterized by:
+Count data are often characterized by:
 
-- Positive values: you do not count -7 individuals
-- Integer values: you do not count 7.56 individuals
-- Exhibits larger variance for large values
+- Positive values: you do not count `\(-7\)` individuals;
+- Integer values: you do not count `\(7.56\)` individuals;
+  - You can say that *in average*, you expect `\(7.46\)` individuals in a given situation. But you measure something *discrete*.
+- Exhibits larger variance for larger values.
 
 ---
 # Modeling count data
@@ -1807,7 +1809,7 @@ Count data are characterized by:
 
 Does elevation influence the abundance of *F. occidentalis*?
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-65-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-63-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 .small[What type of distribution best fits this data?
 1. Bernoulli   
@@ -1827,7 +1829,7 @@ This is a singe choice poll question. The correct answer is 3. Poisson
 
 Does elevation influence the abundance of *F. occidentalis*?
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-66-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-64-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 .small[What type of distribution best fits this data?
 1. Bernoulli   
@@ -2292,7 +2294,7 @@ lines(pframe$lwr, col = 2, lty = 3, lwd = 2)
 ```
 ]
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-76-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-74-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ---
 # Challenge 3 ![:cube]()
@@ -2366,7 +2368,7 @@ anova(glm.qp2, glm.qp, test="Chisq")
 &lt;br&gt;
 
 .center[
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-80-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-78-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 
