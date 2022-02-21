@@ -38,7 +38,7 @@ options(repos=structure(c(CRAN="http://cran.r-project.org")))
 ```{r install_pkgs, message=FALSE, warning=FALSE, include=FALSE, results=0}
 # Standard procedure to check and install packages and their dependencies, if needed.
 
-list.of.packages <- c('ggplot2', 'MASS', 'vcdExtra', 'bbmle', 'DescTools')
+list.of.packages <- c('ggplot2', 'MASS', 'vcdExtra', 'bbmle', 'DescTools','xaringan')
 
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 
@@ -59,6 +59,90 @@ lapply(list.of.packages, require, character.only = TRUE, quietly = TRUE)
 [![badge](https://img.shields.io/static/v1?style=flat-square&label=wiki&message=06&logo=wikipedia)](https://wiki.qcbs.ca/r_atelier6)
 ![badge](https://img.shields.io/static/v1?style=flat-square&label=script&message=06&color=2a50b8&logo=r)
 [![badge](https://img.shields.io/static/v1?style=flat-square&label=repo&message=dev&color=6f42c1&logo=github)](https://github.com/QCBSRworkshops/workshop06) 
+
+---
+
+<p style="font-size:75%">
+
+.center[
+**Contributeurs et contributrices au développement de cet atelier**
+
+en modifiant et améliorant son contenu dans le cadre du <br> prix d’apprentissage et de développement
+]
+
+
+.pull-left[
+.right[
+
+ **2022** - **2021** - **2020**
+ <br>
+  <br>
+[Laurie Maynard](https://github.com/LaurieMaynard)
+<br>
+[Pedro Henrique P. Braga](https://github.com/pedrohbraga)
+<br>
+[Katherine Hébert]()
+<br>
+[Alex Arkilanian]()
+<br>
+[Mathieu Vaillancourt](mathieu.vaillancourt.2@ulaval.ca)
+<br>
+[Esteban G. Bernoske]()
+
+]
+]
+
+.pull-right[
+.left[
+**2019** - **2018** - **2017**
+
+[Azenor Bideault]()
+<br>
+[Willian Vieira]()
+<br>
+[Pedro Henrique P. Braga]()
+<br>
+[Marie Hélène Brice]()
+<br>
+[Kevin Cazelles]()
+
+**2016** - **2015** - **2014**
+
+[Cédric Frenette Dussault]()
+<br>
+[Thomas Lamy]()
+<br>
+[Zofia Taranu]()
+<br>
+[Vincent Fugère]()
+
+]
+
+]
+</p>
+---
+
+# Objectifs d'apprentissage
+
+1. Faire la distinction entre les modèles linéaires généralisés et les modèles généraux linéaires (incluant plusieurs de leurs équations!)
+
+2. Identifier les situations où il est approprié d'utiliser des modèles linéaires généralisés.
+
+3. Tester les hypothèses des modèles linéaires généralisés.
+
+4. Implémenter et executer des modèles linéaires généralisés avec des données binaires, de proportion, et d'abondance. 
+
+5. Valider, interpreter and visualiser les résultats de modèles linéaires généralisés.
+
+<br>
+
+.small[
+.center[
+.alert[Important]
+<br>
+Cet atelier développera vos connaissances de modèles, y compris certaines équations importantes. *Ne vous sauvez pas!* Nous aborderons tout ceci progressivement, et vous sortirez de l'atelier avec plus de confiance!
+]
+]
 
 ---
 
@@ -86,30 +170,6 @@ install.packages(c("ggplot2",
 ```
 
 ---
-
-# Objectifs d'apprentissage
-
-1. Faire la distinction entre les modèles linéaires généralisés et les modèles généraux linéaires (incluant plusieurs de leurs équations!)
-
-2. Identifier les situations où il est approprié d'utiliser des modèles linéaires généralisés.
-
-3. Tester les hypothèses des modèles linéaires généralisés.
-
-4. Implémenter et executer des modèles linéaires généralisés avec des données binaires, de proportion, et d'abondance. 
-
-5. Valider, interpreter and visualiser les résultats de modèles linéaires généralisés.
-
-<br>
-
-.small[
-.center[
-.alert[Important]
-<br>
-Cet atelier développera vos connaissances de modèles, y compris certaines équations importantes. *Ne vous sauvez pas!* Nous aborderons tout ceci progressivement, et vous sortirez de l'atelier avec plus de confiance!
-]
-]
-
----
 class: inverse, center, middle
 
 # Préface
@@ -128,6 +188,7 @@ L'ensemble de variables prédictives que nous avons mesuré ne pourra jamais com
 
 $$Y = f(X_1, \epsilon)$$
 --
+exclude:true
 .small[
 Dans l'[atelier 4](https://qcbsrworkshops.github.io/workshop04/pres-fr/workshop04-pres-fr.html#1), nous avons appris comment utiliser ces modèles linéaires généraux pour décrire la relation entre variables:
 
@@ -153,7 +214,11 @@ ANCOVA
 ---
 # Révision des modèles linéaires
 
+Dans l'[atelier 4](https://qcbsrworkshops.github.io/workshop04/pres-fr/workshop04-pres-fr.html#1), nous avons appris comment utiliser les modèles linéaires généraux pour décrire la relation entre variables.
+
 La formule générale de notre fonction linéaire $Y = f(X_1)$ serait représentée comme:
+
+--
 
 $$Y = \beta_0 + \beta_1X_i + \varepsilon$$
 où
@@ -248,6 +313,65 @@ legend(x = 0, y = 25,
 Note: Des versions plus développées de cet atelier devraient inclure les lignes décrivant les estimations d'erreur, et montrant leur distribution. Pour l'instant, le présentateur peut aider les participants avec cet abstraction.
 
 ---
+## Representer les conditions d'application
+
+Simulons 250 unités d'observation qui satisfaient nos conditions d'application:  $\epsilon_i \sim \mathcal{N}(0, 2^2), i = 1,...,250$.
+
+.pull-left[
+
+```{r}
+nSamples <- 250
+ID <- factor(c(seq(1:nSamples)))
+
+PredVar <- runif(nSamples, 
+                  min = 0, 
+                  max = 50)
+
+simNormData <- data.frame(
+  ID = ID,
+  PredVar = PredVar,
+  RespVar = (2*PredVar + 
+               rnorm(nSamples,
+                     mean = 0,
+                     sd = 2)
+             )
+  )
+
+# We have learned how to use lm() 
+
+lm.simNormData <- lm(RespVar ~ PredVar, 
+                     data = simNormData)
+```
+
+]
+
+.pull-right[
+```{r}
+layout(matrix(c(1,2,3,4),2,2)) 
+plot(lm.simNormData)
+```
+
+]
+
+???
+
+Résidus: résidu =  y observé   –   y prédit par la modèle
+
+Données aberrantes: observations avec des résidus larges, i.e. la valeur observée pour un point est très différente de la valeur prédite par le modèle linéaire.
+
+Point de levier: un point de levier est défini comme une observation qui a une valeur de X qui est très éloignée de la moyenne de X. 
+
+Observations influentes: Une observation influente est défini par une observation qui change la pente de la relation. Donc, un point influent va avoir une influence élevée sur la prédiction du modèle. Une méthode pour trouver des observations influentes est de comparer un modèle avec et sans la dite observation. 
+
+1. Ces graphiques permettes de vérifier les conditions d'application de la linéarité et l'homoscédasticité.
+
+2. Le graphique QQ permet la comparaison des résidus avec une distribution normal. 
+
+3. Scale-location plot (square rooted standardized residual vs. predicted value) est utile pour vérifier l'homoscédasticité;
+
+4. La distance de Cook est une mesure d'influence des observations sur le coefficient de la régression linéaire.
+
+---
 # Un exemple de modèle linéaire général
 
 Utilisons nos connaissances des modèles linéaires généraux pour explorer la relation entre les variables dans le *jeu de données de mites Orbatid*.
@@ -283,6 +407,7 @@ str(mites)
 <br> 
 
 <br>
+--
 
 .small[
 
@@ -399,6 +524,34 @@ boxplot(WatrCont ~ pa,
 plot(prop ~ WatrCont, 
      data = mites, xlab = 'Contenu en eau', ylab='Proportion')
 ```
+
+---
+# Explorer les relations
+
+Est-ce que la communauté de Galumna (abondance, occurence, et fréquence relative) varie en fonction du contenu en eau du sol?
+```{r,fig.width=12,fig.height=4,echo=-1,eval=FALSE}
+par(mypar)
+par(mfrow = c(1, 3), cex = 1.4)
+plot(Galumna ~ WatrCont, 
+     data = mites, xlab = 'Contenu en eau', ylab='Abondance')
+boxplot(WatrCont ~ pa, 
+        data = mites, xlab='Présence/Absence', ylab = 'Contenu en eau')
+plot(prop ~ WatrCont, 
+     data = mites, xlab = 'Contenu en eau', ylab='Proportion')
+```
+
+```{r,fig.width=12,fig.height=4,echo=FALSE}
+par(mypar)
+par(mfrow = c(1, 3), cex = 1.4)
+plot(Galumna ~ WatrCont, 
+     data = mites, xlab = 'Contenu en eau', ylab='Abondance')
+boxplot(WatrCont ~ pa, col='red',
+        data = mites, xlab='Présence/Absence', ylab = 'Contenu en eau')
+plot(prop ~ WatrCont, 
+     data = mites, xlab = 'Contenu en eau', ylab='Proportion')
+```
+???
+Ces relations sont tous des relations linéaires potentielles, mais le contenu en eau a le plus de potentiel d'être significatif (les boîtes ne se touchent pas)
 
 ---
 # Utiliser des modèles linéaires
@@ -561,7 +714,8 @@ points(x, dnorm(x, mean = 25, sd = 10), type = 'l', lwd = 3, col = 4)
 ```
 ]
 ]
-
+???
+Sur la droite, nous montrons des figures où mu varie ou oméga varie. La figure du haut marcherait avec un modèle linéaire puisque mu varie, mais pas oméga. La figure du bas montre qu'on ne peut utiliser un modèle linéaire puisque oméga varie. Il faudrait donc explorer dse distribtuions différentes. 
 ---
 # Prédiction du modèle
 
@@ -639,7 +793,12 @@ Lorsque $x_i = 400$, $Y_i$ suit une distribution normale avec $\mu = 1.02$ et $\
 Faites un sondage à choix multiples avec les participants.
 Les réponses sont 3 et 4.
 
+Les valeurs sont en moyenne, plus éloignée de la pente à une valeur de X basse qu'à une valeur de X élevée, ce qui indique que la variance (σ2) n'est pas homogène.
+
+Les observations sont aussi discrètes (valeurs rondes plutôt que décimal) ce qui pose problème avec une distribution normale.
+
 ---
+exclude:true
 # Prédiction du modèle
 
 .pull-left[
@@ -654,7 +813,7 @@ Lorsque $x_i = 400$, $Y_i$ suit une distribution normale avec $\mu = 1.02$ et $\
 ]
 
 --
-
+exclude:true
 .pull-left[
 
 .small[Graphiquement, notre modèle ressemble à:]
@@ -665,6 +824,7 @@ Lorsque $x_i = 400$, $Y_i$ suit une distribution normale avec $\mu = 1.02$ et $\
 ]
 
 --
+exclude:true
 .pull-right[
 
 **Les problèmes avec ce modèle:**
@@ -752,8 +912,33 @@ plot(x, dpois(x, lambda = 30), type = 'h', lwd = 3,
 ```
 ]
 .pull-right[
-```{r}
-  mean(mites$Galumna)
+Est-ce qu'on modèle avec une distribution de Poisson fonctionnerait mieux pour le modèle $\text{Galumna} = f(\text{Water content})$ ?
+```{r echo=FALSE}
+#Code to generate figure that illustrates a poisson glm
+glm.pois <- glm(Galumna ~ WatrCont, data = mites, family='poisson')
+plot.poiss<-function(x,mymodel,mult=1,mycol='LightSalmon') {
+  yvar<-mymodel$model[,1]
+  xvar<-mymodel$model[,2]
+  lambd<-mymodel$fitted[x]
+  stick.val<-rep(xvar[x],9)+mult*dpois(0:8,lambd=lambd)
+  segments(rep(xvar[x],9),0:8,stick.val,0:8,col=mycol,lwd=3)
+}
+plot(Galumna ~ WatrCont, data = mites,cex.axis=0.7,cex.lab=0.7)
+points(Galumna ~ WatrCont, data = mites,pch=21)
+lines(x=seq(min(mites$WatrCont),max(mites$WatrCont),by=1),y=predict(glm.pois,newdata=data.frame('WatrCont' = seq(min(mites$WatrCont),max(mites$WatrCont),by=1)),type='response'))
+par(lend=3)
+plot.poiss(8,glm.pois,200)
+abline(v=mites$WatrCont[8],col='red',lty=2)
+plot.poiss(11,glm.pois,200)
+abline(v=mites$WatrCont[11],col='red',lty=2)
+plot.poiss(36,glm.pois,200)
+abline(v=mites$WatrCont[36],col='red',lty=2)
+plot.poiss(52,glm.pois,200)
+abline(v=mites$WatrCont[52],col='red',lty=2)
+text(x = mites$WatrCont[8]+50,y=7.5,expression(lambda == 1.7), cex=0.7, col = 'red')
+text(x = mites$WatrCont[11]+50,y=7.5,expression(lambda == 4.7), cex=0.7, col = 'red')
+text(x = mites$WatrCont[36]+50,y=7.5,expression(lambda == 0.5), cex=0.7, col = 'red')
+text(x = mites$WatrCont[52]+50,y=7.5,expression(lambda == 0.1), cex=0.7, col = 'red')
 ```
 ]
 
@@ -782,8 +967,11 @@ Les données de présence-absence prennent une autre forme :
 ```{r,echo=-F,fig.width=12,fig.height=4}
   par(mypar);par(mfrow = c(1, 3), cex=1.4)
   barplot(setNames(c(.9, .1), c('absent (0)', 'present (1)')), ylim = c(0, 1), xlab = 'pa', ylab = 'probability', main = 'p = 0.1')
+  abline(h=0)
   barplot(setNames(c(.5, .5), c('absent (0)', 'present (1)')), ylim = c(0, 1), xlab = 'pa', ylab = 'probability', main = 'p = 0.5')
+  abline(h=0)
   barplot(setNames(c(.1, .9), c('absent (0)', 'present (1)')), ylim = c(0, 1), xlab = 'pa', ylab = 'probability', main = 'p = 0.9')
+  abline(h=0)
 ```
 
 Nous pouvons utiliser la loi de Bernoulli pour calculer la probabilité d'obtenir l'issue Galumna "present" (`1`) vs. "absent" (`0`).
@@ -819,7 +1007,7 @@ plot(x, dpois(x, lambda = 30), type = 'h', lwd = 3, xlab = '# galumna', ylab = '
 ```
 
 ---
-# Modéliser avec d'autres distributions
+class: middle, center
 
 *Retournons à notre problème... que faire si nous avons d'autres distributions?* 
 
@@ -848,6 +1036,19 @@ $$g(\mu_i) = ηi$$
 $$\text{var}(Y_i) = \phi V(\mu)$$
 où le **paramètre de dispersion** $phi$ est une constante.
 
+???
+La fonction de lien met en relation la valeur attendue de la variable réponse au prédicteur linéaire du modèle, pour que la relation entre le prédicteur et la réponse soit modélisée avec une régression linéaire.
+
+Comment cela se différencie de transformer une variable?
+
+La transformation la plus commune est une transformation en log puisque la valeur de y n'a pas l'Apparence de suivre une distribution normale. 
+
+Lorsque nous transformons les données d'un modèle linéaire général, nous n'affirmons plus que y est distribuer normalement autour de la moyenne pour une valeur de x donnée. Nous affirmons en fait que la nouvelle variable (log(y) ou ln(y)) est ditribuée normalement.
+
+Dans le cas d'un modèle linéaire généralisé de Poisson, cependant, la fonction de lien ne change pas la distribution des observations actuelles pour tenter de les rendre normale. Plutôt, la fonction lien redéfinie la relation de la variable X directement avec la moyenne de y sous une distribution de Poisson. Les observations individuelles vont donc varier autour de la valeur attendue.
+
+La moyenne du log n'est pas la le log de la moyenne! Vous ne pouvez prendre l'exposant de la moyenne de log(y) ou ln(y) et avoir la moyenne de y. D'un autre côté, la fonction lien vous permet de le faire!
+
 ---
 # Le modèle linéaire général en GLM
 
@@ -855,10 +1056,10 @@ Alors, pour notre **modèle linéaire général** avec $\epsilon ∼ N(0, σ^2)$
 
 
 $$\underbrace{g(\mu_i)}_{Fonction~~lien}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Composante~linéaire}~+~\underbrace{\epsilon}_{Error}$$
-la fonction lien d'**identité** 
+la fonction lien: 
 $$g(\mu_i) = \mu_i$$
 
-et, la fonction de variance
+et, la fonction de variance:
 
 $$V(\mu_i) = 1$$
 
@@ -895,6 +1096,9 @@ avec l'argument `family` (voir `?family`) qui prend le nom de la **fonction lien
 
 Cette approche s'applique à d'autres distributions!
 
+???
+La fonction d'identité pour une modèle linéaire général est 'identité'(voir la diapo suivante)
+
 --
 
 | Distribution de $Y$ | Nom du fonction lien | Fonction lien | Modèle      | `R` |
@@ -904,6 +1108,17 @@ Cette approche s'applique à d'autres distributions!
 | Poisson              | Log           | $g(\mu) = \log(\mu)$ | $-\mu^{-1} = \mathbf{X} \boldsymbol{\beta}$ | `poisson(link="log")`|
 | Exponentielle              | Inverse négative          | $g(\mu) = -\mu^{-1}$  | $\log(\mu) = \mathbf{X} \boldsymbol{\beta}$ | `Gamma(link="inverse")` |
 
+???
+
+Comment cela se différencie de transformer une variable?
+
+La transformation la plus commune est une transformation en log puisque la valeur de y n'a pas l'Apparence de suivre une distribution normale. 
+
+Lorsque nous transformons les données d'un modèle linéaire général, nous n'affirmons plus que y est distribuer normalement autour de la moyenne pour une valeur de x donnée. Nous affirmons en fait que la nouvelle variable (log(y) ou ln(y)) est ditribuée normalement.
+
+Dans le cas d'un modèle linéaire généralisé de Poisson, cependant, la fonction de lien ne change pas la distribution des observations actuelles pour tenter de les rendre normale. Plutôt, la fonction lien redéfinie la relation de la variable X directement avec la moyenne de y sous une distribution de Poisson. Les observations individuelles vont donc varier autour de la valeur attendue.
+
+La moeynne du log n'est pas la le log de la moyenne! Vous ne pouvez prendre l'exposant de la moyenne de log(y) ou ln(y) et avoir la moyenne de y. D'un autre côté, la fonction lien vous permet de le faire!
 ---
 class: inverse, center, middle
 
@@ -1229,7 +1444,9 @@ exp(logit.reg$coefficient[2])
 Rappelez-vous que la valeur $R^2$ est une mesure du pouvoir explicatif du modèle.
 
 Dans les modèles linéaires simples, $R^2$ peut être obtenu comme le carré du coefficient de l'équation de corrélation de l'échantillon ($r$) entre les résultats observés et les valeurs prédictives.
-
+--
+<br>
+<br>
 Dans certains des modèles linéaires généralisés, nous adoptons d'autres approches.
 
 Nous pouvons obtenir un [ $\text{pseudo-R}^2$ ](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-what-are-pseudo-r-squareds/), un concept analogue au $R^2$ pour les modèles estimés par maximisation de la vraisemblance.
@@ -1239,8 +1456,8 @@ Nous pouvons calculer le $\text{pseudo-R}^2$ de McFadden (1973) :
 $$\text{pseudo-R}^2 = \frac{\text{déviance nulle - déviance résiduelle}}{\text{déviance nulle}}$$
 
 <br>
-
-$\text{pseudo-R}^2 \text{est la variance expliquée par le modèle}$
+???
+$\text{pseudo-R}^2$ est la variance expliquée par le modèle
 
 ---
 # Déviance unitaire, totale et nulle
@@ -1249,7 +1466,8 @@ La déviance unitaire est une mesure de la distance entre $y$ et $μ$.
 
 $${\displaystyle d(y,y)=0}$$
 $${\displaystyle d(y,\mu )>0\quad \forall y\neq \mu }$$
-
+???
+Nous allons utiliser les déviances pour calculer pseudo R2.
 --
 
 La déviance totale ${\displaystyle D(\mathbf {y} ,{\hat {\boldsymbol {\mu }}})}$ d'un modèle avec prédictions ${\hat {\boldsymbol {\mu }}}$ de l'observation $\mathbf {y}$ est la somme de ses déviances unitaires: 
@@ -1366,11 +1584,16 @@ logit.reg <- glm(pa ~ WatrCont + Topo,
 DescTools::PseudoR2(logit.reg, which = "all")
 ```
 
+???
+Pour évaluer l'ajustement du modèle, les graphiques de diagnostique ne sont pas utiles. Il vaut mieux utiliser le test de Hosmer-Lemeshow qui évalue si les fréquences des événements observés correspondent ou non aux fréquences des événements attendus. 
 
+Vous pouvez le montrer aux étudiants avec 
+library(vcdExtra)
+HLtest(logit.reg)
 ---
 exclude: true
 
-### Exercise 2: Faire un test d'ajustement du modèle Hosmer-Lemeshow
+### Exercice 2: Faire un test d'ajustement du modèle Hosmer-Lemeshow
 
 Pour évaluer l'ajustement du modèle, les graphiques de diagnostique ne sont pas utiles. Il vaut mieux utiliser le [test de Hosmer-Lemeshow](https://en.wikipedia.org/wiki/Hosmer%E2%80%93Lemeshow_test):
 
@@ -1410,16 +1633,18 @@ Faites cet exercise en salles de réunion avec des groupes de 3-4 pour un durée
 ---
 # Défi 2 - Solution ![:cube]()
 
-1. En utilisant le modèle créé avec le jeu de données `bacteria`, évaluez le pouvoir prédictif et l'ajustement de ce modèle.
+1\. En utilisant le modèle créé avec le jeu de données `bacteria`, évaluez le pouvoir prédictif et l'ajustement de ce modèle.
 
-```{r,eval=F}
+```{r,eval=T}
 null.d <- model.bact2$null.deviance
 resid.d <- model.bact2$deviance
 bact.pseudoR2 <- (null.d - resid.d) / null.d
-HLtest(model.bact2)
+bact.pseudoR2
+DescTools::PseudoR2(model.bact2, which = "all")
 ```
+--
 
-2. Comment améliorer le pouvoir explicatif du modèle?
+2\. Comment améliorer le pouvoir explicatif du modèle?
 
 *Ajouter des variables explicatives pertinentes pourrait certainement augmenter le pouvoir explicatif du modèle.*
 
@@ -1631,7 +1856,7 @@ $\mu_i$ correspond au nombre attendu d'individus
 **Étape 2.** On spécifie le prédicteur linéaire comme dans un modèle linéaire.
 
 $$\underbrace{\alpha}_\text{One intercept} + \underbrace{\beta}_\text{slope of 'Elevation'} \times \text{Elevation}_i$$
-
+--
 **Étape 3.** La fonction de lien entre la moyenne de $Y_i$ et la partie systématique est une fonction logarithmique et est écrite comme suit:
 
 .pull-left[

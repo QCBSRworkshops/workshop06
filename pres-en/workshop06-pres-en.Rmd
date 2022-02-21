@@ -53,7 +53,7 @@ htmltools::tagList(
 ```{r install_pkgs, message=FALSE, warning=FALSE, include=FALSE, results=0}
 # Standard procedure to check and install packages and their dependencies, if needed.
 
-list.of.packages <- c('ggplot2', 'MASS', 'vcdExtra', 'bbmle', 'DescTools')
+list.of.packages <- c('ggplot2', 'MASS', 'vcdExtra', 'bbmle', 'DescTools','xaringan')
 
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 
@@ -90,7 +90,10 @@ by modifying and improving its content as part of the <br> *Le*arning *a*nd *D*e
 .right[
 
  **2022** - **2021** - **2020**
-
+ <br>
+  <br>
+[Laurie Maynard](https://github.com/LaurieMaynard)
+<br>
 [Pedro Henrique P. Braga](https://github.com/pedrohbraga)
 <br>
 [Katherine Hébert]()
@@ -133,6 +136,28 @@ by modifying and improving its content as part of the <br> *Le*arning *a*nd *D*e
 ]
 </p>
 
+---
+
+## Learning objectives
+
+1. Distinguish generalized linear models from general linear models (including many of their equations!).
+
+2. Identify situations for when the use of generalized linear models is appropriate.
+
+3. Test assumptions for generalized linear models.
+
+4. Implement and execute generalized linear models in binary, proportion and count data.
+
+5. Validate, interprete and visualise results of generalized linear models.
+
+<br>
+
+.center[.alert[Important]
+
+<br>
+This workshop will build up your knowledge on models along side with some of their important equations. *Do not run to the mountains!* This will be achieved progressively and you will feel proud of yourself after!
+
+]
 
 ---
 
@@ -168,29 +193,6 @@ install.packages(
 ]
 
 ---
-
-## Learning objectives
-
-1. Distinguish generalized linear models from general linear models (including many of their equations!).
-
-2. Identify situations for when the use of generalized linear models is appropriate.
-
-3. Test assumptions for generalized linear models.
-
-4. Implement and execute generalized linear models in binary, proportion and count data.
-
-5. Validate, interprete and visualise results of generalized linear models.
-
-<br>
-
-.center[.alert[Important]
-
-<br>
-This workshop will build up your knowledge on models along side with some of their important equations. *Do not run to the mountains!* This will be achieved progressively and you will feel proud of yourself after!
-
-]
-
----
 class: inverse, center, middle
 
 # Preface
@@ -210,7 +212,7 @@ The combination of predictive variables we have sampled will *never* fully expla
 
 $$Y = f(X_1, \epsilon)$$
 --
-
+exclude: true
 In [Workshop 4](https://qcbsrworkshops.github.io/workshop04/pres-en/workshop04-pres-en.html#1), we have learned how to use **general linear models** as $f(\cdot)$ to describe the relationship between variables. They were:
 
 .center[
@@ -232,23 +234,13 @@ ANCOVA
 ]
 ]
 
-???
-
-When explaning this slide, provide a few examples of Y and X variables (e.g. number of species, sampling effort, climatic gradient).
-
-X can also be called independent variable, explanatory variable, predictor variabler;
-
-Y can also be called dependent variable, response variable, explained variable, predicted variable;
-
-ϵ can also be called random component, the error term, the disturbance.
-
 ---
 # Revisiting linear models
 
 In [Workshop 4](https://qcbsrworkshops.github.io/workshop04/pres-en/workshop04-pres-en.html#1), we have learned how to use **general linear models** as $f(\cdot)$ to describe the relationship between variables.
 
 The general form of our function $Y = f(X_1)$ as a linear function can be represented by:
-
+--
 $$Y_i = \beta_0 + \beta_1X_i + \varepsilon_i$$
 
 where:
@@ -263,6 +255,16 @@ $X_i$ is the value for the explanatory variable
 
 $\varepsilon_i$ is the model residual drawn from a normal distribution with a varying mean but a constant variance.
 
+???
+
+When explaning this slide, provide a few examples of Y and X variables (e.g. number of species, sampling effort, climatic gradient).
+
+X can also be called independent variable, explanatory variable, predictor variabler;
+
+Y can also be called dependent variable, response variable, explained variable, predicted variable;
+
+ϵ can also be called random component, the error term, the disturbance.
+
 ---
 # Revisiting linear models and their assumptions
 
@@ -271,7 +273,7 @@ We have also learned that **linear models** only produce unbiased estimators (i.
 1\. The population can be described by a linear relationship:
 
 $$Y = \beta_0 + \beta_1X + \varepsilon$$
-
+--
 2\. The error term $\varepsilon$ has the same variance given any value of the explanatory variable (i.e. homoskedasticity), and the error terms are not correlated across observations (i.e. no autocorrelation):
 
 .pull-left[
@@ -281,7 +283,8 @@ $$\mathbb{V}{\rm ar} (\epsilon_i | \mathbf{X} ) = \sigma^2_\epsilon,\ \forall i 
 .pull-right[
 $$\mathbb{C}{\rm ov} (\epsilon_i, \epsilon_j) = 0,\ i \neq j$$
 ]
-
+--
+<br><br>
 3\. And, the residuals are normal:
 
 $$\boldsymbol{\varepsilon} | \mathbf{X} \sim \mathcal{N} \left( \mathbf{0}, \sigma^2_\epsilon \mathbf{I} \right)$$
@@ -301,17 +304,17 @@ class: middle
 ## What do we mean by:
 
 .pull-left[
-1. The population can be described by a linear relationship:
+1\. The population can be described by a linear relationship:
 
 $$Y = \beta_0 + \beta_1X_i + \varepsilon$$
 
-2.  Homoskedasticity and no autocorrelation:
+2\.  Homoskedasticity and no autocorrelation:
 
 
 $$\mathbb{V}{\rm ar} (\epsilon_i | \mathbf{X} ) = \sigma^2_\epsilon,\ \forall i = 1,..,N$$
 $$\mathbb{C}{\rm ov} (\epsilon_i, \epsilon_j) = 0,\ i \neq j$$
 
-3. The residuals are normal:
+3\. The residuals are normal:
 
 $$\boldsymbol{\varepsilon} | \mathbf{X} \sim \mathcal{N} \left( \mathbf{0}, \sigma^2_\epsilon \mathbf{I} \right)$$
 
@@ -402,7 +405,7 @@ Leverage points: A leverage point is defined as an observation that has a value 
 
 Influential observations: An influential observation is defined as an observation that changes the slope of the line. Thus, influential points have a large influence on the fit of the model. One method to find influential points is to compare the fit of the model with and without each observation.
 
-1. Allows one to checkthe assumption of linearity and homoscedasticity;
+1. Allows one to check the assumption of linearity and homoscedasticity;
 
 2. QQ-plot allows the comparison of the residuals to "ideal" normal observations;
 
@@ -552,6 +555,36 @@ boxplot(WatrCont ~ pa,
 plot(prop ~ WatrCont, data = mites, xlab = 'Water content', ylab = 'Proportion')
 ```
 ]
+
+---
+
+# Exploring relationships
+
+Do *Galumna*'s community values (abundance, occurrence and relative frequency) vary as a function of water content?
+
+```{r,fig.width=12,fig.height=4,echo=-1,eval=FALSE}
+par(mypar)
+par(mfrow = c(1, 3), cex = 1.4)
+plot(Galumna ~ WatrCont, 
+     data = mites, xlab = 'Contenu en eau', ylab='Abondance')
+boxplot(WatrCont ~ pa, 
+        data = mites, xlab='Présence/Absence', ylab = 'Contenu en eau')
+plot(prop ~ WatrCont, 
+     data = mites, xlab = 'Contenu en eau', ylab='Proportion')
+```
+
+```{r,fig.width=12,fig.height=4,echo=FALSE}
+par(mypar)
+par(mfrow = c(1, 3), cex = 1.4)
+plot(Galumna ~ WatrCont, 
+     data = mites, xlab = 'Contenu en eau', ylab='Abondance')
+boxplot(WatrCont ~ pa, col='red',
+        data = mites, xlab='Présence/Absence', ylab = 'Contenu en eau')
+plot(prop ~ WatrCont, 
+     data = mites, xlab = 'Contenu en eau', ylab='Proportion')
+```
+???
+These graphs all represents potential relationships, but the middle one is more likely to show properly in a model (the boxes do not overlap each other)
 
 ---
 # Using linear models with `lm()`
@@ -712,7 +745,8 @@ legend('topleft', legend = c('5', '7.5', '10'), lty = 1, col = 1:3, bty = 'n', l
 ```
 ]
 ]
-
+???
+On the right, we show graphs where wither mu varies or omega varies. The top graph would wrok with a linear model -> omega is constant throughout values of Y. The bottom is most likely what we observe, with a varying omega necessiting a different distribution.
 ---
 
 # Model prediction
@@ -810,14 +844,10 @@ text(x = mites$WatrCont[52]+105,y=6.5,expression(sigma == 'always' ~ 1.51),cex=1
 4. The observations do not fall across the expected values.
 ]
 
---
-
-.pull-right[*1 and 4!*]
-
 ???
 
 Perform a multiple choice poll with participants.
-Correct answers are 1 and 4.
+Correct answers are 3 and 4.
 
 Values are on average farther from the regression line at low water content values. That is, there is more residual variance around the predicted values for low values of x, such that εi varies as a function of x, thus violating the assumption of homoscedasticity. It makes no sense to use a constant value of σ2: the normal distributions used to predict y at low values of x should ideally be wider (have a larger σ2) than normal distributions used to predict y at large x values, but linear models do not permit this.
 
@@ -860,6 +890,7 @@ Statisticians have defined a [multitude of probability distributions](https://ww
 
 A distribution provides the probability of observing each possible outcome of an experiment or survey (e.g. $abund = 8$ *Galumna* individuals).
 
+--
 Distributions can be **discrete** (only include integers), **continuous** (including fractions) and be limited to a given range or domain (e.g., $0$ to $1$, $0$ to $+\infty$, $-\infty$ to $+\infty$).
 
 All distributions can be broken down into **parameters** that dictate their shapes (e.g. $\mu$ and $\sigma^2$ for the Normal).
@@ -955,8 +986,11 @@ hist(mites$pa)
 ```{r,echo=-F,fig.width=12,fig.height=4}
   par(mypar);par(mfrow = c(1, 3), cex=1.4)
   barplot(setNames(c(.9, .1), c('absent (0)', 'present (1)')), ylim = c(0, 1), xlab = 'pa', ylab = 'probability', main = 'p = 0.1')
+  abline(h=0)
   barplot(setNames(c(.5, .5), c('absent (0)', 'present (1)')), ylim = c(0, 1), xlab = 'pa', ylab = 'probability', main = 'p = 0.5')
+  abline(h=0)
   barplot(setNames(c(.1, .9), c('absent (0)', 'present (1)')), ylim = c(0, 1), xlab = 'pa', ylab = 'probability', main = 'p = 0.9')
+  abline(h=0)
 ```
 
 We can use the Bernouilli distribution to calculate the probability Galumna present (`1`) vs. absent (`0`).
@@ -1058,9 +1092,9 @@ So, for our **general linear model** with $\epsilon ∼ N(0, σ^2)$ and $Y_i \si
 
 
 $$\underbrace{g(\mu)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$
-the **identity** link function
+the link function:
 $$g(\mu_i) = \mu_i$$
-and, the variance function
+and, the variance function:
 
 $$V(\mu_i) = 1$$
 
@@ -1095,6 +1129,9 @@ lm(formula,
 with the `family` argument taking the names of the **link function** (inside `link`) and, the **variance function**.
 
 This approach is extendable to other distribution families! 
+
+???
+The link function for a general linear model is the identity link (see next slide)
 
 --
 
@@ -1315,12 +1352,10 @@ data(bacteria); str(bacteria)
 
 
 *Tests of the presence of the bacteria H. influenzae in children with otitis media in the Northern Territory of Australia.*
-
-*Dr A. Leach tested the effects of a drug on 50 children with a history of otitis media in the Northern Territory of Australia. The children were randomized to the drug or a placebo.*
-
-*The presence of H. influenzae was checked at weeks 0, 2, 4, 6 and 11: 30 of the checks were missing and are not included in this data frame.*
-
 ???
+Dr A. Leach tested the effects of a drug on 50 children with a history of otitis media in the Northern Territory of Australia. The children were randomized to the drug or a placebo.*
+
+The presence of H. influenzae was checked at weeks 0, 2, 4, 6 and 11: 30 of the checks were missing and are not included in this data frame.*
 
 This is a breakout room activity. Assign groups of 3-4 into breakout rooms and give them each 5 minutes to collaboratively write the code
 
@@ -1451,7 +1486,7 @@ exp(logit.reg$coefficient[2])
 Recall that the $R^2$ value is a measure of how well the model explains the data.
 
 In simple linear models, $R^2$ can be obtained as the square of the sample correlation equation coefficient ( $r$ ) between the observed outcomes and the predictive values.
-
+--
 In some of the generalized linear models, we take different approaches.
 
 We can obtain a $\text{pseudo-R}^2$, the analogue of the $R^2$ for models fitted by maximum likelihood.
@@ -1461,8 +1496,8 @@ We can calculate McFadden's (1973) $\text{pseudo-R}^2$ in this way:
 $$\text{pseudo-R}^2 = \frac{\text{null deviance - residual deviance}}{\text{null deviance}}$$
 
 <br>
-
-> $\text{pseudo-R}^2$ is the variance explained by the model.
+???
+$\text{pseudo-R}^2$ is the variance explained by the model.
 
 ---
 
@@ -1472,7 +1507,8 @@ The unit deviance is a measure of distance between $y$ and $μ$.
 
 $${\displaystyle d(y,y)=0}$$
 $${\displaystyle d(y,\mu )>0\quad \forall y\neq \mu }$$
-
+???
+We will use the devienaces to caluclate the pseudo R2.
 --
 
 The total deviance ${\displaystyle D(\mathbf {y} ,{\hat {\boldsymbol {\mu }}})}$ of a model with predictions ${\hat {\boldsymbol {\mu }}}$ of the observation $\mathbf {y}$ is the sum of its unit deviances:
@@ -1592,7 +1628,12 @@ logit.reg <- glm(pa ~ WatrCont + Topo,
 
 DescTools::PseudoR2(logit.reg, which = "all")
 ```
+???
+One way to assess the goodness-of-fit of these models is to use the Hosmer-Lemeshow goodness-of-fit test which assess whether or not the observed event rates match expected event rates
 
+You can do this test with 
+library(vcdExtra)
+HLtest(logit.reg)
 ---
 exclude: true
 ### Exercise 2: Performing a Hosmer-Lemeshow goodness-of-fit test
@@ -1636,21 +1677,19 @@ Run this exercise as a breakout room activity with groups of 3-4 with a time lim
 ---
 # Challenge 2 - Solution ![:cube]()
 
-1. Using the model created with `bacteria` dataset, assess goodness-of-fit and predictive power.
+1\. Using the model created with `bacteria` dataset, assess goodness-of-fit and predictive power.
 
-```{r,eval=FALSE}
+```{r,eval=TRUE}
 null.d <- model.bact2$null.deviance
-
 resid.d <- model.bact2$deviance
-
 bact.pseudoR2 <- (null.d - resid.d) / null.d
-
-HLtest(model.bact2)
+bact.pseudoR2
+DescTools::PseudoR2(model.bact2, which = "all")
 ```
 
 --
 
-2. Think how predictive power could be improved for this model.
+2\. Think how predictive power could be improved for this model.
 
 *Adding informative explanatory variables could increase the explanatory power of the model.*
 
@@ -1854,7 +1893,7 @@ $\mu_i$ corresponds to the expected number of individuals
 **Step 2.** We specify the systematic part of the model just as in a linear model.
 
 $$\underbrace{\alpha}_\text{Intercept} + \underbrace{\beta_1}_\text{slope of 'Elevation'} \times \text{Elevation}_i + \underbrace{\beta_2}_\text{slope of 'Precipitation'} \times \text{Precipitation}_i$$
-
+--
 **Step 3.** The link between the mean of $Y_i$ and the systematic part is a logarithmic function can be written as:
 
 $$log(\mu_i) = \alpha + \beta_1 \times \text{Elevation}_i + \beta_2 \times \text{Precipitation}_i$$
@@ -2146,7 +2185,7 @@ summary(glm.negbin)$coefficients[1, 1]
 summary(glm.negbin)$coefficients[2, 1]
 ```
 
-**Step 2** Use the standard errors to build the confidence envelope
+**Step 2** Use the standard errors to build the confidence interval
 
 ```r
 summary(glm.negbin)$coefficients[1, 2]
