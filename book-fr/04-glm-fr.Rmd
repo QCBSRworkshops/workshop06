@@ -1,0 +1,50 @@
+# Generalized Linear Models
+
+Un **modèle linéaire généralisé** est composé d'un **prédicteur linéaire**:
+
+$$\eta_i = \underbrace{g(\mu)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$
+et,
+
+1. une fonction **lien** $g(\mu_i)$ qui **transforme la valeur prédite** de $Y$ et décrit comment la moyenne $E(Y_i) = \mu_i$ dépend du prédicteur linéaire
+
+$$g(\mu_i) = ηi$$
+
+2. une fonction de **variance** qui décrit comment la variance $\text{var}(Y_i)$ dépend de la moyenne
+
+$$\text{var}(Y_i) = \phi V(\mu)$$
+
+où le **paramètre de dispersion** $phi$ est une constante.
+
+Alors, pour notre **modèle linéaire général** avec $\epsilon ∼ N(0, σ^2)$ et $Y_i \sim{} N(\mu_i, \sigma^2)$, on a le même prédicteur linéaire:
+
+
+$$\underbrace{g(\mu)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$
+
+la fonction lien d'**identité**: 
+
+$$g(\mu_i) = \mu_i$$
+
+et, la fonction de variance:
+
+$$V(\mu_i) = 1$$
+
+*Wow! C'est équivalent au modèle linéaire normal que nous avions vu au début de l'atelier!*
+
+Dans `R`, on peut estimer un modèle linéaire généralisé avec la fonction `glm()`, qui ressemble beaucoup à la fonction `lm()`, avec l'argument `family` prenant le nom de la **fonction lien** et, la **fonction de variance**:
+
+```{r, eval = FALSE, echo = TRUE}
+# This is what the glm() function syntax looks like (don't run this)
+glm(formula,
+    family = gaussian(link = "identity"),
+    data,
+    ...)
+```
+
+Cette approche s'applique à d'autres distributions!
+
+| Distribution de $Y$ | Nom du fonction lien | Fonction lien | Modèle      | `R` |
+|---------------------|--------------------|---------------|------------|-----|
+| Normale              | Identité           | $g(\mu) = \mu$  | $\mu = \mathbf{X} \boldsymbol{\beta}$ | `gaussian(link="identity")` | 
+| Binomiale            | Logit              | $g(\mu) = \log\left(\dfrac{\mu}{1-\mu}\right)$  | $\log\left(\dfrac{\mu}{1-\mu}\right) = \mathbf{X} \boldsymbol{\beta}$ | `binomial(link="logit")`| 
+| Poisson              | Log           | $g(\mu) = \log(\mu)$ | $-\mu^{-1} = \mathbf{X} \boldsymbol{\beta}$ | `poisson(link="log")`|
+| Exponentielle              | Inverse négative          | $g(\mu) = -\mu^{-1}$  | $\log(\mu) = \mathbf{X} \boldsymbol{\beta}$ | `Gamma(link="inverse")` |

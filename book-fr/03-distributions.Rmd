@@ -19,12 +19,10 @@ prendre comme valeur que des nombres entiers, et serait donc mieux
 modélisée par une loi discrète qu'une loi continue. Une loi utile pour
 modéliser les données d'abondance est la loi de «Poisson», nommé en
 l'honneur du statisticien Siméon Denis Poisson. La loi de Poisson est
-une loi discrète avec un seul paramètre: $\lambda$ (lambda), qui détermine et la
-moyenne et la variance de la distribution (la moyenne et la variance
+une loi discrète avec un seul paramètre: $\lambda$ (lambda), qui détermine et la moyenne et la variance de la distribution (la moyenne et la variance
 d'une loi de Poisson sont donc égales). Voici 3 exemples de lois de
 Poisson avec des valeurs différentes de $\lambda$, ce qui correspond ici au
-nombre moyen de Galumna retrouvé dans un ensemble fictif
-d'échantillons:
+nombre moyen de Galumna retrouvé dans un ensemble fictif d'échantillons:
 
 
 ```{r, fig.show= "hold", out.width="33%", fig.height = 9}
