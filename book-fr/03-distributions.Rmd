@@ -19,25 +19,33 @@ prendre comme valeur que des nombres entiers, et serait donc mieux
 modélisée par une loi discrète qu'une loi continue. Une loi utile pour
 modéliser les données d'abondance est la loi de «Poisson», nommé en
 l'honneur du statisticien Siméon Denis Poisson. La loi de Poisson est
-une loi discrète avec un seul paramètre: λ (lambda), qui détermine et la
+une loi discrète avec un seul paramètre: $\lambda$ (lambda), qui détermine et la
 moyenne et la variance de la distribution (la moyenne et la variance
 d'une loi de Poisson sont donc égales). Voici 3 exemples de lois de
-Poisson avec des valeurs différentes de λ, ce qui correspond ici au
+Poisson avec des valeurs différentes de $\lambda$, ce qui correspond ici au
 nombre moyen de Galumna retrouvé dans un ensemble fictif
 d'échantillons:
 
-![](images/6_poisson.jpeg)
 
-Remarquez que lorsque λ est faible (c.-à-d. lorsque la moyenne
+```{r, fig.show= "hold", out.width="33%", fig.height = 9}
+# examples of Poisson distributions with different values of lambda
+par(cex = 2)
+x = seq(1, 50, 1)
+plot(x, dpois(x, lambda = 1), type = "h", lwd = 3, xlab = "Frequency of Galumna", ylab = "Probability", main = "lambda = 1")
+plot(x, dpois(x, lambda = 10), type = "h", lwd = 3, xlab = "Frequency of Galumna", ylab = "Probability", main = "lambda = 10")
+plot(x, dpois(x, lambda = 30), type = "h", lwd = 3, xlab = "Frequency of Galumna", ylab = "Probability", main = "lambda = 30")
+```
+
+Remarquez que lorsque $\lambda$ est faible (c.-à-d. lorsque la moyenne
 s'approche de zéro), la distribution est décalée vers la gauche, alors
-que lorsque λ est élevée, la distribution est symmétrique. La variance
+que lorsque $\lambda$ est élevée, la distribution est symmétrique. La variance
 augmente aussi avec la moyenne (puisque les deux ont la même valeur),
 les valeurs prédites sont toujours des nombres entiers, et l'ensemble
 d'issus d'une loi de Poisson est strictement positif. Toutes ces
 propriétés sont utiles pour modéliser les données de dénombrement, p.ex.
 l'abondance d'un taxon, le nombre de graines dans une parcelle, etc.
-Notre variable mites\$Galumna semble suivre une loi de Poisson avec une
-basse valeur de λ (en effet, si nous calculons l'abondance moyenne de
+Notre variable mites 'Galumna' semble suivre une loi de Poisson avec une
+basse valeur de $\lambda$ (en effet, si nous calculons l'abondance moyenne de
 Galumna pour l'ensemble des échantillons avec la fonction mean(), nous
 observons que cette valeur est proche de 0):
 
@@ -49,7 +57,7 @@ hist(mites$Galumna)
 mean(mites$Galumna)
 ```
 
-La variable mites\$pa (présence-absence) prend une autre forme. Cette
+La variable mites '$pa' (présence-absence) prend une autre forme. Cette
 variable n'inclut que des 0s et des 1s, de telle sorte que la loi de
 Poisson ne serait pas plus appropriée pour cette variable que la loi
 normale.
@@ -67,47 +75,69 @@ face. Cette loi n'a qu'un paramètre: *p*, la probabilité de succès.
 Nous pouvons utiliser la loi de Bernouilli pour calculer la probabilité
 d'obtenir l'issue «Galumna présent» (1) vs. «Galumna absent» (0). Voici
 des exemples de distributions de Bernoulli avec différentes probabilités
-de présence (*p*):
+de présence ($p$):
 
-![](images/6_bernouill.jpeg)
+```{r, echo=FALSE, fig.show="hold", out.width="30%", fig.height = 9}
+# examples of Bernoulli distributions with various probabilities of presence (p)
+par(cex = 2.1)
+barplot(setNames(c(.9, .1), c('absent (0)', 'present (1)')),
+        ylim = c(0, 1),
+        xlab = '', ylab = 'probability',
+        main = 'p = 0.1')
+barplot(setNames(c(.5, .5), c('absent (0)', 'present (1)')),
+        ylim = c(0, 1),
+        xlab = '', ylab = 'probability',
+        main = 'p = 0.5')
+barplot(setNames(c(.1, .9), c('absent (0)', 'present (1)')),
+        xlab = '', ylim = c(0, 1),
+        ylab = 'probability',
+        main = 'p = 0.9')
+```
 
 Nous pouvons calculer le nombre de sites où Galumna est présent par
-rapport au nombre total de sites pour obtenir un estimé de ce que *p*
+rapport au nombre total de sites pour obtenir un estimé de ce que $p$
 pourrait être dans cet exemple:
 
 ```{r, echo = TRUE, eval = TRUE}
 sum(mites$pa) / nrow(mites)
 ```
 
-*p* pour la variable mites\$pa est plus ou moins 0.36, de telle sorte
+$p$ pour la variable mites '$pa' est plus ou moins 0.36, de telle sorte
 qu'environ deux fois plus de sites montrent l'issu \«Galumna absent\
 (0) que l'issu \«Galumna présent\» (1).
 
 Lorsqu'il y a plusieurs épreuves (chacune avec un succès/échec), la loi
 de Bernoulli se transforme en loi binomiale, qui inclue le paramètre
-additionel *n*, le nombre d'épeuves. La loi binomiale prédit la
-probabilité d'observer une certaine proportion de succès, *p*, sur le
-nombre total d'épreuves, *n*. Un \«succès\» pourrait être, par exemple,
-la présence d'un taxon à un site (comme pour Galumna), le nombre
+additionel $n$, le nombre d'épeuves. La loi binomiale prédit la
+probabilité d'observer une certaine proportion de succès, $p$, sur le
+nombre total d'épreuves, $n$. Un \«succès\» pourrait être, par exemple,
+la présence d'un taxon à un site (comme pour *Galumna*), le nombre
 d'individus qui survit pendant une année, etc. Voici des exemples de
-lois binomiales avec *n* = 50 et trois valeurs différentes de *p*:
+lois binomiales avec $n$ = 50 et trois valeurs différentes de $p$:
 
-![](images/6_binomial.jpeg)
+```{r, echo=FALSE, fig.show="hold", out.width="33%", fig.height = 9}
+# examples of binomial distributions with n = 50 and 3 different values of p
+par(cex = 2.1)
+x = seq(1, 50, 1)
+plot(x, dbinom(x, size = 50, prob = 0.1), type = 'h', lwd = 3, xlab = '# galumna', ylab = 'Probability', main = 'p = 0.1 n = 50')
+plot(x, dbinom(x, size = 50, prob = 0.5), type = 'h', lwd = 3, xlab = '# galumna', ylab = 'Probability', main = 'p = 0.5 n = 50')
+plot(x, dbinom(x, size = 50, prob = 0.9), type = 'h', lwd = 3, xlab = '# galumna', ylab = 'Probability', main = 'p = 0.9 n = 50')
+```
 
 Remarquez que la loi binomiale est assymétrique et décalée à gauche
-lorsque *p* est faible, mais elle est décalée à droite lorsque *p* est
+lorsque $p$ est faible, mais elle est décalée à droite lorsque $p$ est
 élevé. C'est la différence principale avec la loi de Poisson: l'étendu
-de la loi binomial a une limite supérieure, correspondant à *n*.
+de la loi binomial a une limite supérieure, correspondant à $n$.
 Conséquemment, la loi binomiale est utilisée pour modéliser des données
 lorsque le nombre de succès est donné par un nombre entier, et lorsque
 le nombre d'épreuves est connu. Nous pouvons utiliser la distribution
 binomiale pour modéliser nos données de proportion, où chaque mite
 échantillonée pourrait être considérée comme une épreuve. Si la mite est
-du genre Galumna, l'épreuve est un succès (1), sinon, c'est un échec
-(0). Dans ce cas, le nombre d'épreuves *n* varie pour nos 70
+du genre *Galumna*, l'épreuve est un succès (1), sinon, c'est un échec
+(0). Dans ce cas, le nombre d'épreuves $n$ varie pour nos 70
 échantillons selon l'abondance totale de mites dans l'échantillon,
-alors que *p*, la probabilité de succès, est donné par la proportion de
-Galumna dans chaque échantillon.
+alors que $p$, la probabilité de succès, est donné par la proportion de
+*Galumna* dans chaque échantillon.
 
 Pourquoi tout cette discussion à propos des lois de distribution? Parce
 que n'importe quelle loi peut être utilisée pour remplacer la loi
@@ -115,27 +145,47 @@ normale lorsqu'on calcule les valeurs estimées dans un modèle linéaire.
 Par exemple, nous pouvons utiliser la loi de Poisson pour modéliser nos
 valeurs d'abondance en utilisant l'équation suivante:
 
-y~i~ \~ Poisson(λ = β~0~ + β~1~x~i~)
+$$Y_i \sim Poisson(\lambda = \beta_0 + \beta_1X_i)$$
 
-Remarquez que λ varie selon x (contenu d'eau), ce qui signifie que la
-variance dans les résidus variera aussi selon x (car pour la loi de
-Poisson variance = aussi λ). Ceci veut dire que nous venons de nous
-défaire de la supposition d'homogénéité de la variance! Aussi, les
+Remarquez que $\lambda$ varie selon $x$ (contenu d'eau), ce qui signifie que la variance dans les résidus variera aussi selon $x$ (car pour la loi de Poisson variance = aussi $\lambda$). Ceci veut dire que nous venons de nous défaire de la supposition d'homogénéité de la variance! Aussi, les
 valeurs estimées seront désormais des nombres entiers plutôt que des
 nombres décimaux car ils seront tirés de lois de Poisson avec
-différentes valeurs de λ. Ce modèle ne prédiera jamais de valeurs
+différentes valeurs de $\lambda$. Ce modèle ne prédiera jamais de valeurs
 négatives car l'ensemble d'une loi de Poisson est toujours strictement
-positif. En changeant la distribution des résidus (ε~i~) de normale à
-Poisson, nous avons corrigé presque tous les problèmes de notre modèle
-linéaire pour l'abondance de Galumna.
+positif. En changeant la distribution des résidus ($\varepsilon$) de normale à Poisson, nous avons corrigé *presque* tous les problèmes de notre modèle linéaire pour l'abondance de *Galumna*.
 
 Ce modèle est presque un GLM de Poisson, qui ressemble à ça:
 
-![](images/6_poissonglm.jpeg)
+```{r echo=FALSE, fig.align="center", fig.width=7, fig.height = 5}
+#Code to generate figure that illustrates a poisson glm
+glm.pois <- glm(Galumna ~ WatrCont, data = mites, family='poisson')
+plot.poiss<-function(x,mymodel,mult=1,mycol='LightSalmon') {
+  yvar<-mymodel$model[,1]
+  xvar<-mymodel$model[,2]
+  lambd<-mymodel$fitted[x]
+  stick.val<-rep(xvar[x],9)+mult*dpois(0:8,lambd=lambd)
+  segments(rep(xvar[x],9),0:8,stick.val,0:8,col=mycol,lwd=3)
+}
+plot(Galumna ~ WatrCont, data = mites,cex.axis=1.2,cex.lab=1)
+points(Galumna ~ WatrCont, data = mites,pch=21)
+lines(x=seq(min(mites$WatrCont),max(mites$WatrCont),by=1),y=predict(glm.pois,newdata=data.frame('WatrCont' = seq(min(mites$WatrCont),max(mites$WatrCont),by=1)),type='response'))
+par(lend=3)
+plot.poiss(8,glm.pois,200)
+abline(v=mites$WatrCont[8],col='red',lty=2)
+plot.poiss(11,glm.pois,200)
+abline(v=mites$WatrCont[11],col='red',lty=2)
+plot.poiss(36,glm.pois,200)
+abline(v=mites$WatrCont[36],col='red',lty=2)
+plot.poiss(52,glm.pois,200)
+abline(v=mites$WatrCont[52],col='red',lty=2)
+text(x = mites$WatrCont[8]+50,y=7.5,expression(lambda == 1.7), cex=0.7, col = 'red')
+text(x = mites$WatrCont[11]+50,y=7.5,expression(lambda == 4.7), cex=0.7, col = 'red')
+text(x = mites$WatrCont[36]+50,y=7.5,expression(lambda == 0.5), cex=0.7, col = 'red')
+text(x = mites$WatrCont[52]+50,y=7.5,expression(lambda == 0.1), cex=0.7, col = 'red')
+```
 
 Remarquez que les probabilités d'observer différentes valeurs estimées
 (en orange) sont maintenant des nombres entiers, et qu'autant la
-variance que la moyenne de la distribution declinent lorsque λ diminue
-avec le contenu d'eau. Pourquoi la droite de régression est-elle
+variance que la moyenne de la distribution declinent lorsque $\lambda$ diminue avec le contenu d'eau. Pourquoi la droite de régression est-elle
 courbée? Pourquoi est-ce que ce modèle se nomme un \«modèle linéaire
 généralisé\»? Continuez votre lecture!
