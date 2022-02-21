@@ -286,6 +286,10 @@ $$\boldsymbol{\varepsilon} | \mathbf{X} \sim \mathcal{N} \left( \mathbf{0}, \sig
 
 ]
 
+.pull-right[
+
+Les estimations d'un modèle général linéaire telles que $\widehat{Y} = \widehat{\beta}_0 + \widehat{\beta}_1 X$ assumemt que les données sont générées selon les conditions présentées. 
+
 ```{r echo = FALSE}
 # Set the coefficients:
 N = 50
@@ -308,7 +312,7 @@ legend(x = 0, y = 25,
        legend = c(expression(paste("Y = ", beta[0] + beta[1] * X))),
        lty = c(2, 1), lwd = c(1, 1), pch = c(NA, NA), col = c("darkgreen", "blue"))
 ```
-
+]
 ???
 Note: Des versions plus développées de cet atelier devraient inclure les lignes décrivant les estimations d'erreur, et montrant leur distribution. Pour l'instant, le présentateur peut aider les participants avec cet abstraction.
 
@@ -363,7 +367,7 @@ Point de levier: un point de levier est défini comme une observation qui a une 
 
 Observations influentes: Une observation influente est défini par une observation qui change la pente de la relation. Donc, un point influent va avoir une influence élevée sur la prédiction du modèle. Une méthode pour trouver des observations influentes est de comparer un modèle avec et sans la dite observation. 
 
-1. Ces graphiques permettes de vérifier les conditions d'application de la linéarité et l'homoscédasticité.
+1. Ces graphiques permettent de vérifier les conditions d'application de la linéarité et l'homoscédasticité.
 
 2. Le graphique QQ permet la comparaison des résidus avec une distribution normal. 
 
@@ -551,7 +555,7 @@ plot(prop ~ WatrCont,
      data = mites, xlab = 'Contenu en eau', ylab='Proportion')
 ```
 ???
-Ces relations sont tous des relations linéaires potentielles, mais le contenu en eau a le plus de potentiel d'être significatif (les boîtes ne se touchent pas)
+Ces relations sont tous des relations linéaires potentielles et négatives, mais le contenu en eau a le plus de potentiel d'être significatif (les boîtes ne se touchent pas)
 
 ---
 # Utiliser des modèles linéaires
@@ -1022,19 +1026,19 @@ Dans`R`, on va donc passer de la fonction pour les modèles linéaires (généra
 ---
 # Modèles linéaires généralisés
 
-Un **modèle linéaire généralisé** est composé d'un **prédicteur linéaire**:
+&nbsp; Un **modèle linéaire généralisé** est composé d'un **prédicteur linéaire**:
 
 $$\underbrace{g(\mu_i)}_{Fonction~~lien}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Composante~linéaire}~+~\underbrace{\epsilon}_{Error}$$
-et,
+&nbsp; et,
 
-1. une fonction **lien** $g(\mu_i)$ qui **transforme la valeur prédite** de $Y$ et décrit comment la moyenne $E(Y_i) = \mu_i$ dépend du prédicteur linéaire
+&nbsp; 1. une fonction **lien** $g(\mu_i)$ qui **transforme la valeur prédite** de $Y$ et décrit comment la moyenne $E(Y_i) = \mu_i$ dépend du prédicteur linéaire
 
 $$g(\mu_i) = ηi$$
 
-2\. une fonction de **variance** qui décrit comment la variance $\text{var}(Y_i)$ dépend de la moyenne
+&nbsp; 2\. une fonction de **variance** qui décrit comment la variance $\text{var}(Y_i)$ dépend de la moyenne
 
 $$\text{var}(Y_i) = \phi V(\mu)$$
-où le **paramètre de dispersion** $phi$ est une constante.
+&nbsp; où le **paramètre de dispersion** $phi$ est une constante.
 
 ???
 La fonction de lien met en relation la valeur attendue de la variable réponse au prédicteur linéaire du modèle, pour que la relation entre le prédicteur et la réponse soit modélisée avec une régression linéaire.

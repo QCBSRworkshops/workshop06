@@ -469,6 +469,12 @@ The Oribatid mite dataset has **70 observations with moss and mite samples**, an
 
 ]
 
+???
+
+It's from an original dataset
+[mites Oribatid (Acari,Oribatei)](http://adn.biol.umontreal.ca/~numericalecology/data/oribates.html) from the [Station de Biologie de l'Université de Montréal](https://goo.gl/maps/PxN1Q7KUPnUt92Eu5).
+]
+
 ---
 
 # Which potential questions can we make?
@@ -1057,19 +1063,19 @@ In `R`, this means that we will move away from the (general) linear models funct
 ---
 # Generalized Linear Models
 
-A **generalized linear model** is made of a **linear predictor**:
+&nbsp; A **generalized linear model** is made of a **linear predictor**:
 
 $$\eta_i = \underbrace{g(\mu)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$
-and,
+&nbsp; and,
 
-1. a **link** function $g(\mu_i)$ that ***transforms the expected values*** $E(Y_i)$, and describes how the mean of the process $Y$, $E(Y_i) = \mu_i$, depends on the linear predictor
+&nbsp; 1. a **link** function $g(\mu_i)$ that ***transforms the expected values*** $E(Y_i)$, and describes how the mean of the process $Y$, $E(Y_i) = \mu_i$, depends on the linear predictor
 
 $$g(\mu_i) = ηi$$
 
-2\. a **variance** function that describes how the variance of the process $Y$, $\text{var}(Y_i)$, depends on the mean
+&nbsp; 2\. a **variance** function that describes how the variance of the process $Y$, $\text{var}(Y_i)$, depends on the mean
 
 $$\text{var}(Y_i) = \phi V(\mu)$$
-where the **dispersion parameter** $phi$ is a constant.
+&nbsp; where the **dispersion parameter** $phi$ is a constant.
 
 ???
 

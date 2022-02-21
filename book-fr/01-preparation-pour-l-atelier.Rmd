@@ -10,7 +10,15 @@ en fonction de la nature de la variable de réponse, le concept de
 fonction de lien, et comment vérifier les suppositions de base de ces
 modèles.
 
-*Inclure les objectifs d'apprentissage.*
+1. Faire la distinction entre les modèles linéaires généralisés et les modèles généraux linéaires (incluant plusieurs de leurs équations!)
+
+2. Identifier les situations où il est approprié d'utiliser des modèles linéaires généralisés.
+
+3. Tester les hypothèses des modèles linéaires généralisés.
+
+4. Implémenter et executer des modèles linéaires généralisés avec des données binaires, de proportion, et d'abondance. 
+
+5. Valider, interpreter and visualiser les résultats de modèles linéaires généralisés.
 
 # Préparez-vous pour cet atelier
 
