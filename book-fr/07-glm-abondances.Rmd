@@ -2,111 +2,141 @@
 
 # Que faire avec des données d'abondance?
 
-Afin d'illustrer l'utilisation des GLMs avec des données d'abondance,
-nous allons utiliser un nouveau jeux de données: faramea.
+Les données discrètes (ou d'abondance) sont caractérisées par:
+
+- Des valeurs positives: on ne peut compter -7 individus
+- Valeurs discrètes: on ne peut compter 7.56 individus
+- Démontre une variance élevée pour des valeurs élevées
+
+Afin d'illustrer l'utilisation des GLMs avec des données d'abondance, nous allons utiliser un nouveau jeux de données: `faramea`.
 
 ```{r, echo = TRUE, eval = TRUE}
 faramea <- read.csv("faramea.csv", header = TRUE)
 ```
 
-Ce jeux de données s'intéresse à l'espèce d'arbre *Faramea
-occidentalis* sur l'île Barro Colorado au Panama. 43 transects ont été
-utilisés afin de mesurer le nombre d'arbre le long d'un gradient
-environnemental. Des caractéristiques environnementales, comme
-l'élévation du terrain et la précipitation, ont aussi été mesurées au
-niveau de chaque transect. Examinons maintenant à quoi ressemble la
-distribution du nombre d'arbres par transect.
+Ce jeux de données s'intéresse à l'espèce d'arbre *Faramea occidentalis* sur l'île Barro Colorado au Panama. 43 transects ont été utilisés afin de mesurer le nombre d'arbre le long d'un gradient environnemental. Des caractéristiques environnementales, comme l'élévation du terrain et la précipitation, ont aussi été mesurées au niveau de chaque transect. Examinons maintenant à quoi ressemble la distribution du nombre d'arbres par transect.
 
 ```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 5, fig.align = "center"}
-hist(faramea$Faramea.occidentalis, breaks=seq(0,45,1), xlab=expression(paste("Nombre de ",
-italic(Faramea~occidentalis))), ylab="Fréquence", main="", col="grey")
+# Histogram of F. occidentalis count data
+hist(faramea$Faramea.occidentalis, breaks=seq(0,45,1), xlab=expression(paste("Number of ",
+italic(Faramea~occidentalis))), ylab="Frequency", main="", col="grey")
 ```
 
-![](images/plot_faramea_abd.png){.align-center width="500"}
-
 Nous pouvons remarquer qu'il n'y a que des valeurs entières et
-positives. Etant donné cette spécificité propore aux données de
-dénombrement, la distribution de Poisson, décrite ci-après, semble un
-choix approprié pour modéliser ces données.
+positives. 
 
-# GLM avec une distribution de Poisson
+Pour cet exemple, nous voulons tester si l'élévation (un prédicteur à valeurs continues) influence l'abondance de *Faramea occidentalis*.
 
-Comme nous l'avons vu plus haut, la distribution de Poisson est
-particulièrement appropriée pour modéliser des données de dénombrement
+```{r, echo=F,fig.height=4.0}
+plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'F. occidentalis individuals', xlab = 'Elevation(m)')
+```
+
+Etant donné cette spécificité propre aux données de dénombrement, la distribution de Poisson, semble un choix approprié pour modéliser ces données avec l'élévation.
+
+## GLM avec une distribution de Poisson
+
+### la distribution de Poisson
+
+La distribution de Poisson specifie que la probabilité d'une variable
+discrète aléatoire $Y$ est donné par:
+
+
+$$f(y, \,\mu)\, =\, Pr(Y = y)\, =\, \frac{\mu^y \times e^{-\mu}}{y!}$$
+
+$$E(Y)\, =\, Var(Y)\, =\, \mu$$
+
+où $\mu$ est le paramètre de la distribution de Poisson
+
+La distribution de Poisson est particulièrement appropriée pour modéliser des données de dénombrement
 car :
 
 -   elle ne spécifie des probabilités que pour des valeurs entières
 -   P(y\<0) = 0, en d'autres termes la probabilité d'observer une
     valeur négative est nulle
--   la relation entre la moyenne et la variance permet de manipuler des
-    données hétérogènes (e.g. quand la variance dans les données
-    augmente avec la moyenne)
+-   la relation entre la moyenne et la variance permet de manipuler des données hétérogènes (e.g. quand la variance dans les données augmente avec la moyenne)
 
-Dans notre exemple, nous voulons tester si l'élévation (une variable
-explicative continue) influence l'abondance de *Faramea occidentalis*.
-Il est généralement bien de commencer par utiliser un GLM et une
-distribution de Poisson lorsque nous cherchons à modéliser des données
-d'abondance. Nous allons donc commencer par ajuster ce type de modèle
-pour modéliser l'abondance de *Faramea occidentalis* en fonction de
-l'élévation.
+Un GLM de Poisson va modéliser la valeur de $\mu$ comme un fonction de différente variables prédictrices:
 
-![](images//plot_faramea_vs_elevation.png){.align-center width="400"}
+**Étape 1.**
 
-**Mais qu'est ce qui se cache derrière un tel GLM ?**  
-Un GLM avec une distribution de Poisson considère que les valeurs y~i~
-de la variable réponse ont été générées par une distribution de Poisson
-dont la moyenne et la variance sont égales à *µ*~i~.
+Nous assumons que $Y_i$ suit une distribution de Poisson avec un moyenne et une variance $\mu_i$.
 
-Y~i~ ∼ Poisson(*µ*~i~)
+$$Y_i ∼ Poisson(\mu_i)$$
 
-Avec E(Y~i~) = Var(Y~i~) = *µ*~i~
+$$E(Y_i) = Var(Y_i) = \mu_i$$
 
-Souvenez vous qu'un GLM est composé de deux parties, le prédicteur
-linéaire et la fonction de lien. Le prédicteur linéaire est utilisé
-comme une combinaison linéaire des différentes variables explicatives
-dont les effets sont estimés à travers les paramètres *β*. Le prédicteur
-linéaire peut être défini comme :
+$$f(y_i, \, \mu_i) = \frac{\mu^{y_i}_i \times e^{-\mu_i}}{y!}$$
 
-*β*~0~ + **X**~i~\**β*
+$\mu_i$ est le nombre attendu d'individus.
 
-où **X** est la matrice des variables explicatives, *β*~0~ l'ordonnée à
-l'origine et *β* le vecteur des paramètres estimés.
+**Étape 2.**
 
-La fonction de lien, entre le prédicteur linéaire et la moyenne de la
-distribution *µ*~i~ est la fonction logarithmique (relation
-log-linéaire) :
+Nous spécifions le prédicteur linéaire du modèle en tant qu'un modèle linéaire.
 
--   log(*µ*~i~) = *β*~0~ + **X**~i~\**β*
+$$\underbrace{\alpha}_\text{Intercept} + \underbrace{\beta_1}_\text{slope of 'Elevation'} \times \text{Elevation}_i + \underbrace{\beta_2}_\text{slope of 'Precipitation'} \times \text{Precipitation}_i$$
 
-ou
+**Étape 3.**
 
--   *µ*~i~ = exp(*β*~0~ + **X**~i~\**β*)
+La fonction de lien entre la moyenne $Y_i$ et le prédicteur linéaire  est une fonction logarithmique et peut être écrit de cette façon:
 
-La distribution de Poisson donne la probabilité qu'une valeur Y~i~ soit
-observée étant donné une moyenne *µ*~i~ = exp(*β*~0~ + **X**~i~\**β*).
-Dans ce modèle, les paramètres inconnus sont inclus dans le vecteur des
-coefficients de régression *β* (plus l'ordonnée à l'origine *β*~0~) et
-seront estimés à l'aide du maximum de vraisemblance.
+$$log(\mu_i) = \alpha + \beta_1 \times \text{Elevation}_i + \beta_2 \times \text{Precipitation}_i$$
+
+ou écrit tel que:
+
+$$\mu_i = e^{ \alpha + \beta_1 \times \text{Elevation}_i + \beta_2 \times \text{Precipitation}_i}$$
+
+Ceci démontre que l'impact de chaque variable prédictrice est multiplicatif. En augmentant l'élévation de 1, on augmente $μ$ par un incrément de exp( $\beta_\text{Elevation}$)
+
+Nous pouvons aussi l'écrire de cette façon:
+
+$$\mu_i = e^{\alpha} \times e^{\beta_1^{\text{Elevation}_i}} \times e^{\beta_2^{\text{Precipitation}_i}}$$
+
+Si $β_j = 0$ alors $exp(β_j) = 1$ et $μ$ n'est pas lié à $x_j$. Si $β_j > 0$ alors $μ$ augmente aussi si $x_j$ augmente; si $β_j < 0$ alors $μ$ diminue si $x_j$ augmente.
+
+### GLM de Poisson dans `R`
 
 Pour ajuster un GLM avec une distribution de Poisson sous R, il suffit
 de spécifier *family = poisson* dans la fonction glm(). Par défaut la
 fonction de lien est la fonction logarithmique.
 
 ```{r, echo = TRUE, eval = TRUE}
-glm.poisson = glm(Faramea.occidentalis~Elevation, data=faramea, family=poisson)
+# Fit a Poisson GLM
+glm.poisson = glm(Faramea.occidentalis ~ Elevation,
+  data = faramea,
+  family = poisson) # this is what makes it a Poisson GLM! Note the default link is log.
 summary(glm.poisson)
 ```
 
-Le résumé est similaire à celui de la fonction **lm** (voir atelier
-4) et donne les estimations des paramètres. Vous pouvez aussi récupérer
+Ordonnée à l'origine = $\alpha$
+
+Élévation = $\beta$
+
+Le résumé est similaire à celui de la fonction **lm** ( voir l'[atelier 4](https://github.com/QCBSRworkshops/workshop04)) et donne les estimations des paramètres. Vous pouvez aussi récupérer
 les estimations des paramètres à l'aide des fonctions suivantes :
 
 ```{r, echo = TRUE, eval = TRUE}
-# ordonnée à l'origine
+# Ordonnée à l'origine
 summary(glm.poisson)$coefficients[1,1]
-# coefficient de regression de l'élévation
+# pente de elevation
 summary(glm.poisson)$coefficients[2,1]
 ```
+
+À partir d'ici, nous pouvons estimé les déviance résiduelle et nulle. Dans notre modèle, la paramètre inconnu est l'ordonnée à l'origine ($\alpha$) et la pente de l'élévation ($\beta$):
+
+$$log(\mu_i) = 1.769 - 0.0027 \times \text{élévation}_i$$
+
+qui peut aussi être écrit comme:
+
+$$\mu_i = e^{1.769 - 0.0027 \times \text{Élévation}_i}$$
+Rappelez-vous que pour estimer une paramètre inconnu, l'estimation de la vraisemblance maximale est utilisée.
+
+La déviance rédiuelle est défini par:
+
+$$\text{residual deviance} = 2 \, log(L(y;\,y)) - 2 \, log(L(y;\, \mu))$$
+
+Pour un GLM de Poisson, la déviance résiduelle devrait être proche du degré de liberté résiduel. Cependant, notre déviance résiduelle est beaucoup plus élevée que le degré de liberté de notre modèle! 
+
+$$388.12 >> 41$$
 
 ### La validation du modèle et le problème de la surdispersion
 
@@ -121,20 +151,7 @@ L'estimation du maximum de vraisemblance est utilisé afin d'estimer
 les paramètres. Nous avons déjà mentionné que la déviance est
 l'équivalent en maximum de vraisemblance des sommes des carrés dans un
 modèle linéaire. Ici vous pouvez considérer la déviance nulle et la
-déviance résiduelle comme les équivalents de la somme totale des carrés
-et de la somme des carrés résiduelle. La déviance résiduelle correspond
-à deux fois la différence entre la log-vraisemblance de deux modèles :
-un modèle qui s'ajuste parfaitement aux données (i.e. un modèle saturé)
-et le modèle que nous voulons tester. Si notre modèle est correct, la
-distribution de la déviance résiduelle est estimée selon une
-distribution du χ² avec *n*-*p*-1 degrés de liberté (où *n* correspond
-au nombre d'observations et *p* correspond au nombre de variables
-explicatives). Une implication très importante en ce qui nous concerne
-est que la déviance résiduelle doit être égale au nombre de degrés de
-liberté résiduels. Dans notre example, la déviance résiduelle vaut
-388.12, tandis que nous avons 41 (43-1-1) degrés de liberté. La déviance
-est 9.5 fois supérieure au nombre de dégrés de liberté. Le modèle peut
-alors être qualifié de **surdispersé**.
+déviance résiduelle comme les équivalents de la somme totale des carrés et de la somme des carrés résiduelle. La déviance résiduelle correspond à deux fois la différence entre la log-vraisemblance de deux modèles : un modèle qui s'ajuste parfaitement aux données (i.e. un modèle saturé) et le modèle que nous voulons tester. Si notre modèle est correct, la distribution de la déviance résiduelle est estimée selon une distribution du χ² avec $n$-$p$-1 degrés de liberté (où $n$ correspond au nombre d'observations et $p$ correspond au nombre de variables explicatives). Une implication très importante en ce qui nous concerne est que la déviance résiduelle doit être égale au nombre de degrés de liberté résiduels. Dans notre example, la déviance résiduelle vaut 388.12, tandis que nous avons 41 (43-1-1) degrés de liberté. La déviance est 9.5 fois supérieure au nombre de dégrés de liberté. Le modèle peut alors être qualifié de **surdispersé**.
 
 **La surdispersion** La surdispersion peut être évaluée à l'aide du
 paramètre de surdispersion φ qui se mesure donc de la facon suivante :
@@ -181,7 +198,7 @@ détailler ci-dessous :
 -   corriger la surdispersion en utilisant un **GLM quasi-Poisson**
 -   choisir une nouvelle distribution comme la **binomiale négative**
 
-# GLM avec une distribution quasi-Poisson
+## GLM avec une distribution quasi-Poisson
 
 Le principe d'un GLM avec une distribution «quasi» Poisson est très
 simple; le paramètre de surdispersion (φ) est ajouté dans l'équation

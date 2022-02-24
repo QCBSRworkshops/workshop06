@@ -15,11 +15,7 @@ To illustrate count data we will use a new dataset called `faramea`.
 faramea <- read.csv("faramea.csv", header = TRUE)
 ```
 
-In this dataset, the number of trees of the species *Faramea
-occidentalis* was measured in 43 quadrats in Barro Colorado Island in
-Panama. For each quadrat, environmental characteristics were also
-recorded such as elevation or precipitation. Let's take a look at the
-number of *Faramea occidentalis* found at each quadrat.
+In this dataset, the number of trees of the species *Faramea occidentalis* was measured in 43 quadrats in Barro Colorado Island in Panama. For each quadrat, environmental characteristics were also recorded such as elevation or precipitation. Let's take a look at the number of *Faramea occidentalis* found at each quadrat.
 
 ```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 5, fig.align = "center"}
 # Histogram of F. occidentalis count data
@@ -27,22 +23,21 @@ hist(faramea$Faramea.occidentalis, breaks=seq(0,45,1), xlab=expression(paste("Nu
 italic(Faramea~occidentalis))), ylab="Frequency", main="", col="grey")
 ```
 
+We can see that there are only positive and integer values.
+
 In this example, we want to test whether elevation (a continuous
 explanatory variable) influences *Faramea occidentalis* abundance.
-We can see that there are only positive and integer values.
+
 
 ```{r, echo=F,fig.height=4.0}
 plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'F. occidentalis individuals', xlab = 'Elevation(m)')
 ```
 
-Hence, a Poisson GLM (i.e. a simple Poisson regression) seems to be a
-good choice to model the number of *Faramea occidentalis* as a function
-of elevation. Poisson GLMs are usually a good way to start modeling
-count data.
+Hence, a Poisson GLM (i.e. a simple Poisson regression) seems to be a good choice to model the number of *Faramea occidentalis* as a function of elevation. Poisson GLMs are usually a good way to start modeling count data.
 
-# Poisson GLMs
+## Poisson GLMs
 
-##The Poisson distribution
+### The Poisson distribution
 
 The Poisson distribution specifies the probability of a
 discrete random variable $Y$ and is given by:
@@ -77,13 +72,13 @@ $\mu_i$ corresponds to the expected number of individuals.
 
 **Step 2.**
 
-We specify the systematic part of the model just as in a linear model.
+We specify the linear predictor of the model just as in a linear model.
 
 $$\underbrace{\alpha}_\text{Intercept} + \underbrace{\beta_1}_\text{slope of 'Elevation'} \times \text{Elevation}_i + \underbrace{\beta_2}_\text{slope of 'Precipitation'} \times \text{Precipitation}_i$$
 
 **Step 3.**
 
-The link between the mean of $Y_i$ and the systematic part is a logarithmic function can be written as:
+The link between the mean of $Y_i$ and linear predictor is a logarithmic function can be written as:
 
 $$log(\mu_i) = \alpha + \beta_1 \times \text{Elevation}_i + \beta_2 \times \text{Precipitation}_i$$
 
@@ -100,7 +95,7 @@ $$\mu_i = e^{\alpha} \times e^{\beta_1^{\text{Elevation}_i}} \times e^{\beta_2^{
 
 If $β_j = 0$ then $exp(β_j) = 1$ and $μ$ is not related to $x_j$. If $β_j > 0$ then $μ$ increases if $x_j$ increases; if $β_j < 0$ then $μ$ decreases if $x_j$ increases.
 
-## Poisson GLMs in `R`
+### Poisson GLMs in `R`
 
 Fitting a Poisson GLM in R requires only setting `family = poisson` in
 the `glm()` function. By default the link function is log.
@@ -168,13 +163,9 @@ deviance is defined as twice the difference between the log likelihood
 of a model that provides a perfect fit to the data (a saturated model)
 and the log likelihood of the model. If our model is correct the
 asymptotic distribution of the residual deviance is approximated using
-χ² distribution with *n*-*p*-1 degrees of freedom (computed as
-*n*-*p*-1, where *n* is the number of observations and *p* the number of
-covariates). This implies that residual deviance should be equal to the
-residual degrees of freedom. In our example, the residual deviance
-equals 388.12 while we have 41 (43-1-1) degrees of freedom. This former
-is greater to the former by 9.5 times, the model is then
-**overdispersed**.
+χ² distribution with $n$-$p$-1 degrees of freedom (computed as
+$n$-$p$-1, where $n$ is the number of observations and $p$ the number of covariates). This implies that residual deviance should be equal to the residual degrees of freedom. In our example, the residual deviance
+equals 388.12 while we have 41 (43-1-1) degrees of freedom. This former is greater to the former by 9.5 times, the model is then **overdispersed**.
 
 **Overdispersion** As a consequence overdispersion can be computed for
 any model using the parameter φ:
@@ -189,30 +180,24 @@ Why does a Poisson GLM exhibit overdispersion? This arises when the
 variance of the data is higher than expected from the Poisson
 distribution. This frequently occurs when data includes many zeros
 and/or many very high values. Looking back at the distribution of our
-data (above) suggests that our data contains many zero preventing us to
-use a Poisson GLM. Overdispersion may also result from missing
+data (above) suggests that our data contains many zero preventing us to use a Poisson GLM. Overdispersion may also result from missing
 covariates, missing interaction terms or presence of strong outliers,
 preventing us from using a Poisson GLM.
 
-The Poisson distribution can account only partially for heterogeneity in
-the data due to the mean variance relationship, but in some cases
-variance increases even higher than the mean. Computing the mean and the
-variance of our dataset suggests this is occurring:
+The Poisson distribution can account only partially for heterogeneity in the data due to the mean variance relationship, but in some cases
+variance increases even higher than the mean. Computing the mean and the variance of our dataset suggests this is occurring:
 
 ```{r, echo = TRUE, eval = FALSE}
 mean(faramea$Faramea.occidentalis)
 var(faramea$Faramea.occidentalis)
 ```
 
-In practice, Poissons GLM are useful for describing the mean *µ*~i~ but
-underestimates the variance in the data, making all model-based tests
-too liberal! There are two ways of dealing with overdispersion and will
-be developed below:
+In practice, Poissons GLM are useful for describing the mean *µ*~i~ but underestimates the variance in the data, making all model-based tests too liberal! There are two ways of dealing with overdispersion and will be developed below:
 
 -   correct for it by doing a **quasi-Poisson GLM**
 -   choose another distribution such as the **negative binomial**
 
-# Quasi-Poisson GLMs
+## Quasi-Poisson GLMs
 
 The principle behind a quasi-Poisson GLM is very simple; the
 overdispersion parameter (φ) is added to the expected variance equation:

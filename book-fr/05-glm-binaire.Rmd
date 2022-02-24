@@ -300,7 +300,7 @@ $$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(\text{modèle saturé}){\big )}-\lo
 
 Enfin, la **déviance nulle** est définie comme 2 fois le ratio de la vraisemblence en log du modèle saturé comparé au modèle réduit (i.e. les variables prédictrices = 1).
 
-$$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(\text{saturated model}){\big )}-\log {\big (}p(\text{null model}){\big )}{\Big )}$$
+$$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(\text{modèle saturé}){\big )}-\log {\big (}p(\text{modèle nul}){\big )}{\Big )}$$
 
 
 Maintenant, nous pouvons le faire dans R. Comparons la déviance de notre modèle (déviance résiduelle) à la déviance d'un modèle nul (déviance nulle).
