@@ -74,24 +74,24 @@ $\mu_i$ corresponds to the expected number of individuals.
 
 We specify the linear predictor of the model just as in a linear model.
 
-$$\underbrace{\alpha}_\text{Intercept} + \underbrace{\beta_1}_\text{slope of 'Elevation'} \times \text{Elevation}_i + \underbrace{\beta_2}_\text{slope of 'Precipitation'} \times \text{Precipitation}_i$$
+$$\underbrace{\alpha}_\text{Intercept} + \underbrace{\beta_1}_\text{slope of 'Elevation'} \times \text{Elevation}_i$$
 
 **Step 3.**
 
 The link between the mean of $Y_i$ and linear predictor is a logarithmic function can be written as:
 
-$$log(\mu_i) = \alpha + \beta_1 \times \text{Elevation}_i + \beta_2 \times \text{Precipitation}_i$$
+$$log(\mu_i) = \alpha + \beta_1 \times \text{Elevation}_i $$
 
 It can also be written as:
 
-$$\mu_i = e^{ \alpha + \beta_1 \times \text{Elevation}_i + \beta_2 \times \text{Precipitation}_i}$$
+$$\mu_i = e^{ \alpha + \beta \times \text{Elevation}_i}$$
 
 This shows that the impact of each explanatory variable is multiplicative.
 Increasing Elevation by one increases μ by factor of exp( $\beta_\text{Elevation}$ ).
 
 We can also write it as:
 
-$$\mu_i = e^{\alpha} \times e^{\beta_1^{\text{Elevation}_i}} \times e^{\beta_2^{\text{Precipitation}_i}}$$
+$$\mu_i = e^{\alpha} \times e^{\beta_1^{\text{Elevation}_i}}$$
 
 If $β_j = 0$ then $exp(β_j) = 1$ and $μ$ is not related to $x_j$. If $β_j > 0$ then $μ$ increases if $x_j$ increases; if $β_j < 0$ then $μ$ decreases if $x_j$ increases.
 

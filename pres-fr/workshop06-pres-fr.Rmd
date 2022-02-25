@@ -1626,9 +1626,9 @@ plot(HLtest(logit.reg))
 ---
 # Défi 2 ![:cube]()
 
-1. En utilisant le modèle créé avec le jeu de données `bacteria`, évaluez le pouvoir prédictif et l'ajustement de ce modèle.
+1\. En utilisant le modèle créé avec le jeu de données `bacteria`, évaluez le pouvoir prédictif et l'ajustement de ce modèle.
 
-2. Comment améliorer le pouvoir explicatif du modèle?
+2\. Comment améliorer le pouvoir explicatif du modèle?
 
 ???
 
@@ -1751,24 +1751,20 @@ Examinons maintenant à quoi ressemble la distribution du nombre d'arbres par tr
 
 .large[Que sont des données d'abondance?]
 
-```{r, echo=F,fig.height=5}
+Les données d'abondance sont charactérisées par:
+
+- des valeurs positives : on ne peut pas compter **-7** individus
+- des valeurs entières : on ne peut pas compter **7.56** individus
+- une plus grande variance pour les grandes valeurs
+
+```{r, echo=FALSE,fig.height=5,fig.width=8}
 par(mypar);par(cex = 1.4)
 hist(faramea$Faramea.occidentalis, 
      breaks = 30, col = 'gray', 
      xlab = 'Nombre de F. occidentalis', ylab = 'Fréquence', main = '')
 ```
-
----
-# Modéliser des données d'abondance
-
-.large[Que sont des données d'abondance?]
-
-Les données d'abondance sont charactérisées par:
-
-- des valeurs positives : on ne peut pas compter -7 individus
-- des valeurs entières : on ne peut pas compter 7.56 individus
-- une plus grande variance pour les grandes valeurs
-
+???
+Vous pouvez dire qu'en *moyenne*, vous avez 7.56 individus pour une situation spécifique. Mais la mesure est tout de même *discrète*.
 ---
 # Modéliser des données d'abondance
 
@@ -1787,11 +1783,25 @@ plot(faramea$Elevation, faramea$Faramea.occidentalis,
 
 L'élévation influence-t-elle l'abondance de *F. occidentalis*?
 
+.pull-left[
 ```{r, echo=F,fig.height=4}
 par(mypar);par(cex = 1.4)
 plot(faramea$Elevation, faramea$Faramea.occidentalis, 
-     ylab = 'Nombre de F. occidentalis', xlab = 'Élevation(m)')
+     ylab = 'Nombre de F. occidentalis', xlab = 'Élévation(m)')
 ```
+]
+
+.pull-right[
+```{r, echo=F,fig.height=4}
+par(mypar);par(cex = 1.4)
+lm <- lm(Faramea.occidentalis ~ Elevation,
+                  data = faramea)
+layout(1)
+#plot(lm,which = 2)
+hist(lm$resid,breaks=20,main='Distribution of residuals',
+     xlab='Residuals')
+```
+]
 
 Quelle distribution modèle le mieux ces observations?
 1. Bernoulli
@@ -1807,14 +1817,26 @@ Ceci est un question de sondage à un choix. La réponse est 3. Poisson.
 # Modéliser des données d'abondance
 
 L'élévation influence-t-elle l'abondance de *F. occidentalis*?
-
-```{r, echo=F,fig.height=4.0}
+.pull-left[
+```{r, echo=F,fig.height=4}
 par(mypar);par(cex = 1.4)
 plot(faramea$Elevation, faramea$Faramea.occidentalis, 
-     ylab = 'Nombre de F. occidentalis', xlab = 'Élevation(m)')
+     ylab = 'Nombre de F. occidentalis', xlab = 'Élévation(m)')
 ```
+]
 
-.small[What type of distribution best fits this data?
+.pull-right[
+```{r, echo=F,fig.height=4}
+par(mypar);par(cex = 1.4)
+lm <- lm(Faramea.occidentalis ~ Elevation,
+                  data = faramea)
+layout(1)
+#plot(lm,which = 2)
+hist(lm$resid,breaks=20,main='Distribution des résidus',
+     xlab='Résidus')
+```
+]
+.small[Quelle distribution modèle le mieux ces observations?
 1. Bernoulli   
 2. Normal    
 3. **Poisson**
@@ -1974,14 +1996,14 @@ les événements qui sont comptés sont corrélés positivement.
 
 <br>
 
-.center [*Pouvez-vous penser à une situation en biologie qui peut provoquer la surdispersion?*]
+.center[*Pouvez-vous penser à une situation en biologie qui peut provoquer la surdispersion?*]
 
 <br>
-
+--
+<br>
 **Pourquoi devrions-nous nous intéresser à la surdispersion?**
 
-> Les tests sur les variables explicatives apparaîtront généralement plus significatifs et les intervalles de confiance des paramètres seront plus étroits
-que les données ne le justifierait!
+Les tests sur les variables explicatives apparaîtront généralement plus significatifs et les intervalles de confiance des paramètres seront plus étroits que les données ne le justifierait!
 
 ---
 # La surdispersion

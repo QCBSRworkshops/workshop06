@@ -272,11 +272,11 @@ Let's start with the odds for topography from `logit.reg`:
 $µ/ (1 - µ) = 8.09$
 
 We rearrange to isolate $µ$ :\
-$µ$ = 8.09(1 - $µ$) = 8.09 - 8.09$µ$\
-8.09$µ$ + $µ$ = 8.09\
-$µ$(8.09 + 1) = 8.09\
-$µ$ = 8.09 / (8.09 + 1)\
-$µ$ = 1 / (1 + (1 / 8.09)) = 0.89\
+$µ = 8.09(1 - µ) = 8.09 - 8.09µ$\
+$8.09µ + µ = 8.09$\
+$µ(8.09 + 1) = 8.09$\
+$µ = 8.09 / (8.09 + 1)$\
+$µ = 1 / (1 + (1 / 8.09)) = 0.89$\
 
 We found the same results !
 
@@ -398,7 +398,7 @@ But, do not be afraid of non-significant results!
 
 ## Visual representation of results
 
-Once we've validated our model, we'll likely want to visually represent our results. Here is an example with `ggplot2`. See [workshop 3](r_workshop3)for a reminder for this package.
+Once we've validated our model, we'll likely want to visually represent our results. Here is an example with `ggplot2`. See  [workshop 3](r_workshop3)for a reminder for this package.
 
 ```{r, echo = FALSE, eval = TRUE, warning = FALSE}
 library(ggplot2)
@@ -407,5 +407,5 @@ library(ggplot2)
 ggplot(mites, aes(x = WatrCont, y = pa)) + geom_point() +
 stat_smooth(method = "glm", method.args = list(family=binomial), se = TRUE) + xlab("Water content") +
 ylab("Probability of presence") +
-ggtitle("Probability of presence of  Galumna sp. against the water content")
+ggtitle("Probability of presence of  Galumna sp. against the water content")+theme_classic()
 ```

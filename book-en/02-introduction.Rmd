@@ -439,9 +439,9 @@ Very often, data will not "behave" and will violate the assumptions we have seen
 
 We have been told to **transform** our data using logarithmic, square-root, and cosine transformations to get around these problems. Unfortunately, transformations not always work and come with a few drawbacks:
 
-**1.**  They change the response variable (!), making interpretation challenging;
-**2.**  They may not simulateneously improve linearity and homogeneity of variance;
-**3.**  The boundaries of the sample space change.
+**1.**  They change the response variable (!), making interpretation challenging;\
+**2.**  They may not simulateneously improve linearity and homogeneity of variance;\
+**3.**  The boundaries of the sample space change.\
 
 For instance, our simple linear model:
 

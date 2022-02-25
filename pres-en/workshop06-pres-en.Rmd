@@ -1798,19 +1798,17 @@ Let us investigate the histogram of the frequency of *Faramea occidentalis*.
 # Modeling count data
 
 .large[What is count data?]
+Count data are often characterized by:
+- Positive values: you do not count **-7** individuals;
+- Integer values: you do not count **7.56** individuals;\
+- Exhibits larger variance for larger values.
 
-```{r, echo=FALSE,fig.height=4.6}
+```{r, echo=FALSE,fig.height=5,fig.width=8}
 par(mypar);par(cex = 1.4)
 hist(faramea$Faramea.occidentalis, breaks = 30, col = 'gray', xlab = 'Number of F. occidentalis', ylab = 'Frequency', main = '')
 ```
-
-Count data are often characterized by:
-
-- Positive values: you do not count $-7$ individuals;
-- Integer values: you do not count $7.56$ individuals;
-  - You can say that *in average*, you expect $7.46$ individuals in a given situation. But you measure something *discrete*.
-- Exhibits larger variance for larger values.
-
+???
+You can say that *in average*, you expect 7.56 individuals in a given situation. But you measure something *discrete*.
 ---
 # Modeling count data
 
@@ -1818,10 +1816,25 @@ Count data are often characterized by:
 
 Does elevation influence the abundance of *F. occidentalis*?
 
-```{r, echo=FALSE,fig.height=4.0}
+.pull-left[
+```{r, echo=F,fig.height=4}
 par(mypar);par(cex = 1.4)
-plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'F. occidentalis individuals', xlab = 'Elevation(m)')
+plot(faramea$Elevation, faramea$Faramea.occidentalis, 
+     ylab = 'Nombre de F. occidentalis', xlab = 'Élévation(m)')
 ```
+]
+
+.pull-right[
+```{r, echo=F,fig.height=4}
+par(mypar);par(cex = 1.4)
+lm <- lm(Faramea.occidentalis ~ Elevation,
+                  data = faramea)
+layout(1)
+#plot(lm,which = 2)
+hist(lm$resid,breaks=20,main='Distribution of residuals',
+     xlab='Residuals')
+```
+]
 
 .small[What type of distribution best fits this data?
 1. Bernoulli   
@@ -1841,11 +1854,25 @@ This is a singe choice poll question. The correct answer is 3. Poisson
 
 Does elevation influence the abundance of *F. occidentalis*?
 
-```{r, echo=FALSE,fig.height=4.0}
+.pull-left[
+```{r, echo=F,fig.height=4}
 par(mypar);par(cex = 1.4)
-plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'F. occidentalis individuals', xlab = 'Elevation(m)')
+plot(faramea$Elevation, faramea$Faramea.occidentalis, 
+     ylab = 'Nombre de F. occidentalis', xlab = 'Élévation(m)')
 ```
+]
 
+.pull-right[
+```{r, echo=F,fig.height=4}
+par(mypar);par(cex = 1.4)
+lm <- lm(Faramea.occidentalis ~ Elevation,
+                  data = faramea)
+layout(1)
+#plot(lm,which = 2)
+hist(lm$resid,breaks=20,main='Distribution of residuals',
+     xlab='Residuals')
+```
+]
 .small[What type of distribution best fits this data?
 1. Bernoulli   
 2. Normal    
@@ -1894,12 +1921,14 @@ $$f(y_i, \, \mu_i) = \frac{\mu^{y_i}_i \times e^{-\mu_i}}{y!}$$
 $\mu_i$ corresponds to the expected number of individuals
 
 ---
+exclude:true
 # Poisson GLM behind the scenes
 
 **Step 2.** We specify the systematic part of the model just as in a linear model.
 
 $$\underbrace{\alpha}_\text{Intercept} + \underbrace{\beta_1}_\text{slope of 'Elevation'} \times \text{Elevation}_i + \underbrace{\beta_2}_\text{slope of 'Precipitation'} \times \text{Precipitation}_i$$
 --
+exclude:true
 **Step 3.** The link between the mean of $Y_i$ and the systematic part is a logarithmic function can be written as:
 
 $$log(\mu_i) = \alpha + \beta_1 \times \text{Elevation}_i + \beta_2 \times \text{Precipitation}_i$$
@@ -1920,6 +1949,30 @@ Increasing Elevation by one increases μ by factor of exp( $\beta_\text{Elevatio
 If $βj = 0$ then $exp(βj) = 1$ and $μ$ is not related to $x_j$. If $βj > 0$ then $μ$ increases if $x_j$ increases; if $βj < 0$ then $μ$ decreases if $x_j$ increases.
 ]
 
+---
+# Poisson GLM behind the scenes
+
+**Step 2.** We specify the systematic part (linear predictor) of the model just as in a linear model.
+
+$$\underbrace{\alpha}_\text{Intercept} + \underbrace{\beta_1}_\text{slope of Elevation} \times \text{Elevation}_i$$
+--
+
+**Step 3.** The link between the mean of $Y_i$ and the systematic part is a logarithmic function can be written as:
+
+.pull-left[
+$$log(\mu_i) = \alpha + \beta_1 \times \text{Elevation}_i$$
+
+.center[or]
+
+$$\mu_i = e^{ \alpha + \beta \times \text{Elevation}_i}$$
+
+]
+.small[
+This shows that the impact of each explanatory variable is multiplicative.
+Increasing Elevation by one increases μ by factor of exp( $\beta_\text{Elevation}$ ).
+
+If $βj = 0$ then $exp(βj) = 1$ and $μ$ is not related to $x_j$. If $βj > 0$ then $μ$ increases if $x_j$ increases; if $βj < 0$ then $μ$ decreases if $x_j$ increases.
+]
 ---
 
 # Fitting a Poisson GLM in `R`
@@ -1945,9 +1998,9 @@ summary(glm.poisson)
 # Model summary
 
 .pull-left2[
-.small[
+.xsmall[
 
-```{r, output.lines=12}
+```{r, output.lines=5}
 summary(glm.poisson)
 ```
 
@@ -2022,10 +2075,11 @@ events that are being counted are positively correlated.
 .center[*Are you able to think of a situation in biology that can cause overdispersion?*]
 
 <br>
-
+--
+<br>
 **Why should we care about overdispersion?**
 
->Tests on the explanatory variables will generally appear to be more significant and confidence intervals for the parameters will be narrower
+Tests on the explanatory variables will generally appear to be more significant and confidence intervals for the parameters will be narrower
 than warranted by the data!
 
 ---
