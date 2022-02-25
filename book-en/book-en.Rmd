@@ -1,3 +1,113 @@
+--- 
+title: "Workshop 6: Generalized linear models"
+subtitle: "QCBS R Workshop Series"
+author:
+- Developed and maintained by the contributors of the QCBS R Workshop Series^[The QCBS R Workshop Series is part of the [Québec Centre for Biodiversity Science](https://www.qcbs.ca), and is maintained by the series coordinators and graduent student, postdoctoral, and research professional members. **The contributors for this workshop can be accessed [here](link)**.]
+date: "`r Sys.time()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: ["references.bib"]
+biblio-style: apalike
+link-citations: yes
+cover-image: assets/images/logo/csbq_logo_accueil.png
+github-repo: "qcbsRworkshops/workshop06"
+description: "Generalized linear models in `R`"
+favicon: "assets/images/favicon.ico"
+always_allow_html: yes
+url: 'https\://github.com/qcbsRworkshops/'
+config:
+  edit:
+    link: https://github.com/qcbsRworkshops/workshop06/edit/main/book-en/%s
+    text: "Suggest changes"
+---
+
+# (PART\*) QCBS R Workshop Series {-}
+# Preface {-}
+
+Placeholder
+
+
+## Code of conduct
+### Expected behaviour
+### Unacceptable behaviour
+## Contributors
+## Contributing
+
+<!--chapter:end:index.Rmd-->
+
+
+# (PART\*) Generalized linear models in `R` {-}
+# Learning objectives
+
+Placeholder
+
+
+
+<!--chapter:end:01-preparing-for-the-workshop.Rmd-->
+
+
+# Reviewing linear models
+
+Placeholder
+
+
+## General linear models
+### Definition
+### Assumptions
+## An example with general linear models
+## Recalling linear models: assumptions
+### Model prediction
+### So, what do we do now? Transform our data?
+
+<!--chapter:end:02-introduction.Rmd-->
+
+
+# The distributions of biological data
+
+Placeholder
+
+
+
+<!--chapter:end:03-distributions.Rmd-->
+
+
+# Generalized linear models
+
+Placeholder
+
+
+
+<!--chapter:end:04-glm.Rmd-->
+
+
+# (PART\*) GLMs with binary data {-}
+# Binomial GLMs
+
+Placeholder
+
+
+## GLM with binomial data: logit link
+## Example
+## Challenge 1
+## Interpreting the output of a logistic regression
+### An example using the identity link
+### Interpreting the coefficients using the logit link
+## Predictive power and goodness-of-fit
+### Challenge 2
+## Visual representation of results
+
+<!--chapter:end:05-glm-binary.Rmd-->
+
+
+# (PART\*) GLMs with proportion data {-}
+# Binomial GLMs and proportions
+
+Placeholder
+
+
+
+<!--chapter:end:06-glm-proportion.Rmd-->
+
 # (PART\*) GLMs with count data {-}
 
 # What can we do with count data?
@@ -202,9 +312,9 @@ In practice, Poissons GLM are useful for describing the mean *µ*~i~ but underes
 The principle behind a quasi-Poisson GLM is very simple; the
 overdispersion parameter (φ) is added to the expected variance equation:
 
-$$E(Y_i) = \mu_i$$
+$E(Y_i) = \mu_i$
 
-$$Var(Y_i) = φ.\mu_i$$
+$Var(Y_i) = φ.\mu_i$
 
 The linear predictor and the link function remains the same. The
 difference is that $φ$ will first be estimated to correct the model.
@@ -248,13 +358,13 @@ Two other points are important to keep in mind when using quasi-Poisson GLMs and
     GLM1 is correct.
 
 -   In some cases $φ$ is not known. For instance, this occurs when you run
-    a GLM with a normal error distribution. In that case, $φ$ can be
+    a GLM with a normal error distribution. In that case, φ can be
     estimated *a posteriori* using the residual deviance of the larger
     model so the criterion becomes:
     
-$$\frac{(D_1-D_2)/(p_2-p_1)}{D_2(n-p_2)}$$
+$\frac{(D_1-D_2)/(p_2-p_1)}{D_2(n-p_2)}$
     
-and is assumed to follow a F distribution with $p_1-p_2$ and $n-p_2$ degrees of freedom.
+and is assumed to follow a F distribution with *p*~2~-*p*~1~ and n-*p*~2~ degrees of freedom.
 
 Try also deviance analysis to test for the effect of Elevation
 
@@ -270,46 +380,49 @@ anova(null.model, glm.quasipoisson, test = "Chisq")
 ![](images/dispParam.png)
 
 
-## Negative binomial GLMs
+# Negative binomial GLMs
 
 GLM with a negative binomial (NB) distribution are favored when
 overdispersion is extreme. The NB distribution contains an additional
-parameter $k$, particularly handy for count data containing a
+parameter *k*, particularly handy for count data containing a
 preponderance of zeros. Before we go into R stuff, we should see what
 lies behind a negative binomial GLM. A NB distribution is actually a
 combination of two distributions: a Poisson distribution and a gamma
 distribution. The NB distribution first assumes that a discrete random
-variable is Poisson distributed but its mean, $µ$ is assumed to follow a gamma distribution. The mixture between the Poisson and gamma
+variable is Poisson distributed but its mean, *µ* is assumed to follow a
+gamma distribution. The mixture between the Poisson and gamma
 distributions can be simplified into a density function specific to the
-NB which has two parameters $µ$ and $k$.
+NB which has two parameters *µ* and *k*.
 
-$$Y \sim NB(µ, k)$$
+Y \~ NB(*µ*, *k*)
 
-$$E(Y) = µ~and~Var(Y) = µ + µ²/k$$
+E(Y) = *µ* and Var(Y) = *µ* + *µ*²*/k*
 
 Here, we can see how overdispersion will be accounted for by NB
 distribution in GLMs. The second term of the variance determines the
-amount of overdispersion. In fact, it is indirectly determined by $k$,
-where $k$ is also called the dispersion parameter. If $k$ is large
-(relative to $μ²$), the second term, $µ²/k$ approximates 0, and the
-variance of Y is $μ$. In such cases the NB converges to the Poisson
+amount of overdispersion. In fact, it is indirectly determined by *k*,
+where *k* is also called the dispersion parameter. If *k* is large
+(relative to *μ*²), the second term, *µ*²*/k* approximates 0, and the
+variance of Y is *μ*. In such cases the NB converges to the Poisson
 distribution and you might as well use a Poisson distribution. The
-smaller $k$, the larger the overdispersion. Just like with others GLMs,
+smaller *k*, the larger the overdispersion. Just like with others GLMs,
 a NB GLM is specified following the fundamental three steps. It first
-assumes that Y~i~ is negative binomial distributed with mean $μ_i$ and parameter $k$.
+assumes that Y~i~ is negative binomial distributed with mean *μ*~i~ and
+parameter *k*.
 
-$$Y_i \sim NB(µ_i, k)$$
+Y~i~ ∼ NB(*µ*~i~, *k*)
 
-$$E(Y_i) = µ_i~and~Var(Y_i) = µ_i + µ_i²/k$$
+E(Y~i~) = *µ*~i~ and Var(Y~i~) = *µ*~i~ + *µ*~i~²*/k*
 
 The two last steps define the systematic part and the link function
-between the mean of $Y_i$ and the predictor function. In NB GLMs the link function is logarithmic ensuring that fitted values are always positive.
+between the mean of Yi and the predictor function. In NB GLMs the link
+function is logarithmic ensuring that fitted values are always positive.
 
-$$log(µ_i) = β_0 + βX_i$$
+-   log(*µ*~i~) = *β*~0~ + **X**~i~.*β*
 
 or
 
-$$µ_i = exp(β_0 + βX_i)$$
+-   *µ*~i~ = exp(*β*~0~ + **X**~i~.*β*)
 
 
 The negative binomial GLM can be built using the ```glm.nb()``` function from
@@ -324,7 +437,8 @@ summary(glm.negbin)
 ```
 
 The summary is similar to other GLMs summaries (e.g. Poisson GLMs),
-though we now have a parameter theta, which stands for parameter $k$ in the variance of the NB distribution. Its standard error is also
+though we now have a parameter theta, which stands for parameter *k* in
+the variance of the NB distribution. Its standard error is also
 provided, but care is needed with its use as the interval is not
 symmetric and we are testing on the boundary.
 
@@ -333,6 +447,7 @@ symmetric and we are testing on the boundary.
 The NB GLMs appear to be the best fit to our data. We can plot the
 relationship between the abundance of *Faramea occidentalis* and
 elevation.
+
 
 Use ```summary``` to get the parameters.
 ```{r, echo = TRUE, eval = TRUE}
@@ -373,7 +488,7 @@ model is large at low elevation.
 
 ### Challenge 3
 
-Use the `mites` dataset! Model the abundance of the species Galumna as a function of the substrate characteristics (water content ```WatrCont``` and density ```SubsDens```)
+Use the ```mites``` dataset! Model the abundance of the species Galumna as a function of the substrate characteristics (water content ```WatrCont``` and density ```SubsDens```)
 
 Do you need to account for overdispersion?
 Which covariates have a significant effect?
@@ -397,8 +512,7 @@ Specify manually a nested model, call it for example MyGLM2, and use the command
 anova(MyGLM, MyGLM2, test = "Chi")
 ```
 
-<details>
-  <summary>**Clic here to see the solution!**</summary>
+**Solution**
 
 ```{r, echo = TRUE, eval = TRUE}
 # Poisson GLM
@@ -414,12 +528,66 @@ glm.qp2 = glm(Galumna~WatrCont, data=mites, family=quasipoisson)
 anova(glm.qp2, glm.qp, test="Chisq")
 ```
 
-![](images/Solution_3.png)
+![](images/Solution_3.PNG)
+<img align="left" width="100" height="100" src="Solution_3.PNG">
 
-</details>
-
-## Conclusion on GLMs with count data
+# Conclusion on GLMs with count data
 
 All the GLMs introduced (Poisson, quasi-Poisson and NB) to model count
-data use the same log-linear mean function ($log(µ) = βx$), but
-make different assumptions about the remaining likelihood. Quasi-Poisson and NB are favored to deal with overdispersion. However, in some cases the data may contains too many zeros and zero-augmented models can be useful as they extend the mean function by modifying (typically, increasing) the likelihood of zero counts (e.g. zero-inflated Poisson [ZIP]).
+data use the same log-linear mean function (log(*µ*) = **X**.*β*), but
+make different assumptions about the remaining likelihood. Quasi-Poisson
+and NB are favored to deal with overdispersion. However, in some cases
+the data may contains too many zeros and zero-augmented models can be
+useful as they extend the mean function by modifying (typically,
+increasing) the likelihood of zero counts (e.g. zero-inflated Poisson
+[ZIP]).
+
+<!--chapter:end:07-glm-count.Rmd-->
+
+# (PART\*) Other distributions {-}
+
+# Other distributions
+
+-   When the response variable consists of percentages or proportions
+    that do not arise from successes and failures from *n* yes/no
+    experiments (Bernoulli experiment), it is not possible to use the
+    binomial distribution. In this case, it is often advised to perform
+    a **logit transformation** of the data and use a lm(m). See this
+    [interesting
+    article](http://onlinelibrary.wiley.com/doi/10.1890/10-0340.1/abstract).
+-   For data that can be appear normally distributed after a
+    log-transformation, it can be advisable to use a **log-normal
+    distribution** in a glm instead of log-transforming the data.
+-   A **Gamma distribution** can also be used. It is similar to a
+    log-normal distribution, but is more versatile.
+-   The **Tweedie distribution** is a versatile family of distributions
+    that is useful for data with a mix of zeros and positive values (not
+    necessarily counts). See the [R Tweedie
+    package](https://cran.r-project.org/web/packages/tweedie/index.html).
+-   When the data comprise an excess number of zeros, that arise from a
+    different process than the process that generates the counts, the
+    **zero-inflated** Poisson or zero-inflated negative binomial
+    distributions should be used. These methods are available, in the
+    [glmmADMB package](http://glmmadmb.r-forge.r-project.org/), among
+    others.
+
+<!--chapter:end:08-other-distributions.Rmd-->
+
+# (PART\*) Additional GLM resources {-}
+
+# Summary
+
+GLMs are a powerful statistical tecnhique for ...
+
+In the next workshop, you will see ...
+
+# Additional resources
+
+<!--chapter:end:09-final-considerations.Rmd-->
+
+`r if (knitr::is_html_output()) '
+# References
+'`
+
+<!--chapter:end:10-references.Rmd-->
+
