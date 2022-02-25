@@ -2349,6 +2349,11 @@ lines(pframe$lwr, col = 2,
 - B. Bolker (2009) Ecological Models and Data in R. Princeton University Press.
 - A. Zuur et al. (2009) Mixed Effects Models and Extensions in Ecology with R. Springer.
 
+**Articles** :
+
+- [Harrison et al. (2018), PeerJ, DOI 10.7717/peerj.4794
+](http://dx.doi.org/10.7717/peerj.4794)
+
 **Websites**:
 
 - GLMM for Ecologists (http://glmm.wikidot.com) .small[.comment[A great website on GLMM with a Q&A section!]]

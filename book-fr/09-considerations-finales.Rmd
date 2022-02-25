@@ -2,9 +2,22 @@
 
 # Sommaire
 
-Les GLMs constituent une puissante méthode d'analyse pour ...
+Les GLMs constituent une puissante méthode d'analyse pour les données avec des distributions non-normales, telles que des données d'abondance, binomiales et des proportions. Ces modèles ne viennent cependant pas sans leur défi et n'apporte pas une solution à tous les problèmes de distribution de vos données. 
 
-
-Lors du prochain atelier, vous verrez comment ...
+Lors du prochain atelier, vous verrez les modèles linéaires mixtes (généraux et généralisés). Ces modèles permettent de surmonter un certain nombre de limitations liées aux modèles linéaires traditionnels en modélisant une partie de la variance avec des variables aléatoires. Dans cet atelier, vous apprendrez à déterminer si vous devez utiliser un modèle à effets mixtes pour analyser vos données.
 
 # Ressources additionnelles
+
+**Livres**:
+B. Bolker (2009) Ecological Models and Data in R. Princeton University Press.
+
+A. Zuur et al. (2009) Mixed Effects Models and Extensions in Ecology with R. Springer.
+
+**Articles** :
+
+Harrison et al. (2018), PeerJ, DOI [10.7717/peerj.4794
+](http://dx.doi.org/10.7717/peerj.4794)
+
+**Sites internet**:
+
+[GLMM for Ecologists](http://glmm.wikidot.com) 

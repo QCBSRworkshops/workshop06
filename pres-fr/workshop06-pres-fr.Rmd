@@ -2308,7 +2308,6 @@ lines(pframe$lwr,
 - **Poisson ou negative binomiale à inflation de zéro**. Quand les données comprennent un nombre excessif de zéros, venant d'un processus différent de celui qui génère les comptes.
 
 ---
-exclude: true
 
 # Ressources additionnelles sur les GLMs
 
