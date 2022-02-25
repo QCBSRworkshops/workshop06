@@ -285,7 +285,11 @@ problèmes de surdispersion. Avant de rentrer dans les détails sur R,
 voyons rapidement ce qui se cache derrière la distribution BN. En fait, la distribution BN est la combinaison de deux distributions; une
 distribution de Poisson et une distribution Gamma. La distribution BN
 définie la distribution d'une variable aléatoire discrète de la même
-manière qu'une distribution de Poisson mais autorise la variance à être différente de la moyenne. Le mélange entre la distribution de Poisson et la distribution Gamma peut se résumer à l'aide de deux paramètres, $µ$ et $k$ qui spécifie la distribution de la facon suivante :
+manière qu'une distribution de Poisson mais autorise la variance à être différente de la moyenne. 
+
+![](images/poisson_versus_neg.png)
+
+Le mélange entre la distribution de Poisson et la distribution Gamma peut se résumer à l'aide de deux paramètres, $µ$ et $k$ qui spécifie la distribution de la facon suivante :
 
 $$Y \sim NB(µ, k)$$
 

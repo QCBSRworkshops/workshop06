@@ -42,7 +42,7 @@ les valeurs prédites sont toujours des nombres entiers, et l'ensemble
 d'issus d'une loi de Poisson est strictement positif. Toutes ces
 propriétés sont utiles pour modéliser les données de dénombrement, p.ex.
 l'abondance d'un taxon, le nombre de graines dans une parcelle, etc.
-Notre variable mites 'Galumna' semble suivre une loi de Poisson avec une
+Notre variable mites `Galumna` semble suivre une loi de Poisson avec une
 basse valeur de $\lambda$ (en effet, si nous calculons l'abondance moyenne de
 Galumna pour l'ensemble des échantillons avec la fonction mean(), nous
 observons que cette valeur est proche de 0):
@@ -55,7 +55,7 @@ hist(mites$Galumna)
 mean(mites$Galumna)
 ```
 
-La variable mites '$pa' (présence-absence) prend une autre forme. Cette
+La variable mites `$pa` (présence-absence) prend une autre forme. Cette
 variable n'inclut que des 0s et des 1s, de telle sorte que la loi de
 Poisson ne serait pas plus appropriée pour cette variable que la loi
 normale.

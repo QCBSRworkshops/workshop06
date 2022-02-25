@@ -12,12 +12,29 @@
     log-transformation, it can be advisable to use a **log-normal    distribution** in a GLM instead of log-transforming the data.
 -   A **Gamma distribution** can also be used. It is similar to a
     log-normal distribution, but is more versatile.
+
+![](images/Gamma_distribution.png)
+
 -   The **Tweedie distribution** is a versatile family of distributions
     that is useful for data with a mix of zeros and positive values (not
     necessarily counts). See the [R Tweedie    package](https://cran.r-project.org/web/packages/tweedie/index.html).
+    
+```{r, echo = FALSE, eval = TRUE}
+#install.packages(c('GlmSimulatoR','cplm'))
+library(GlmSimulatoR)
+library(ggplot2)
+library(cplm, quietly = TRUE)
+
+simdata <- simulate_tweedie(weight = .2, ancillary = 1.15, link = "log")
+
+ggplot(simdata, aes(x = Y)) + 
+  geom_histogram(bins = 30)
+```
 -   When the data comprise an excess number of zeros, that arise from a
     different process than the process that generates the counts, the
     **zero-inflated** Poisson or zero-inflated negative binomial
     distributions should be used. These methods are available, in the
     [glmmADMB package](http://glmmadmb.r-forge.r-project.org/), among
     others.
+    
+![](images/zip_pmf.png)

@@ -1,8 +1,8 @@
 # Modèle linéaire généralisé
 
 Afin d'éviter les biais reliés aux modèles linéaires de base, nous avons besoin de spécifier deux choses : 
-1\. une **distribution statistique pour les résidus du modèle**
-2\. **une fonction de lien** pour les valeurs prédites par ce même modèle. 
+1\. une **distribution statistique pour les résidus du modèle**\
+2\. **une fonction de lien** pour les valeurs prédites par ce même modèle.\
 
 Pour une régression linéaire d'une variable réponse continue distribuée normalement, l'équation suivante nous permet d'obtenir les
 valeurs prédites de la variable réponse :

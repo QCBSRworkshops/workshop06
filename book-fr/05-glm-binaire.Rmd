@@ -175,20 +175,20 @@ où $g^{-1}()$ est la **fonction lien d'identité inverse**.
 Pour un lien d'identité, l'interprétation du coefficient $\beta_1$ est plutôt simple:
 Pour un incrément d'une unité de $x_1$, $\beta_1$ donne une différence constante du résultat.
 
-$\Delta{y_i} = [\beta_0 + (\color{red}{x_{1i} + 1})\beta_1 + x_{2i}\beta_2] - (\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)$
+$$\Delta{y_i} = (\beta_0 +\beta_1(\color{red}{x_{1i} + 1}) + \beta_2x_{2i}) - (\beta_0 + \beta_1x_{1i} + \beta_2x_{2i})$$
 
-$\Delta{y_i} = \beta_1$
+$$\Delta{y_i} = \beta_1$$
 
 
 ### Interprétation avec un lien logit
 
 Pour un modèle linéaire logistic avec deux covariables $x_1$ et $x_2$, nous avons:
 
-$$log({\dfrac{p}{1-p}})=\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2$$
+$$log({\dfrac{p}{1-p}})=\beta_0 + \beta_1x_{1i} + \beta_2x_{2i}$$
 
 Ce qui correspong à notre ratio du log de nos cotes! Nous pouvons ainsi utiliser une fonction exponentielle pour réécrire notre modèle et obtenir le ratio des cotes:
 
-$$\dfrac{p}{1-p}=exp(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)$$
+$$\dfrac{p}{1-p}=exp(\beta_0 + \beta_1x_{1i} + \beta_2x_{2i})$$
 
 Si nous voulons ainsi convertir les cotes en probabilité, selon le coefficient $\alpha$ nous pouvons utiliser la **fonction de lien logit inverse** (aussi appelé la fonction logistic):
 
@@ -196,12 +196,12 @@ $$ Pr(y_i = 1) = logit^{-1}(\alpha) = \dfrac{1}{1 + exp(-\alpha)} = (\dfrac{1}{1
 
 Pour en revenir à notre mode`le, cela nous donne:
 
-$$Pr(y_i = 1) = \dfrac{exp(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}{1 + exp{(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}}$$
+$$Pr(y_i = 1) = \dfrac{exp(\beta_0 + \beta_1x_{1i} +\beta_2 x_{2i})}{1 + exp{(\beta_0 + \beta_1x_{1i} + \beta_2x_{2i})}}$$
 
 Puisque la fonction de lien inverse n'Est pas linéaire, cela reste difficile d'interpréter le coefficient.
 Cependant, nous pouvons observer ce qui arrive à la différence avec un incrément d'une unité de $x_1$:
 
-$$\Delta{y_i} = \dfrac{\exp[\beta_0 + (\color{red}{x_{1i} + 1})\beta_1 + x_{2i}\beta_2]}{1 + \exp{[\beta_0 + (\color{red}{x_{1i} + 1})\beta_1 + x_{2i}\beta_2]}} - \dfrac{\exp[\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2]}{1 + \exp{[\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2]}}$$
+$$\Delta{y_i} = \dfrac{\exp(\beta_0 + \beta_1(\color{red}{x_{1i} + 1}) + \beta_2x_{2i})}{1 + \exp{(\beta_0 + \beta_1(\color{red}{x_{1i} + 1}) + \beta_2x_{2i})}} - \dfrac{\exp(\beta_0 + x_{1i}\beta_1 + \beta_2x_{2i})}{1 + \exp{(\beta_0 + \beta_1x_{1i} + \beta_2x_{2i})}}$$
 
 $$\Delta{y_i} = \exp(\beta_1)\ $$
 
@@ -229,7 +229,11 @@ $(1.0159 - 1) * 100 = 1.59%$.
 
 Il est 1.59 % moins vraisemblable d'observer *Galumna* sp. avec une augmentation d'une unité de contenu en eau. Pour se convaincre qu'on fait la bonne interprétation, on peut représenter graphiquement les résultats de la présence de *Galumna* sp. en fonction du contenu en eau du sol. On voit qu'en moyenne la présence de *Galumna* sp. est plus élevée lorsque le contenu en eau est faible.
 
-![](images/galumna_pa.png){width="400"}
+```{r, echo = F, eval = TRUE,fig.width = 5, fig.height = 4}
+library(ggplot2)
+ggplot(mites, aes(x = WatrCont, y = pa)) + geom_point() + xlab("Contenu en eau") +
+ylab("Probabilité de présence")
+```
 
 Lorsqu'un paramètre estimé est entre 0 et 1 sur l'échelle des cotes, la relation entre la variable réponse et la variable explicative est **négative**. Si la valeur est supérieure à 1, la relation est **positive**. Si l'intervalle de confiance inclut la valeur 1, la relation n'est pas *significative*. 
 
@@ -466,5 +470,5 @@ library(ggplot2)
 ggplot(mites, aes(x = WatrCont, y = pa)) + geom_point() +
 stat_smooth(method = "glm", method.args = list(family=binomial), se = TRUE) + xlab("Contenu en eau") +
 ylab("Probabilité de présence") +
-ggtitle("Probabilité de présence de Galumna sp. en fonction du contenu en eau")
+ggtitle("Probabilité de présence de Galumna sp. en fonction du contenu en eau")+theme_classic()
 ```

@@ -281,6 +281,9 @@ combination of two distributions: a Poisson distribution and a gamma
 distribution. The NB distribution first assumes that a discrete random
 variable is Poisson distributed but its mean, $µ$ is assumed to follow a gamma distribution. The mixture between the Poisson and gamma
 distributions can be simplified into a density function specific to the
+
+![](images/poisson_versus_neg.png)
+
 NB which has two parameters $µ$ and $k$.
 
 $$Y \sim NB(µ, k)$$

@@ -183,20 +183,20 @@ where $g^{-1}()$ is the **inverse link function**.
 For the identity link, the interpretation of the $\beta_1$ coefficient is therefore straighforward:
 For one-unit increase in $x_1$, $\beta_1$ dictates a constant difference in the outcome.
 
-$\Delta{y_i} = [\beta_0 + (\color{red}{x_{1i} + 1})\beta_1 + x_{2i}\beta_2] - (\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)$
+$$\Delta{y_i} = (\beta_0 + \beta_1(\color{red}{x_{1i} + 1}) + \beta_2x_{2i}) - (\beta_0 + \beta_1x_{1i} + \beta_2x_{2i})$$
 
-$\Delta{y_i} = \beta_1$
+$$\Delta{y_i} = \beta_1$$
 
 
 ### Interpreting the coefficients using the logit link
 
 In a linear logistic model with two covariates $x_1$ and $x_2$, we have:
 
-$$log({\dfrac{p}{1-p}})=\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2$$
+$$log({\dfrac{p}{1-p}})=\beta_0 + \beta_1x_{1i} +\beta_2x_{2i}$$
 
 This corresponds to a log odds ratio! We can the use an exponential function to rewrite that model to get the odds ratio:
 
-$$\dfrac{p}{1-p}=exp(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)$$
+$$\dfrac{p}{1-p}=exp(\beta_0 + \beta_1x_{1i} + \beta_2x_{2i})$$
 
 If we want to convert the odds into probability, given a coefficient $\alpha$ we would use the **inverse logit link function** (also known as the logistic function):
 
@@ -204,12 +204,12 @@ $$ Pr(y_i = 1) = logit^{-1}(\alpha) = \dfrac{1}{1 + exp(-\alpha)} = (\dfrac{1}{1
 
 Now going back to our model, this gives us:
 
-$$Pr(y_i = 1) = \dfrac{exp(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}{1 + exp{(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}}$$
+$$Pr(y_i = 1) = \dfrac{exp(\beta_0 +\beta_1 x_{1i} + \beta_2x_{2i})}{1 + exp{(\beta_0 + \beta_1x_{1i} + \beta_2x_{2i})}}$$
 
 Since the inverse link is nonlinear, it is difficult to interpret the coefficient.
 However, we can look what happens to the differences for a one-unit change to $x_1$:
 
-$$\Delta{y_i} = \dfrac{\exp[\beta_0 + (\color{red}{x_{1i} + 1})\beta_1 + x_{2i}\beta_2]}{1 + \exp{[\beta_0 + (\color{red}{x_{1i} + 1})\beta_1 + x_{2i}\beta_2]}} - \dfrac{\exp[\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2]}{1 + \exp{[\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2]}}$$
+$$\Delta{y_i} = \dfrac{\exp(\beta_0 + \beta_1(\color{red}{x_{1i} + 1}) + \beta_2x_{2i})}{1 + \exp{(\beta_0 + \beta_1(\color{red}{x_{1i} + 1}) + \beta_2x_{2i}})} - \dfrac{\exp(\beta_0 + \beta_1x_{1i} + \beta_2x_{2i})}{1 + \exp{(\beta_0 + \beta_1x_{1i} + \beta_2x_{2i})}}$$
 
 $$\Delta{y_i} = \exp(\beta_1)\ $$
 
@@ -245,7 +245,12 @@ $(1.0159 - 1) * 100 = 1.59%$.
 
 So there is a 1.59% decrease in probability of observing *Galumna* sp. with a one-unit increase in water content. To convince ourselves that it is an appropriate interpretation, we can plot the presence of *Galumna* sp. as a function of water content. We see that, on average, *Galumna* sp. presence is higher at lower water content than its "absence".
 
-![](images/galumna_pa.png){width="400"}
+```{r, echo = F, eval = TRUE,fig.width = 5, fig.height = 4}
+library(ggplot2)
+ggplot(mites, aes(x = WatrCont, y = pa)) + geom_point() + xlab("Water content") +
+ylab("Probability of presence")
+```
+
 When an estimated parameter is between 0 and 1 on the odds' scale, the relationship between the response variable and the predictors is **negative**. If it's greater than 1, the relationship will be **positive**. If the confidence interval include 1 onthe odds' scale, the relationship is *not signficant*.
 
 Keep in mind that a value of 1 ont he odds' scale indicates that the probability to oberserve the event Y is equal to the probability of *not* observing the event (*i.e.* $p$ = 0.5, 0.5/(1-0.5) = 1).

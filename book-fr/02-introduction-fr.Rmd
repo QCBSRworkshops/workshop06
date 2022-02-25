@@ -3,7 +3,7 @@ output:
   pdf_document: default
   html_document: default
 ---
-# Reviewing linear models
+# Révision des modèles linéaires
 
 La plupart de nos recherches tentent d'expliquer des tendances dans nos observations à l'aide de variables prédictives. 
 
@@ -324,8 +324,7 @@ Reculons un peu et révisons les conditions d'application des modèles linéaire
 
 $$Y_i = \beta_0 + \beta_1X_i + \varepsilon$$
 
-The last entry $\varepsilon_i$ is important. This is where assumptions of
-normality and homoscedasticity originate. In linear models, **the residuals $\varepsilon_i$ (the distance between each observation and the regression line) can be predicted by drawing random values from a normal distribution.**
+La dernière variable $\varepsilon_i$ est très importante. C'est de là que les conditions d'application du modèle prennent origine. Pour les modèles linéaires, **les résidus $\varepsilon_i$ (la distance entre une observation et la droite de régression) peuvent être prédits en dessinant une variable aléatoire provenant d'une distribution normale.**
 
 Rappelez-vous que les distributions normales ont deux paramètres: $\mu$ (la moyenne de la distribution) et $\sigma^2$ (la variance de la sitribution). Pour un modèle linéaire, $\mu$ change selon la valeur de $X$ (variable prédictrice), mais $\sigma^2$ a la même valeurs pour toutes les valeurs de $Y$. Notre modèle linéaire simple peut aussi être écrit de cette façon:
 
@@ -362,7 +361,7 @@ legend('topleft', legend = c('5', '7.5', '10'), lty = 1, col = c(1,2,4), bty = '
 
 ### Prédiction du modèle
 
-Lorsque les conditions d'application du modèle linéairene sont pas rencontrées, les prédiction du modèle deviennent problématiques. REgardons un exemple pour démontrer les problèmes associés avec un modèle mal estimé.
+Lorsque les conditions d'application du modèle linéairene sont pas rencontrées, les prédiction du modèle deviennent problématiques. Regardons un exemple pour démontrer les problèmes associés avec un modèle mal estimé.
 
 Rappel: nous voulons estimer les *coefficients inconnus* $\beta_0$ et $\beta_1$, pour tracer une ligne droite qui prédit chaque valeur de $Y$ en fonction de $X$!
 
@@ -395,7 +394,7 @@ Ceci nous indique que des valeurs de $Y$ générées aléatoirement lorsque le c
 
 Lorsque le contenu en eau = 400, résidus \varepsilon devrait suivre une distribution ormale dont les paramètres $\mu = 3.44 + (-0.006 x 400) = 1.02$ et $\sigma^2 = 1.51$, etc. Chaque valeur de $Y$ est modélisé selon une distribution normale avec une moyenne qui dépend de $X_i$, mais avec la variance qui est constante $\sigma^2 = 1.51$ pour toutes les valeurs de $X_i$. Sur un graphique, cela ressemblerait à:
 
-![](images/modelPredic.png)
+![](images/modelPredic.png){width="400"}
 
 Les quatre distributions normales (en orange) sur ce graphique représentent la probabilité d'observer une valeur d'abondance de *Galumna* donnée pour quatre valeurs différentes de contenu en eau. La moyenne de la distribution normale varie selon une fonction du contenu en eau (donc $\mu$  diminue avec le contenu en eau), mais $\sigma^2$ est toujorus = 1.51 (i.e. la variance est homogène pour toutes les valeurs de $X$).
 

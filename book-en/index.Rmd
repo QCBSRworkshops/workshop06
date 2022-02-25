@@ -83,10 +83,33 @@ Contributed with changes to the written material:
 
 Contributed by reporting issues and suggesting modifications:
 
+**2022** - **2021** - **2020**
+
+[Laurie Maynard](https://github.com/LaurieMaynard)\
+[Pedro Henrique P. Braga](https://github.com/pedrohbraga)\
+[Katherine Hébert](https://github.com/katherinehebert)\
+[Alex Arkilanian]()\
+[Mathieu Vaillancourt](mathieu.vaillancourt.2@ulaval.ca)\
+[Esteban G. Bernoske]()\
+
+**2019** - **2018** - **2017**
+
+[Azenor Bideault]()\
+[Willian Vieira]()\
+[Pedro Henrique P. Braga](https://github.com/pedrohbraga)\
+[Marie Hélène Brice]()\
+[Kevin Cazelles]()\
+
+**2016** - **2015** - **2014**
+
+[Cédric Frenette Dussault]()\
+[Thomas Lamy]()\
+[Zofia Taranu]()\
+[Vincent Fugère]()\
 
 ## Contributing
 
-Under construction.
+Under construction
 
 
 ```{r include=FALSE}

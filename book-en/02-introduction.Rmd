@@ -418,7 +418,7 @@ This tells us that randomly drawn $Y$ values when water content is $300$ should 
 At a water content of 400, residuals \varepsilon should follow a normal
 distribution with parameters $\mu = 3.44 + (-0.006 x 400) = 1.02$ and $\sigma^2 = 1.51$, etc. Each $Y$ value is modeled using a normal distribution with a mean that depends on $X_i$, but with a variance that is constant $\sigma^2 = 1.51$ across all $X_i$ values. Graphically, this looks like this:
 
-![](images/modelPredic.png)
+![](images/modelPredic.png){width="400"}
 
 The four normal distributions on this graph represent the probability of
 observing a given Galumna abundance for 4 different water content
