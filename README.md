@@ -43,8 +43,7 @@ Since 2014, several QCBS members contributed to consistently and collaboratively
 |     [Katherine Hébert]()    |      [Willian Vieira]()     |        [Thomas Lamy]()       |
 |     [Alex Arkilanian]()     | [Pedro Henrique P. Braga]() |       [Zofia Taranu]()       |
 |   [Mathieu Vaillancourt]()  |    [Marie Hélène Brice]()   |      [Vincent Fugère]()      |
-|     [Dominique Caron]()     |      [Kevin Cazelles]()     |                              |
-|     [Janaína Serrano]()     |                             |                              |
+|                             |      [Kevin Cazelles]()     |                              |
 
 # Development status
 
