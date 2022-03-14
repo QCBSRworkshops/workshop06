@@ -44,7 +44,7 @@ Since 2014, several QCBS members contributed to consistently and collaboratively
 |     [Alex Arkilanian]()     | [Pedro Henrique P. Braga]() |       [Zofia Taranu]()       |
 |   [Mathieu Vaillancourt]()  |    [Marie Hélène Brice]()   |      [Vincent Fugère]()      |
 |     [Dominique Caron]()     |      [Kevin Cazelles]()     |                              |
-|     [Janaína Serrano]()     |      [Kevin Cazelles]()     |                              |
+|     [Janaína Serrano]()     |                             |                              |
 
 # Development status
 
