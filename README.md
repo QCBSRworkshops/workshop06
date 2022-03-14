@@ -39,11 +39,11 @@ Since 2014, several QCBS members contributed to consistently and collaboratively
 
 |      2022 - 2021 - 2020     |      2019 - 2018 - 2017     |      2016 - 2015 - 2014      |
 |:---------------------------:|:---------------------------:|:----------------------------:|
-| [Pedro Henrique P. Braga]() |     [Azenor Bideault]()     | [Cédric Frenette Dussault]() |
-|     [Katherine Hébert]()    |      [Willian Vieira]()     |        [Thomas Lamy]()       |
-|     [Alex Arkilanian]()     | [Pedro Henrique P. Braga]() |       [Zofia Taranu]()       |
-|   [Mathieu Vaillancourt]()  |    [Marie Hélène Brice]()   |      [Vincent Fugère]()      |
-|                             |      [Kevin Cazelles]()     |                              |
+|    Pedro Henrique P. Braga  |      Azenor Bideault        |  Cédric Frenette Dussault    |
+|       Katherine Hébert      |       Willian Vieira        |         Thomas Lamy          |
+|        Alex Arkilanian      |  Pedro Henrique P. Braga    |        Zofia Taranu          |
+|     Mathieu Vaillancourt    |      Marie Hélène Brice     |       Vincent Fugère         |
+|                             |        Kevin Cazelles       |                              |
 
 # Development status
 
