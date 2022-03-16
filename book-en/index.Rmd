@@ -90,7 +90,7 @@ Contributed by reporting issues and suggesting modifications:
 [Katherine Hébert](https://github.com/katherinehebert)\
 [Alex Arkilanian]()\
 [Mathieu Vaillancourt](mathieu.vaillancourt.2@ulaval.ca)\
-[Esteban G. Bernoske]()\
+[Esteban Góngora](https://github.com/estebangongora)\
 
 **2019** - **2018** - **2017**
 
