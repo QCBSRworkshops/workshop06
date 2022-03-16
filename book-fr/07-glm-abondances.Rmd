@@ -18,8 +18,8 @@ Ce jeux de données s'intéresse à l'espèce d'arbre *Faramea occidentalis* sur
 
 ```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 5, fig.align = "center"}
 # Histogram of F. occidentalis count data
-hist(faramea$Faramea.occidentalis, breaks=seq(0,45,1), xlab=expression(paste("Number of ",
-italic(Faramea~occidentalis))), ylab="Frequency", main="", col="grey")
+hist(faramea$Faramea.occidentalis, breaks=seq(0,45,1), xlab=expression(paste("Nombre de ",
+italic(Faramea~occidentalis))), ylab="Fréquence", main="", col="grey")
 ```
 
 Nous pouvons remarquer qu'il n'y a que des valeurs entières et
@@ -28,14 +28,14 @@ positives.
 Pour cet exemple, nous voulons tester si l'élévation (un prédicteur à valeurs continues) influence l'abondance de *Faramea occidentalis*.
 
 ```{r, echo=F,fig.height=4.0}
-plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'F. occidentalis individuals', xlab = 'Elevation(m)')
+plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'F. occidentalis individuals', xlab = 'Élévation(m)')
 ```
 
 Etant donné cette spécificité propre aux données de dénombrement, la distribution de Poisson, semble un choix approprié pour modéliser ces données avec l'élévation.
 
 ## GLM avec une distribution de Poisson
 
-### la distribution de Poisson
+### La distribution de Poisson
 
 La distribution de Poisson specifie que la probabilité d'une variable
 discrète aléatoire $Y$ est donné par:
@@ -73,23 +73,23 @@ $\mu_i$ est le nombre attendu d'individus.
 
 Nous spécifions le prédicteur linéaire du modèle en tant qu'un modèle linéaire.
 
-$$\underbrace{\alpha}_\text{Intercept} + \underbrace{\beta_1}_\text{slope of 'Elevation'} \times \text{Elevation}_i + \underbrace{\beta_2}_\text{slope of 'Precipitation'} \times \text{Precipitation}_i$$
+$$\underbrace{\alpha}_\text{Interception} + \underbrace{\beta_1}_\text{pente de 'Élévation'} \times \text{Élévation}_i + \underbrace{\beta_2}_\text{pente de 'Précipitation'} \times \text{Précipitation}_i$$
 
 **Étape 3.**
 
 La fonction de lien entre la moyenne $Y_i$ et le prédicteur linéaire  est une fonction logarithmique et peut être écrit de cette façon:
 
-$$log(\mu_i) = \alpha + \beta_1 \times \text{Elevation}_i + \beta_2 \times \text{Precipitation}_i$$
+$$log(\mu_i) = \alpha + \beta_1 \times \text{Élévation}_i + \beta_2 \times \text{Précipitation}_i$$
 
 ou écrit tel que:
 
-$$\mu_i = e^{ \alpha + \beta_1 \times \text{Elevation}_i + \beta_2 \times \text{Precipitation}_i}$$
+$$\mu_i = e^{ \alpha + \beta_1 \times \text{Élévation}_i + \beta_2 \times \text{Précipitation}_i}$$
 
-Ceci démontre que l'impact de chaque variable prédictrice est multiplicatif. En augmentant l'élévation de 1, on augmente $μ$ par un incrément de exp( $\beta_\text{Elevation}$)
+Ceci démontre que l'impact de chaque variable prédictrice est multiplicatif. En augmentant l'élévation de 1, on augmente $μ$ par un incrément de exp( $\beta_\text{Élévation}$)
 
 Nous pouvons aussi l'écrire de cette façon:
 
-$$\mu_i = e^{\alpha} \times e^{\beta_1^{\text{Elevation}_i}} \times e^{\beta_2^{\text{Precipitation}_i}}$$
+$$\mu_i = e^{\alpha} \times e^{\beta_1^{\text{Élévation}_i}} \times e^{\beta_2^{\text{Précipitation}_i}}$$
 
 Si $β_j = 0$ alors $exp(β_j) = 1$ et $μ$ n'est pas lié à $x_j$. Si $β_j > 0$ alors $μ$ augmente aussi si $x_j$ augmente; si $β_j < 0$ alors $μ$ diminue si $x_j$ augmente.
 
@@ -120,9 +120,9 @@ summary(glm.poisson)$coefficients[1,1]
 summary(glm.poisson)$coefficients[2,1]
 ```
 
-À partir d'ici, nous pouvons estimé les déviance résiduelle et nulle. Dans notre modèle, la paramètre inconnu est l'ordonnée à l'origine ($\alpha$) et la pente de l'élévation ($\beta$):
+À partir d'ici, nous pouvons estimer les déviance résiduelle et nulle. Dans notre modèle, la paramètre inconnu est l'ordonnée à l'origine ($\alpha$) et la pente de l'élévation ($\beta$):
 
-$$log(\mu_i) = 1.769 - 0.0027 \times \text{élévation}_i$$
+$$log(\mu_i) = 1.769 - 0.0027 \times \text{Élévation}_i$$
 
 qui peut aussi être écrit comme:
 

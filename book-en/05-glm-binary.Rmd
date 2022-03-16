@@ -38,7 +38,7 @@ mtext(expression(symbol("\256")), at = 3, side = 1, line = -2.2, cex = 6, col = 
 hist(Pres)
 ```
 
-When we predict the probability to observe a phenomenon $Y$ with a binary variable, the predicted value has to be between 0 and 1: it's or potentiel extent of probability! 
+When we predict the probability to observe a phenomenon $Y$ with a binary variable, the predicted value has to be between 0 and 1: it is the possible range of probability! 
 
 ## GLM with binomial data: logit link
 
@@ -73,7 +73,7 @@ glm(formula,
     ...)
 ```
 
-We have seen that binary variables are not normally distributed (*i.e.* we observe a peak at 0 and a peak at 1, but nothing in between). In 'R', we can specified the statistical distribution of our model with the argument 'family'. For a logistic regression, we indicate 'family = binomial'.
+We have seen that binary variables are not normally distributed (*i.e.* we observe a peak at 0 and a peak at 1, but nothing in between). In 'R', we can specify the statistical distribution of our model with the argument 'family'. For a logistic regression, we indicate 'family = binomial'.
 
 | Distribution of $Y$ | Link function name | Link function | Model      | `R` |
 |---------------------|--------------------|---------------|------------|-----|
@@ -251,24 +251,24 @@ ggplot(mites, aes(x = WatrCont, y = pa)) + geom_point() + xlab("Water content") 
 ylab("Probability of presence")
 ```
 
-When an estimated parameter is between 0 and 1 on the odds' scale, the relationship between the response variable and the predictors is **negative**. If it's greater than 1, the relationship will be **positive**. If the confidence interval include 1 onthe odds' scale, the relationship is *not signficant*.
+When an estimated parameter is between 0 and 1 on the odds' scale, the relationship between the response variable and the predictors is **negative**. If it is greater than 1, the relationship will be **positive**. If the confidence interval include 1 on the odds' scale, the relationship is *not significant*.
 
-Keep in mind that a value of 1 ont he odds' scale indicates that the probability to oberserve the event Y is equal to the probability of *not* observing the event (*i.e.* $p$ = 0.5, 0.5/(1-0.5) = 1).
+Keep in mind that a value of 1 on the odds' scale indicates that the probability to observe the event Y is equal to the probability of *not* observing the event (*i.e.* $p$ = 0.5, 0.5/(1-0.5) = 1).
 
-Let's try with topography:
+Let us try with topography:
 ```{r, echo = TRUE, eval = TRUE}
 exp(logit.reg$coefficients[1])
 ```
 
-The estimated parameter for topography is 2.091 on the odds' scale. Thus, the probability is :
+The estimated parameter for topography is 2.091 on the odds' scale. Thus, the probability is:
 
 $1/(1+1/exp(2.091)) = 0.89$ equivalent to $1/(1+1/8.09)$. 
 
-Note that the odds for a predictor is calculated when all other variables are constant. Topography as an odd of 8.09. Thus the probability of observing *Galumna* sp. is 8.09 grester when the topography is `hummock` instead of `blanket`.
+Note that the odds for a predictor is calculated when all other variables are constant. Topography has an odd of 8.09. Thus the probability of observing *Galumna* sp. is 8.09 greater when the topography is `hummock` instead of `blanket`.
 
 We can calculate the odds without the function `exp()`:
 
-Let's start with the odds for topography from `logit.reg`:   
+Let us start with the odds for topography from `logit.reg`:   
 $µ/ (1 - µ) = 8.09$
 
 We rearrange to isolate $µ$ :\
@@ -291,7 +291,7 @@ deviance" is the deviance of the model of interest. The difference is
 divided by the null deviance so that the result is bound between 0 and
 1.
 
-A nul model is a model without any predictor. In R, we create a nul model this way :
+A null model is a model without any predictor. In R, we create a null model this way :
 `null.model <- glm(Response.variable ~ 1, family = binomial)`.
 
 The unit deviance is a measure of distance between $y$ and $μ$.
@@ -375,7 +375,7 @@ Assess goodness-of-fit and predictive power of the `model.bact2` model. How can 
 
 
 <details>
-  <summary>**Clic here to se the solution!**</summary>
+  <summary>**Click here to see the solution!**</summary>
 
 ```{r, echo = TRUE, eval = TRUE}
 # Challenge 2 - Solution
@@ -398,7 +398,7 @@ But, do not be afraid of non-significant results!
 
 ## Visual representation of results
 
-Once we've validated our model, we'll likely want to visually represent our results. Here is an example with `ggplot2`. See  [workshop 3](r_workshop3)for a reminder for this package.
+Once we have validated our model, we would likely want to visually represent our results. Here is an example with `ggplot2`. See  [workshop 3](r_workshop3)for a reminder for this package.
 
 ```{r, echo = FALSE, eval = TRUE, warning = FALSE}
 library(ggplot2)

@@ -20,7 +20,7 @@ $$g(\mu_i) = ηi$$
 
 where $g(μ)$ is the link function to the predicted values. Therefore it removes the restriction on the residuals. 
 
-The $μ / 1-μ$ ratio represent the odds of an event Y to occur. It transform our predicted value to a scale of 0 to `+Inf`. For instance the probability to fail this course 0.6, thus the odds of failaing is $0.6/(1 − 0.6) = 1.5$. It indicates that the probability of me failing this classe is 1.5 higher than the probability that I succeed (which are $1.5 × 0.4 = 0.6$). 
+The $μ / 1-μ$ ratio represent the odds of an event Y to occur. It transforms our predicted value to a scale of 0 to `+Inf`. For instance the probability to fail this course 0.6, thus the odds of failing is $0.6/(1 − 0.6) = 1.5$. It indicates that the probability of me failing this class is 1.5 higher than the probability that I succeed (which are $1.5 × 0.4 = 0.6$). 
 
 To complete our model, we also need a **variance** function which describe how the variance $\text{var}(Y_i)$ depends on the mean:
 

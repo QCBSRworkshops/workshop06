@@ -17,7 +17,7 @@ Dans l'[atelier 4](https://qcbsrworkshops.github.io/workshop04/pres-fr/workshop0
 
 ## Modèles linéaires généraux
 
-### Definition
+### Définition
 
 La formule générale de notre fonction linéaire $Y = f(X_1)$ serait représentée comme: 
 
@@ -320,13 +320,13 @@ abline(lm.pa)
 plot(lm.pa)
 ```
 
-Reculons un peu et révisons les conditions d'application des modèles linéairesLet's take a step back here and review the assumptions of linear models, and where they come from. Remember our simple linear model?
+Reculons un peu et révisons les conditions d'application des modèles linéaires pour mieux comprendre d'où viennent ces suppositions. Cette équation est:
 
 $$Y_i = \beta_0 + \beta_1X_i + \varepsilon$$
 
 La dernière variable $\varepsilon_i$ est très importante. C'est de là que les conditions d'application du modèle prennent origine. Pour les modèles linéaires, **les résidus $\varepsilon_i$ (la distance entre une observation et la droite de régression) peuvent être prédits en dessinant une variable aléatoire provenant d'une distribution normale.**
 
-Rappelez-vous que les distributions normales ont deux paramètres: $\mu$ (la moyenne de la distribution) et $\sigma^2$ (la variance de la sitribution). Pour un modèle linéaire, $\mu$ change selon la valeur de $X$ (variable prédictrice), mais $\sigma^2$ a la même valeurs pour toutes les valeurs de $Y$. Notre modèle linéaire simple peut aussi être écrit de cette façon:
+Rappelez-vous que les distributions normales ont deux paramètres: $\mu$ (la moyenne de la distribution) et $\sigma^2$ (la variance de la distribution). Pour un modèle linéaire, $\mu$ change selon la valeur de $X$ (variable prédictrice), mais $\sigma^2$ a la même valeurs pour toutes les valeurs de $Y$. Notre modèle linéaire simple peut aussi être écrit de cette façon:
 
 $$Y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$
 
@@ -341,7 +341,7 @@ En faisant varier $\mu$ alors $\sigma = 5$ fait changer la moyenen de la distrib
 x = seq(1, 50, 0.1)
 plot(x, dnorm(x, mean = 20, sd = 5),
 type = 'l', lwd = 3,
-xlab = '# galumna', ylab = 'Probability')
+xlab = '# galumna', ylab = 'Probabilité')
 points(x, dnorm(x, mean = 25, sd = 5),
 type = 'l', lwd = 3, col = 2)
 points(x, dnorm(x, mean = 30, sd = 5), type = 'l', lwd = 3, col = 4)
@@ -353,7 +353,7 @@ Si nous gardons $\mu = 25$, en faisant varier $\sigma$ , la forme e la distribut
 ```{r, echo=FALSE, fig.align="center", fig.width = 7, fig.height = 7}
 # Demonstrating normal distributions with different variance
 x = seq(1, 50, 0.1)
-plot(x, dnorm(x, mean = 25, sd = 5), type = 'l', lwd = 3, xlab = '# galumna', ylab = 'Probability')
+plot(x, dnorm(x, mean = 25, sd = 5), type = 'l', lwd = 3, xlab = '# galumna', ylab = 'Probabilité')
 points(x, dnorm(x, mean = 25, sd = 7.5), type = 'l', lwd = 3, col = 2)
 points(x, dnorm(x, mean = 25, sd = 10), type = 'l', lwd = 3, col = 4)
 legend('topleft', legend = c('5', '7.5', '10'), lty = 1, col = c(1,2,4), bty = 'n', lwd = 2, cex = 1.1)
@@ -376,7 +376,7 @@ Nous commençons par obtenir les valeurs de $\mu$ and $\sigma^2$ pour une distri
 coef(lm.abund)
 ```
 
-Ces coéfficients nous permettrais de prédire l'abondance de *Galumna* s'il n'y avait pas d'erreur. Cepenant, nous savons que l'erreur est **irrévocable** pour notre modèle. Pour avoir nos valeurs prédites, nous avons donc besoin d'ajouter \varepsilon. C'Est ici que nous utilisons la distribution normale! Pour $X$ = 300, notre modèle prédit que \varepsilon devrait suivre une distribution normale avec une moyenne = 1.63. Nous pouvons extraire la variance ($\sigma^2$) avec le sommaire du modèle:
+Ces coéfficients nous permettrais de prédire l'abondance de *Galumna* s'il n'y avait pas d'erreur. Cepenant, nous savons que l'erreur est **irrévocable** pour notre modèle. Pour avoir nos valeurs prédites, nous avons donc besoin d'ajouter \varepsilon. C'est ici que nous utilisons la distribution normale! Pour $X$ = 300, notre modèle prédit que \varepsilon devrait suivre une distribution normale avec une moyenne = 1.63. Nous pouvons extraire la variance ($\sigma^2$) avec le sommaire du modèle:
 
 ```{r, echo = TRUE}
 # Extract variance from the model summary
@@ -392,7 +392,7 @@ $\sigma^2 = 1.51$
 Ceci nous indique que des valeurs de $Y$ générées aléatoirement lorsque le contenu en eau = $300$ devrait être $1.63$ en moeynne et avoir un variance de $1.51$. À $x = 300$, résidus devrait suivre une distribution normale avec $\mu = 1.63$ et $\sigma^2 = 1.51$. À $x = 400$, nous avons $\mu = 1.02$ et $\sigma^2 = 1.51$, etc.
 
 
-Lorsque le contenu en eau = 400, résidus \varepsilon devrait suivre une distribution ormale dont les paramètres $\mu = 3.44 + (-0.006 x 400) = 1.02$ et $\sigma^2 = 1.51$, etc. Chaque valeur de $Y$ est modélisé selon une distribution normale avec une moyenne qui dépend de $X_i$, mais avec la variance qui est constante $\sigma^2 = 1.51$ pour toutes les valeurs de $X_i$. Sur un graphique, cela ressemblerait à:
+Lorsque le contenu en eau = 400, résidus \varepsilon devrait suivre une distribution normale dont les paramètres $\mu = 3.44 + (-0.006 x 400) = 1.02$ et $\sigma^2 = 1.51$, etc. Chaque valeur de $Y$ est modélisé selon une distribution normale avec une moyenne qui dépend de $X_i$, mais avec la variance qui est constante $\sigma^2 = 1.51$ pour toutes les valeurs de $X_i$. Sur un graphique, cela ressemblerait à:
 
 ![](images/modelPredic.png){width="400"}
 
@@ -404,13 +404,13 @@ Ce modèle est innaproprié pour au moins deux raisons:
 
 **2. Les résidus ne suivent pas une distribution normale avec une variance constante pour toutes les valeurs de** $X$. La distribution de la variance des résidus changent selon une fonction de $X$ (observer l'étendue des données aoutut de la ligne de tendance!).
 
-**3. Les valeurs prédites ne font pas de sens, selon les observations données.** Notre variable réponse est l'abondance, qui est une variable dicrète. Pourtant, pour un contenu en eau = 300, la valeur d'abondance que notre modèle prédit comme étant la plus probable d'observer est 1.63! Nous savons que la probabilité d'observer 1.63 individuals pour une contenu en eau = 300 est actuellement de 0, puisque la probabilité d'observer n'importe quelle fraction (non-discrète) est impossible. Nos valeurs prédites devraient être modélisées en utilisant une distribution qui prédit seulement avec des variables discrètes, plutôt que continus. Ceci est un problème commun, puisque les données biologiques suivent souvent une myriades d'autres distributions statistiques autre que la distribution normale. 
+**3. Les valeurs prédites ne font pas de sens, selon les observations données.** Notre variable réponse est l'abondance, qui est une variable discrète. Pourtant, pour un contenu en eau = 300, la valeur d'abondance que notre modèle prédit comme étant la plus probable d'observer est 1.63! Nous savons que la probabilité d'observer 1.63 individuals pour une contenu en eau = 300 est actuellement de 0, puisque la probabilité d'observer n'importe quelle fraction (non-discrète) est impossible. Nos valeurs prédites devraient être modélisées en utilisant une distribution qui prédit seulement avec des variables discrètes, plutôt que continus. Ceci est un problème commun, puisque les données biologiques suivent souvent une myriades d'autres distributions statistiques autre que la distribution normale. 
 
 ### Que faire? Transformer nos données?
 
 Très souvent, nos données ne vont pas se comporter adéquatement et vont violer les conditions d'applications, ce qui indique la **non-normalité** et **hétéroscédasticité**.
 
-Certains vous dirons de **transformer** vos données avec un logarithme, la racine carré ou un cosine remédier à ce problème . Malheureusement, les transformations ne marhcent pas toujours et viennent souvent avec des inconvénients:
+Certains vous dirons de **transformer** vos données avec un logarithme, la racine carré ou un cosine remédier à ce problème. Malheureusement, les transformations ne marhcent pas toujours et viennent souvent avec des inconvénients:
 
 **1.**  Cela change la variable réponse (!), rendant l'interprétation difficile;
 **2.**  Les transformations ne vont pas toujours améliorer la linéarité et l'homogénéité de la variance;
@@ -424,6 +424,6 @@ ressemble à ceci lorsqu'on le transforme avec un logarithme:
 
 $$E(\log{Y_i}) = \beta_0 + \beta_1X_i $$
 
-C'est, de toute évidence, moins intuitif à interpréter pour chaque augmentation de $300$ unités en contenu en eau, l'abondanc de *Galumna* prend la forme de $\log(1.63)$...
+C'est, de toute évidence, moins intuitif à interpréter pour chaque augmentation de $300$ unités en contenu en eau, l'abondance de *Galumna* prend la forme de $\log(1.63)$...
 
 Heureusement, la **distribution normale n'est pas notre seule option!**

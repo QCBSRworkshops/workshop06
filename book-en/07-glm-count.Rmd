@@ -15,7 +15,7 @@ To illustrate count data we will use a new dataset called `faramea`.
 faramea <- read.csv("faramea.csv", header = TRUE)
 ```
 
-In this dataset, the number of trees of the species *Faramea occidentalis* was measured in 43 quadrats in Barro Colorado Island in Panama. For each quadrat, environmental characteristics were also recorded such as elevation or precipitation. Let's take a look at the number of *Faramea occidentalis* found at each quadrat.
+In this dataset, the number of trees of the species *Faramea occidentalis* was measured in 43 quadrants in Barro Colorado Island in Panama. For each quadrant, environmental characteristics were also recorded such as elevation or precipitation. Let us take a look at the number of *Faramea occidentalis* found at each quadrant.
 
 ```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 5, fig.align = "center"}
 # Histogram of F. occidentalis count data
@@ -180,7 +180,7 @@ Why does a Poisson GLM exhibit overdispersion? This arises when the
 variance of the data is higher than expected from the Poisson
 distribution. This frequently occurs when data includes many zeros
 and/or many very high values. Looking back at the distribution of our
-data (above) suggests that our data contains many zero preventing us to use a Poisson GLM. Overdispersion may also result from missing
+data (above) suggests that our data contains many zeroes preventing us to use a Poisson GLM. Overdispersion may also result from missing
 covariates, missing interaction terms or presence of strong outliers,
 preventing us from using a Poisson GLM.
 
@@ -238,7 +238,7 @@ Two other points are important to keep in mind when using quasi-Poisson GLMs and
 
 -   **Overdispersion affects model comparison.** Indeed overdispersion
     also influences the comparison of two nested models and has to be
-    taken into account when φ is known. For instance, let's assume that we want to compare GLM1, with $p_1$ parameters to GLM2, with $p_2$ parameters, such that GLM1 is nested within GLM2 and $p_2>p_1$. Model comparison is achieved based on a generalized
+    taken into account when φ is known. For instance, let us assume that we want to compare GLM1, with $p_1$ parameters to GLM2, with $p_2$ parameters, such that GLM1 is nested within GLM2 and $p_2>p_1$. Model comparison is achieved based on a generalized
     likelihood ratio test, which can be written as a function of the
     difference of deviances between the two GLMs, $D_1$ and $D_2$
     respectively. If Overdispersion is known, deviances have to be
@@ -401,7 +401,7 @@ anova(MyGLM, MyGLM2, test = "Chi")
 ```
 
 <details>
-  <summary>**Clic here to see the solution!**</summary>
+  <summary>**Click here to see the solution!**</summary>
 
 ```{r, echo = TRUE, eval = TRUE}
 # Poisson GLM

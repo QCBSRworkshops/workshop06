@@ -9,7 +9,7 @@
     a **logit transformation** of the data and use a lm(m). See this
     [interesting article](http://onlinelibrary.wiley.com/doi/10.1890/10-0340.1/abstract).
 -   For data that can be appear normally distributed after a
-    log-transformation, it can be advisable to use a **log-normal    distribution** in a GLM instead of log-transforming the data.
+    log-transformation, it can be advisable to use a **log-normal distribution** in a GLM instead of log-transforming the data.
 -   A **Gamma distribution** can also be used. It is similar to a
     log-normal distribution, but is more versatile.
 
@@ -17,7 +17,7 @@
 
 -   The **Tweedie distribution** is a versatile family of distributions
     that is useful for data with a mix of zeros and positive values (not
-    necessarily counts). See the [R Tweedie    package](https://cran.r-project.org/web/packages/tweedie/index.html).
+    necessarily counts). See the [R Tweedie package](https://cran.r-project.org/web/packages/tweedie/index.html).
     
 ```{r, echo = FALSE, eval = TRUE}
 #install.packages(c('GlmSimulatoR','cplm'))

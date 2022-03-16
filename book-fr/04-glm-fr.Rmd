@@ -33,7 +33,7 @@ où le **paramètre de dispersion** $phi$ est une constante.
 
 Avec le prédicteur linéaire $βx$, notre modèle linéaire généralisé serait donc:
 
-$$\eta_i = \underbrace{g(\mu)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$
+$$\eta_i = \underbrace{g(\mu)}_{Fonction~lien}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Composant~linéaire}$$
 
 Alors que pour notre **modèle linéaire général** avec $\epsilon ∼ N(0, σ^2)$ et $Y_i \sim{} N(\mu_i, \sigma^2)$, nous aurions:
 
@@ -46,13 +46,13 @@ $$g(\mu_i) = \mu_i$$
 $$V(\mu_i) = 1$$
 qui résulte en un modèle linéaire général lorsqu'on ajoute le prédciteur linéaire:
 
-$$\underbrace{g(\mu)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$
+$$\underbrace{g(\mu)}_{Fonction~lien}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Composant~linéaire}$$
 
 Lorsque la variable réponse est une variable binaire, la fonction de lien est la fonction logit et est représentée par l'équation suivante:
 
 $$\eta_i = \text{logit}(\mu_i) = \log(\frac{\mu_i}{1-\mu_i})$$
 
-Le ratio $μ / 1-μ$ représente la cote (ou les chances) qu'un événement se produise.La transformation log (on appelle maintenant ce ratio le log odds) permet aux valeurs d'être distribuées de `-Inf` à `+Inf`. Les valeurs prédites peuvent ainsi être reliées à un prédicteur linéaire. C'est pour cette raison qu'on appelle ce modèle un modèle **linéaire** généralisé même si la relation ne ressemble pas nécessairement à une \«ligne droite\» !
+Le ratio $μ / 1-μ$ représente la cote (ou les chances) qu'un événement se produise. La transformation log (on appelle maintenant ce ratio le log odds) permet aux valeurs d'être distribuées de `-Inf` à `+Inf`. Les valeurs prédites peuvent ainsi être reliées à un prédicteur linéaire. C'est pour cette raison qu'on appelle ce modèle un modèle **linéaire** généralisé même si la relation ne ressemble pas nécessairement à une \«ligne droite\» !
 
 Dans `R`, on peut estimer un modèle linéaire généralisé avec la fonction `glm()`, qui ressemble beaucoup à la fonction `lm()`, avec l'argument `family` prenant le nom de la **fonction lien** et, la **fonction de variance**:
 
