@@ -55,7 +55,10 @@ by modifying and improving its content as part of the &lt;br&gt; *Le*arning *a*n
 .right[
 
  **2022** - **2021** - **2020**
-
+ &lt;br&gt;
+  &lt;br&gt;
+[Laurie Maynard](https://github.com/LaurieMaynard)
+&lt;br&gt;
 [Pedro Henrique P. Braga](https://github.com/pedrohbraga)
 &lt;br&gt;
 [Katherine Hébert]()
@@ -64,7 +67,7 @@ by modifying and improving its content as part of the &lt;br&gt; *Le*arning *a*n
 &lt;br&gt;
 [Mathieu Vaillancourt](mathieu.vaillancourt.2@ulaval.ca)
 &lt;br&gt;
-[Esteban G. Bernoske]()
+[Esteban Góngora](https://github.com/estebangongora)
 
 ]
 ]
@@ -98,6 +101,28 @@ by modifying and improving its content as part of the &lt;br&gt; *Le*arning *a*n
 ]
 &lt;/p&gt;
 
+---
+
+## Learning objectives
+
+1. Distinguish generalized linear models from general linear models (including many of their equations!).
+
+2. Identify situations for when the use of generalized linear models is appropriate.
+
+3. Test assumptions for generalized linear models.
+
+4. Implement and execute generalized linear models in binary, proportion and count data.
+
+5. Validate, interpret and visualise results of generalized linear models.
+
+&lt;br&gt;
+
+.center[.alert[Important]
+
+&lt;br&gt;
+This workshop will build up your knowledge on models alongside with some of their important equations. *Do not run to the mountains!* This will be achieved progressively and you will feel proud of yourself after!
+
+]
 
 ---
 
@@ -134,29 +159,6 @@ install.packages(
 ]
 
 ---
-
-## Learning objectives
-
-1. Distinguish generalized linear models from general linear models (including many of their equations!).
-
-2. Identify situations for when the use of generalized linear models is appropriate.
-
-3. Test assumptions for generalized linear models.
-
-4. Implement and execute generalized linear models in binary, proportion and count data.
-
-5. Validate, interprete and visualise results of generalized linear models.
-
-&lt;br&gt;
-
-.center[.alert[Important]
-
-&lt;br&gt;
-This workshop will build up your knowledge on models along side with some of their important equations. *Do not run to the mountains!* This will be achieved progressively and you will feel proud of yourself after!
-
-]
-
----
 class: inverse, center, middle
 
 # Preface
@@ -176,7 +178,7 @@ The combination of predictive variables we have sampled will *never* fully expla
 
 `$$Y = f(X_1, \epsilon)$$`
 --
-
+exclude: true
 In [Workshop 4](https://qcbsrworkshops.github.io/workshop04/pres-en/workshop04-pres-en.html#1), we have learned how to use **general linear models** as `\(f(\cdot)\)` to describe the relationship between variables. They were:
 
 .center[
@@ -198,23 +200,13 @@ ANCOVA
 ]
 ]
 
-???
-
-When explaning this slide, provide a few examples of Y and X variables (e.g. number of species, sampling effort, climatic gradient).
-
-X can also be called independent variable, explanatory variable, predictor variabler;
-
-Y can also be called dependent variable, response variable, explained variable, predicted variable;
-
-ϵ can also be called random component, the error term, the disturbance.
-
 ---
 # Revisiting linear models
 
 In [Workshop 4](https://qcbsrworkshops.github.io/workshop04/pres-en/workshop04-pres-en.html#1), we have learned how to use **general linear models** as `\(f(\cdot)\)` to describe the relationship between variables.
 
 The general form of our function `\(Y = f(X_1)\)` as a linear function can be represented by:
-
+--
 `$$Y_i = \beta_0 + \beta_1X_i + \varepsilon_i$$`
 
 where:
@@ -229,6 +221,16 @@ where:
 
 `\(\varepsilon_i\)` is the model residual drawn from a normal distribution with a varying mean but a constant variance.
 
+???
+
+When explaning this slide, provide a few examples of Y and X variables (e.g. number of species, sampling effort, climatic gradient).
+
+X can also be called independent variable, explanatory variable, predictor variabler;
+
+Y can also be called dependent variable, response variable, explained variable, predicted variable;
+
+ϵ can also be called random component, the error term, the disturbance.
+
 ---
 # Revisiting linear models and their assumptions
 
@@ -237,7 +239,7 @@ We have also learned that **linear models** only produce unbiased estimators (i.
 1\. The population can be described by a linear relationship:
 
 `$$Y = \beta_0 + \beta_1X + \varepsilon$$`
-
+--
 2\. The error term `\(\varepsilon\)` has the same variance given any value of the explanatory variable (i.e. homoskedasticity), and the error terms are not correlated across observations (i.e. no autocorrelation):
 
 .pull-left[
@@ -247,7 +249,8 @@ We have also learned that **linear models** only produce unbiased estimators (i.
 .pull-right[
 `$$\mathbb{C}{\rm ov} (\epsilon_i, \epsilon_j) = 0,\ i \neq j$$`
 ]
-
+--
+&lt;br&gt;&lt;br&gt;
 3\. And, the residuals are normal:
 
 `$$\boldsymbol{\varepsilon} | \mathbf{X} \sim \mathcal{N} \left( \mathbf{0}, \sigma^2_\epsilon \mathbf{I} \right)$$`
@@ -267,17 +270,17 @@ class: middle
 ## What do we mean by:
 
 .pull-left[
-1. The population can be described by a linear relationship:
+1\. The population can be described by a linear relationship:
 
 `$$Y = \beta_0 + \beta_1X_i + \varepsilon$$`
 
-2.  Homoskedasticity and no autocorrelation:
+2\.  Homoskedasticity and no autocorrelation:
 
 
 `$$\mathbb{V}{\rm ar} (\epsilon_i | \mathbf{X} ) = \sigma^2_\epsilon,\ \forall i = 1,..,N$$`
 `$$\mathbb{C}{\rm ov} (\epsilon_i, \epsilon_j) = 0,\ i \neq j$$`
 
-3. The residuals are normal:
+3\. The residuals are normal:
 
 `$$\boldsymbol{\varepsilon} | \mathbf{X} \sim \mathcal{N} \left( \mathbf{0}, \sigma^2_\epsilon \mathbf{I} \right)$$`
 
@@ -348,7 +351,7 @@ Leverage points: A leverage point is defined as an observation that has a value 
 
 Influential observations: An influential observation is defined as an observation that changes the slope of the line. Thus, influential points have a large influence on the fit of the model. One method to find influential points is to compare the fit of the model with and without each observation.
 
-1. Allows one to checkthe assumption of linearity and homoscedasticity;
+1. Allows one to check the assumption of linearity and homoscedasticity;
 
 2. QQ-plot allows the comparison of the residuals to "ideal" normal observations;
 
@@ -416,6 +419,12 @@ str(mites)
 
 The Oribatid mite dataset has **70 observations with moss and mite samples**, and **5 environmental** measurements and abundance for *Galumna* sp. for each site.
 
+]
+
+???
+
+It is from an original dataset
+[mites Oribatid (Acari,Oribatei)](http://adn.biol.umontreal.ca/~numericalecology/data/oribates.html) from the [Station de Biologie de l'Université de Montréal](https://goo.gl/maps/PxN1Q7KUPnUt92Eu5).
 ]
 
 ---
@@ -506,6 +515,27 @@ plot(prop ~ WatrCont, data = mites, xlab = 'Water content', ylab = 'Proportion')
 ]
 
 ---
+
+# Exploring relationships
+
+Do *Galumna*'s community values (abundance, occurrence and relative frequency) vary as a function of water content?
+
+
+```r
+par(mfrow = c(1, 3), cex = 1.4)
+plot(Galumna ~ WatrCont, 
+     data = mites, xlab = 'Water content', ylab='Water content')
+boxplot(WatrCont ~ pa, 
+        data = mites, xlab='Presence/Absence', ylab = 'Water content')
+plot(prop ~ WatrCont, 
+     data = mites, xlab = 'Water content', ylab='Proportion')
+```
+
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-13-1.png" width="864" style="display: block; margin: auto;" /&gt;
+???
+These graphs all represents potential relationships, but the middle one is more likely to show properly in a model (the boxes do not overlap each other)
+
+---
 # Using linear models with `lm()`
 
 Let us use (general) linear models to test whether `Galumna`, `pa`, and/or `prop` vary as a function of `WatrCont` using the `lm()` function:
@@ -582,7 +612,7 @@ plot(Galumna ~ WatrCont, data = mites)
 abline(lm.abund)
 ```
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-14-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-16-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 ]
 .pull-right[
@@ -592,7 +622,7 @@ par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.abund)
 ```
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-15-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-17-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -607,7 +637,7 @@ plot(prop ~ WatrCont, data = mites)
 abline(lm.prop)
 ```
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-16-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-18-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -617,7 +647,7 @@ par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.prop)
 ```
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-17-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-19-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -632,7 +662,7 @@ plot(pa ~ WatrCont, data = mites)
 abline(lm.pa)
 ```
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-18-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-20-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -642,7 +672,7 @@ par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.pa)
 ```
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-19-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-21-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -664,13 +694,14 @@ with `\(N(\cdot)\)` meaning that `\(Y_i\)` is drawn from a **normal distribution
 .pull-right[
 Varying `\(\mu\)`, `\(\sigma = 5\)`
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-20-1.png" width="216" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-22-1.png" width="216" style="display: block; margin: auto;" /&gt;
 
 `\(\mu = 25\)`, varying `\(\sigma\)`
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-21-1.png" width="216" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-23-1.png" width="216" style="display: block; margin: auto;" /&gt;
 ]
 ]
-
+???
+On the right, we show graphs where wither mu varies or omega varies. The top graph would wrok with a linear model -&gt; omega is constant throughout values of Y. The bottom is most likely what we observe, with a varying omega necessiting a different distribution.
 ---
 
 # Model prediction
@@ -731,7 +762,7 @@ At `\(x = 400\)`, we get `\(\mu = 1.02\)` and `\(\sigma^2 = 1.51\)`, and there o
 
 .small[We can represent this model as]:
 .center[
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-22-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-24-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 ]
 
@@ -748,14 +779,10 @@ At `\(x = 400\)`, we get `\(\mu = 1.02\)` and `\(\sigma^2 = 1.51\)`, and there o
 4. The observations do not fall across the expected values.
 ]
 
---
-
-.pull-right[*1 and 4!*]
-
 ???
 
 Perform a multiple choice poll with participants.
-Correct answers are 1 and 4.
+Correct answers are 3 and 4.
 
 Values are on average farther from the regression line at low water content values. That is, there is more residual variance around the predicted values for low values of x, such that εi varies as a function of x, thus violating the assumption of homoscedasticity. It makes no sense to use a constant value of σ2: the normal distributions used to predict y at low values of x should ideally be wider (have a larger σ2) than normal distributions used to predict y at large x values, but linear models do not permit this.
 
@@ -798,6 +825,7 @@ Statisticians have defined a [multitude of probability distributions](https://ww
 
 A distribution provides the probability of observing each possible outcome of an experiment or survey (e.g. `\(abund = 8\)` *Galumna* individuals).
 
+--
 Distributions can be **discrete** (only include integers), **continuous** (including fractions) and be limited to a given range or domain (e.g., `\(0\)` to `\(1\)`, `\(0\)` to `\(+\infty\)`, `\(-\infty\)` to `\(+\infty\)`).
 
 All distributions can be broken down into **parameters** that dictate their shapes (e.g. `\(\mu\)` and `\(\sigma^2\)` for the Normal).
@@ -812,7 +840,7 @@ A useful distribution to model abundance data is the “Poisson” distribution:
 
 - **Poisson** is a discrete distribution with a single parameter, `\(\lambda\)` (lambda), which defines both the mean and the variance of the distribution:
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-23-1.png" width="1080" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-25-1.png" width="1080" style="display: block; margin: auto;" /&gt;
 
 ---
 # Biological data &amp; distributions: Poisson
@@ -826,14 +854,14 @@ A useful distribution to model abundance data is the “Poisson” distribution:
 hist(mites$Galumna)
 ```
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-24-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-26-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
 Would a model incorporating the Poisson distribution work better in the `\(\text{Galumna} = f(\text{Water content})\)` case?
 
 &lt;br&gt;
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-25-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-27-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -849,7 +877,7 @@ Presence-absence data takes another form:
 hist(mites$pa)
 ```
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-26-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-28-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ---
 # Biological data &amp; distributions: Bernoulli
@@ -860,7 +888,7 @@ hist(mites$pa)
 - One parameter, `\(p\)`, the probability of success.
 
 &lt;br&gt;
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-27-1.png" width="864" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-29-1.png" width="864" style="display: block; margin: auto;" /&gt;
 
 We can use the Bernouilli distribution to calculate the probability Galumna present (`1`) vs. absent (`0`).
 
@@ -879,7 +907,7 @@ from trial to trial (e.g., the customer chooses to go down aisle 1 with probabil
 - Additional parameter, `\(n\)`, for number of trials;
 - Predicts the probability of observing a given proportion of successes, `\(p\)`, out of a known total number of trials, `\(n\)`.
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-28-1.png" width="1080" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-30-1.png" width="1080" style="display: block; margin: auto;" /&gt;
 
 ---
 # Biological data &amp; distributions: Binomial
@@ -888,7 +916,7 @@ from trial to trial (e.g., the customer chooses to go down aisle 1 with probabil
 
 **Main difference with Poisson distribution**: the binomial has an upper limit to its range, corresponding to `\(n\)`. Consequently, it is right-skewed at low p values but left-skewed at high `\(p\)` values
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-29-1.png" width="720" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-31-1.png" width="720" style="display: block; margin: auto;" /&gt;
 
 ???
 
@@ -914,19 +942,19 @@ In `R`, this means that we will move away from the (general) linear models funct
 ---
 # Generalized Linear Models
 
-A **generalized linear model** is made of a **linear predictor**:
+&amp;nbsp; A **generalized linear model** is made of a **linear predictor**:
 
 `$$\eta_i = \underbrace{g(\mu)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$`
-and,
+&amp;nbsp; and,
 
-1. a **link** function `\(g(\mu_i)\)` that ***transforms the expected values*** `\(E(Y_i)\)`, and describes how the mean of the process `\(Y\)`, `\(E(Y_i) = \mu_i\)`, depends on the linear predictor
+&amp;nbsp; 1. a **link** function `\(g(\mu_i)\)` that ***transforms the expected values*** `\(E(Y_i)\)`, and describes how the mean of the process `\(Y\)`, `\(E(Y_i) = \mu_i\)`, depends on the linear predictor
 
 `$$g(\mu_i) = ηi$$`
 
-2\. a **variance** function that describes how the variance of the process `\(Y\)`, `\(\text{var}(Y_i)\)`, depends on the mean
+&amp;nbsp; 2\. a **variance** function that describes how the variance of the process `\(Y\)`, `\(\text{var}(Y_i)\)`, depends on the mean
 
 `$$\text{var}(Y_i) = \phi V(\mu)$$`
-where the **dispersion parameter** `\(phi\)` is a constant.
+&amp;nbsp; where the **dispersion parameter** `\(phi\)` is a constant.
 
 ???
 
@@ -949,9 +977,9 @@ So, for our **general linear model** with `\(\epsilon ∼ N(0, σ^2)\)` and `\(Y
 
 
 `$$\underbrace{g(\mu)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$`
-the **identity** link function
+the link function:
 `$$g(\mu_i) = \mu_i$$`
-and, the variance function
+and, the variance function:
 
 `$$V(\mu_i) = 1$$`
 
@@ -988,6 +1016,9 @@ lm(formula,
 with the `family` argument taking the names of the **link function** (inside `link`) and, the **variance function**.
 
 This approach is extendable to other distribution families! 
+
+???
+The link function for a general linear model is the identity link (see next slide)
 
 --
 
@@ -1048,11 +1079,11 @@ lm(Pres ~ ExpVar)
 &lt;br&gt;
 
 .pull-left[
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-33-1.png" width="360" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-35-1.png" width="360" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-34-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-36-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -1245,12 +1276,10 @@ data(bacteria); str(bacteria)
 
 
 *Tests of the presence of the bacteria H. influenzae in children with otitis media in the Northern Territory of Australia.*
-
-*Dr A. Leach tested the effects of a drug on 50 children with a history of otitis media in the Northern Territory of Australia. The children were randomized to the drug or a placebo.*
-
-*The presence of H. influenzae was checked at weeks 0, 2, 4, 6 and 11: 30 of the checks were missing and are not included in this data frame.*
-
 ???
+Dr A. Leach tested the effects of a drug on 50 children with a history of otitis media in the Northern Territory of Australia. The children were randomized to the drug or a placebo.
+
+The presence of H. influenzae was checked at weeks 0, 2, 4, 6 and 11: 30 of the checks were missing and are not included in this data frame.
 
 This is a breakout room activity. Assign groups of 3-4 into breakout rooms and give them each 5 minutes to collaboratively write the code
 
@@ -1417,7 +1446,7 @@ exp(logit.reg$coefficient[2])
 Recall that the `\(R^2\)` value is a measure of how well the model explains the data.
 
 In simple linear models, `\(R^2\)` can be obtained as the square of the sample correlation equation coefficient ( `\(r\)` ) between the observed outcomes and the predictive values.
-
+--
 In some of the generalized linear models, we take different approaches.
 
 We can obtain a `\(\text{pseudo-R}^2\)`, the analogue of the `\(R^2\)` for models fitted by maximum likelihood.
@@ -1427,8 +1456,8 @@ We can calculate McFadden's (1973) `\(\text{pseudo-R}^2\)` in this way:
 `$$\text{pseudo-R}^2 = \frac{\text{null deviance - residual deviance}}{\text{null deviance}}$$`
 
 &lt;br&gt;
-
-&gt; `\(\text{pseudo-R}^2\)` is the variance explained by the model.
+???
+`\(\text{pseudo-R}^2\)` is the variance explained by the model.
 
 ---
 
@@ -1438,7 +1467,8 @@ The unit deviance is a measure of distance between `\(y\)` and `\(μ\)`.
 
 `$${\displaystyle d(y,y)=0}$$`
 `$${\displaystyle d(y,\mu )&gt;0\quad \forall y\neq \mu }$$`
-
+???
+We will use the deviances to calculate the pseudo R2.
 --
 
 The total deviance `\({\displaystyle D(\mathbf {y} ,{\hat {\boldsymbol {\mu }}})}\)` of a model with predictions `\({\hat {\boldsymbol {\mu }}}\)` of the observation `\(\mathbf {y}\)` is the sum of its unit deviances:
@@ -1589,7 +1619,12 @@ DescTools::PseudoR2(logit.reg, which = "all")
 #             BIC          logLik         logLik0              G2 
 #      61.5078819     -24.3811981     -45.6229593      42.4835224
 ```
+???
+One way to assess the goodness-of-fit of these models is to use the Hosmer-Lemeshow goodness-of-fit test which assess whether or not the observed event rates match expected event rates
 
+You can do this test with 
+library(vcdExtra)
+HLtest(logit.reg)
 ---
 exclude: true
 ### Exercise 2: Performing a Hosmer-Lemeshow goodness-of-fit test
@@ -1625,7 +1660,7 @@ HLtest(logit.reg)
 plot(HLtest(logit.reg))
 ```
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-55-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-57-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .comment[A non-significant value indicates an adequate fit!]
@@ -1644,22 +1679,27 @@ Run this exercise as a breakout room activity with groups of 3-4 with a time lim
 ---
 # Challenge 2 - Solution ![:cube]()
 
-1. Using the model created with `bacteria` dataset, assess goodness-of-fit and predictive power.
+1\. Using the model created with `bacteria` dataset, assess goodness-of-fit and predictive power.
 
 
 ```r
 null.d &lt;- model.bact2$null.deviance
-
 resid.d &lt;- model.bact2$deviance
-
 bact.pseudoR2 &lt;- (null.d - resid.d) / null.d
-
-HLtest(model.bact2)
+bact.pseudoR2
+# [1] 0.0624257
+DescTools::PseudoR2(model.bact2, which = "all")
+#        McFadden     McFaddenAdj        CoxSnell      Nagelkerke   AldrichNelson 
+#      0.06242570      0.02562309      0.05981734      0.09529510      0.05809758 
+# VeallZimmermann           Efron McKelveyZavoina            Tjur             AIC 
+#      0.11689650      0.06151653      0.11098468      0.06275058    211.80606240 
+#             BIC          logLik         logLik0              G2 
+#    225.38057258   -101.90303120   -108.68795256     13.56984272
 ```
 
 --
 
-2. Think how predictive power could be improved for this model.
+2\. Think how predictive power could be improved for this model.
 
 *Adding informative explanatory variables could increase the explanatory power of the model.*
 
@@ -1792,16 +1832,14 @@ Let us investigate the histogram of the frequency of *Faramea occidentalis*.
 # Modeling count data
 
 .large[What is count data?]
-
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-62-1.png" width="432" style="display: block; margin: auto;" /&gt;
-
 Count data are often characterized by:
-
-- Positive values: you do not count `\(-7\)` individuals;
-- Integer values: you do not count `\(7.56\)` individuals;
-  - You can say that *in average*, you expect `\(7.46\)` individuals in a given situation. But you measure something *discrete*.
+- Positive values: you do not count **-7** individuals;
+- Integer values: you do not count **7.56** individuals;\
 - Exhibits larger variance for larger values.
 
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-64-1.png" width="576" style="display: block; margin: auto;" /&gt;
+???
+You can say that *in average*, you expect 7.56 individuals in a given situation. But you measure something *discrete*.
 ---
 # Modeling count data
 
@@ -1809,7 +1847,13 @@ Count data are often characterized by:
 
 Does elevation influence the abundance of *F. occidentalis*?
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-63-1.png" width="432" style="display: block; margin: auto;" /&gt;
+.pull-left[
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-65-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-66-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
 
 .small[What type of distribution best fits this data?
 1. Bernoulli   
@@ -1829,8 +1873,13 @@ This is a singe choice poll question. The correct answer is 3. Poisson
 
 Does elevation influence the abundance of *F. occidentalis*?
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-64-1.png" width="432" style="display: block; margin: auto;" /&gt;
+.pull-left[
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-67-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
 
+.pull-right[
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-68-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
 .small[What type of distribution best fits this data?
 1. Bernoulli   
 2. Normal    
@@ -1879,12 +1928,14 @@ A Poisson GLM will model the value of `\(\mu\)` as a function of different expla
 `\(\mu_i\)` corresponds to the expected number of individuals
 
 ---
+exclude:true
 # Poisson GLM behind the scenes
 
 **Step 2.** We specify the systematic part of the model just as in a linear model.
 
 `$$\underbrace{\alpha}_\text{Intercept} + \underbrace{\beta_1}_\text{slope of 'Elevation'} \times \text{Elevation}_i + \underbrace{\beta_2}_\text{slope of 'Precipitation'} \times \text{Precipitation}_i$$`
-
+--
+exclude:true
 **Step 3.** The link between the mean of `\(Y_i\)` and the systematic part is a logarithmic function can be written as:
 
 `$$log(\mu_i) = \alpha + \beta_1 \times \text{Elevation}_i + \beta_2 \times \text{Precipitation}_i$$`
@@ -1905,6 +1956,30 @@ Increasing Elevation by one increases μ by factor of exp( `\(\beta_\text{Elevat
 If `\(βj = 0\)` then `\(exp(βj) = 1\)` and `\(μ\)` is not related to `\(x_j\)`. If `\(βj &gt; 0\)` then `\(μ\)` increases if `\(x_j\)` increases; if `\(βj &lt; 0\)` then `\(μ\)` decreases if `\(x_j\)` increases.
 ]
 
+---
+# Poisson GLM behind the scenes
+
+**Step 2.** We specify the systematic part (linear predictor) of the model just as in a linear model.
+
+`$$\underbrace{\alpha}_\text{Intercept} + \underbrace{\beta_1}_\text{slope of Elevation} \times \text{Elevation}_i$$`
+--
+
+**Step 3.** The link between the mean of `\(Y_i\)` and the systematic part is a logarithmic function can be written as:
+
+.pull-left[
+`$$log(\mu_i) = \alpha + \beta_1 \times \text{Elevation}_i$$`
+
+.center[or]
+
+`$$\mu_i = e^{ \alpha + \beta \times \text{Elevation}_i}$$`
+
+]
+.small[
+This shows that the impact of each explanatory variable is multiplicative.
+Increasing Elevation by one increases μ by factor of exp( `\(\beta_\text{Elevation}\)` ).
+
+If `\(βj = 0\)` then `\(exp(βj) = 1\)` and `\(μ\)` is not related to `\(x_j\)`. If `\(βj &gt; 0\)` then `\(μ\)` increases if `\(x_j\)` increases; if `\(βj &lt; 0\)` then `\(μ\)` decreases if `\(x_j\)` increases.
+]
 ---
 
 # Fitting a Poisson GLM in `R`
@@ -1932,7 +2007,7 @@ summary(glm.poisson)
 # Model summary
 
 .pull-left2[
-.small[
+.xsmall[
 
 
 ```r
@@ -2033,10 +2108,11 @@ events that are being counted are positively correlated.
 .center[*Are you able to think of a situation in biology that can cause overdispersion?*]
 
 &lt;br&gt;
-
+--
+&lt;br&gt;
 **Why should we care about overdispersion?**
 
-&gt;Tests on the explanatory variables will generally appear to be more significant and confidence intervals for the parameters will be narrower
+Tests on the explanatory variables will generally appear to be more significant and confidence intervals for the parameters will be narrower
 than warranted by the data!
 
 ---
@@ -2265,7 +2341,7 @@ summary(glm.negbin)$coefficients[1, 1]
 summary(glm.negbin)$coefficients[2, 1]
 ```
 
-**Step 2** Use the standard errors to build the confidence envelope
+**Step 2** Use the standard errors to build the confidence interval
 
 ```r
 summary(glm.negbin)$coefficients[1, 2]
@@ -2294,7 +2370,7 @@ lines(pframe$lwr, col = 2, lty = 3, lwd = 2)
 ```
 ]
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-74-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-78-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ---
 # Challenge 3 ![:cube]()
@@ -2368,7 +2444,7 @@ anova(glm.qp2, glm.qp, test="Chisq")
 &lt;br&gt;
 
 .center[
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-78-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-82-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 
@@ -2389,6 +2465,11 @@ anova(glm.qp2, glm.qp, test="Chisq")
 
 - B. Bolker (2009) Ecological Models and Data in R. Princeton University Press.
 - A. Zuur et al. (2009) Mixed Effects Models and Extensions in Ecology with R. Springer.
+
+**Articles** :
+
+- [Harrison et al. (2018), PeerJ, DOI 10.7717/peerj.4794
+](http://dx.doi.org/10.7717/peerj.4794)
 
 **Websites**:
 
