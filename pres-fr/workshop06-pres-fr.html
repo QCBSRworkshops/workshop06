@@ -36,30 +36,64 @@ class: inverse, center, middle
 
 ---
 
-# Packages requis
+&lt;p style="font-size:75%"&gt;
 
-En plus des versions les plus récentes de R et RStudio, cet atelier requiert les packages R suivants:
+.center[
+**Contributeurs et contributrices au développement de cet atelier**
 
-1. [ggplot2](https://cran.r-project.org/package=ggplot2)
-3. [MASS](https://cran.r-project.org/package=MASS)
-4. [vcdExtra](https://cran.r-project.org/package=vcdExtra)
-5. [bbmle](https://cran.r-project.org/package=bbmle)
-6. [DescTools](https://cran.r-project.org/package=DescTools)
+en modifiant et améliorant son contenu dans le cadre du &lt;br&gt; prix d’apprentissage et de développement
+]
 
+
+.pull-left[
+.right[
+
+ **2022** - **2021** - **2020**
+ &lt;br&gt;
+  &lt;br&gt;
+[Laurie Maynard](https://github.com/LaurieMaynard)
 &lt;br&gt;
+[Pedro Henrique P. Braga](https://github.com/pedrohbraga)
+&lt;br&gt;
+[Katherine Hébert]()
+&lt;br&gt;
+[Alex Arkilanian]()
+&lt;br&gt;
+[Mathieu Vaillancourt](mathieu.vaillancourt.2@ulaval.ca)
+&lt;br&gt;
+[Esteban Góngora](https://github.com/estebangongora)
 
-Pour les installer à partir de CRAN, roulez:
+]
+]
 
+.pull-right[
+.left[
+**2019** - **2018** - **2017**
 
-```r
-install.packages(c("ggplot2", 
-                   'MASS', 
-                   'vcdExtra',
-                   'bbmle',
-                   'DescTools')
-                 )
-```
+[Azenor Bideault]()
+&lt;br&gt;
+[Willian Vieira]()
+&lt;br&gt;
+[Pedro Henrique P. Braga]()
+&lt;br&gt;
+[Marie Hélène Brice]()
+&lt;br&gt;
+[Kevin Cazelles]()
 
+**2016** - **2015** - **2014**
+
+[Cédric Frenette Dussault]()
+&lt;br&gt;
+[Thomas Lamy]()
+&lt;br&gt;
+[Zofia Taranu]()
+&lt;br&gt;
+[Vincent Fugère]()
+
+]
+
+]
+&lt;/p&gt;
 ---
 
 # Objectifs d'apprentissage
@@ -85,6 +119,32 @@ Cet atelier développera vos connaissances de modèles, y compris certaines équ
 ]
 
 ---
+
+# Packages requis
+
+En plus des versions les plus récentes de R et RStudio, cet atelier requiert les packages R suivants:
+
+1. [ggplot2](https://cran.r-project.org/package=ggplot2)
+3. [MASS](https://cran.r-project.org/package=MASS)
+4. [vcdExtra](https://cran.r-project.org/package=vcdExtra)
+5. [bbmle](https://cran.r-project.org/package=bbmle)
+6. [DescTools](https://cran.r-project.org/package=DescTools)
+
+&lt;br&gt;
+
+Pour les installer à partir de CRAN, roulez:
+
+
+```r
+install.packages(c("ggplot2", 
+                   'MASS', 
+                   'vcdExtra',
+                   'bbmle',
+                   'DescTools')
+                 )
+```
+
+---
 class: inverse, center, middle
 
 # Préface
@@ -103,6 +163,7 @@ L'ensemble de variables prédictives que nous avons mesuré ne pourra jamais com
 
 `$$Y = f(X_1, \epsilon)$$`
 --
+exclude:true
 .small[
 Dans l'[atelier 4](https://qcbsrworkshops.github.io/workshop04/pres-fr/workshop04-pres-fr.html#1), nous avons appris comment utiliser ces modèles linéaires généraux pour décrire la relation entre variables:
 
@@ -128,7 +189,11 @@ ANCOVA
 ---
 # Révision des modèles linéaires
 
+Dans l'[atelier 4](https://qcbsrworkshops.github.io/workshop04/pres-fr/workshop04-pres-fr.html#1), nous avons appris comment utiliser les modèles linéaires généraux pour décrire la relation entre variables.
+
 La formule générale de notre fonction linéaire `\(Y = f(X_1)\)` serait représentée comme:
+
+--
 
 `$$Y = \beta_0 + \beta_1X_i + \varepsilon$$`
 où
@@ -196,10 +261,77 @@ Nous avons aussi appris que les **modèles linéaires** produisent seulement des
 
 ]
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-2-1.png" width="432" style="display: block; margin: auto;" /&gt;
+.pull-right[
 
+Les estimations d'un modèle général linéaire telles que `\(\widehat{Y} = \widehat{\beta}_0 + \widehat{\beta}_1 X\)` assumemt que les données sont générées selon les conditions présentées. 
+
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-2-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
 ???
 Note: Des versions plus développées de cet atelier devraient inclure les lignes décrivant les estimations d'erreur, et montrant leur distribution. Pour l'instant, le présentateur peut aider les participants avec cet abstraction.
+
+---
+## Representer les conditions d'application
+
+Simulons 250 unités d'observation qui satisfaient nos conditions d'application:  `\(\epsilon_i \sim \mathcal{N}(0, 2^2), i = 1,...,250\)`.
+
+.pull-left[
+
+
+```r
+nSamples &lt;- 250
+ID &lt;- factor(c(seq(1:nSamples)))
+
+PredVar &lt;- runif(nSamples, 
+                  min = 0, 
+                  max = 50)
+
+simNormData &lt;- data.frame(
+  ID = ID,
+  PredVar = PredVar,
+  RespVar = (2*PredVar + 
+               rnorm(nSamples,
+                     mean = 0,
+                     sd = 2)
+             )
+  )
+
+# We have learned how to use lm() 
+
+lm.simNormData &lt;- lm(RespVar ~ PredVar, 
+                     data = simNormData)
+```
+
+]
+
+.pull-right[
+
+```r
+layout(matrix(c(1,2,3,4),2,2)) 
+plot(lm.simNormData)
+```
+
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-4-1.png" width="432" style="display: block; margin: auto;" /&gt;
+
+]
+
+???
+
+Résidus: résidu =  y observé   –   y prédit par la modèle
+
+Données aberrantes: observations avec des résidus larges, i.e. la valeur observée pour un point est très différente de la valeur prédite par le modèle linéaire.
+
+Point de levier: un point de levier est défini comme une observation qui a une valeur de X qui est très éloignée de la moyenne de X. 
+
+Observations influentes: Une observation influente est défini par une observation qui change la pente de la relation. Donc, un point influent va avoir une influence élevée sur la prédiction du modèle. Une méthode pour trouver des observations influentes est de comparer un modèle avec et sans la dite observation. 
+
+1. Ces graphiques permettent de vérifier les conditions d'application de la linéarité et l'homoscédasticité.
+
+2. Le graphique QQ permet la comparaison des résidus avec une distribution normal. 
+
+3. Scale-location plot (square rooted standardized residual vs. predicted value) est utile pour vérifier l'homoscédasticité;
+
+4. La distance de Cook est une mesure d'influence des observations sur le coefficient de la régression linéaire.
 
 ---
 # Un exemple de modèle linéaire général
@@ -235,6 +367,7 @@ str(mites)
 &lt;br&gt; 
 
 &lt;br&gt;
+--
 
 .small[
 
@@ -358,7 +491,26 @@ plot(prop ~ WatrCont,
      data = mites, xlab = 'Contenu en eau', ylab='Proportion')
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-9-1.png" width="864" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-11-1.png" width="864" style="display: block; margin: auto;" /&gt;
+
+---
+# Explorer les relations
+
+Est-ce que la communauté de Galumna (abondance, occurence, et fréquence relative) varie en fonction du contenu en eau du sol?
+
+```r
+par(mfrow = c(1, 3), cex = 1.4)
+plot(Galumna ~ WatrCont, 
+     data = mites, xlab = 'Contenu en eau', ylab='Abondance')
+boxplot(WatrCont ~ pa, 
+        data = mites, xlab='Présence/Absence', ylab = 'Contenu en eau')
+plot(prop ~ WatrCont, 
+     data = mites, xlab = 'Contenu en eau', ylab='Proportion')
+```
+
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-13-1.png" width="864" style="display: block; margin: auto;" /&gt;
+???
+Ces relations sont tous des relations linéaires potentielles et négatives, mais le contenu en eau a le plus de potentiel d'être significatif (les boîtes ne se touchent pas)
 
 ---
 # Utiliser des modèles linéaires
@@ -437,7 +589,7 @@ plot(Galumna ~ WatrCont, data = mites)
 abline(lm.abund)
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-12-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-16-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 ]
 .pull-right[
@@ -447,7 +599,7 @@ par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.abund)
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-13-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-17-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -463,7 +615,7 @@ plot(prop ~ WatrCont, data = mites)
 abline(lm.prop)
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-14-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-18-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -473,7 +625,7 @@ par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.prop)
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-15-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-19-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -489,7 +641,7 @@ plot(pa ~ WatrCont, data = mites)
 abline(lm.pa)
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-16-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-20-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -499,7 +651,7 @@ par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.pa)
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-17-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-21-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -521,13 +673,14 @@ avec `\(N(\cdot)\)`, c'est-à-dire que `\(Y_i\)` est échantillonné d'une **dis
 .pull-right[
 3 valeurs pour `\(\mu\)`, `\(\sigma = 5\)`
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-18-1.png" width="216" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-22-1.png" width="216" style="display: block; margin: auto;" /&gt;
 
 `\(\mu = 25\)`, 3 valeurs pour `\(\sigma\)`
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-19-1.png" width="216" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-23-1.png" width="216" style="display: block; margin: auto;" /&gt;
 ]
 ]
-
+???
+Sur la droite, nous montrons des figures où mu varie ou oméga varie. La figure du haut marcherait avec un modèle linéaire puisque mu varie, mais pas oméga. La figure du bas montre qu'on ne peut utiliser un modèle linéaire puisque oméga varie. Il faudrait donc explorer dse distribtuions différentes. 
 ---
 # Prédiction du modèle
 
@@ -610,7 +763,12 @@ Lorsque `\(x_i = 400\)`, `\(Y_i\)` suit une distribution normale avec `\(\mu = 1
 Faites un sondage à choix multiples avec les participants.
 Les réponses sont 3 et 4.
 
+Les valeurs sont en moyenne, plus éloignée de la pente à une valeur de X basse qu'à une valeur de X élevée, ce qui indique que la variance (σ2) n'est pas homogène.
+
+Les observations sont aussi discrètes (valeurs rondes plutôt que décimal) ce qui pose problème avec une distribution normale.
+
 ---
+exclude:true
 # Prédiction du modèle
 
 .pull-left[
@@ -625,7 +783,7 @@ Lorsque `\(x_i = 400\)`, `\(Y_i\)` suit une distribution normale avec `\(\mu = 1
 ]
 
 --
-
+exclude:true
 .pull-left[
 
 .small[Graphiquement, notre modèle ressemble à:]
@@ -636,6 +794,7 @@ Lorsque `\(x_i = 400\)`, `\(Y_i\)` suit une distribution normale avec `\(\mu = 1
 ]
 
 --
+exclude:true
 .pull-right[
 
 **Les problèmes avec ce modèle:**
@@ -701,7 +860,7 @@ Pour modéliser les données d'abondance, la [distribution de Poisson](https://f
 
 - **Poisson** est une distribution discrète avec un seul paramètre, `\(\lambda\)` (lambda), qui détermine la moyenne et la variance de la distribution:
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-20-1.png" width="1080" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-24-1.png" width="1080" style="display: block; margin: auto;" /&gt;
 
 ---
 # Données biologiques &amp; distributions: Poisson
@@ -714,14 +873,11 @@ Pour modéliser les données d'abondance, la [distribution de Poisson](https://f
   hist(mites$Galumna)
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-21-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-25-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
-
-```r
-  mean(mites$Galumna)
-# [1] 0.9571429
-```
+Est-ce qu'on modèle avec une distribution de Poisson fonctionnerait mieux pour le modèle `\(\text{Galumna} = f(\text{Water content})\)` ?
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-26-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -737,7 +893,7 @@ Les données de présence-absence prennent une autre forme :
   hist(mites$pa)
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-23-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-27-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ---
 # Données biologiques &amp; distributions: Bernouilli
@@ -748,7 +904,7 @@ Les données de présence-absence prennent une autre forme :
 - N'a qu'un paramètre, `\(p\)`, la probabilité de succès
 
 &lt;br&gt;
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-24-1.png" width="864" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-28-1.png" width="864" style="display: block; margin: auto;" /&gt;
 
 Nous pouvons utiliser la loi de Bernoulli pour calculer la probabilité d'obtenir l'issue Galumna "present" (`1`) vs. "absent" (`0`).
 
@@ -760,7 +916,7 @@ Nous pouvons utiliser la loi de Bernoulli pour calculer la probabilité d'obteni
 - Inclut le paramètre additionel `\(n\)`, le nombre d'épreuves
 - Prédit la probabilité d'observer une certaine proportion de succès, `\(p\)`, sur le nombre total d'épreuves, `\(n\)`
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-25-1.png" width="1080" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-29-1.png" width="1080" style="display: block; margin: auto;" /&gt;
 
 ---
 # Données biologiques &amp; distributions: Binomiale
@@ -769,10 +925,10 @@ Nous pouvons utiliser la loi de Bernoulli pour calculer la probabilité d'obteni
 
 **Différence principale avec la loi de Poisson** : L'étendue de la loi binomiale a une limite supérieure, `\(n\)`. Par conséquent, elle est asymétrique et décalée à gauche lorsque `\(p\)` est faible, mais décalée à droite lorsque `\(p\)` est élevé.
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-26-1.png" width="720" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-30-1.png" width="720" style="display: block; margin: auto;" /&gt;
 
 ---
-# Modéliser avec d'autres distributions
+class: middle, center
 
 *Retournons à notre problème... que faire si nous avons d'autres distributions?* 
 
@@ -787,19 +943,32 @@ Dans`R`, on va donc passer de la fonction pour les modèles linéaires (généra
 ---
 # Modèles linéaires généralisés
 
-Un **modèle linéaire généralisé** est composé d'un **prédicteur linéaire**:
+&amp;nbsp; Un **modèle linéaire généralisé** est composé d'un **prédicteur linéaire**:
 
 `$$\underbrace{g(\mu_i)}_{Fonction~~lien}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Composante~linéaire}~+~\underbrace{\epsilon}_{Error}$$`
-et,
+&amp;nbsp; et,
 
-1. une fonction **lien** `\(g(\mu_i)\)` qui **transforme la valeur prédite** de `\(Y\)` et décrit comment la moyenne `\(E(Y_i) = \mu_i\)` dépend du prédicteur linéaire
+&amp;nbsp; 1. une fonction **lien** `\(g(\mu_i)\)` qui **transforme la valeur prédite** de `\(Y\)` et décrit comment la moyenne `\(E(Y_i) = \mu_i\)` dépend du prédicteur linéaire
 
 `$$g(\mu_i) = ηi$$`
 
-2\. une fonction de **variance** qui décrit comment la variance `\(\text{var}(Y_i)\)` dépend de la moyenne
+&amp;nbsp; 2\. une fonction de **variance** qui décrit comment la variance `\(\text{var}(Y_i)\)` dépend de la moyenne
 
 `$$\text{var}(Y_i) = \phi V(\mu)$$`
-où le **paramètre de dispersion** `\(phi\)` est une constante.
+&amp;nbsp; où le **paramètre de dispersion** `\(phi\)` est une constante.
+
+???
+La fonction de lien met en relation la valeur attendue de la variable réponse au prédicteur linéaire du modèle, pour que la relation entre le prédicteur et la réponse soit modélisée avec une régression linéaire.
+
+Comment cela se différencie de transformer une variable?
+
+La transformation la plus commune est une transformation en log puisque la valeur de y n'a pas l'Apparence de suivre une distribution normale. 
+
+Lorsque nous transformons les données d'un modèle linéaire général, nous n'affirmons plus que y est distribuer normalement autour de la moyenne pour une valeur de x donnée. Nous affirmons en fait que la nouvelle variable (log(y) ou ln(y)) est ditribuée normalement.
+
+Dans le cas d'un modèle linéaire généralisé de Poisson, cependant, la fonction de lien ne change pas la distribution des observations actuelles pour tenter de les rendre normale. Plutôt, la fonction lien redéfinie la relation de la variable X directement avec la moyenne de y sous une distribution de Poisson. Les observations individuelles vont donc varier autour de la valeur attendue.
+
+La moyenne du log n'est pas la le log de la moyenne! Vous ne pouvez prendre l'exposant de la moyenne de log(y) ou ln(y) et avoir la moyenne de y. D'un autre côté, la fonction lien vous permet de le faire!
 
 ---
 # Le modèle linéaire général en GLM
@@ -808,10 +977,10 @@ Alors, pour notre **modèle linéaire général** avec `\(\epsilon ∼ N(0, σ^2
 
 
 `$$\underbrace{g(\mu_i)}_{Fonction~~lien}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Composante~linéaire}~+~\underbrace{\epsilon}_{Error}$$`
-la fonction lien d'**identité** 
+la fonction lien: 
 `$$g(\mu_i) = \mu_i$$`
 
-et, la fonction de variance
+et, la fonction de variance:
 
 `$$V(\mu_i) = 1$$`
 
@@ -850,6 +1019,9 @@ avec l'argument `family` (voir `?family`) qui prend le nom de la **fonction lien
 
 Cette approche s'applique à d'autres distributions!
 
+???
+La fonction d'identité pour une modèle linéaire général est 'identité'(voir la diapo suivante)
+
 --
 
 | Distribution de `\(Y\)` | Nom du fonction lien | Fonction lien | Modèle      | `R` |
@@ -859,6 +1031,17 @@ Cette approche s'applique à d'autres distributions!
 | Poisson              | Log           | `\(g(\mu) = \log(\mu)\)` | `\(-\mu^{-1} = \mathbf{X} \boldsymbol{\beta}\)` | `poisson(link="log")`|
 | Exponentielle              | Inverse négative          | `\(g(\mu) = -\mu^{-1}\)`  | `\(\log(\mu) = \mathbf{X} \boldsymbol{\beta}\)` | `Gamma(link="inverse")` |
 
+???
+
+Comment cela se différencie de transformer une variable?
+
+La transformation la plus commune est une transformation en log puisque la valeur de y n'a pas l'Apparence de suivre une distribution normale. 
+
+Lorsque nous transformons les données d'un modèle linéaire général, nous n'affirmons plus que y est distribuer normalement autour de la moyenne pour une valeur de x donnée. Nous affirmons en fait que la nouvelle variable (log(y) ou ln(y)) est ditribuée normalement.
+
+Dans le cas d'un modèle linéaire généralisé de Poisson, cependant, la fonction de lien ne change pas la distribution des observations actuelles pour tenter de les rendre normale. Plutôt, la fonction lien redéfinie la relation de la variable X directement avec la moyenne de y sous une distribution de Poisson. Les observations individuelles vont donc varier autour de la valeur attendue.
+
+La moeynne du log n'est pas la le log de la moyenne! Vous ne pouvez prendre l'exposant de la moyenne de log(y) ou ln(y) et avoir la moyenne de y. D'un autre côté, la fonction lien vous permet de le faire!
 ---
 class: inverse, center, middle
 
@@ -897,11 +1080,11 @@ lm(Pres ~ ExpVar)
 &lt;br&gt;
 
 .pull-left[
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-30-1.png" width="540" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-34-1.png" width="540" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-31-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-35-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1247,7 +1430,9 @@ exp(logit.reg$coefficient[2])
 Rappelez-vous que la valeur `\(R^2\)` est une mesure du pouvoir explicatif du modèle.
 
 Dans les modèles linéaires simples, `\(R^2\)` peut être obtenu comme le carré du coefficient de l'équation de corrélation de l'échantillon ($r$) entre les résultats observés et les valeurs prédictives.
-
+--
+&lt;br&gt;
+&lt;br&gt;
 Dans certains des modèles linéaires généralisés, nous adoptons d'autres approches.
 
 Nous pouvons obtenir un [ `\(\text{pseudo-R}^2\)` ](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-what-are-pseudo-r-squareds/), un concept analogue au `\(R^2\)` pour les modèles estimés par maximisation de la vraisemblance.
@@ -1257,8 +1442,8 @@ Nous pouvons calculer le `\(\text{pseudo-R}^2\)` de McFadden (1973) :
 `$$\text{pseudo-R}^2 = \frac{\text{déviance nulle - déviance résiduelle}}{\text{déviance nulle}}$$`
 
 &lt;br&gt;
-
-`\(\text{pseudo-R}^2 \text{est la variance expliquée par le modèle}\)`
+???
+`\(\text{pseudo-R}^2\)` est la variance expliquée par le modèle
 
 ---
 # Déviance unitaire, totale et nulle
@@ -1267,7 +1452,8 @@ La déviance unitaire est une mesure de la distance entre `\(y\)` et `\(μ\)`.
 
 `$${\displaystyle d(y,y)=0}$$`
 `$${\displaystyle d(y,\mu )&gt;0\quad \forall y\neq \mu }$$`
-
+???
+Nous allons utiliser les déviances pour calculer pseudo R2.
 --
 
 La déviance totale `\({\displaystyle D(\mathbf {y} ,{\hat {\boldsymbol {\mu }}})}\)` d'un modèle avec prédictions `\({\hat {\boldsymbol {\mu }}}\)` de l'observation `\(\mathbf {y}\)` est la somme de ses déviances unitaires: 
@@ -1404,11 +1590,16 @@ DescTools::PseudoR2(logit.reg, which = "all")
 #      61.5078819     -24.3811981     -45.6229593      42.4835224
 ```
 
+???
+Pour évaluer l'ajustement du modèle, les graphiques de diagnostique ne sont pas utiles. Il vaut mieux utiliser le test de Hosmer-Lemeshow qui évalue si les fréquences des événements observés correspondent ou non aux fréquences des événements attendus. 
 
+Vous pouvez le montrer aux étudiants avec 
+library(vcdExtra)
+HLtest(logit.reg)
 ---
 exclude: true
 
-### Exercise 2: Faire un test d'ajustement du modèle Hosmer-Lemeshow
+### Exercice 2: Faire un test d'ajustement du modèle Hosmer-Lemeshow
 
 Pour évaluer l'ajustement du modèle, les graphiques de diagnostique ne sont pas utiles. Il vaut mieux utiliser le [test de Hosmer-Lemeshow](https://en.wikipedia.org/wiki/Hosmer%E2%80%93Lemeshow_test):
 
@@ -1440,7 +1631,7 @@ HLtest(logit.reg)
 plot(HLtest(logit.reg))
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-51-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-55-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .comment[Une valeur non significative indique un ajustement adéquat!]
@@ -1448,9 +1639,9 @@ plot(HLtest(logit.reg))
 ---
 # Défi 2 ![:cube]()
 
-1. En utilisant le modèle créé avec le jeu de données `bacteria`, évaluez le pouvoir prédictif et l'ajustement de ce modèle.
+1\. En utilisant le modèle créé avec le jeu de données `bacteria`, évaluez le pouvoir prédictif et l'ajustement de ce modèle.
 
-2. Comment améliorer le pouvoir explicatif du modèle?
+2\. Comment améliorer le pouvoir explicatif du modèle?
 
 ???
 
@@ -1459,17 +1650,26 @@ Faites cet exercise en salles de réunion avec des groupes de 3-4 pour un durée
 ---
 # Défi 2 - Solution ![:cube]()
 
-1. En utilisant le modèle créé avec le jeu de données `bacteria`, évaluez le pouvoir prédictif et l'ajustement de ce modèle.
+1\. En utilisant le modèle créé avec le jeu de données `bacteria`, évaluez le pouvoir prédictif et l'ajustement de ce modèle.
 
 
 ```r
 null.d &lt;- model.bact2$null.deviance
 resid.d &lt;- model.bact2$deviance
 bact.pseudoR2 &lt;- (null.d - resid.d) / null.d
-HLtest(model.bact2)
+bact.pseudoR2
+# [1] 0.0624257
+DescTools::PseudoR2(model.bact2, which = "all")
+#        McFadden     McFaddenAdj        CoxSnell      Nagelkerke   AldrichNelson 
+#      0.06242570      0.02562309      0.05981734      0.09529510      0.05809758 
+# VeallZimmermann           Efron McKelveyZavoina            Tjur             AIC 
+#      0.11689650      0.06151653      0.11098468      0.06275058    211.80606240 
+#             BIC          logLik         logLik0              G2 
+#    225.38057258   -101.90303120   -108.68795256     13.56984272
 ```
+--
 
-2. Comment améliorer le pouvoir explicatif du modèle?
+2\. Comment améliorer le pouvoir explicatif du modèle?
 
 *Ajouter des variables explicatives pertinentes pourrait certainement augmenter le pouvoir explicatif du modèle.*
 
@@ -1600,19 +1800,15 @@ Examinons maintenant à quoi ressemble la distribution du nombre d'arbres par tr
 
 .large[Que sont des données d'abondance?]
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-60-1.png" width="432" style="display: block; margin: auto;" /&gt;
-
----
-# Modéliser des données d'abondance
-
-.large[Que sont des données d'abondance?]
-
 Les données d'abondance sont charactérisées par:
 
-- des valeurs positives : on ne peut pas compter -7 individus
-- des valeurs entières : on ne peut pas compter 7.56 individus
+- des valeurs positives : on ne peut pas compter **-7** individus
+- des valeurs entières : on ne peut pas compter **7.56** individus
 - une plus grande variance pour les grandes valeurs
 
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-64-1.png" width="576" style="display: block; margin: auto;" /&gt;
+???
+Vous pouvez dire qu'en *moyenne*, vous avez 7.56 individus pour une situation spécifique. Mais la mesure est tout de même *discrète*.
 ---
 # Modéliser des données d'abondance
 
@@ -1620,14 +1816,20 @@ Les données d'abondance sont charactérisées par:
 
 L'élévation influence-t-elle l'abondance de *F. occidentalis*?
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-61-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-65-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ---
 # Modéliser des données d'abondance
 
 L'élévation influence-t-elle l'abondance de *F. occidentalis*?
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-62-1.png" width="432" style="display: block; margin: auto;" /&gt;
+.pull-left[
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-66-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-67-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
 
 Quelle distribution modèle le mieux ces observations?
 1. Bernoulli
@@ -1643,10 +1845,14 @@ Ceci est un question de sondage à un choix. La réponse est 3. Poisson.
 # Modéliser des données d'abondance
 
 L'élévation influence-t-elle l'abondance de *F. occidentalis*?
+.pull-left[
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-68-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-63-1.png" width="432" style="display: block; margin: auto;" /&gt;
-
-.small[What type of distribution best fits this data?
+.pull-right[
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-69-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+.small[Quelle distribution modèle le mieux ces observations?
 1. Bernoulli   
 2. Normal    
 3. **Poisson**
@@ -1692,7 +1898,7 @@ Un GLM Poisson va modéliser la valeur de `\(\mu\)` en fonction de différentes 
 **Étape 2.** On spécifie le prédicteur linéaire comme dans un modèle linéaire.
 
 `$$\underbrace{\alpha}_\text{One intercept} + \underbrace{\beta}_\text{slope of 'Elevation'} \times \text{Elevation}_i$$`
-
+--
 **Étape 3.** La fonction de lien entre la moyenne de `\(Y_i\)` et la partie systématique est une fonction logarithmique et est écrite comme suit:
 
 .pull-left[
@@ -1832,14 +2038,14 @@ les événements qui sont comptés sont corrélés positivement.
 
 &lt;br&gt;
 
-.center [*Pouvez-vous penser à une situation en biologie qui peut provoquer la surdispersion?*]
+.center[*Pouvez-vous penser à une situation en biologie qui peut provoquer la surdispersion?*]
 
 &lt;br&gt;
-
+--
+&lt;br&gt;
 **Pourquoi devrions-nous nous intéresser à la surdispersion?**
 
-&gt; Les tests sur les variables explicatives apparaîtront généralement plus significatifs et les intervalles de confiance des paramètres seront plus étroits
-que les données ne le justifierait!
+Les tests sur les variables explicatives apparaîtront généralement plus significatifs et les intervalles de confiance des paramètres seront plus étroits que les données ne le justifierait!
 
 ---
 # La surdispersion
@@ -2108,7 +2314,7 @@ lines(pframe$lwr, col = 2, lty = 3, lwd = 2)
 ---
 # Visualiser le modèle final
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-73-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-79-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ---
 # Défi 3 ![:cube]()
@@ -2182,7 +2388,7 @@ anova(glm.qp2, glm.qp, test="Chisq")
 &lt;br&gt;
 
 .center[
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-77-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-83-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 
@@ -2196,7 +2402,6 @@ anova(glm.qp2, glm.qp, test="Chisq")
 - **Poisson ou negative binomiale à inflation de zéro**. Quand les données comprennent un nombre excessif de zéros, venant d'un processus différent de celui qui génère les comptes.
 
 ---
-exclude: true
 
 # Ressources additionnelles sur les GLMs
 
