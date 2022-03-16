@@ -1,6 +1,6 @@
 # (PART\*) GLM avec des données de proportions {-}
 
-# GLM avec une distribution binomiale
+# GLM binomial avec des proportions
 
 Parfois, les données de proportions sont plus similaires à une régression logistique que ce que vous pensez...
 

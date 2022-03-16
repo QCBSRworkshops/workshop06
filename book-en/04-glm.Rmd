@@ -1,36 +1,58 @@
-# Generalized Linear Models
+# Generalized linear models
 
-A **generalized linear model** is made of a **linear predictor**:
+To avoid any bias from general linear models, we need to specify 2 things: 
+1\. **a statistical distribution for the residuals of the model**
+2\. **a link function** for the predicted valued of the model.
 
-$$\eta_i = \underbrace{g(\mu)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$
-and,
+For a linear regression with a continuous response variable distributed normally, the predicted values of Y is explained by this equation :
 
-1. a **link** function $g(\mu_i)$ that **transforms the expected value** of $Y$ and describes how the mean $E(Y_i) = \mu_i$ depends on the linear predictor
+$μ = βx$
+
+where:\
+-$μ$ is the predicted value of the response variable\
+-$x$ is the model matrix (*i.e.* predictor variables)\
+-$β$ is the estimated parameters from the data (*i.e.*
+intercept and slope). $βx$ is called the **linear predictor**. In math terms, it's the matrix product of the model's matrix $x$ and the vector of the estimated parameters $β$. 
+
+For a linear regression with a continuous response variable distributed normally, the linear predictor $βx$ is equivalent to the expected values of the response variable. *When the response varaible is not normally distributed, this statement is not true*. I nthis situation, we need to transform the predicted values $μ$ with a **link function** to obtain a linear relationship with the linear predictor:
 
 $$g(\mu_i) = ηi$$
 
-2. a **variance** function that describows how the variance $\text{var}(Y_i)$ depends on the mean
+where $g(μ)$ is the link function to the predicted values. Therefore it removes the restriction on the residuals. 
+
+The $μ / 1-μ$ ratio represent the odds of an event Y to occur. It transforms our predicted value to a scale of 0 to `+Inf`. For instance the probability to fail this course 0.6, thus the odds of failing is $0.6/(1 − 0.6) = 1.5$. It indicates that the probability of me failing this class is 1.5 higher than the probability that I succeed (which are $1.5 × 0.4 = 0.6$). 
+
+To complete our model, we also need a **variance** function which describe how the variance $\text{var}(Y_i)$ depends on the mean:
 
 $$\text{var}(Y_i) = \phi V(\mu)$$
 
-where the **dispersion parameter** $\phi$ is a constant.
+where the **dispersion parameter** $phi$ is constant.
 
-So, for our **general linear model** with $\epsilon ∼ N(0, \sigma^2)$ and $Y_i \sim{} N(\mu_i, \sigma^2)$, we have the same linear predictor:
+With the linear predictor, our generalized linear model would be:
 
+$$\eta_i = \underbrace{g(\mu)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$
 
-$$\underbrace{g(\mu)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$
+A**general linear model** with $\epsilon ∼ N(0, σ^2)$ and $Y_i \sim{} N(\mu_i, \sigma^2)$ has:
 
-the **identity** link function
+1. an **identity** link function: 
 
 $$g(\mu_i) = \mu_i$$
 
-and, the variance function
+2. and a variance function:
 
 $$V(\mu_i) = 1$$
 
-*This is equivalent to the normal linear model that we have learned before!*
+which result in:
 
-In `R`, we can fit generalized linear models using the `glm()` function, which is similar to the `lm()` function, with the `family` argument taking the names of the **link function** (inside `link`) and, the **variance function**.:
+$$\underbrace{g(\mu)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}$$
+
+When our response variable is binary, the link function is a *logit* function:
+
+$$\eta_i = \text{logit}(\mu_i) = \log(\frac{\mu_i}{1-\mu_i})$$
+
+The log transformation allows the values to be distributed from `-Inf` to `+Inf`. We can now link the predicted values with the linear predictor $βx$. This is the reason we still qualify this model as **linear** despite the relationship not being a \«straight line\». 
+
+In `R`, we can fit generalized linear models using the `glm()` function, which is similar to the `lm()` function, with the `family` argument taking the names of the **link function** (inside `link`) and, the **variance function**:
 
 ```{r, eval = FALSE, echo = TRUE}
 # This is what the glm() function syntax looks like (don't run this)

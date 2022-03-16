@@ -48,7 +48,7 @@ $$\mathbb{C}{\rm ov} (\epsilon_i, \epsilon_j) = 0,\ i \neq j$$
 3\. And, the residuals are normal:
 
 $$\boldsymbol{\varepsilon} | \mathbf{X} \sim \mathcal{N} \left( \mathbf{0}, \sigma^2_\epsilon \mathbf{I} \right)$$
-
+The estimations of general linear models as in $\widehat{Y} = \widehat{\beta}_0 + \widehat{\beta}_1 X$ assumes that data is generated following these assumptions.
 
 ```{r echo = FALSE, fig.width = 8, fig.height = 8}
 # Set the coefficients:
@@ -76,8 +76,63 @@ legend(x = 0, y = 25,
 ```
 
 
-# An example with general linear models
+## An example with general linear models
 
+Let's simulate 250 observations which satisfies our assumptions:  $\epsilon_i \sim \mathcal{N}(0, 2^2), i = 1,...,250$.
+
+.pull-left[
+
+```{r}
+nSamples <- 250
+ID <- factor(c(seq(1:nSamples)))
+
+PredVar <- runif(nSamples, 
+                  min = 0, 
+                  max = 50)
+
+simNormData <- data.frame(
+  ID = ID,
+  PredVar = PredVar,
+  RespVar = (2*PredVar + 
+               rnorm(nSamples,
+                     mean = 0,
+                     sd = 2)
+             )
+  )
+
+# We have learned how to use lm() 
+
+lm.simNormData <- lm(RespVar ~ PredVar, 
+                     data = simNormData)
+```
+
+]
+
+.pull-right[
+```{r}
+layout(matrix(c(1,2,3,4),2,2)) 
+plot(lm.simNormData)
+```
+
+]
+
+1. These graphs allows one to check the assumption of linearity and homoscedasticity;
+
+2. QQ-plot allows the comparison of the residuals to "ideal" normal observations;
+
+3. Scale-location plot (square rooted standardized residual vs. predicted value) is useful for checking the assumption of homoscedasticity;
+
+4. Cook's Distance, which is a measure of the influence of each observation on the regression coefficients and helps identify outliers.
+
+Residuals are $Y-\widehat{Y}$, or the observed value minus the predicted value. 
+
+Outliers are observations $Y$ with large residuals, i.e. the observed value $Y$ for a point $X$ is very different from the one predicted by the regression model $\widehat{Y}$.
+
+A leverage point is defined as an observation $Y$ that has a value of $x$ that is far away from the mean of $x$. 
+
+An influential observation is defined as an observation $Y$ that changes the slope of the line $\beta_1$. Thus, influential points have a large influence on the fit of the model. One method to find influential points is to compare the fit of the model with and without each observation.
+
+#Example with real data
 Let us use our prior knowledge on general linear models to explore the relationship between variables within the *Oribatid mite dataset*.
 
 Let us begin by loading this dataset into `R`:
@@ -89,13 +144,12 @@ mites <- read.csv('data/mites.csv',
                   stringsAsFactors = TRUE)
 ```
 
-The dataset that you just loaded is a subset from the classic 'Oribatid
-mite dataset', which has been used in numerous texts (e.g. Borcard,
+The dataset that you just loaded is a subset from the classic [Oribatid mites (Acari,Oribatei)](http://adn.biol.umontreal.ca/~numericalecology/data/oribates.html), which has been used in numerous texts (e.g. Borcard,
 Gillet & Legendre, *Numerical Ecology with R*), and which is available
 in the `vegan` library.
 
-The Oribatid mite dataset has **70 observations with moss and mite samples** collected Station de Biologie des
-Laurentides from the Université de Montréal, within the municipality of Saint-Hippolyte, Québec (Canada). Each sample includes **5** variables of **environmental measurements** and abundance for *Galumna* sp. for each site.
+The Oribatid mite dataset has **70 observations with moss and mite samples** collected Station de [Station de Biologie from the Université de Montréal](https://goo.gl/maps/PxN1Q7KUPnUt92Eu5).
+], within the municipality of Saint-Hippolyte, Québec (Canada). Each sample includes **5** variables of **environmental measurements** and abundance for *Galumna* sp. for each site.
 
 We can peek into the structure and the first six rows of the dataset using the `head()` and `str()` functions:
 
@@ -161,6 +215,8 @@ $\text{Abundance} = f(\text{Substrate}, \epsilon)$
 </div>
 </div>
 
+Can we see a relationship between *Galumna* and any of the five environmental variables?
+
 Let us attempt to be more specific and ask **wether *Galumna*'s community values (abundance, occurrence and relative frequency) vary as a function of water content**.
 
 We can begin by representing all three response variables against the predictor:
@@ -189,7 +245,7 @@ plot(prop ~ WatrCont,
 Indeed, `Galumna` seems to vary negatively as a function of `WatrCont`, *i*.*e*.
 *Galumna* sp. seems to prefer dryer sites.
 
-We can go step further and fit general linear models to test whether `Galumna`, `pa`, and/or `prop` vary as a function of `WatrCont`
+We can go step further and fit general linear models to test whether `Galumna`, `pa`, or `prop` vary as a function of `WatrCont`
 
 ```{r, eval = -c(2, 5, 8)}
 # Fit the models
@@ -233,12 +289,6 @@ Yes, there is a strong and significant relationship for all 3 response variables
 Let's validate these models to make sure that we
 respect assumptions of linear models, starting with the abundance model.
 
-We can see a strong and significant relationship for all three models, concerning each one of the three response variables!
-
-Nevertheless, we cannot forget the most important step: verifying if the assumptions for these general linear models have not been violated.
-
-Let us begin by validating these models to make sure that we respect assumptions of linear models, starting with the abundance model.
-
 ```{r, echo = TRUE, eval = TRUE, fig.width = 7, fig.height = 7, fig.align = "center"}
 # Plot the abundance model
 plot(Galumna ~ WatrCont, data = mites)
@@ -246,7 +296,7 @@ abline(lm.abund)
 ```
 
 The model does not fit well. It predicts negative abundance values when
-`WatrCont` exceeds `600`, which does not make any sense. Also, the model
+`WatrCont` exceeds 600, which does not make any sense. Also, the model
 does poorly at predicting high abundance values at low values of `WatrCont`.
 
 We can also check the model diagnostic plots:
@@ -294,22 +344,10 @@ Let's take a step back here and review the assumptions of linear models, and whe
 
 $$Y_i = \beta_0 + \beta_1X_i + \varepsilon$$
 
-where:
+The last entry $\varepsilon_i$ is important. This is where assumptions of
+normality and homoscedasticity originate. In linear models, **the residuals $\varepsilon_i$ (the distance between each observation and the regression line) can be predicted by drawing random values from a normal distribution.**
 
-- $Y_i$ is the predicted value of a response variable
-- $\beta_0$ is the *unknown coefficient* **intercept**
-- \beta_1$ is the *unknown coefficient* **slope**
-- $X_i$ is the value of the explanatory variable
-- $\varepsilon_i$ is the model residual drawn from a normal distribution with a varying mean but a constant variance.
-
-
-This last point about $\varepsilon_i$ is important. This is where assumptions of
-normality and homoscedasticity originate. **It means that the residuals
-(the distance between each observation and the regression line) can be
-predicted by drawing random values from a normal distribution.**
-
-Recall
-that all normal distributions have two parameters, $\mu$ (the mean of the distribution) and $\sigma^2$ (the variance of the distribution). In a linear model, $\mu$ changes based on values of $X$ (the predictor
+Recall that all normal distributions have two parameters, $\mu$ (the mean of the distribution) and $\sigma^2$ (the variance of the distribution). In a linear model, $\mu$ changes based on values of $X$ (the predictor
 variable), but $\sigma^2$ has the same value for all values of $Y$. Our simple linear can also be written as this:
 
 $$Y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$
@@ -380,7 +418,7 @@ This tells us that randomly drawn $Y$ values when water content is $300$ should 
 At a water content of 400, residuals \varepsilon should follow a normal
 distribution with parameters $\mu = 3.44 + (-0.006 x 400) = 1.02$ and $\sigma^2 = 1.51$, etc. Each $Y$ value is modeled using a normal distribution with a mean that depends on $X_i$, but with a variance that is constant $\sigma^2 = 1.51$ across all $X_i$ values. Graphically, this looks like this:
 
-![](images/modelPredic.png)
+![](images/modelPredic.png){width="400"}
 
 The four normal distributions on this graph represent the probability of
 observing a given Galumna abundance for 4 different water content
@@ -401,9 +439,9 @@ Very often, data will not "behave" and will violate the assumptions we have seen
 
 We have been told to **transform** our data using logarithmic, square-root, and cosine transformations to get around these problems. Unfortunately, transformations not always work and come with a few drawbacks:
 
-**1.**  They change the response variable (!), making interpretation challenging;
-**2.**  They may not simulateneously improve linearity and homogeneity of variance;
-**3.**  The boundaries of the sample space change.
+**1.**  They change the response variable (!), making interpretation challenging;\
+**2.**  They may not simulateneously improve linearity and homogeneity of variance;\
+**3.**  The boundaries of the sample space change.\
 
 For instance, our simple linear model:
 

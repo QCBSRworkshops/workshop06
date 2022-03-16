@@ -153,15 +153,12 @@ equation:
 
 $$Y_i \sim Poisson(\lambda = \beta_0 + \beta_1X_i)$$
 
-Notice that $\lambda$ varies as a function of $X$ (water content), meaning that
-the residual variance will also vary with $X$. This means that we just
+Notice that $\lambda$ varies as a function of $X$ (water content), meaning that the residual variance will also vary with $X$. This means that we just
 relaxed the homogeneity of variance assumption! Also, predicted values
 will now be integers instead of fractions because they will all be drawn
-from Poisson distributions with different $\lambda$ values. The model will never
-predict negative values because Poisson distributions have strictly
+from Poisson distributions with different $\lambda$ values. The model will never predict negative values because Poisson distributions have strictly
 positive ranges. By simply switching the distribution of error terms
-($\varepsilon$) from normal to Poisson, we solved most of the problems of our
-abundance linear model. This new model is *almost* a Poisson
+($\varepsilon$) from normal to Poisson, we solved most of the problems of our abundance linear model. This new model is *almost* a Poisson
 generalized linear model, which basically looks like this:
 
 ```{r echo=FALSE, fig.align="center", fig.width=7, fig.height = 5}
