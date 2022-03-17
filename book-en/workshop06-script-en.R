@@ -1,10 +1,12 @@
 ##Section: 01-preparing-for-the-workshop.R 
 
-install.packages(c("ggplot2",
+install.packages(c('ggplot2',
                    'MASS',
                    'vcdExtra',
                    'bbmle',
-                   'DescTools')
+                   'DescTools',
+                   'GlmSimulatoR',
+                   'cplm')
                  )
 
 library(ggplot2)
@@ -38,6 +40,31 @@ lines(x = x, y = y_dgp, col = "darkgreen", lty = 2)
 legend(x = 0, y = 25,
        legend = c(expression(paste("Y = ", beta[0] + beta[1] * X))),
        lty = c(2, 1), lwd = c(1, 1), pch = c(NA, NA), col = c("darkgreen", "blue"))
+
+nSamples <- 250
+ID <- factor(c(seq(1:nSamples)))
+
+PredVar <- runif(nSamples, 
+                  min = 0, 
+                  max = 50)
+
+simNormData <- data.frame(
+  ID = ID,
+  PredVar = PredVar,
+  RespVar = (2*PredVar + 
+               rnorm(nSamples,
+                     mean = 0,
+                     sd = 2)
+             )
+  )
+
+# We have learned how to use lm() 
+
+lm.simNormData <- lm(RespVar ~ PredVar, 
+                     data = simNormData)
+
+layout(matrix(c(1,2,3,4),2,2)) 
+plot(lm.simNormData)
 
 # Use setwd() to set your working directory
 
@@ -244,7 +271,8 @@ glm(formula,
     ...)
 
 # This is the syntax for a binomial GLM with a logit link
-family = binomial(link = "logit"), # this is also known as logistic
+glm(formula,
+    family = binomial(link = "logit"), # this is also known as logistic
     data,
     ...)
 
@@ -288,6 +316,12 @@ logit.reg
 # odds for the presence of mites
 exp(logit.reg$coefficient[2:3])
 
+library(ggplot2)
+ggplot(mites, aes(x = WatrCont, y = pa)) + geom_point() + xlab("Water content") +
+ylab("Probability of presence")
+
+exp(logit.reg$coefficients[1])
+
 # extract residual and null deviances
 objects(logit.reg)
 
@@ -310,6 +344,12 @@ resid.d <- model.bact2$deviance
 # Calculate pseudo-R2
 bact.pseudoR2 <- (null.d - resid.d) / null.d
 bact.pseudoR2
+
+library(ggplot2)
+ggplot(mites, aes(x = WatrCont, y = pa)) + geom_point() +
+stat_smooth(method = "glm", method.args = list(family=binomial), se = TRUE) + xlab("Water content") +
+ylab("Probability of presence") +
+ggtitle("Probability of presence of  Galumna sp. against the water content")+theme_classic()
 
 
 ##Section: 06-glm-proportion.R 
@@ -424,7 +464,15 @@ anova(glm.qp2, glm.qp, test="Chisq")
 
 ##Section: 08-other-distributions.R 
 
+#install.packages(c('GlmSimulatoR','cplm'))
+library(GlmSimulatoR)
+library(ggplot2)
+library(cplm, quietly = TRUE)
 
+simdata <- simulate_tweedie(weight = .2, ancillary = 1.15, link = "log")
+
+ggplot(simdata, aes(x = Y)) + 
+  geom_histogram(bins = 30)
 
 
 ##Section: 09-final-considerations.R 

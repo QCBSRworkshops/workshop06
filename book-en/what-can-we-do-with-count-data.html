@@ -4,22 +4,21 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 9 What can we do with count data? | Workshop 6: Generalized linear models</title>
+  <title>Chapter 8 What can we do with count data? | Workshop 6: Generalized linear models</title>
   <meta name="description" content="Generalized linear models in R" />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 9 What can we do with count data? | Workshop 6: Generalized linear models" />
+  <meta property="og:title" content="Chapter 8 What can we do with count data? | Workshop 6: Generalized linear models" />
   <meta property="og:type" content="book" />
-  <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
-  <meta property="og:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
+  <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
   <meta property="og:description" content="Generalized linear models in R" />
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 9 What can we do with count data? | Workshop 6: Generalized linear models" />
+  <meta name="twitter:title" content="Chapter 8 What can we do with count data? | Workshop 6: Generalized linear models" />
   
   <meta name="twitter:description" content="Generalized linear models in R" />
-  <meta name="twitter:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
+  <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
 
 <meta name="author" content="Developed and maintained by the contributors of the QCBS R Workshop Series" />
 
@@ -31,8 +30,9 @@
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
 <link rel="prev" href="binomial-glms-and-proportions.html"/>
-<link rel="next" href="poisson-glms.html"/>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link rel="next" href="other-distributions.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -48,10 +48,10 @@
 
 
 
-
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -136,68 +136,67 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <link rel="icon" type="image/png" href="assets/images/favicon.ico"/>
 
 <li class="divider"></li>
-<li class="part"><span><b>QCBS R Workshop Series</b></span></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
-<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#code-of-conduct"><i class="fa fa-check"></i><b>0.1</b> Code of conduct</a><ul>
-<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#expected-behaviour"><i class="fa fa-check"></i><b>0.1.1</b> Expected behaviour</a></li>
-<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#unacceptable-behaviour"><i class="fa fa-check"></i><b>0.1.2</b> Unacceptable behaviour</a></li>
+<li class="part"><span><b>QCBS R Workshop Series<span></span></b></span></li>
+<li><a href="index.html#preface">Preface<span></span></a><ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>0.1</b> Code of conduct<span></span></a><ul>
+<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#expected-behaviour"><i class="fa fa-check"></i><b>0.1.1</b> Expected behaviour<span></span></a></li>
+<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#unacceptable-behaviour"><i class="fa fa-check"></i><b>0.1.2</b> Unacceptable behaviour<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributors"><i class="fa fa-check"></i><b>0.2</b> Contributors</a></li>
-<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contributing"><i class="fa fa-check"></i><b>0.3</b> Contributing</a></li>
+<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributors"><i class="fa fa-check"></i><b>0.2</b> Contributors<span></span></a></li>
+<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contributing"><i class="fa fa-check"></i><b>0.3</b> Contributing<span></span></a></li>
 </ul></li>
-<li class="part"><span><b>Generalized linear models in <code>R</code></b></span></li>
-<li class="chapter" data-level="1" data-path="learning-objectives.html"><a href="learning-objectives.html"><i class="fa fa-check"></i><b>1</b> Learning objectives</a></li>
-<li class="chapter" data-level="2" data-path="preparing-for-the-workshop.html"><a href="preparing-for-the-workshop.html"><i class="fa fa-check"></i><b>2</b> Preparing for the workshop</a></li>
-<li class="chapter" data-level="3" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html"><i class="fa fa-check"></i><b>3</b> Reviewing linear models</a><ul>
-<li class="chapter" data-level="3.1" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#general-linear-models"><i class="fa fa-check"></i><b>3.1</b> General linear models</a><ul>
-<li class="chapter" data-level="3.1.1" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#definition"><i class="fa fa-check"></i><b>3.1.1</b> Definition</a></li>
-<li class="chapter" data-level="3.1.2" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#assumptions"><i class="fa fa-check"></i><b>3.1.2</b> Assumptions</a></li>
+<li class="part"><span><b>Generalized linear models in <code>R</code><span></span></b></span></li>
+<li class="chapter" data-level="1" data-path="learning-objectives.html"><a href="learning-objectives.html"><i class="fa fa-check"></i><b>1</b> Learning objectives<span></span></a></li>
+<li class="chapter" data-level="2" data-path="preparing-for-the-workshop.html"><a href="preparing-for-the-workshop.html"><i class="fa fa-check"></i><b>2</b> Preparing for the workshop<span></span></a></li>
+<li class="chapter" data-level="3" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html"><i class="fa fa-check"></i><b>3</b> Reviewing linear models<span></span></a><ul>
+<li class="chapter" data-level="3.1" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#general-linear-models"><i class="fa fa-check"></i><b>3.1</b> General linear models<span></span></a><ul>
+<li class="chapter" data-level="3.1.1" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#definition"><i class="fa fa-check"></i><b>3.1.1</b> Definition<span></span></a></li>
+<li class="chapter" data-level="3.1.2" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#assumptions"><i class="fa fa-check"></i><b>3.1.2</b> Assumptions<span></span></a></li>
 </ul></li>
-</ul></li>
-<li class="chapter" data-level="4" data-path="an-example-with-general-linear-models.html"><a href="an-example-with-general-linear-models.html"><i class="fa fa-check"></i><b>4</b> An example with general linear models</a><ul>
-<li class="chapter" data-level="4.1" data-path="an-example-with-general-linear-models.html"><a href="an-example-with-general-linear-models.html#recalling-linear-models-assumptions"><i class="fa fa-check"></i><b>4.1</b> Recalling linear models: assumptions</a><ul>
-<li class="chapter" data-level="4.1.1" data-path="an-example-with-general-linear-models.html"><a href="an-example-with-general-linear-models.html#model-prediction"><i class="fa fa-check"></i><b>4.1.1</b> Model prediction</a></li>
-<li class="chapter" data-level="4.1.2" data-path="an-example-with-general-linear-models.html"><a href="an-example-with-general-linear-models.html#so-what-do-we-do-now-transform-our-data"><i class="fa fa-check"></i><b>4.1.2</b> So, what do we do now? Transform our data?</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="the-distributions-of-biological-data.html"><a href="the-distributions-of-biological-data.html"><i class="fa fa-check"></i><b>5</b> The distributions of biological data</a></li>
-<li class="chapter" data-level="6" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>6</b> Generalized Linear Models</a></li>
-<li class="part"><span><b>GLMs with binary data</b></span></li>
-<li class="chapter" data-level="7" data-path="binomial-glms.html"><a href="binomial-glms.html"><i class="fa fa-check"></i><b>7</b> Binomial GLMs</a><ul>
-<li class="chapter" data-level="7.1" data-path="binomial-glms.html"><a href="binomial-glms.html#glm-with-binomial-data-logit-link"><i class="fa fa-check"></i><b>7.1</b> GLM with binomial data: logit link</a></li>
-<li class="chapter" data-level="7.2" data-path="binomial-glms.html"><a href="binomial-glms.html#exercise-1"><i class="fa fa-check"></i><b>7.2</b> Exercise 1</a></li>
-<li class="chapter" data-level="7.3" data-path="binomial-glms.html"><a href="binomial-glms.html#challenge-1"><i class="fa fa-check"></i><b>7.3</b> Challenge 1</a><ul>
-<li class="chapter" data-level="7.3.1" data-path="binomial-glms.html"><a href="binomial-glms.html#challenge-1-solution"><i class="fa fa-check"></i><b>7.3.1</b> Challenge 1: Solution</a></li>
-</ul></li>
-<li class="chapter" data-level="7.4" data-path="binomial-glms.html"><a href="binomial-glms.html#interpreting-the-output-of-a-logistic-regression"><i class="fa fa-check"></i><b>7.4</b> Interpreting the output of a logistic regression</a><ul>
-<li class="chapter" data-level="7.4.1" data-path="binomial-glms.html"><a href="binomial-glms.html#an-example-using-the-identity-link"><i class="fa fa-check"></i><b>7.4.1</b> An example using the identity link</a></li>
-<li class="chapter" data-level="7.4.2" data-path="binomial-glms.html"><a href="binomial-glms.html#interpreting-the-coefficients-using-the-logit-link"><i class="fa fa-check"></i><b>7.4.2</b> Interpreting the coefficients using the logit link</a></li>
-</ul></li>
-<li class="chapter" data-level="7.5" data-path="binomial-glms.html"><a href="binomial-glms.html#predictive-power-and-goodness-of-fit"><i class="fa fa-check"></i><b>7.5</b> Predictive power and goodness-of-fit</a><ul>
-<li class="chapter" data-level="7.5.1" data-path="binomial-glms.html"><a href="binomial-glms.html#challenge-2"><i class="fa fa-check"></i><b>7.5.1</b> Challenge 2</a></li>
+<li class="chapter" data-level="3.2" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#an-example-with-general-linear-models"><i class="fa fa-check"></i><b>3.2</b> An example with general linear models<span></span></a></li>
+<li class="chapter" data-level="3.3" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#recalling-linear-models-assumptions"><i class="fa fa-check"></i><b>3.3</b> Recalling linear models: assumptions<span></span></a><ul>
+<li class="chapter" data-level="3.3.1" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#model-prediction"><i class="fa fa-check"></i><b>3.3.1</b> Model prediction<span></span></a></li>
+<li class="chapter" data-level="3.3.2" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#so-what-do-we-do-now-transform-our-data"><i class="fa fa-check"></i><b>3.3.2</b> So, what do we do now? Transform our data?<span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="part"><span><b>GLMs with proportion data</b></span></li>
-<li class="chapter" data-level="8" data-path="binomial-glms-and-proportions.html"><a href="binomial-glms-and-proportions.html"><i class="fa fa-check"></i><b>8</b> Binomial GLMs and proportions</a></li>
-<li class="part"><span><b>GLMs with count data</b></span></li>
-<li class="chapter" data-level="9" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html"><i class="fa fa-check"></i><b>9</b> What can we do with count data?</a></li>
-<li class="chapter" data-level="10" data-path="poisson-glms.html"><a href="poisson-glms.html"><i class="fa fa-check"></i><b>10</b> Poisson GLMs</a><ul>
-<li class="chapter" data-level="10.1" data-path="poisson-glms.html"><a href="poisson-glms.html#poisson-glms-in-r"><i class="fa fa-check"></i><b>10.1</b> Poisson GLMs in <code>R</code></a></li>
-<li class="chapter" data-level="10.2" data-path="poisson-glms.html"><a href="poisson-glms.html#the-problem-of-overdispersion"><i class="fa fa-check"></i><b>10.2</b> The problem of overdispersion</a></li>
+<li class="chapter" data-level="4" data-path="the-distributions-of-biological-data.html"><a href="the-distributions-of-biological-data.html"><i class="fa fa-check"></i><b>4</b> The distributions of biological data<span></span></a></li>
+<li class="chapter" data-level="5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>5</b> Generalized linear models<span></span></a></li>
+<li class="part"><span><b>GLMs with binary data<span></span></b></span></li>
+<li class="chapter" data-level="6" data-path="binomial-glms.html"><a href="binomial-glms.html"><i class="fa fa-check"></i><b>6</b> Binomial GLMs<span></span></a><ul>
+<li class="chapter" data-level="6.1" data-path="binomial-glms.html"><a href="binomial-glms.html#glm-with-binomial-data-logit-link"><i class="fa fa-check"></i><b>6.1</b> GLM with binomial data: logit link<span></span></a></li>
+<li class="chapter" data-level="6.2" data-path="binomial-glms.html"><a href="binomial-glms.html#example"><i class="fa fa-check"></i><b>6.2</b> Example<span></span></a></li>
+<li class="chapter" data-level="6.3" data-path="binomial-glms.html"><a href="binomial-glms.html#challenge-1"><i class="fa fa-check"></i><b>6.3</b> Challenge 1<span></span></a></li>
+<li class="chapter" data-level="6.4" data-path="binomial-glms.html"><a href="binomial-glms.html#interpreting-the-output-of-a-logistic-regression"><i class="fa fa-check"></i><b>6.4</b> Interpreting the output of a logistic regression<span></span></a><ul>
+<li class="chapter" data-level="6.4.1" data-path="binomial-glms.html"><a href="binomial-glms.html#an-example-using-the-identity-link"><i class="fa fa-check"></i><b>6.4.1</b> An example using the identity link<span></span></a></li>
+<li class="chapter" data-level="6.4.2" data-path="binomial-glms.html"><a href="binomial-glms.html#interpreting-the-coefficients-using-the-logit-link"><i class="fa fa-check"></i><b>6.4.2</b> Interpreting the coefficients using the logit link<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="quasi-poisson-glms.html"><a href="quasi-poisson-glms.html"><i class="fa fa-check"></i><b>11</b> Quasi-Poisson GLMs</a></li>
-<li class="chapter" data-level="12" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html"><i class="fa fa-check"></i><b>12</b> Negative binomial GLMs</a><ul>
-<li class="chapter" data-level="12.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>12.1</b> Plotting the final GLM to the data</a><ul>
-<li class="chapter" data-level="12.1.1" data-path="negative-binomial-glms.html"><a href="negative-binomial-glms.html#challenge-3"><i class="fa fa-check"></i><b>12.1.1</b> Challenge 3</a></li>
+<li class="chapter" data-level="6.5" data-path="binomial-glms.html"><a href="binomial-glms.html#predictive-power-and-goodness-of-fit"><i class="fa fa-check"></i><b>6.5</b> Predictive power and goodness-of-fit<span></span></a><ul>
+<li class="chapter" data-level="6.5.1" data-path="binomial-glms.html"><a href="binomial-glms.html#challenge-2"><i class="fa fa-check"></i><b>6.5.1</b> Challenge 2<span></span></a></li>
 </ul></li>
+<li class="chapter" data-level="6.6" data-path="binomial-glms.html"><a href="binomial-glms.html#visual-representation-of-results"><i class="fa fa-check"></i><b>6.6</b> Visual representation of results<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="conclusion-on-glms-with-count-data.html"><a href="conclusion-on-glms-with-count-data.html"><i class="fa fa-check"></i><b>13</b> Conclusion on GLMs with count data</a></li>
-<li class="part"><span><b>Other distributions</b></span></li>
-<li class="chapter" data-level="14" data-path="other-distributions.html"><a href="other-distributions.html"><i class="fa fa-check"></i><b>14</b> Other distributions</a></li>
-<li class="part"><span><b>Additional GLM resources</b></span></li>
-<li class="chapter" data-level="15" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>15</b> Summary</a></li>
-<li class="chapter" data-level="16" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>16</b> Additional resources</a></li>
-<li class="chapter" data-level="17" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>17</b> References</a></li>
+<li class="part"><span><b>GLMs with proportion data<span></span></b></span></li>
+<li class="chapter" data-level="7" data-path="binomial-glms-and-proportions.html"><a href="binomial-glms-and-proportions.html"><i class="fa fa-check"></i><b>7</b> Binomial GLMs and proportions<span></span></a></li>
+<li class="part"><span><b>GLMs with count data<span></span></b></span></li>
+<li class="chapter" data-level="8" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html"><i class="fa fa-check"></i><b>8</b> What can we do with count data?<span></span></a><ul>
+<li class="chapter" data-level="8.1" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#poisson-glms"><i class="fa fa-check"></i><b>8.1</b> Poisson GLMs<span></span></a><ul>
+<li class="chapter" data-level="8.1.1" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#the-poisson-distribution"><i class="fa fa-check"></i><b>8.1.1</b> The Poisson distribution<span></span></a></li>
+<li class="chapter" data-level="8.1.2" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#poisson-glms-in-r"><i class="fa fa-check"></i><b>8.1.2</b> Poisson GLMs in <code>R</code><span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#the-problem-of-overdispersion"><i class="fa fa-check"></i><b>8.2</b> The problem of overdispersion<span></span></a></li>
+<li class="chapter" data-level="8.3" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#quasi-poisson-glms"><i class="fa fa-check"></i><b>8.3</b> Quasi-Poisson GLMs<span></span></a></li>
+<li class="chapter" data-level="8.4" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#negative-binomial-glms"><i class="fa fa-check"></i><b>8.4</b> Negative binomial GLMs<span></span></a></li>
+<li class="chapter" data-level="8.5" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>8.5</b> Plotting the final GLM to the data<span></span></a><ul>
+<li class="chapter" data-level="8.5.1" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#challenge-3"><i class="fa fa-check"></i><b>8.5.1</b> Challenge 3<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#conclusion-on-glms-with-count-data"><i class="fa fa-check"></i><b>8.6</b> Conclusion on GLMs with count data<span></span></a></li>
+</ul></li>
+<li class="part"><span><b>Other distributions<span></span></b></span></li>
+<li class="chapter" data-level="9" data-path="other-distributions.html"><a href="other-distributions.html"><i class="fa fa-check"></i><b>9</b> Other distributions<span></span></a></li>
+<li class="part"><span><b>Additional GLM resources<span></span></b></span></li>
+<li class="chapter" data-level="10" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>10</b> Summary<span></span></a></li>
+<li class="chapter" data-level="11" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>11</b> Additional resources<span></span></a></li>
+<li class="chapter" data-level="12" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>12</b> References<span></span></a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/qcbsRworkshops" target="blank">QCBS R Workshop Series</a></li>
 
@@ -228,12 +227,13 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </head>
 
 
-
+<!-- 
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
-<div id="what-can-we-do-with-count-data" class="section level1">
-<h1><span class="header-section-number">Chapter 9</span> What can we do with count data?</h1>
+--!>
+<div id="what-can-we-do-with-count-data" class="section level1 hasAnchor">
+<h1><span class="header-section-number">Chapter 8</span> What can we do with count data?<a href="what-can-we-do-with-count-data.html#what-can-we-do-with-count-data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Count data is characterized by:</p>
 <ul>
 <li>Positive values: you do not count -7 individuals</li>
@@ -243,24 +243,407 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>To illustrate count data we will use a new dataset called <code>faramea</code>.</p>
 <div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="what-can-we-do-with-count-data.html#cb80-1"></a><span class="co"># Load the dataset</span></span>
 <span id="cb80-2"><a href="what-can-we-do-with-count-data.html#cb80-2"></a>faramea &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;faramea.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
-<p>In this dataset, the number of trees of the species <em>Faramea
-occidentalis</em> was measured in 43 quadrats in Barro Colorado Island in
-Panama. For each quadrat, environmental characteristics were also
-recorded such as elevation or precipitation. Let’s take a look at the
-number of <em>Faramea occidentalis</em> found at each quadrat.</p>
+<p>In this dataset, the number of trees of the species <em>Faramea occidentalis</em> was measured in 43 quadrants in Barro Colorado Island in Panama. For each quadrant, environmental characteristics were also recorded such as elevation or precipitation. Let us take a look at the number of <em>Faramea occidentalis</em> found at each quadrant.</p>
 <div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="what-can-we-do-with-count-data.html#cb81-1"></a><span class="co"># Histogram of F. occidentalis count data</span></span>
 <span id="cb81-2"><a href="what-can-we-do-with-count-data.html#cb81-2"></a><span class="kw">hist</span>(faramea<span class="op">$</span>Faramea.occidentalis, <span class="dt">breaks=</span><span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">45</span>,<span class="dv">1</span>), <span class="dt">xlab=</span><span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Number of &quot;</span>,</span>
 <span id="cb81-3"><a href="what-can-we-do-with-count-data.html#cb81-3"></a><span class="kw">italic</span>(Faramea<span class="op">~</span>occidentalis))), <span class="dt">ylab=</span><span class="st">&quot;Frequency&quot;</span>, <span class="dt">main=</span><span class="st">&quot;&quot;</span>, <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-55-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-62-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>We can see that there are only positive and integer values.</p>
 <p>In this example, we want to test whether elevation (a continuous
-explanatory variable) influences <em>Faramea occidentalis</em> abundance.
-We can see that there are only positive and integer values.</p>
-<p><img src="book-en_files/figure-html/unnamed-chunk-56-1.png" width="672" /></p>
-<p>Hence, a Poisson GLM (i.e. a simple Poisson regression) seems to be a
-good choice to model the number of <em>Faramea occidentalis</em> as a function
-of elevation. Poisson GLMs are usually a good way to start modeling
-count data.</p>
+explanatory variable) influences <em>Faramea occidentalis</em> abundance.</p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-63-1.png" width="672" /></p>
+<p>Hence, a Poisson GLM (i.e. a simple Poisson regression) seems to be a good choice to model the number of <em>Faramea occidentalis</em> as a function of elevation. Poisson GLMs are usually a good way to start modeling count data.</p>
+<div id="poisson-glms" class="section level2 hasAnchor">
+<h2><span class="header-section-number">8.1</span> Poisson GLMs<a href="what-can-we-do-with-count-data.html#poisson-glms" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="the-poisson-distribution" class="section level3 hasAnchor">
+<h3><span class="header-section-number">8.1.1</span> The Poisson distribution<a href="what-can-we-do-with-count-data.html#the-poisson-distribution" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The Poisson distribution specifies the probability of a
+discrete random variable <span class="math inline">\(Y\)</span> and is given by:</p>
+<p><span class="math display">\[f(y, \,\mu)\, =\, Pr(Y = y)\, =\, \frac{\mu^y \times e^{-\mu}}{y!}\]</span></p>
+<p><span class="math display">\[E(Y)\, =\, Var(Y)\, =\, \mu\]</span></p>
+<p>where <span class="math inline">\(\mu\)</span> is the parameter of the Poisson distribution</p>
+<p>The Poisson distribution is particularly relevant to model count data because it:</p>
+<ul>
+<li>specifies the probability only for integer values</li>
+<li><span class="math inline">\(P(y&lt;0) = 0\)</span>, hence the probability of any negative value is null</li>
+<li><span class="math inline">\(Var(Y) = \mu\)</span> (the mean-variance relationship) allows for heterogeneity (e.g. when
+variance generally increases with the mean)</li>
+</ul>
+<p>A Poisson GLM will model the value of <span class="math inline">\(\mu\)</span> as a function of different explanatory variables:</p>
+<p><strong>Step 1.</strong></p>
+<p>We assume <span class="math inline">\(Y_i\)</span> follows a Poisson distribution with mean and variance <span class="math inline">\(\mu_i\)</span>.</p>
+<p><span class="math display">\[Y_i ∼ Poisson(\mu_i)\]</span></p>
+<p><span class="math display">\[E(Y_i) = Var(Y_i) = \mu_i\]</span></p>
+<p><span class="math display">\[f(y_i, \, \mu_i) = \frac{\mu^{y_i}_i \times e^{-\mu_i}}{y!}\]</span></p>
+<p><span class="math inline">\(\mu_i\)</span> corresponds to the expected number of individuals.</p>
+<p><strong>Step 2.</strong></p>
+<p>We specify the linear predictor of the model just as in a linear model.</p>
+<p><span class="math display">\[\underbrace{\alpha}_\text{Intercept} + \underbrace{\beta_1}_\text{slope of &#39;Elevation&#39;} \times \text{Elevation}_i\]</span></p>
+<p><strong>Step 3.</strong></p>
+<p>The link between the mean of <span class="math inline">\(Y_i\)</span> and linear predictor is a logarithmic function can be written as:</p>
+<p><span class="math display">\[log(\mu_i) = \alpha + \beta_1 \times \text{Elevation}_i \]</span></p>
+<p>It can also be written as:</p>
+<p><span class="math display">\[\mu_i = e^{ \alpha + \beta \times \text{Elevation}_i}\]</span></p>
+<p>This shows that the impact of each explanatory variable is multiplicative.
+Increasing Elevation by one increases μ by factor of exp( <span class="math inline">\(\beta_\text{Elevation}\)</span> ).</p>
+<p>We can also write it as:</p>
+<p><span class="math display">\[\mu_i = e^{\alpha} \times e^{\beta_1^{\text{Elevation}_i}}\]</span></p>
+<p>If <span class="math inline">\(β_j = 0\)</span> then <span class="math inline">\(exp(β_j) = 1\)</span> and <span class="math inline">\(μ\)</span> is not related to <span class="math inline">\(x_j\)</span>. If <span class="math inline">\(β_j &gt; 0\)</span> then <span class="math inline">\(μ\)</span> increases if <span class="math inline">\(x_j\)</span> increases; if <span class="math inline">\(β_j &lt; 0\)</span> then <span class="math inline">\(μ\)</span> decreases if <span class="math inline">\(x_j\)</span> increases.</p>
 </div>
+<div id="poisson-glms-in-r" class="section level3 hasAnchor">
+<h3><span class="header-section-number">8.1.2</span> Poisson GLMs in <code>R</code><a href="what-can-we-do-with-count-data.html#poisson-glms-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Fitting a Poisson GLM in R requires only setting <code>family = poisson</code> in
+the <code>glm()</code> function. By default the link function is log.</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="what-can-we-do-with-count-data.html#cb82-1"></a><span class="co"># Fit a Poisson GLM</span></span>
+<span id="cb82-2"><a href="what-can-we-do-with-count-data.html#cb82-2"></a>glm.poisson =<span class="st"> </span><span class="kw">glm</span>(Faramea.occidentalis <span class="op">~</span><span class="st"> </span>Elevation,</span>
+<span id="cb82-3"><a href="what-can-we-do-with-count-data.html#cb82-3"></a>  <span class="dt">data =</span> faramea,</span>
+<span id="cb82-4"><a href="what-can-we-do-with-count-data.html#cb82-4"></a>  <span class="dt">family =</span> poisson) <span class="co"># this is what makes it a Poisson GLM! Note the default link is log.</span></span>
+<span id="cb82-5"><a href="what-can-we-do-with-count-data.html#cb82-5"></a><span class="kw">summary</span>(glm.poisson)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = Faramea.occidentalis ~ Elevation, family = poisson, 
+##     data = faramea)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -3.3319  -2.7509  -1.5451   0.1139  11.3995  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  1.7687001  0.1099136  16.092  &lt; 2e-16 ***
+## Elevation   -0.0027375  0.0006436  -4.253 2.11e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 414.81  on 42  degrees of freedom
+## Residual deviance: 388.12  on 41  degrees of freedom
+## AIC: 462.01
+## 
+## Number of Fisher Scoring iterations: 10</code></pre>
+<p>Intercept = <span class="math inline">\(\alpha\)</span></p>
+<p>Elevation = <span class="math inline">\(\beta\)</span></p>
+<p>The output is similar to a ‘<strong>lm</strong>’ output (see<a href="https://github.com/QCBSRworkshops/workshop04">Workshop 4</a>)
+and gives us the parameter estimates which can also
+be retrieved using other functions:</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="what-can-we-do-with-count-data.html#cb84-1"></a><span class="co"># intercept</span></span>
+<span id="cb84-2"><a href="what-can-we-do-with-count-data.html#cb84-2"></a><span class="kw">summary</span>(glm.poisson)<span class="op">$</span>coefficients[<span class="dv">1</span>,<span class="dv">1</span>]</span></code></pre></div>
+<pre><code>## [1] 1.7687</code></pre>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="what-can-we-do-with-count-data.html#cb86-1"></a><span class="co"># slope of elevation</span></span>
+<span id="cb86-2"><a href="what-can-we-do-with-count-data.html#cb86-2"></a><span class="kw">summary</span>(glm.poisson)<span class="op">$</span>coefficients[<span class="dv">2</span>,<span class="dv">1</span>]</span></code></pre></div>
+<pre><code>## [1] -0.002737509</code></pre>
+<p>Now we can estimate the residual and null deviances. In our
+model the unknown parameters are the intercept (<span class="math inline">\(\alpha\)</span>)
+and the slope of elevation (<span class="math inline">\(\beta\)</span>):</p>
+<p><span class="math display">\[log(\mu_i) = 1.769 - 0.0027 \times \text{Elevation}_i\]</span></p>
+<p>which we can also write as:</p>
+<p><span class="math display">\[\mu_i = e^{1.769 - 0.0027 \times \text{Elevation}_i}\]</span>
+Remember that to estimate the unknown parameter, maximum likelihood estimation is used.</p>
+<p>The residual deviance is defined as twice the difference between
+the log-likelihood of a model that provides a perfect fit and the log-likelihood of our model.</p>
+<p><span class="math display">\[\text{residual deviance} = 2 \, log(L(y;\,y)) - 2 \, log(L(y;\, \mu))\]</span></p>
+<p>In a Poisson GLM, the residual deviance should be close to the residual
+degrees of freedom. However, our residual deviance is much higher
+than the degrees of freedom of our model!</p>
+<p><span class="math display">\[388.12 &gt;&gt; 41\]</span></p>
+</div>
+</div>
+<div id="the-problem-of-overdispersion" class="section level2 hasAnchor">
+<h2><span class="header-section-number">8.2</span> The problem of overdispersion<a href="what-can-we-do-with-count-data.html#the-problem-of-overdispersion" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>An important aspect of the summary can be found in the last lines.</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="what-can-we-do-with-count-data.html#cb88-1"></a><span class="co">#     Null deviance: 414.81  on 42  degrees of freedom</span></span>
+<span id="cb88-2"><a href="what-can-we-do-with-count-data.html#cb88-2"></a><span class="co"># Residual deviance: 388.12  on 41  degrees of freedom</span></span></code></pre></div>
+<p>Remember that ML estimation is used to estimate the parameters. In the
+goodness-of-fit section we mentioned that the deviance was a ML
+equivalent of the sum of squares in linear models. Here, the null
+deviance and the residual deviance are equivalent to the total sum of
+squares and the residual sum of squares respectively. The residual
+deviance is defined as twice the difference between the log likelihood
+of a model that provides a perfect fit to the data (a saturated model)
+and the log likelihood of the model. If our model is correct the
+asymptotic distribution of the residual deviance is approximated using
+χ² distribution with <span class="math inline">\(n\)</span>-<span class="math inline">\(p\)</span>-1 degrees of freedom (computed as
+<span class="math inline">\(n\)</span>-<span class="math inline">\(p\)</span>-1, where <span class="math inline">\(n\)</span> is the number of observations and <span class="math inline">\(p\)</span> the number of covariates). This implies that residual deviance should be equal to the residual degrees of freedom. In our example, the residual deviance
+equals 388.12 while we have 41 (43-1-1) degrees of freedom. This former is greater to the former by 9.5 times, the model is then <strong>overdispersed</strong>.</p>
+<p><strong>Overdispersion</strong> As a consequence overdispersion can be computed for
+any model using the parameter φ:</p>
+<pre><code>                      φ = residual deviance / residual degrees of freedom
+
+* φ &lt; 1 indicates underdispersion
+* φ = 1 indicates no overdispersion
+* φ &gt; 1 indicates overdispersion</code></pre>
+<p>Why does a Poisson GLM exhibit overdispersion? This arises when the
+variance of the data is higher than expected from the Poisson
+distribution. This frequently occurs when data includes many zeros
+and/or many very high values. Looking back at the distribution of our
+data (above) suggests that our data contains many zeroes preventing us to use a Poisson GLM. Overdispersion may also result from missing
+covariates, missing interaction terms or presence of strong outliers,
+preventing us from using a Poisson GLM.</p>
+<p>The Poisson distribution can account only partially for heterogeneity in the data due to the mean variance relationship, but in some cases
+variance increases even higher than the mean. Computing the mean and the variance of our dataset suggests this is occurring:</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="what-can-we-do-with-count-data.html#cb90-1"></a><span class="kw">mean</span>(faramea<span class="op">$</span>Faramea.occidentalis)</span>
+<span id="cb90-2"><a href="what-can-we-do-with-count-data.html#cb90-2"></a><span class="kw">var</span>(faramea<span class="op">$</span>Faramea.occidentalis)</span></code></pre></div>
+<p>In practice, Poissons GLM are useful for describing the mean <em>µ</em><sub>i</sub> but underestimates the variance in the data, making all model-based tests too liberal! There are two ways of dealing with overdispersion and will be developed below:</p>
+<ul>
+<li>correct for it by doing a <strong>quasi-Poisson GLM</strong></li>
+<li>choose another distribution such as the <strong>negative binomial</strong></li>
+</ul>
+</div>
+<div id="quasi-poisson-glms" class="section level2 hasAnchor">
+<h2><span class="header-section-number">8.3</span> Quasi-Poisson GLMs<a href="what-can-we-do-with-count-data.html#quasi-poisson-glms" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The principle behind a quasi-Poisson GLM is very simple; the
+overdispersion parameter (φ) is added to the expected variance equation:</p>
+<p><span class="math display">\[E(Y_i) = \mu_i\]</span></p>
+<p><span class="math display">\[Var(Y_i) = φ.\mu_i\]</span></p>
+<p>The linear predictor and the link function remains the same. The
+difference is that <span class="math inline">\(φ\)</span> will first be estimated to correct the model.
+Parameter Estimates will be the same but the standard errors of the
+parameters are multiplied by <span class="math inline">\(√φ\)</span>, in other terms, some marginally
+significant p-values may no longer hold.</p>
+<p>In R, The <code>quasipoisson</code> family object can be used to deal with
+count data exhibiting overdispersion (the <code>quasibinomial</code> family
+object can do the same for binomial data). The fitted φ value will be
+returned in the summary of the GLM. There are two ways to perform this
+GLM:</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="what-can-we-do-with-count-data.html#cb91-1"></a><span class="co"># Option 1, fit a new quasi-Poisson GLM</span></span>
+<span id="cb91-2"><a href="what-can-we-do-with-count-data.html#cb91-2"></a>glm.quasipoisson =<span class="st"> </span><span class="kw">glm</span>(Faramea.occidentalis<span class="op">~</span>Elevation, <span class="dt">data=</span>faramea, <span class="dt">family=</span>quasipoisson)</span>
+<span id="cb91-3"><a href="what-can-we-do-with-count-data.html#cb91-3"></a><span class="co"># Option 2, build from the previous model and update it:</span></span>
+<span id="cb91-4"><a href="what-can-we-do-with-count-data.html#cb91-4"></a>glm.quasipoisson =<span class="st"> </span><span class="kw">update</span>(glm.poisson,<span class="dt">family=</span>quasipoisson)</span>
+<span id="cb91-5"><a href="what-can-we-do-with-count-data.html#cb91-5"></a><span class="co"># output</span></span>
+<span id="cb91-6"><a href="what-can-we-do-with-count-data.html#cb91-6"></a><span class="kw">summary</span>(glm.quasipoisson)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = Faramea.occidentalis ~ Elevation, family = quasipoisson, 
+##     data = faramea)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -3.3319  -2.7509  -1.5451   0.1139  11.3995  
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  1.768700   0.439233   4.027 0.000238 ***
+## Elevation   -0.002738   0.002572  -1.064 0.293391    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for quasipoisson family taken to be 15.96936)
+## 
+##     Null deviance: 414.81  on 42  degrees of freedom
+## Residual deviance: 388.12  on 41  degrees of freedom
+## AIC: NA
+## 
+## Number of Fisher Scoring iterations: 10</code></pre>
+<p>If you look at the summary of the model you will see that <span class="math inline">\(φ\)</span> is estimated as 15.97. We then made a good choice by updating the model to account for overdispersion. However if we look at P-values we can note that elevation is no longer significant. Yet, 15.97 is quite a lot of overdispersion, and in general quasi-Poisson GLMs will be favoured when <span class="math inline">\(φ\)</span> is included between 1 and 15 though these limits are arbitrary. When overdispersion is higher than 15-20 we recommend moving to the <strong>negative binomial</strong>.</p>
+<p>Two other points are important to keep in mind when using quasi-Poisson GLMs and dealing with overdispersion:</p>
+<ul>
+<li><p><strong>Quasi-Poisson GLMs do not have AIC scores.</strong> An important aspect
+is that quasi-Poisson GLMs do not correspond to models with fully
+specified likelihoods and rely on quasi-ML estimation (i.e.
+pseudolikelihood). One consequence is that quasi-Poisson GLMs do not have AIC scores for model comparisons. However, variants of AIC have been developed to deal with this situation (e.g. quasi-AIC).</p></li>
+<li><p><strong>Overdispersion affects model comparison.</strong> Indeed overdispersion
+also influences the comparison of two nested models and has to be
+taken into account when φ is known. For instance, let us assume that we want to compare GLM1, with <span class="math inline">\(p_1\)</span> parameters to GLM2, with <span class="math inline">\(p_2\)</span> parameters, such that GLM1 is nested within GLM2 and <span class="math inline">\(p_2&gt;p_1\)</span>. Model comparison is achieved based on a generalized
+likelihood ratio test, which can be written as a function of the
+difference of deviances between the two GLMs, <span class="math inline">\(D_1\)</span> and <span class="math inline">\(D_2\)</span>
+respectively. If Overdispersion is known, deviances have to be
+scaled (i.e. corrected) accordingly as <span class="math inline">\(D^* = D/φ\)</span>. The final test
+will be based on the criterion <span class="math inline">\(D^*_1 - D^*_2\)</span> which is assumed to
+follow a <span class="math inline">\(χ²\)</span> distribution with <span class="math inline">\(p_1-p_2\)</span> degrees of freedom when
+GLM1 is correct.</p></li>
+<li><p>In some cases <span class="math inline">\(φ\)</span> is not known. For instance, this occurs when you run
+a GLM with a normal error distribution. In that case, <span class="math inline">\(φ\)</span> can be
+estimated <em>a posteriori</em> using the residual deviance of the larger
+model so the criterion becomes:</p></li>
+</ul>
+<p><span class="math display">\[\frac{(D_1-D_2)/(p_2-p_1)}{D_2(n-p_2)}\]</span></p>
+<p>and is assumed to follow a F distribution with <span class="math inline">\(p_1-p_2\)</span> and <span class="math inline">\(n-p_2\)</span> degrees of freedom.</p>
+<p>Try also deviance analysis to test for the effect of Elevation</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="what-can-we-do-with-count-data.html#cb93-1"></a>null.model &lt;-<span class="st"> </span><span class="kw">glm</span>(Faramea.occidentalis <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</span>
+<span id="cb93-2"><a href="what-can-we-do-with-count-data.html#cb93-2"></a>                  <span class="dt">data =</span> faramea,</span>
+<span id="cb93-3"><a href="what-can-we-do-with-count-data.html#cb93-3"></a>                  <span class="dt">family =</span> quasipoisson)</span>
+<span id="cb93-4"><a href="what-can-we-do-with-count-data.html#cb93-4"></a><span class="kw">anova</span>(null.model, glm.quasipoisson, <span class="dt">test =</span> <span class="st">&quot;Chisq&quot;</span>)</span></code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: Faramea.occidentalis ~ 1
+## Model 2: Faramea.occidentalis ~ Elevation
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
+## 1        42     414.81                     
+## 2        41     388.12  1   26.686   0.1961</code></pre>
+<p><strong>Dispersion parameter:</strong>
+<img src="images/dispParam.png" /></p>
+</div>
+<div id="negative-binomial-glms" class="section level2 hasAnchor">
+<h2><span class="header-section-number">8.4</span> Negative binomial GLMs<a href="what-can-we-do-with-count-data.html#negative-binomial-glms" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>GLM with a negative binomial (NB) distribution are favored when
+overdispersion is extreme. The NB distribution contains an additional
+parameter <span class="math inline">\(k\)</span>, particularly handy for count data containing a
+preponderance of zeros. Before we go into R stuff, we should see what
+lies behind a negative binomial GLM. A NB distribution is actually a
+combination of two distributions: a Poisson distribution and a gamma
+distribution. The NB distribution first assumes that a discrete random
+variable is Poisson distributed but its mean, <span class="math inline">\(µ\)</span> is assumed to follow a gamma distribution. The mixture between the Poisson and gamma
+distributions can be simplified into a density function specific to the</p>
+<p><img src="images/poisson_versus_neg.png" /></p>
+<p>NB which has two parameters <span class="math inline">\(µ\)</span> and <span class="math inline">\(k\)</span>.</p>
+<p><span class="math display">\[Y \sim NB(µ, k)\]</span></p>
+<p><span class="math display">\[E(Y) = µ~and~Var(Y) = µ + µ²/k\]</span></p>
+<p>Here, we can see how overdispersion will be accounted for by NB
+distribution in GLMs. The second term of the variance determines the
+amount of overdispersion. In fact, it is indirectly determined by <span class="math inline">\(k\)</span>,
+where <span class="math inline">\(k\)</span> is also called the dispersion parameter. If <span class="math inline">\(k\)</span> is large
+(relative to <span class="math inline">\(μ²\)</span>), the second term, <span class="math inline">\(µ²/k\)</span> approximates 0, and the
+variance of Y is <span class="math inline">\(μ\)</span>. In such cases the NB converges to the Poisson
+distribution and you might as well use a Poisson distribution. The
+smaller <span class="math inline">\(k\)</span>, the larger the overdispersion. Just like with others GLMs,
+a NB GLM is specified following the fundamental three steps. It first
+assumes that Y<sub>i</sub> is negative binomial distributed with mean <span class="math inline">\(μ_i\)</span> and parameter <span class="math inline">\(k\)</span>.</p>
+<p><span class="math display">\[Y_i \sim NB(µ_i, k)\]</span></p>
+<p><span class="math display">\[E(Y_i) = µ_i~and~Var(Y_i) = µ_i + µ_i²/k\]</span></p>
+<p>The two last steps define the systematic part and the link function
+between the mean of <span class="math inline">\(Y_i\)</span> and the predictor function. In NB GLMs the link function is logarithmic ensuring that fitted values are always positive.</p>
+<p><span class="math display">\[log(µ_i) = β_0 + βX_i\]</span></p>
+<p>or</p>
+<p><span class="math display">\[µ_i = exp(β_0 + βX_i)\]</span></p>
+<p>The negative binomial GLM can be built using the <code>glm.nb()</code> function from
+the <code>MASS</code> package:</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="what-can-we-do-with-count-data.html#cb95-1"></a>glm.negbin =<span class="st"> </span><span class="kw">glm.nb</span>(Faramea.occidentalis<span class="op">~</span>Elevation, <span class="dt">data=</span>faramea)</span>
+<span id="cb95-2"><a href="what-can-we-do-with-count-data.html#cb95-2"></a><span class="kw">summary</span>(glm.negbin)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm.nb(formula = Faramea.occidentalis ~ Elevation, data = faramea, 
+##     init.theta = 0.2593107955, link = log)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -1.36748  -1.17564  -0.51338  -0.05226   2.25716  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  2.369226   0.473841    5.00 5.73e-07 ***
+## Elevation   -0.007038   0.002496   -2.82  0.00481 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for Negative Binomial(0.2593) family taken to be 1)
+## 
+##     Null deviance: 41.974  on 42  degrees of freedom
+## Residual deviance: 36.343  on 41  degrees of freedom
+## AIC: 182.51
+## 
+## Number of Fisher Scoring iterations: 1
+## 
+## 
+##               Theta:  0.2593 
+##           Std. Err.:  0.0755 
+## 
+##  2 x log-likelihood:  -176.5090</code></pre>
+<p>The summary is similar to other GLMs summaries (e.g. Poisson GLMs),
+though we now have a parameter theta, which stands for parameter <span class="math inline">\(k\)</span> in the variance of the NB distribution. Its standard error is also
+provided, but care is needed with its use as the interval is not
+symmetric and we are testing on the boundary.</p>
+</div>
+<div id="plotting-the-final-glm-to-the-data" class="section level2 hasAnchor">
+<h2><span class="header-section-number">8.5</span> Plotting the final GLM to the data<a href="what-can-we-do-with-count-data.html#plotting-the-final-glm-to-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The NB GLMs appear to be the best fit to our data. We can plot the
+relationship between the abundance of <em>Faramea occidentalis</em> and
+elevation.</p>
+<p>Use <code>summary</code> to get the parameters.</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="what-can-we-do-with-count-data.html#cb97-1"></a><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">1</span>, <span class="dv">1</span>]</span></code></pre></div>
+<pre><code>## [1] 2.369226</code></pre>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="what-can-we-do-with-count-data.html#cb99-1"></a><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">1</span>]</span></code></pre></div>
+<pre><code>## [1] -0.007038124</code></pre>
+<p>Use the standard errors to build the confidence envelope.</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="what-can-we-do-with-count-data.html#cb101-1"></a><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">1</span>, <span class="dv">2</span>]</span></code></pre></div>
+<pre><code>## [1] 0.4738409</code></pre>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="what-can-we-do-with-count-data.html#cb103-1"></a><span class="kw">summary</span>(glm.negbin)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">2</span>]</span></code></pre></div>
+<pre><code>## [1] 0.002496143</code></pre>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="what-can-we-do-with-count-data.html#cb105-1"></a><span class="co"># Make model predicitions</span></span>
+<span id="cb105-2"><a href="what-can-we-do-with-count-data.html#cb105-2"></a>pp &lt;-<span class="st"> </span><span class="kw">predict</span>(glm.negbin,</span>
+<span id="cb105-3"><a href="what-can-we-do-with-count-data.html#cb105-3"></a>  <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">Elevation =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">800</span>),</span>
+<span id="cb105-4"><a href="what-can-we-do-with-count-data.html#cb105-4"></a>  <span class="dt">se.fit =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb105-5"><a href="what-can-we-do-with-count-data.html#cb105-5"></a>linkinv &lt;-<span class="st"> </span><span class="kw">family</span>(glm.negbin)<span class="op">$</span>linkinv <span class="co"># inverse-link function</span></span>
+<span id="cb105-6"><a href="what-can-we-do-with-count-data.html#cb105-6"></a></span>
+<span id="cb105-7"><a href="what-can-we-do-with-count-data.html#cb105-7"></a><span class="co"># Prepare to plot model results</span></span>
+<span id="cb105-8"><a href="what-can-we-do-with-count-data.html#cb105-8"></a>pframe &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(pp<span class="op">$</span>fit)</span>
+<span id="cb105-9"><a href="what-can-we-do-with-count-data.html#cb105-9"></a><span class="kw">names</span>(pframe) &lt;-<span class="st"> &quot;pred0&quot;</span></span>
+<span id="cb105-10"><a href="what-can-we-do-with-count-data.html#cb105-10"></a>pframe<span class="op">$</span>pred &lt;-<span class="st"> </span><span class="kw">linkinv</span>(pp<span class="op">$</span>fit)</span>
+<span id="cb105-11"><a href="what-can-we-do-with-count-data.html#cb105-11"></a>sc &lt;-<span class="st"> </span><span class="kw">abs</span>(<span class="kw">qnorm</span>((<span class="dv">1</span><span class="fl">-0.95</span>)<span class="op">/</span><span class="dv">2</span>))  <span class="co"># Normal approx. to likelihood</span></span>
+<span id="cb105-12"><a href="what-can-we-do-with-count-data.html#cb105-12"></a>pframe &lt;-<span class="st"> </span><span class="kw">transform</span>(pframe, <span class="dt">lwr =</span> <span class="kw">linkinv</span>(pred0<span class="op">-</span>sc<span class="op">*</span>pp<span class="op">$</span>se.fit), <span class="dt">upr =</span> <span class="kw">linkinv</span>(pred0<span class="op">+</span>sc<span class="op">*</span>pp<span class="op">$</span>se.fit))</span>
+<span id="cb105-13"><a href="what-can-we-do-with-count-data.html#cb105-13"></a></span>
+<span id="cb105-14"><a href="what-can-we-do-with-count-data.html#cb105-14"></a><span class="co"># Plot!</span></span>
+<span id="cb105-15"><a href="what-can-we-do-with-count-data.html#cb105-15"></a><span class="kw">plot</span>(faramea<span class="op">$</span>Elevation, faramea<span class="op">$</span>Faramea.occidentalis,</span>
+<span id="cb105-16"><a href="what-can-we-do-with-count-data.html#cb105-16"></a>  <span class="dt">ylab =</span> <span class="st">&#39;Number of F. occidentalis&#39;</span>, <span class="dt">xlab =</span> <span class="st">&#39;Elevation(m)&#39;</span>)</span>
+<span id="cb105-17"><a href="what-can-we-do-with-count-data.html#cb105-17"></a><span class="kw">lines</span>(pframe<span class="op">$</span>pred, <span class="dt">lwd =</span> <span class="dv">2</span>) <span class="co"># predicted values</span></span>
+<span id="cb105-18"><a href="what-can-we-do-with-count-data.html#cb105-18"></a><span class="kw">lines</span>(pframe<span class="op">$</span>upr, <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">3</span>, <span class="dt">lwd =</span> <span class="dv">2</span>) <span class="co"># show error bounds</span></span>
+<span id="cb105-19"><a href="what-can-we-do-with-count-data.html#cb105-19"></a><span class="kw">lines</span>(pframe<span class="op">$</span>lwr, <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">3</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-74-1.png" width="672" /></p>
+<p>We can see that the number of <em>Faramea occidentalis</em> significantly
+decreases with elevation. However, the confidence envelope of the NB
+model is large at low elevation.</p>
+<div id="challenge-3" class="section level3 hasAnchor">
+<h3><span class="header-section-number">8.5.1</span> Challenge 3<a href="what-can-we-do-with-count-data.html#challenge-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Use the <code>mites</code> dataset! Model the abundance of the species Galumna as a function of the substrate characteristics (water content <code>WatrCont</code> and density <code>SubsDens</code>)</p>
+<p>Do you need to account for overdispersion?
+Which covariates have a significant effect?
+Select the best model!</p>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="what-can-we-do-with-count-data.html#cb106-1"></a><span class="co"># Challenge 3</span></span>
+<span id="cb106-2"><a href="what-can-we-do-with-count-data.html#cb106-2"></a></span>
+<span id="cb106-3"><a href="what-can-we-do-with-count-data.html#cb106-3"></a>mites &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/mites.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<p>Drop each term in turn and compare the full model with a nested model using the command:</p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="what-can-we-do-with-count-data.html#cb107-1"></a><span class="co"># This is how to do model comparison by dropping terms in turn</span></span>
+<span id="cb107-2"><a href="what-can-we-do-with-count-data.html#cb107-2"></a><span class="kw">drop1</span>(MyGLM, <span class="dt">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
+<p>Specify manually a nested model, call it for example MyGLM2, and use the command:</p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="what-can-we-do-with-count-data.html#cb108-1"></a><span class="co"># You can also manually specify a nested model and compare it to your full model with this command:</span></span>
+<span id="cb108-2"><a href="what-can-we-do-with-count-data.html#cb108-2"></a><span class="kw">anova</span>(MyGLM, MyGLM2, <span class="dt">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
+<details>
+<p><summary><strong>Click here to see the solution!</strong></summary></p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="what-can-we-do-with-count-data.html#cb109-1"></a><span class="co"># Poisson GLM</span></span>
+<span id="cb109-2"><a href="what-can-we-do-with-count-data.html#cb109-2"></a>glm.p =<span class="st"> </span><span class="kw">glm</span>(Galumna<span class="op">~</span>WatrCont<span class="op">+</span>SubsDens, <span class="dt">data=</span>mites, <span class="dt">family=</span>poisson)</span>
+<span id="cb109-3"><a href="what-can-we-do-with-count-data.html#cb109-3"></a></span>
+<span id="cb109-4"><a href="what-can-we-do-with-count-data.html#cb109-4"></a><span class="co"># quasi-Poisson GLM</span></span>
+<span id="cb109-5"><a href="what-can-we-do-with-count-data.html#cb109-5"></a>glm.qp =<span class="st"> </span><span class="kw">update</span>(glm.p,<span class="dt">family=</span>quasipoisson)</span>
+<span id="cb109-6"><a href="what-can-we-do-with-count-data.html#cb109-6"></a></span>
+<span id="cb109-7"><a href="what-can-we-do-with-count-data.html#cb109-7"></a><span class="co"># model selection</span></span>
+<span id="cb109-8"><a href="what-can-we-do-with-count-data.html#cb109-8"></a><span class="kw">drop1</span>(glm.qp, <span class="dt">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
+<pre><code>## Single term deletions
+## 
+## Model:
+## Galumna ~ WatrCont + SubsDens
+##          Df Deviance scaled dev.  Pr(&gt;Chi)    
+## &lt;none&gt;        101.49                          
+## WatrCont  1   168.10      31.711 1.789e-08 ***
+## SubsDens  1   108.05       3.125   0.07708 .  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="what-can-we-do-with-count-data.html#cb111-1"></a><span class="co"># or</span></span>
+<span id="cb111-2"><a href="what-can-we-do-with-count-data.html#cb111-2"></a>glm.qp2 =<span class="st"> </span><span class="kw">glm</span>(Galumna<span class="op">~</span>WatrCont, <span class="dt">data=</span>mites, <span class="dt">family=</span>quasipoisson)</span>
+<span id="cb111-3"><a href="what-can-we-do-with-count-data.html#cb111-3"></a><span class="kw">anova</span>(glm.qp2, glm.qp, <span class="dt">test=</span><span class="st">&quot;Chisq&quot;</span>)</span></code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: Galumna ~ WatrCont
+## Model 2: Galumna ~ WatrCont + SubsDens
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)  
+## 1        68     108.05                       
+## 2        67     101.49  1   6.5657  0.07708 .
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p><img src="images/Solution_3.png" /></p>
+</details>
+</div>
+</div>
+<div id="conclusion-on-glms-with-count-data" class="section level2 hasAnchor">
+<h2><span class="header-section-number">8.6</span> Conclusion on GLMs with count data<a href="what-can-we-do-with-count-data.html#conclusion-on-glms-with-count-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>All the GLMs introduced (Poisson, quasi-Poisson and NB) to model count
+data use the same log-linear mean function (<span class="math inline">\(log(µ) = βx\)</span>), but
+make different assumptions about the remaining likelihood. Quasi-Poisson and NB are favored to deal with overdispersion. However, in some cases the data may contains too many zeros and zero-augmented models can be useful as they extend the mean function by modifying (typically, increasing) the likelihood of zero counts (e.g. zero-inflated Poisson [ZIP]).</p>
+
+</div>
+</div>
+
+
+
 <hr>
 <center> 
   <div class="footer">
@@ -273,11 +656,10 @@ count data.</p>
         </div>
       </div>
 <a href="binomial-glms-and-proportions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="poisson-glms.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="other-distributions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -317,6 +699,10 @@ gitbook.start({
 "text": null
 },
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }
