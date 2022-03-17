@@ -9,11 +9,15 @@ install.packages(c('ggplot2',
                    'cplm')
                  )
 
+
+
 library(ggplot2)
 library(MASS)
 library(vcdExtra)
 library(bbmle)
 library(DescTools)
+library(GlmSimulatoR)
+library(cplm)
 
 
 ##Section: 02-introduction.R 
