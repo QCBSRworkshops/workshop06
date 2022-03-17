@@ -148,7 +148,7 @@ The dataset that you just loaded is a subset from the classic [Oribatid mites (A
 Gillet & Legendre, *Numerical Ecology with R*), and which is available
 in the `vegan` library.
 
-The Oribatid mite dataset has **70 observations with moss and mite samples** collected Station de [Station de Biologie from the Université de Montréal](https://goo.gl/maps/PxN1Q7KUPnUt92Eu5).
+The Oribatid mite dataset has **70 observations with moss and mite samples** collected at the [Station de Biologie from the Université de Montréal](https://goo.gl/maps/PxN1Q7KUPnUt92Eu5).
 ], within the municipality of Saint-Hippolyte, Québec (Canada). Each sample includes **5** variables of **environmental measurements** and abundance for *Galumna* sp. for each site.
 
 We can peek into the structure and the first six rows of the dataset using the `head()` and `str()` functions:

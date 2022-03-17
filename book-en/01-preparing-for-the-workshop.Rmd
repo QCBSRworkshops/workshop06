@@ -36,17 +36,19 @@ This workshop requires the following `R` packages:
 To install them from CRAN, run:
 
 ```{r eval = FALSE}
-install.packages(c("ggplot2", 
+install.packages(c('ggplot2', 
                    'MASS', 
                    'vcdExtra',
                    'bbmle',
-                   'DescTools')
+                   'DescTools',
+                   'GlmSimulatoR',
+                   'cplm')
                  )
 ```
 
 To load these packages, run:
 
-```{r, echo = TRUE}
+```{r, echo = TRUE, message=FALSE}
 library(ggplot2)
 library(MASS)
 library(vcdExtra)
@@ -55,3 +57,16 @@ library(DescTools)
 ```
 
 This workshop will build up your knowledge on models along side with some of their important equations. *Do not run to the mountains!* This will be achieved progressively and you will feel proud of yourself after!
+
+
+```{r, echo = FALSE, eval = TRUE, results='hide', purl = FALSE}
+install.packages(c('ggplot2', 
+                   'MASS', 
+                   'vcdExtra',
+                   'bbmle',
+                   'DescTools',
+                   'GlmSimulatoR',
+                   'cplm'),
+                 quiet = TRUE)
+```
+
