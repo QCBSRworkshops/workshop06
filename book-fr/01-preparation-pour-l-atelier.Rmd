@@ -52,6 +52,17 @@ install.packages(c('ggplot2',
                  )
 ```
 
+```{r, echo = FALSE, eval = TRUE, results='hide', purl = FALSE}
+install.packages(c('ggplot2', 
+                   'MASS', 
+                   'vcdExtra',
+                   'bbmle',
+                   'DescTools',
+                   'GlmSimulatoR',
+                   'cplm'),
+                 quiet = TRUE)
+```
+
 Ensuite, chargez les:
 
 ```{r, echo = TRUE, message=FALSE}
@@ -62,16 +73,5 @@ library(bbmle)
 library(DescTools)
 library(GlmSimulatoR)
 library(cplm)
-```
-
-```{r, echo = FALSE, eval = TRUE, results='hide', purl = FALSE}
-install.packages(c('ggplot2', 
-                   'MASS', 
-                   'vcdExtra',
-                   'bbmle',
-                   'DescTools',
-                   'GlmSimulatoR',
-                   'cplm'),
-                 quiet = TRUE)
 ```
 

@@ -46,6 +46,18 @@ install.packages(c('ggplot2',
                  )
 ```
 
+```{r, echo = FALSE, eval = TRUE, results='hide', purl = FALSE}
+install.packages(c('ggplot2', 
+                   'MASS', 
+                   'vcdExtra',
+                   'bbmle',
+                   'DescTools',
+                   'GlmSimulatoR',
+                   'cplm'),
+                 quiet = TRUE)
+```
+
+
 To load these packages, run:
 
 ```{r, echo = TRUE, message=FALSE}
@@ -59,15 +71,3 @@ library(cplm)
 ```
 
 This workshop will build up your knowledge on models along side with some of their important equations. *Do not run to the mountains!* This will be achieved progressively and you will feel proud of yourself after!
-
-```{r, echo = FALSE, eval = TRUE, results='hide', purl = FALSE}
-install.packages(c('ggplot2', 
-                   'MASS', 
-                   'vcdExtra',
-                   'bbmle',
-                   'DescTools',
-                   'GlmSimulatoR',
-                   'cplm'),
-                 quiet = TRUE)
-```
-
