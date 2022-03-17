@@ -6,12 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapitre 4 Les distributions des données biologiques | Atelier 6: Modèles linéaires généralisés en R</title>
   <meta name="description" content="Modèles linéaires généralisés en R" />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapitre 4 Les distributions des données biologiques | Atelier 6: Modèles linéaires généralisés en R" />
   <meta property="og:type" content="book" />
-  <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
-  <meta property="og:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
+  <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
   <meta property="og:description" content="Modèles linéaires généralisés en R" />
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
@@ -19,7 +18,7 @@
   <meta name="twitter:title" content="Chapitre 4 Les distributions des données biologiques | Atelier 6: Modèles linéaires généralisés en R" />
   
   <meta name="twitter:description" content="Modèles linéaires généralisés en R" />
-  <meta name="twitter:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
+  <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
 
 <meta name="author" content="Développé et entretenu par les contributeurs et les contributrices de la Série d’ateliers R du CSBQ." />
 
@@ -30,9 +29,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="quel-est-lutilité-des-modèles-linéaires-généralisés.html"/>
-<link rel="next" href="glm-avec-une-distribution-binomiale-bernouilli.html"/>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link rel="prev" href="révision-des-modèles-linéaires.html"/>
+<link rel="next" href="modèle-linéaire-généralisé.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -48,10 +48,10 @@
 
 
 
-
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -136,51 +136,68 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <link rel="icon" type="image/png" href="assets/images/favicon.ico"/>
 
 <li class="divider"></li>
-<li class="part"><span><b>Série d’ateliers R du CSBQ</b></span></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Préface</a><ul>
-<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#code-de-conduite"><i class="fa fa-check"></i><b>0.1</b> Code de conduite</a><ul>
-<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#comportement-attendu"><i class="fa fa-check"></i><b>0.1.1</b> Comportement attendu</a></li>
-<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#comportements-inacceptables"><i class="fa fa-check"></i><b>0.1.2</b> Comportements inacceptables</a></li>
+<li class="part"><span><b>Série d’ateliers R du CSBQ<span></span></b></span></li>
+<li><a href="index.html#préface">Préface<span></span></a><ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>0.1</b> Code de conduite<span></span></a><ul>
+<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#comportement-attendu"><i class="fa fa-check"></i><b>0.1.1</b> Comportement attendu<span></span></a></li>
+<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#comportements-inacceptables"><i class="fa fa-check"></i><b>0.1.2</b> Comportements inacceptables<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributeurs-et-contributrices"><i class="fa fa-check"></i><b>0.2</b> Contributeurs et contributrices</a></li>
-<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contribuez-à-la-série"><i class="fa fa-check"></i><b>0.3</b> Contribuez à la série!</a></li>
+<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributeurs-et-contributrices"><i class="fa fa-check"></i><b>0.2</b> Contributeurs et contributrices<span></span></a></li>
+<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contribuez-à-la-série"><i class="fa fa-check"></i><b>0.3</b> Contribuez à la série!<span></span></a></li>
 </ul></li>
-<li class="part"><span><b>Modèles linéaires généralisés en <code>R</code></b></span></li>
-<li class="chapter" data-level="1" data-path="objectifs-dapprentissage.html"><a href="objectifs-dapprentissage.html"><i class="fa fa-check"></i><b>1</b> Objectifs d’apprentissage</a></li>
-<li class="chapter" data-level="2" data-path="préparez-vous-pour-cet-atelier.html"><a href="préparez-vous-pour-cet-atelier.html"><i class="fa fa-check"></i><b>2</b> Préparez-vous pour cet atelier</a></li>
-<li class="chapter" data-level="3" data-path="quel-est-lutilité-des-modèles-linéaires-généralisés.html"><a href="quel-est-lutilité-des-modèles-linéaires-généralisés.html"><i class="fa fa-check"></i><b>3</b> Quel est l’utilité des modèles linéaires généralisés?</a></li>
-<li class="chapter" data-level="4" data-path="les-distributions-des-données-biologiques.html"><a href="les-distributions-des-données-biologiques.html"><i class="fa fa-check"></i><b>4</b> Les distributions des données biologiques</a></li>
-<li class="part"><span><b>GLM avec des données binaires</b></span></li>
-<li class="chapter" data-level="5" data-path="glm-avec-une-distribution-binomiale-bernouilli.html"><a href="glm-avec-une-distribution-binomiale-bernouilli.html"><i class="fa fa-check"></i><b>5</b> GLM avec une distribution binomiale (Bernouilli)</a><ul>
-<li class="chapter" data-level="5.1" data-path="glm-avec-une-distribution-binomiale-bernouilli.html"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#la-fonction-de-lien"><i class="fa fa-check"></i><b>5.1</b> La fonction de lien</a><ul>
-<li class="chapter" data-level="5.1.1" data-path="glm-avec-une-distribution-binomiale-bernouilli.html"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#défi-1"><i class="fa fa-check"></i><b>5.1.1</b> Défi 1</a></li>
+<li class="part"><span><b>Modèles linéaires généralisés en <code>R</code><span></span></b></span></li>
+<li class="chapter" data-level="1" data-path="objectifs-dapprentissage.html"><a href="objectifs-dapprentissage.html"><i class="fa fa-check"></i><b>1</b> Objectifs d’apprentissage<span></span></a></li>
+<li class="chapter" data-level="2" data-path="préparez-vous-pour-cet-atelier.html"><a href="préparez-vous-pour-cet-atelier.html"><i class="fa fa-check"></i><b>2</b> Préparez-vous pour cet atelier<span></span></a></li>
+<li class="chapter" data-level="3" data-path="révision-des-modèles-linéaires.html"><a href="révision-des-modèles-linéaires.html"><i class="fa fa-check"></i><b>3</b> Révision des modèles linéaires<span></span></a><ul>
+<li class="chapter" data-level="3.1" data-path="révision-des-modèles-linéaires.html"><a href="révision-des-modèles-linéaires.html#modèles-linéaires-généraux"><i class="fa fa-check"></i><b>3.1</b> Modèles linéaires généraux<span></span></a><ul>
+<li class="chapter" data-level="3.1.1" data-path="révision-des-modèles-linéaires.html"><a href="révision-des-modèles-linéaires.html#définition"><i class="fa fa-check"></i><b>3.1.1</b> Définition<span></span></a></li>
+<li class="chapter" data-level="3.1.2" data-path="révision-des-modèles-linéaires.html"><a href="révision-des-modèles-linéaires.html#conditions-dutilisation"><i class="fa fa-check"></i><b>3.1.2</b> Conditions d’utilisation<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="5.2" data-path="glm-avec-une-distribution-binomiale-bernouilli.html"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#interpréter-la-sortie-dune-régression-logistique"><i class="fa fa-check"></i><b>5.2</b> Interpréter la sortie d’une régression logistique</a></li>
-<li class="chapter" data-level="5.3" data-path="glm-avec-une-distribution-binomiale-bernouilli.html"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#pouvoir-prédictif-et-validation-du-modèle"><i class="fa fa-check"></i><b>5.3</b> Pouvoir prédictif et validation du modèle</a><ul>
-<li class="chapter" data-level="5.3.1" data-path="glm-avec-une-distribution-binomiale-bernouilli.html"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#défi-2"><i class="fa fa-check"></i><b>5.3.1</b> Défi 2</a></li>
-</ul></li>
-<li class="chapter" data-level="5.4" data-path="glm-avec-une-distribution-binomiale-bernouilli.html"><a href="glm-avec-une-distribution-binomiale-bernouilli.html#représentation-graphique-des-résultats"><i class="fa fa-check"></i><b>5.4</b> Représentation graphique des résultats</a></li>
-</ul></li>
-<li class="part"><span><b>GLM avec des données de proportions</b></span></li>
-<li class="chapter" data-level="6" data-path="glm-avec-une-distribution-binomiale.html"><a href="glm-avec-une-distribution-binomiale.html"><i class="fa fa-check"></i><b>6</b> GLM avec une distribution binomiale</a></li>
-<li class="part"><span><b>GLM avec des données d’abondance</b></span></li>
-<li class="chapter" data-level="7" data-path="que-faire-avec-des-données-dabondance.html"><a href="que-faire-avec-des-données-dabondance.html"><i class="fa fa-check"></i><b>7</b> Que faire avec des données d’abondance?</a></li>
-<li class="chapter" data-level="8" data-path="glm-avec-une-distribution-de-poisson.html"><a href="glm-avec-une-distribution-de-poisson.html"><i class="fa fa-check"></i><b>8</b> GLM avec une distribution de Poisson</a><ul>
-<li class="chapter" data-level="8.0.1" data-path="glm-avec-une-distribution-de-poisson.html"><a href="glm-avec-une-distribution-de-poisson.html#la-validation-du-modèle-et-le-problème-de-la-surdispersion"><i class="fa fa-check"></i><b>8.0.1</b> La validation du modèle et le problème de la surdispersion</a></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="glm-avec-une-distribution-quasi-poisson.html"><a href="glm-avec-une-distribution-quasi-poisson.html"><i class="fa fa-check"></i><b>9</b> GLM avec une distribution quasi-Poisson</a></li>
-<li class="chapter" data-level="10" data-path="glm-avec-une-distribution-binomiale-négative.html"><a href="glm-avec-une-distribution-binomiale-négative.html"><i class="fa fa-check"></i><b>10</b> GLM avec une distribution binomiale négative</a><ul>
-<li class="chapter" data-level="10.1" data-path="glm-avec-une-distribution-binomiale-négative.html"><a href="glm-avec-une-distribution-binomiale-négative.html#représentation-graphique-du-modèle-final"><i class="fa fa-check"></i><b>10.1</b> Représentation graphique du modèle final</a><ul>
-<li class="chapter" data-level="10.1.1" data-path="glm-avec-une-distribution-binomiale-négative.html"><a href="glm-avec-une-distribution-binomiale-négative.html#défi-3"><i class="fa fa-check"></i><b>10.1.1</b> Défi 3</a></li>
+<li class="chapter" data-level="3.2" data-path="révision-des-modèles-linéaires.html"><a href="révision-des-modèles-linéaires.html#un-exemple-avec-les-modèles-linéaires-généraux"><i class="fa fa-check"></i><b>3.2</b> Un exemple avec les modèles linéaires généraux<span></span></a></li>
+<li class="chapter" data-level="3.3" data-path="révision-des-modèles-linéaires.html"><a href="révision-des-modèles-linéaires.html#un-exemple-avec-des-vrais-données-des-modèles-linéaires-généraux"><i class="fa fa-check"></i><b>3.3</b> Un exemple avec des vrais données des modèles linéaires généraux<span></span></a></li>
+<li class="chapter" data-level="3.4" data-path="révision-des-modèles-linéaires.html"><a href="révision-des-modèles-linéaires.html#les-conditions-dapplication-dun-modèle-linéaire"><i class="fa fa-check"></i><b>3.4</b> Les conditions d’application d’un modèle linéaire<span></span></a><ul>
+<li class="chapter" data-level="3.4.1" data-path="révision-des-modèles-linéaires.html"><a href="révision-des-modèles-linéaires.html#prédiction-du-modèle"><i class="fa fa-check"></i><b>3.4.1</b> Prédiction du modèle<span></span></a></li>
+<li class="chapter" data-level="3.4.2" data-path="révision-des-modèles-linéaires.html"><a href="révision-des-modèles-linéaires.html#que-faire-transformer-nos-données"><i class="fa fa-check"></i><b>3.4.2</b> Que faire? Transformer nos données?<span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="conclusion-sur-les-glm-avec-des-données-dabondance.html"><a href="conclusion-sur-les-glm-avec-des-données-dabondance.html"><i class="fa fa-check"></i><b>11</b> Conclusion sur les GLM avec des données d’abondance</a></li>
-<li class="part"><span><b>Autres distributions</b></span></li>
-<li class="chapter" data-level="12" data-path="autres-distributions.html"><a href="autres-distributions.html"><i class="fa fa-check"></i><b>12</b> Autres distributions</a></li>
-<li class="part"><span><b>Considérations finales</b></span></li>
-<li class="chapter" data-level="13" data-path="sommaire.html"><a href="sommaire.html"><i class="fa fa-check"></i><b>13</b> Sommaire</a></li>
-<li class="chapter" data-level="14" data-path="ressources-additionnelles.html"><a href="ressources-additionnelles.html"><i class="fa fa-check"></i><b>14</b> Ressources additionnelles</a></li>
-<li class="chapter" data-level="15" data-path="réferences.html"><a href="réferences.html"><i class="fa fa-check"></i><b>15</b> Réferences</a></li>
+<li class="chapter" data-level="4" data-path="les-distributions-des-données-biologiques.html"><a href="les-distributions-des-données-biologiques.html"><i class="fa fa-check"></i><b>4</b> Les distributions des données biologiques<span></span></a></li>
+<li class="chapter" data-level="5" data-path="modèle-linéaire-généralisé.html"><a href="modèle-linéaire-généralisé.html"><i class="fa fa-check"></i><b>5</b> Modèle linéaire généralisé<span></span></a></li>
+<li class="part"><span><b>GLM avec des données binaires<span></span></b></span></li>
+<li class="chapter" data-level="6" data-path="glm-avec-une-distribution-binomiale.html"><a href="glm-avec-une-distribution-binomiale.html"><i class="fa fa-check"></i><b>6</b> GLM avec une distribution binomiale<span></span></a><ul>
+<li class="chapter" data-level="6.1" data-path="glm-avec-une-distribution-binomiale.html"><a href="glm-avec-une-distribution-binomiale.html#glm-avec-des-données-binomiales-lien-logit"><i class="fa fa-check"></i><b>6.1</b> GLM avec des données binomiales: lien logit<span></span></a></li>
+<li class="chapter" data-level="6.2" data-path="glm-avec-une-distribution-binomiale.html"><a href="glm-avec-une-distribution-binomiale.html#exemple"><i class="fa fa-check"></i><b>6.2</b> Exemple<span></span></a></li>
+<li class="chapter" data-level="6.3" data-path="glm-avec-une-distribution-binomiale.html"><a href="glm-avec-une-distribution-binomiale.html#défi-1"><i class="fa fa-check"></i><b>6.3</b> Défi 1<span></span></a></li>
+<li class="chapter" data-level="6.4" data-path="glm-avec-une-distribution-binomiale.html"><a href="glm-avec-une-distribution-binomiale.html#interpréter-la-sortie-dune-régression-logistique"><i class="fa fa-check"></i><b>6.4</b> Interpréter la sortie d’une régression logistique<span></span></a><ul>
+<li class="chapter" data-level="6.4.1" data-path="glm-avec-une-distribution-binomiale.html"><a href="glm-avec-une-distribution-binomiale.html#un-exemple-avec-le-lien-didentité"><i class="fa fa-check"></i><b>6.4.1</b> Un exemple avec le lien d’identité<span></span></a></li>
+<li class="chapter" data-level="6.4.2" data-path="glm-avec-une-distribution-binomiale.html"><a href="glm-avec-une-distribution-binomiale.html#interprétation-avec-un-lien-logit"><i class="fa fa-check"></i><b>6.4.2</b> Interprétation avec un lien logit<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="glm-avec-une-distribution-binomiale.html"><a href="glm-avec-une-distribution-binomiale.html#pouvoir-prédictif-et-validation-du-modèle"><i class="fa fa-check"></i><b>6.5</b> Pouvoir prédictif et validation du modèle<span></span></a><ul>
+<li class="chapter" data-level="6.5.1" data-path="glm-avec-une-distribution-binomiale.html"><a href="glm-avec-une-distribution-binomiale.html#défi-2"><i class="fa fa-check"></i><b>6.5.1</b> Défi 2<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="glm-avec-une-distribution-binomiale.html"><a href="glm-avec-une-distribution-binomiale.html#représentation-graphique-des-résultats"><i class="fa fa-check"></i><b>6.6</b> Représentation graphique des résultats<span></span></a></li>
+</ul></li>
+<li class="part"><span><b>GLM avec des données de proportions<span></span></b></span></li>
+<li class="chapter" data-level="7" data-path="glm-binomial-avec-des-proportions.html"><a href="glm-binomial-avec-des-proportions.html"><i class="fa fa-check"></i><b>7</b> GLM binomial avec des proportions<span></span></a></li>
+<li class="part"><span><b>GLM avec des données d’abondance<span></span></b></span></li>
+<li class="chapter" data-level="8" data-path="que-faire-avec-des-données-dabondance.html"><a href="que-faire-avec-des-données-dabondance.html"><i class="fa fa-check"></i><b>8</b> Que faire avec des données d’abondance?<span></span></a><ul>
+<li class="chapter" data-level="8.1" data-path="que-faire-avec-des-données-dabondance.html"><a href="que-faire-avec-des-données-dabondance.html#glm-avec-une-distribution-de-poisson"><i class="fa fa-check"></i><b>8.1</b> GLM avec une distribution de Poisson<span></span></a><ul>
+<li class="chapter" data-level="8.1.1" data-path="que-faire-avec-des-données-dabondance.html"><a href="que-faire-avec-des-données-dabondance.html#la-distribution-de-poisson"><i class="fa fa-check"></i><b>8.1.1</b> La distribution de Poisson<span></span></a></li>
+<li class="chapter" data-level="8.1.2" data-path="que-faire-avec-des-données-dabondance.html"><a href="que-faire-avec-des-données-dabondance.html#glm-de-poisson-dans-r"><i class="fa fa-check"></i><b>8.1.2</b> GLM de Poisson dans <code>R</code><span></span></a></li>
+<li class="chapter" data-level="8.1.3" data-path="que-faire-avec-des-données-dabondance.html"><a href="que-faire-avec-des-données-dabondance.html#la-validation-du-modèle-et-le-problème-de-la-surdispersion"><i class="fa fa-check"></i><b>8.1.3</b> La validation du modèle et le problème de la surdispersion<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="que-faire-avec-des-données-dabondance.html"><a href="que-faire-avec-des-données-dabondance.html#glm-avec-une-distribution-quasi-poisson"><i class="fa fa-check"></i><b>8.2</b> GLM avec une distribution quasi-Poisson<span></span></a></li>
+<li class="chapter" data-level="8.3" data-path="que-faire-avec-des-données-dabondance.html"><a href="que-faire-avec-des-données-dabondance.html#glm-avec-une-distribution-binomiale-négative"><i class="fa fa-check"></i><b>8.3</b> GLM avec une distribution binomiale négative<span></span></a></li>
+<li class="chapter" data-level="8.4" data-path="que-faire-avec-des-données-dabondance.html"><a href="que-faire-avec-des-données-dabondance.html#représentation-graphique-du-modèle-final"><i class="fa fa-check"></i><b>8.4</b> Représentation graphique du modèle final<span></span></a><ul>
+<li class="chapter" data-level="8.4.1" data-path="que-faire-avec-des-données-dabondance.html"><a href="que-faire-avec-des-données-dabondance.html#défi-3"><i class="fa fa-check"></i><b>8.4.1</b> Défi 3<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="que-faire-avec-des-données-dabondance.html"><a href="que-faire-avec-des-données-dabondance.html#conclusion-sur-les-glm-avec-des-données-dabondance"><i class="fa fa-check"></i><b>8.5</b> Conclusion sur les GLM avec des données d’abondance<span></span></a></li>
+</ul></li>
+<li class="part"><span><b>Autres distributions<span></span></b></span></li>
+<li class="chapter" data-level="9" data-path="autres-distributions.html"><a href="autres-distributions.html"><i class="fa fa-check"></i><b>9</b> Autres distributions<span></span></a></li>
+<li class="part"><span><b>Considérations finales<span></span></b></span></li>
+<li class="chapter" data-level="10" data-path="sommaire.html"><a href="sommaire.html"><i class="fa fa-check"></i><b>10</b> Sommaire<span></span></a></li>
+<li class="chapter" data-level="11" data-path="ressources-additionnelles.html"><a href="ressources-additionnelles.html"><i class="fa fa-check"></i><b>11</b> Ressources additionnelles<span></span></a></li>
+<li class="chapter" data-level="12" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>12</b> References<span></span></a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/qcbsRworkshops" target="blank">QCBS R Workshop Series</a></li>
 
@@ -211,12 +228,13 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </head>
 
 
-
+<!-- 
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
-<div id="les-distributions-des-données-biologiques" class="section level1">
-<h1><span class="header-section-number">Chapitre 4</span> Les distributions des données biologiques</h1>
+--!>
+<div id="les-distributions-des-données-biologiques" class="section level1 hasAnchor">
+<h1><span class="header-section-number">Chapitre 4</span> Les distributions des données biologiques<a href="les-distributions-des-données-biologiques.html#les-distributions-des-données-biologiques" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Les statisticiens ont développé une foule de lois de probabilité (ou
 distributions) correspondant à divers types de données. Une <strong>loi de
 probabilité</strong> donne la <strong>probabilité</strong> d’observer chaque <strong>issue</strong>
@@ -235,35 +253,43 @@ prendre comme valeur que des nombres entiers, et serait donc mieux
 modélisée par une loi discrète qu’une loi continue. Une loi utile pour
 modéliser les données d’abondance est la loi de «Poisson», nommé en
 l’honneur du statisticien Siméon Denis Poisson. La loi de Poisson est
-une loi discrète avec un seul paramètre: λ (lambda), qui détermine et la
-moyenne et la variance de la distribution (la moyenne et la variance
+une loi discrète avec un seul paramètre: <span class="math inline">\(\lambda\)</span> (lambda), qui détermine et la moyenne et la variance de la distribution (la moyenne et la variance
 d’une loi de Poisson sont donc égales). Voici 3 exemples de lois de
-Poisson avec des valeurs différentes de λ, ce qui correspond ici au
-nombre moyen de Galumna retrouvé dans un ensemble fictif
-d’échantillons:</p>
-<p><img src="images/6_poisson.jpeg" /></p>
-<p>Remarquez que lorsque λ est faible (c.-à-d. lorsque la moyenne
+Poisson avec des valeurs différentes de <span class="math inline">\(\lambda\)</span>, ce qui correspond ici au
+nombre moyen de Galumna retrouvé dans un ensemble fictif d’échantillons:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="les-distributions-des-données-biologiques.html#cb37-1"></a><span class="co"># examples of Poisson distributions with different values</span></span>
+<span id="cb37-2"><a href="les-distributions-des-données-biologiques.html#cb37-2"></a><span class="co"># of lambda</span></span>
+<span id="cb37-3"><a href="les-distributions-des-données-biologiques.html#cb37-3"></a><span class="kw">par</span>(<span class="dt">cex =</span> <span class="dv">2</span>)</span>
+<span id="cb37-4"><a href="les-distributions-des-données-biologiques.html#cb37-4"></a>x =<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span>, <span class="dv">50</span>, <span class="dv">1</span>)</span>
+<span id="cb37-5"><a href="les-distributions-des-données-biologiques.html#cb37-5"></a><span class="kw">plot</span>(x, <span class="kw">dpois</span>(x, <span class="dt">lambda =</span> <span class="dv">1</span>), <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">xlab =</span> <span class="st">&quot;Frequency of Galumna&quot;</span>,</span>
+<span id="cb37-6"><a href="les-distributions-des-données-biologiques.html#cb37-6"></a>    <span class="dt">ylab =</span> <span class="st">&quot;Probability&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;lambda = 1&quot;</span>)</span>
+<span id="cb37-7"><a href="les-distributions-des-données-biologiques.html#cb37-7"></a><span class="kw">plot</span>(x, <span class="kw">dpois</span>(x, <span class="dt">lambda =</span> <span class="dv">10</span>), <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">xlab =</span> <span class="st">&quot;Frequency of Galumna&quot;</span>,</span>
+<span id="cb37-8"><a href="les-distributions-des-données-biologiques.html#cb37-8"></a>    <span class="dt">ylab =</span> <span class="st">&quot;Probability&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;lambda = 10&quot;</span>)</span>
+<span id="cb37-9"><a href="les-distributions-des-données-biologiques.html#cb37-9"></a><span class="kw">plot</span>(x, <span class="kw">dpois</span>(x, <span class="dt">lambda =</span> <span class="dv">30</span>), <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">xlab =</span> <span class="st">&quot;Frequency of Galumna&quot;</span>,</span>
+<span id="cb37-10"><a href="les-distributions-des-données-biologiques.html#cb37-10"></a>    <span class="dt">ylab =</span> <span class="st">&quot;Probability&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;lambda = 30&quot;</span>)</span></code></pre></div>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-29-1.png" width="33%" /><img src="book-fr_files/figure-html/unnamed-chunk-29-2.png" width="33%" /><img src="book-fr_files/figure-html/unnamed-chunk-29-3.png" width="33%" /></p>
+<p>Remarquez que lorsque <span class="math inline">\(\lambda\)</span> est faible (c.-à-d. lorsque la moyenne
 s’approche de zéro), la distribution est décalée vers la gauche, alors
-que lorsque λ est élevée, la distribution est symmétrique. La variance
+que lorsque <span class="math inline">\(\lambda\)</span> est élevée, la distribution est symmétrique. La variance
 augmente aussi avec la moyenne (puisque les deux ont la même valeur),
 les valeurs prédites sont toujours des nombres entiers, et l’ensemble
 d’issus d’une loi de Poisson est strictement positif. Toutes ces
 propriétés sont utiles pour modéliser les données de dénombrement, p.ex.
 l’abondance d’un taxon, le nombre de graines dans une parcelle, etc.
-Notre variable mites$Galumna semble suivre une loi de Poisson avec une
-basse valeur de λ (en effet, si nous calculons l’abondance moyenne de
+Notre variable mites <code>Galumna</code> semble suivre une loi de Poisson avec une
+basse valeur de <span class="math inline">\(\lambda\)</span> (en effet, si nous calculons l’abondance moyenne de
 Galumna pour l’ensemble des échantillons avec la fonction mean(), nous
 observons que cette valeur est proche de 0):</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="les-distributions-des-données-biologiques.html#cb25-1"></a><span class="kw">hist</span>(mites<span class="op">$</span>Galumna)</span></code></pre></div>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="les-distributions-des-données-biologiques.html#cb26-1"></a><span class="kw">mean</span>(mites<span class="op">$</span>Galumna)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="les-distributions-des-données-biologiques.html#cb38-1"></a><span class="kw">hist</span>(mites<span class="op">$</span>Galumna)</span></code></pre></div>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-31-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="les-distributions-des-données-biologiques.html#cb39-1"></a><span class="kw">mean</span>(mites<span class="op">$</span>Galumna)</span></code></pre></div>
 <pre><code>## [1] 0.9571429</code></pre>
-<p>La variable mites$pa (présence-absence) prend une autre forme. Cette
+<p>La variable mites <code>$pa</code> (présence-absence) prend une autre forme. Cette
 variable n’inclut que des 0s et des 1s, de telle sorte que la loi de
 Poisson ne serait pas plus appropriée pour cette variable que la loi
 normale.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="les-distributions-des-données-biologiques.html#cb28-1"></a><span class="kw">hist</span>(mites<span class="op">$</span>pa)</span></code></pre></div>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="les-distributions-des-données-biologiques.html#cb41-1"></a><span class="kw">hist</span>(mites<span class="op">$</span>pa)</span></code></pre></div>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-32-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Nous avons besoin d’une distribution qui n’inclut dans son ensemble
 que deux issues possibles: 0 ou 1. La loi de «Bernoulli» est une
 distribution de la sorte. C’est souvent la première loi de probabilité
@@ -273,69 +299,60 @@ face. Cette loi n’a qu’un paramètre: <em>p</em>, la probabilité de succès
 Nous pouvons utiliser la loi de Bernouilli pour calculer la probabilité
 d’obtenir l’issue «Galumna présent» (1) vs. «Galumna absent» (0). Voici
 des exemples de distributions de Bernoulli avec différentes probabilités
-de présence (<em>p</em>):</p>
-<p><img src="images/6_bernouill.jpeg" /></p>
+de présence (<span class="math inline">\(p\)</span>):</p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-33-1.png" width="30%" /><img src="book-fr_files/figure-html/unnamed-chunk-33-2.png" width="30%" /><img src="book-fr_files/figure-html/unnamed-chunk-33-3.png" width="30%" /></p>
 <p>Nous pouvons calculer le nombre de sites où Galumna est présent par
-rapport au nombre total de sites pour obtenir un estimé de ce que <em>p</em>
+rapport au nombre total de sites pour obtenir un estimé de ce que <span class="math inline">\(p\)</span>
 pourrait être dans cet exemple:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="les-distributions-des-données-biologiques.html#cb29-1"></a><span class="kw">sum</span>(mites<span class="op">$</span>pa)<span class="op">/</span><span class="kw">nrow</span>(mites)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="les-distributions-des-données-biologiques.html#cb42-1"></a><span class="kw">sum</span>(mites<span class="op">$</span>pa)<span class="op">/</span><span class="kw">nrow</span>(mites)</span></code></pre></div>
 <pre><code>## [1] 0.3571429</code></pre>
-<p><em>p</em> pour la variable mites$pa est plus ou moins 0.36, de telle sorte
+<p><span class="math inline">\(p\)</span> pour la variable mites ‘$pa’ est plus ou moins 0.36, de telle sorte
 qu’environ deux fois plus de sites montrent l’issu «Galumna absent<br />
 (0) que l’issu «Galumna présent» (1).</p>
 <p>Lorsqu’il y a plusieurs épreuves (chacune avec un succès/échec), la loi
 de Bernoulli se transforme en loi binomiale, qui inclue le paramètre
-additionel <em>n</em>, le nombre d’épeuves. La loi binomiale prédit la
-probabilité d’observer une certaine proportion de succès, <em>p</em>, sur le
-nombre total d’épreuves, <em>n</em>. Un «succès» pourrait être, par exemple,
-la présence d’un taxon à un site (comme pour Galumna), le nombre
+additionel <span class="math inline">\(n\)</span>, le nombre d’épeuves. La loi binomiale prédit la
+probabilité d’observer une certaine proportion de succès, <span class="math inline">\(p\)</span>, sur le
+nombre total d’épreuves, <span class="math inline">\(n\)</span>. Un «succès» pourrait être, par exemple,
+la présence d’un taxon à un site (comme pour <em>Galumna</em>), le nombre
 d’individus qui survit pendant une année, etc. Voici des exemples de
-lois binomiales avec <em>n</em> = 50 et trois valeurs différentes de <em>p</em>:</p>
-<p><img src="images/6_binomial.jpeg" /></p>
+lois binomiales avec <span class="math inline">\(n\)</span> = 50 et trois valeurs différentes de <span class="math inline">\(p\)</span>:</p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-35-1.png" width="33%" /><img src="book-fr_files/figure-html/unnamed-chunk-35-2.png" width="33%" /><img src="book-fr_files/figure-html/unnamed-chunk-35-3.png" width="33%" /></p>
 <p>Remarquez que la loi binomiale est assymétrique et décalée à gauche
-lorsque <em>p</em> est faible, mais elle est décalée à droite lorsque <em>p</em> est
+lorsque <span class="math inline">\(p\)</span> est faible, mais elle est décalée à droite lorsque <span class="math inline">\(p\)</span> est
 élevé. C’est la différence principale avec la loi de Poisson: l’étendu
-de la loi binomial a une limite supérieure, correspondant à <em>n</em>.
+de la loi binomial a une limite supérieure, correspondant à <span class="math inline">\(n\)</span>.
 Conséquemment, la loi binomiale est utilisée pour modéliser des données
 lorsque le nombre de succès est donné par un nombre entier, et lorsque
 le nombre d’épreuves est connu. Nous pouvons utiliser la distribution
 binomiale pour modéliser nos données de proportion, où chaque mite
 échantillonée pourrait être considérée comme une épreuve. Si la mite est
-du genre Galumna, l’épreuve est un succès (1), sinon, c’est un échec
-(0). Dans ce cas, le nombre d’épreuves <em>n</em> varie pour nos 70
+du genre <em>Galumna</em>, l’épreuve est un succès (1), sinon, c’est un échec
+(0). Dans ce cas, le nombre d’épreuves <span class="math inline">\(n\)</span> varie pour nos 70
 échantillons selon l’abondance totale de mites dans l’échantillon,
-alors que <em>p</em>, la probabilité de succès, est donné par la proportion de
-Galumna dans chaque échantillon.</p>
+alors que <span class="math inline">\(p\)</span>, la probabilité de succès, est donné par la proportion de
+<em>Galumna</em> dans chaque échantillon.</p>
 <p>Pourquoi tout cette discussion à propos des lois de distribution? Parce
 que n’importe quelle loi peut être utilisée pour remplacer la loi
 normale lorsqu’on calcule les valeurs estimées dans un modèle linéaire.
 Par exemple, nous pouvons utiliser la loi de Poisson pour modéliser nos
 valeurs d’abondance en utilisant l’équation suivante:</p>
-<p>y<sub>i</sub> ~ Poisson(λ = β<sub>0</sub> + β<sub>1</sub>x<sub>i</sub>)</p>
-<p>Remarquez que λ varie selon x (contenu d’eau), ce qui signifie que la
-variance dans les résidus variera aussi selon x (car pour la loi de
-Poisson variance = aussi λ). Ceci veut dire que nous venons de nous
-défaire de la supposition d’homogénéité de la variance! Aussi, les
+<p><span class="math display">\[Y_i \sim Poisson(\lambda = \beta_0 + \beta_1X_i)\]</span></p>
+<p>Remarquez que <span class="math inline">\(\lambda\)</span> varie selon <span class="math inline">\(x\)</span> (contenu d’eau), ce qui signifie que la variance dans les résidus variera aussi selon <span class="math inline">\(x\)</span> (car pour la loi de Poisson variance = aussi <span class="math inline">\(\lambda\)</span>). Ceci veut dire que nous venons de nous défaire de la supposition d’homogénéité de la variance! Aussi, les
 valeurs estimées seront désormais des nombres entiers plutôt que des
 nombres décimaux car ils seront tirés de lois de Poisson avec
-différentes valeurs de λ. Ce modèle ne prédiera jamais de valeurs
+différentes valeurs de <span class="math inline">\(\lambda\)</span>. Ce modèle ne prédiera jamais de valeurs
 négatives car l’ensemble d’une loi de Poisson est toujours strictement
-positif. En changeant la distribution des résidus (ε<sub>i</sub>) de normale à
-Poisson, nous avons corrigé presque tous les problèmes de notre modèle
-linéaire pour l’abondance de Galumna.</p>
+positif. En changeant la distribution des résidus (<span class="math inline">\(\varepsilon\)</span>) de normale à Poisson, nous avons corrigé <em>presque</em> tous les problèmes de notre modèle linéaire pour l’abondance de <em>Galumna</em>.</p>
 <p>Ce modèle est presque un GLM de Poisson, qui ressemble à ça:</p>
-<p><img src="images/6_poissonglm.jpeg" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-36-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Remarquez que les probabilités d’observer différentes valeurs estimées
 (en orange) sont maintenant des nombres entiers, et qu’autant la
-variance que la moyenne de la distribution declinent lorsque λ diminue
-avec le contenu d’eau. Pourquoi la droite de régression est-elle
+variance que la moyenne de la distribution declinent lorsque <span class="math inline">\(\lambda\)</span> diminue avec le contenu d’eau. Pourquoi la droite de régression est-elle
 courbée? Pourquoi est-ce que ce modèle se nomme un «modèle linéaire
 généralisé»? Continuez votre lecture!</p>
 
 </div>
-
-
-
 <hr>
 <center> 
   <div class="footer">
@@ -347,12 +364,11 @@ généralisé»? Continuez votre lecture!</p>
           </div>
         </div>
       </div>
-<a href="quel-est-lutilité-des-modèles-linéaires-généralisés.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="glm-avec-une-distribution-binomiale-bernouilli.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="révision-des-modèles-linéaires.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="modèle-linéaire-généralisé.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -392,6 +408,10 @@ gitbook.start({
 "text": null
 },
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }
@@ -399,6 +419,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

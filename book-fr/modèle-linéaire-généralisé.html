@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapitre 9 Autres distributions | Atelier 6: Modèles linéaires généralisés en R</title>
+  <title>Chapitre 5 Modèle linéaire généralisé | Atelier 6: Modèles linéaires généralisés en R</title>
   <meta name="description" content="Modèles linéaires généralisés en R" />
   <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapitre 9 Autres distributions | Atelier 6: Modèles linéaires généralisés en R" />
+  <meta property="og:title" content="Chapitre 5 Modèle linéaire généralisé | Atelier 6: Modèles linéaires généralisés en R" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
   <meta property="og:description" content="Modèles linéaires généralisés en R" />
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapitre 9 Autres distributions | Atelier 6: Modèles linéaires généralisés en R" />
+  <meta name="twitter:title" content="Chapitre 5 Modèle linéaire généralisé | Atelier 6: Modèles linéaires généralisés en R" />
   
   <meta name="twitter:description" content="Modèles linéaires généralisés en R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="que-faire-avec-des-données-dabondance.html"/>
-<link rel="next" href="sommaire.html"/>
+<link rel="prev" href="les-distributions-des-données-biologiques.html"/>
+<link rel="next" href="glm-avec-une-distribution-binomiale.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -233,22 +233,98 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
 --!>
-<div id="autres-distributions" class="section level1 hasAnchor">
-<h1><span class="header-section-number">Chapitre 9</span> Autres distributions<a href="autres-distributions.html#autres-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<ul>
-<li>Lorsque la variable réponse est constituée de pourcentages ou de proportions qui ne surviennent pas de succès et échecs de <span class="math inline">\(n\)</span> oui/non (expérience de Bernouilli) il n’est pas possible d’utiliser une distribution binomiale. Dans ce cas, il est souvent conseillé d’effectuer une <strong>transformation logit</strong> des données et d’utiliser un modèle linéaire (mixte). Voir cet <a href="http://onlinelibrary.wiley.com/doi/10.1890/10-0340.1/abstract">article</a>.</li>
-<li>Pour des données qui semblent distribuées normalement après une transformation log, log-transformation, il est parfois préférable d’utiliser une <strong>distribution log-normale</strong> dans un GLM, au lieu de transformer les données en log.</li>
-<li>Une <strong>distribution gamma</strong> peut également être utilisée. Elle est similaire à une distribution log-normale, mais est plus polyvalente.</li>
-</ul>
-<p><img src="images/Gamma_distribution.png" /></p>
-<ul>
-<li>La <strong>distribution Tweedie</strong> est une famille de distributions polyvalentes qui est utile pour les données comportant un mélange de zéros et de valeurs positives (pas nécessairement des abondances). Voir le <a href="https://cran.r-project.org/web/packages/tweedie/index.html">paquet R Tweedie</a>.</li>
-</ul>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-82-1.png" width="672" /></p>
-<ul>
-<li>Lorsque les données comportent un nombre excessif de zéros, qui proviennent d’un processus différent de celui qui génère les comptages, il convient d’utiliser des distributions «<strong>zero-inflated</strong>» Poisson ou binomial négatif «<strong>zero-inflated</strong>». Ces méthodes sont disponibles, dans le <a href="http://glmmadmb.r-forge.r-project.org/">paquet glmmADMB</a>, parmi d’autres.</li>
-</ul>
-<p><img src="images/zip_pmf.png" /></p>
+<div id="modèle-linéaire-généralisé" class="section level1 hasAnchor">
+<h1><span class="header-section-number">Chapitre 5</span> Modèle linéaire généralisé<a href="modèle-linéaire-généralisé.html#modèle-linéaire-généralisé" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Afin d’éviter les biais reliés aux modèles linéaires de base, nous avons besoin de spécifier deux choses :
+1. une <strong>distribution statistique pour les résidus du modèle</strong><br />
+2. <strong>une fonction de lien</strong> pour les valeurs prédites par ce même modèle.<br />
+</p>
+<p>Pour une régression linéaire d’une variable réponse continue distribuée normalement, l’équation suivante nous permet d’obtenir les
+valeurs prédites de la variable réponse :</p>
+<p><span class="math inline">\(μ = βx\)</span></p>
+<p>où:<br />
+-<span class="math inline">\(μ\)</span> est la valeur prédite de la réponse variable<br />
+-<span class="math inline">\(x\)</span> est la matrice du modèle (<em>i.e.</em> ça représente les variables explicatives)<br />
+-<span class="math inline">\(β\)</span> correspond aux paramètres estimés à partir des données (<em>i.e.</em>
+l’ordonnée à l’origine et la pente). Le terme <span class="math inline">\(βx\)</span> est appelé le <strong>prédicteur linéaire</strong>. En termes mathématiques, c’est le produit matriciel de la matrice du modèle <span class="math inline">\(x\)</span> et du vecteur des paramètres estimés <span class="math inline">\(β\)</span>.</p>
+<p>Lorsqu’on crée un modèle linéaire simple avec une variable réponse
+continue distribuée normalement, le prédicteur linéaire <span class="math inline">\(βx\)</span> est égal aux valeurs attendues de la variable réponse. <em>Ceci n’est pas exact si la variable réponse n’est pas distribuée normalement</em>. Si c’est le cas, il faut appliquer une transformation sur les valeurs prédites <span class="math inline">\(μ\)</span>, <em>i.e.</em> <strong>une fonction de lien</strong>, pour obtenir une <strong>relation linéaire</strong> entre celles-ci et le prédicteur linéaire :</p>
+<p><span class="math display">\[g(\mu_i) = ηi\]</span></p>
+<p>où <span class="math inline">\(g(μ)\)</span> est la fonction de lien des valeurs prédites. Ceci permet
+d’enlever la contrainte de distribution normale des résidus.</p>
+<p>Cela transforme les valeurs prédite sur une échelle de 0 à <code>+Inf</code>. Par exemple, si la probabilité que je poche le cours est de 0.6, les chances que je ne passe pas le cours est <span class="math inline">\(0.6/(1 − 0.6) = 1.5\)</span>. Ceci indique que la probabilité de m’observer couler le cours est 1.5 fois plus grandes que la probabilté que je passe le cours (soit <span class="math inline">\(1.5 × 0.4 = 0.6\)</span>).</p>
+<p>Pour compléter notre modèle linéaire, il nous faut une fonction de <strong>variance</strong> qui décrit comment la variance <span class="math inline">\(\text{var}(Y_i)\)</span> dépend de la moyenne:</p>
+<p><span class="math display">\[\text{var}(Y_i) = \phi V(\mu)\]</span></p>
+<p>où le <strong>paramètre de dispersion</strong> <span class="math inline">\(phi\)</span> est une constante.</p>
+<p>Avec le prédicteur linéaire <span class="math inline">\(βx\)</span>, notre modèle linéaire généralisé serait donc:</p>
+<p><span class="math display">\[\eta_i = \underbrace{g(\mu)}_{Fonction~lien}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Composant~linéaire}\]</span></p>
+<p>Alors que pour notre <strong>modèle linéaire général</strong> avec <span class="math inline">\(\epsilon ∼ N(0, σ^2)\)</span> et <span class="math inline">\(Y_i \sim{} N(\mu_i, \sigma^2)\)</span>, nous aurions:</p>
+<ol style="list-style-type: decimal">
+<li>la fonction lien d’<strong>identité</strong>:</li>
+</ol>
+<p><span class="math display">\[g(\mu_i) = \mu_i\]</span></p>
+<ol start="2" style="list-style-type: decimal">
+<li>et, la fonction de variance:</li>
+</ol>
+<p><span class="math display">\[V(\mu_i) = 1\]</span>
+qui résulte en un modèle linéaire général lorsqu’on ajoute le prédciteur linéaire:</p>
+<p><span class="math display">\[\underbrace{g(\mu)}_{Fonction~lien}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Composant~linéaire}\]</span></p>
+<p>Lorsque la variable réponse est une variable binaire, la fonction de lien est la fonction logit et est représentée par l’équation suivante:</p>
+<p><span class="math display">\[\eta_i = \text{logit}(\mu_i) = \log(\frac{\mu_i}{1-\mu_i})\]</span></p>
+<p>Le ratio <span class="math inline">\(μ / 1-μ\)</span> représente la cote (ou les chances) qu’un événement se produise. La transformation log (on appelle maintenant ce ratio le log odds) permet aux valeurs d’être distribuées de <code>-Inf</code> à <code>+Inf</code>. Les valeurs prédites peuvent ainsi être reliées à un prédicteur linéaire. C’est pour cette raison qu’on appelle ce modèle un modèle <strong>linéaire</strong> généralisé même si la relation ne ressemble pas nécessairement à une «ligne droite» !</p>
+<p>Dans <code>R</code>, on peut estimer un modèle linéaire généralisé avec la fonction <code>glm()</code>, qui ressemble beaucoup à la fonction <code>lm()</code>, avec l’argument <code>family</code> prenant le nom de la <strong>fonction lien</strong> et, la <strong>fonction de variance</strong>:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="modèle-linéaire-généralisé.html#cb44-1"></a><span class="co"># This is what the glm() function syntax looks like (don&#39;t</span></span>
+<span id="cb44-2"><a href="modèle-linéaire-généralisé.html#cb44-2"></a><span class="co"># run this)</span></span>
+<span id="cb44-3"><a href="modèle-linéaire-généralisé.html#cb44-3"></a><span class="kw">glm</span>(formula, <span class="dt">family =</span> <span class="kw">gaussian</span>(<span class="dt">link =</span> <span class="st">&quot;identity&quot;</span>), data, ...)</span></code></pre></div>
+<p>Cette approche s’applique à d’autres distributions!</p>
+<table>
+<colgroup>
+<col width="28%" />
+<col width="27%" />
+<col width="20%" />
+<col width="16%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Distribution de <span class="math inline">\(Y\)</span></th>
+<th>Nom du fonction lien</th>
+<th>Fonction lien</th>
+<th>Modèle</th>
+<th><code>R</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Normale</td>
+<td>Identité</td>
+<td><span class="math inline">\(g(\mu) = \mu\)</span></td>
+<td><span class="math inline">\(\mu = \mathbf{X} \boldsymbol{\beta}\)</span></td>
+<td><code>gaussian(link="identity")</code></td>
+</tr>
+<tr class="even">
+<td>Binomiale</td>
+<td>Logit</td>
+<td><span class="math inline">\(g(\mu) = \log\left(\dfrac{\mu}{1-\mu}\right)\)</span></td>
+<td><span class="math inline">\(\log\left(\dfrac{\mu}{1-\mu}\right) = \mathbf{X} \boldsymbol{\beta}\)</span></td>
+<td><code>binomial(link="logit")</code></td>
+</tr>
+<tr class="odd">
+<td>Poisson</td>
+<td>Log</td>
+<td><span class="math inline">\(g(\mu) = \log(\mu)\)</span></td>
+<td><span class="math inline">\(-\mu^{-1} = \mathbf{X} \boldsymbol{\beta}\)</span></td>
+<td><code>poisson(link="log")</code></td>
+</tr>
+<tr class="even">
+<td>Exponentielle</td>
+<td>Inverse négative</td>
+<td><span class="math inline">\(g(\mu) = -\mu^{-1}\)</span></td>
+<td><span class="math inline">\(\log(\mu) = \mathbf{X} \boldsymbol{\beta}\)</span></td>
+<td><code>Gamma(link="inverse")</code></td>
+</tr>
+</tbody>
+</table>
 
 </div>
 
@@ -265,8 +341,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="que-faire-avec-des-données-dabondance.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="sommaire.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="les-distributions-des-données-biologiques.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="glm-avec-une-distribution-binomiale.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapitre 9 Autres distributions | Atelier 6: Modèles linéaires généralisés en R</title>
+  <title>Chapitre 7 GLM binomial avec des proportions | Atelier 6: Modèles linéaires généralisés en R</title>
   <meta name="description" content="Modèles linéaires généralisés en R" />
   <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapitre 9 Autres distributions | Atelier 6: Modèles linéaires généralisés en R" />
+  <meta property="og:title" content="Chapitre 7 GLM binomial avec des proportions | Atelier 6: Modèles linéaires généralisés en R" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
   <meta property="og:description" content="Modèles linéaires généralisés en R" />
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapitre 9 Autres distributions | Atelier 6: Modèles linéaires généralisés en R" />
+  <meta name="twitter:title" content="Chapitre 7 GLM binomial avec des proportions | Atelier 6: Modèles linéaires généralisés en R" />
   
   <meta name="twitter:description" content="Modèles linéaires généralisés en R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="que-faire-avec-des-données-dabondance.html"/>
-<link rel="next" href="sommaire.html"/>
+<link rel="prev" href="glm-avec-une-distribution-binomiale.html"/>
+<link rel="next" href="que-faire-avec-des-données-dabondance.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -233,22 +233,68 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
 --!>
-<div id="autres-distributions" class="section level1 hasAnchor">
-<h1><span class="header-section-number">Chapitre 9</span> Autres distributions<a href="autres-distributions.html#autres-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<ul>
-<li>Lorsque la variable réponse est constituée de pourcentages ou de proportions qui ne surviennent pas de succès et échecs de <span class="math inline">\(n\)</span> oui/non (expérience de Bernouilli) il n’est pas possible d’utiliser une distribution binomiale. Dans ce cas, il est souvent conseillé d’effectuer une <strong>transformation logit</strong> des données et d’utiliser un modèle linéaire (mixte). Voir cet <a href="http://onlinelibrary.wiley.com/doi/10.1890/10-0340.1/abstract">article</a>.</li>
-<li>Pour des données qui semblent distribuées normalement après une transformation log, log-transformation, il est parfois préférable d’utiliser une <strong>distribution log-normale</strong> dans un GLM, au lieu de transformer les données en log.</li>
-<li>Une <strong>distribution gamma</strong> peut également être utilisée. Elle est similaire à une distribution log-normale, mais est plus polyvalente.</li>
-</ul>
-<p><img src="images/Gamma_distribution.png" /></p>
-<ul>
-<li>La <strong>distribution Tweedie</strong> est une famille de distributions polyvalentes qui est utile pour les données comportant un mélange de zéros et de valeurs positives (pas nécessairement des abondances). Voir le <a href="https://cran.r-project.org/web/packages/tweedie/index.html">paquet R Tweedie</a>.</li>
-</ul>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-82-1.png" width="672" /></p>
-<ul>
-<li>Lorsque les données comportent un nombre excessif de zéros, qui proviennent d’un processus différent de celui qui génère les comptages, il convient d’utiliser des distributions «<strong>zero-inflated</strong>» Poisson ou binomial négatif «<strong>zero-inflated</strong>». Ces méthodes sont disponibles, dans le <a href="http://glmmadmb.r-forge.r-project.org/">paquet glmmADMB</a>, parmi d’autres.</li>
-</ul>
-<p><img src="images/zip_pmf.png" /></p>
+<div id="glm-binomial-avec-des-proportions" class="section level1 hasAnchor">
+<h1><span class="header-section-number">Chapitre 7</span> GLM binomial avec des proportions<a href="glm-binomial-avec-des-proportions.html#glm-binomial-avec-des-proportions" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Parfois, les données de proportions sont plus similaires à une régression logistique que ce que vous pensez…</p>
+<p>En comptes discrets, nous pouvons, par exemple, mesurer le nombre de présences d’individus par rapport au nombre total de populations échantillonnées.</p>
+<p>Nous obtiendrons ainsi un nombre proportionnel de “succès” dans l’observation des individus en divisant les comptes par les comptes totaux.</p>
+<p>Dans <code>glm()</code>, nous devons fournir des poids a priori si la variable de réponse est la proportion de succès.</p>
+<p>Les proportions peuvent être codées en fournissant le nombre de succès et des poids a priori dans la fonction:</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="glm-binomial-avec-des-proportions.html#cb77-1"></a>prop.reg &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="kw">cbind</span>(Galumna, totalabund <span class="op">-</span><span class="st"> </span>Galumna) <span class="op">~</span><span class="st"> </span>Topo <span class="op">+</span></span>
+<span id="cb77-2"><a href="glm-binomial-avec-des-proportions.html#cb77-2"></a><span class="st">    </span>WatrCont, <span class="dt">data =</span> mites, <span class="dt">family =</span> binomial)</span>
+<span id="cb77-3"><a href="glm-binomial-avec-des-proportions.html#cb77-3"></a><span class="kw">summary</span>(prop.reg)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = cbind(Galumna, totalabund - Galumna) ~ Topo + WatrCont, 
+##     family = binomial, data = mites)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.4808  -0.9699  -0.6327  -0.1798   4.1688  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -3.288925   0.422109  -7.792 6.61e-15 ***
+## TopoHummock  0.578332   0.274928   2.104   0.0354 *  
+## WatrCont    -0.005886   0.001086  -5.420 5.97e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 140.702  on 69  degrees of freedom
+## Residual deviance:  85.905  on 67  degrees of freedom
+## AIC: 158.66
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+<p>Les poids peuvent aussi être spécifiés dans <code>glm()</code>:</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="glm-binomial-avec-des-proportions.html#cb79-1"></a>prop.reg2 &lt;-<span class="st"> </span><span class="kw">glm</span>(prop <span class="op">~</span><span class="st"> </span>Topo <span class="op">+</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites, <span class="dt">family =</span> binomial,</span>
+<span id="cb79-2"><a href="glm-binomial-avec-des-proportions.html#cb79-2"></a>    <span class="dt">weights =</span> totalabund)</span>
+<span id="cb79-3"><a href="glm-binomial-avec-des-proportions.html#cb79-3"></a><span class="kw">summary</span>(prop.reg2)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = prop ~ Topo + WatrCont, family = binomial, data = mites, 
+##     weights = totalabund)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.4808  -0.9699  -0.6327  -0.1798   4.1688  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -3.288925   0.422109  -7.792 6.61e-15 ***
+## TopoHummock  0.578332   0.274928   2.104   0.0354 *  
+## WatrCont    -0.005886   0.001086  -5.420 5.97e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 140.702  on 69  degrees of freedom
+## Residual deviance:  85.905  on 67  degrees of freedom
+## AIC: 158.66
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
 
 </div>
 
@@ -265,8 +311,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="que-faire-avec-des-données-dabondance.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="sommaire.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="glm-avec-une-distribution-binomiale.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="que-faire-avec-des-données-dabondance.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
