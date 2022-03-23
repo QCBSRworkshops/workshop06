@@ -19,6 +19,23 @@ In this workshop, you will learn how to use **generalized linear models**, which
 
 # Preparing for the workshop
 
+```{r eval=FALSE, echo=FALSE, purl=TRUE}
+### Notice ###
+##                                                                             #
+## This is an automatically generated script based on the code chunks from the #
+## book for this workshop.                                                     #
+##                                                                             #
+## It is minimally annotated to allow participants to provide their comments:  # 
+## a practice that we highly encourage.                                        #
+##                                                                             #
+## Note that the solutions to the challenges are also included in this script. #
+## When solving the challenges by yourself, attempt to not scroll and peek at  #
+## the solutions.                                                              #
+##                                                                             #
+## Happy coding!                                                               #
+
+```
+
 To prepare for this workshop, you must download and install the earliest RStudio and R versions. You must also download the data we will use during this workshop:
 
 -    [Mites](https://raw.githubusercontent.com/QCBSRworkshops/workshop06/main/book-en/data/mites.csv)
