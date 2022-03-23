@@ -1,18 +1,19 @@
 ##Section: 01-preparation-pour-l-atelier.R 
 
-#Avis ###
-                                                                            #
-Ceci est un script généré automatiquement basé sur les morceaux de code du  #
-livre pour cet atelier.                                                     #
-                                                                            #
-Il est minimalement annoté pour permettre aux participants de fournir leurs #
-commentaires : une pratique que nous encourageons vivement.                 #
-                                                                            #
-Notez que les solutions aux défis sont également incluses dans ce script.   #
-Lorsque vous résolvez les défis par vous-méme, essayez de ne pas parcourir  #
-le code et de regarder les solutions.                                       #
-                                                                            #
+###Avis ###
+#                                                                            #
+#Ceci est un script généré automatiquement basé sur les morceaux de code du  #
+#livre pour cet atelier.                                                     #
+#                                                                            #
+#Il est minimalement annoté pour permettre aux participants de fournir leurs #
+#commentaires : une pratique que nous encourageons vivement.                 #
+#                                                                            #
+#Notez que les solutions aux défis sont également incluses dans ce script.   #
+#Lorsque vous résolvez les défis par vous-méme, essayez de ne pas parcourir  #
+#le code et de regarder les solutions.                                       #
+#                                                                            #
 #Bon codage !                                                               #
+
 
 install.packages(c('ggplot2',
                    'MASS',
