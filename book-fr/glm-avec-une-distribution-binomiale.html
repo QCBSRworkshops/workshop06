@@ -246,7 +246,7 @@ Sous un modèle linéaire, les valeurs attendues peuvent se trouver en dehors de
 <span id="cb45-6"><a href="glm-avec-une-distribution-binomiale.html#cb45-6"></a></span>
 <span id="cb45-7"><a href="glm-avec-une-distribution-binomiale.html#cb45-7"></a><span class="co"># linear model with binary data...</span></span>
 <span id="cb45-8"><a href="glm-avec-une-distribution-binomiale.html#cb45-8"></a><span class="kw">lm</span>(Pres <span class="op">~</span><span class="st"> </span>ExpVar)</span></code></pre></div>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-39-1.png" width="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-39-2.png" width="50%" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-40-1.png" width="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-40-2.png" width="50%" /></p>
 <p>Lorsqu’on prédit la probabilité d’observer un phénomène Y qui est une variable binaire, la valeur prédite doit se trouver entre 0 et 1 : c’est l’étendue possible d’une probabilité !</p>
 <div id="glm-avec-des-données-binomiales-lien-logit" class="section level2 hasAnchor">
 <h2><span class="header-section-number">6.1</span> GLM avec des données binomiales: lien logit<a href="glm-avec-une-distribution-binomiale.html#glm-avec-des-données-binomiales-lien-logit" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -459,7 +459,7 @@ Cependant, nous pouvons observer ce qui arrive à la différence avec un incrém
 <p>Ceci signifie que l’augmentation d’une unité en contenu en eau diminue la vraisemblance d’observer la présence de <em>Galumna</em> sp. de 1.0159. On peut aussi l’exprimer en pourcentage en soustrayant 1 à cette valeur :
 <span class="math inline">\((1.0159 - 1) * 100 = 1.59%\)</span>.</p>
 <p>Il est 1.59 % moins vraisemblable d’observer <em>Galumna</em> sp. avec une augmentation d’une unité de contenu en eau. Pour se convaincre qu’on fait la bonne interprétation, on peut représenter graphiquement les résultats de la présence de <em>Galumna</em> sp. en fonction du contenu en eau du sol. On voit qu’en moyenne la présence de <em>Galumna</em> sp. est plus élevée lorsque le contenu en eau est faible.</p>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-50-1.png" width="480" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-51-1.png" width="480" /></p>
 <p>Lorsqu’un paramètre estimé est entre 0 et 1 sur l’échelle des cotes, la relation entre la variable réponse et la variable explicative est <strong>négative</strong>. Si la valeur est supérieure à 1, la relation est <strong>positive</strong>. Si l’intervalle de confiance inclut la valeur 1, la relation n’est pas <em>significative</em>.</p>
 <p>Rappelez-vous qu’une valeur de 1 sur l’échelle des cotes signifie que la probabilité d’observer un phénomène Y est la même que celle de ne pas observer ce phénomène (<em>i.e.</em> quand <span class="math inline">\(p\)</span> = 0.5, 0.5/(1-0.5) = 1).</p>
 <p>Faisons de même avec la topographie:</p>
@@ -584,7 +584,7 @@ résultats graphiquement. Voici un exemple avec le paquet <code>ggplot2</code>. 
 <span id="cb76-2"><a href="glm-avec-une-distribution-binomiale.html#cb76-2"></a>    <span class="dt">method.args =</span> <span class="kw">list</span>(<span class="dt">family =</span> binomial), <span class="dt">se =</span> <span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Contenu en eau&quot;</span>) <span class="op">+</span></span>
 <span id="cb76-3"><a href="glm-avec-une-distribution-binomiale.html#cb76-3"></a><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Probabilité de présence&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Probabilité de présence de Galumna sp. en fonction du contenu en eau&quot;</span>) <span class="op">+</span></span>
 <span id="cb76-4"><a href="glm-avec-une-distribution-binomiale.html#cb76-4"></a><span class="st">    </span><span class="kw">theme_classic</span>()</span></code></pre></div>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-60-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-61-1.png" width="672" style="display: block; margin: auto;" /></p>
 
 </div>
 </div>

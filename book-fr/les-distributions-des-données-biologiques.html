@@ -267,7 +267,7 @@ nombre moyen de Galumna retrouvé dans un ensemble fictif d’échantillons:</p>
 <span id="cb37-8"><a href="les-distributions-des-données-biologiques.html#cb37-8"></a>    <span class="dt">ylab =</span> <span class="st">&quot;Probability&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;lambda = 10&quot;</span>)</span>
 <span id="cb37-9"><a href="les-distributions-des-données-biologiques.html#cb37-9"></a><span class="kw">plot</span>(x, <span class="kw">dpois</span>(x, <span class="dt">lambda =</span> <span class="dv">30</span>), <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">xlab =</span> <span class="st">&quot;Frequency of Galumna&quot;</span>,</span>
 <span id="cb37-10"><a href="les-distributions-des-données-biologiques.html#cb37-10"></a>    <span class="dt">ylab =</span> <span class="st">&quot;Probability&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;lambda = 30&quot;</span>)</span></code></pre></div>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-29-1.png" width="33%" /><img src="book-fr_files/figure-html/unnamed-chunk-29-2.png" width="33%" /><img src="book-fr_files/figure-html/unnamed-chunk-29-3.png" width="33%" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-30-1.png" width="33%" /><img src="book-fr_files/figure-html/unnamed-chunk-30-2.png" width="33%" /><img src="book-fr_files/figure-html/unnamed-chunk-30-3.png" width="33%" /></p>
 <p>Remarquez que lorsque <span class="math inline">\(\lambda\)</span> est faible (c.-à-d. lorsque la moyenne
 s’approche de zéro), la distribution est décalée vers la gauche, alors
 que lorsque <span class="math inline">\(\lambda\)</span> est élevée, la distribution est symmétrique. La variance
@@ -281,7 +281,7 @@ basse valeur de <span class="math inline">\(\lambda\)</span> (en effet, si nous 
 Galumna pour l’ensemble des échantillons avec la fonction mean(), nous
 observons que cette valeur est proche de 0):</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="les-distributions-des-données-biologiques.html#cb38-1"></a><span class="kw">hist</span>(mites<span class="op">$</span>Galumna)</span></code></pre></div>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-31-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-32-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="les-distributions-des-données-biologiques.html#cb39-1"></a><span class="kw">mean</span>(mites<span class="op">$</span>Galumna)</span></code></pre></div>
 <pre><code>## [1] 0.9571429</code></pre>
 <p>La variable mites <code>$pa</code> (présence-absence) prend une autre forme. Cette
@@ -289,7 +289,7 @@ variable n’inclut que des 0s et des 1s, de telle sorte que la loi de
 Poisson ne serait pas plus appropriée pour cette variable que la loi
 normale.</p>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="les-distributions-des-données-biologiques.html#cb41-1"></a><span class="kw">hist</span>(mites<span class="op">$</span>pa)</span></code></pre></div>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-32-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-33-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Nous avons besoin d’une distribution qui n’inclut dans son ensemble
 que deux issues possibles: 0 ou 1. La loi de «Bernoulli» est une
 distribution de la sorte. C’est souvent la première loi de probabilité
@@ -300,7 +300,7 @@ Nous pouvons utiliser la loi de Bernouilli pour calculer la probabilité
 d’obtenir l’issue «Galumna présent» (1) vs. «Galumna absent» (0). Voici
 des exemples de distributions de Bernoulli avec différentes probabilités
 de présence (<span class="math inline">\(p\)</span>):</p>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-33-1.png" width="30%" /><img src="book-fr_files/figure-html/unnamed-chunk-33-2.png" width="30%" /><img src="book-fr_files/figure-html/unnamed-chunk-33-3.png" width="30%" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-34-1.png" width="30%" /><img src="book-fr_files/figure-html/unnamed-chunk-34-2.png" width="30%" /><img src="book-fr_files/figure-html/unnamed-chunk-34-3.png" width="30%" /></p>
 <p>Nous pouvons calculer le nombre de sites où Galumna est présent par
 rapport au nombre total de sites pour obtenir un estimé de ce que <span class="math inline">\(p\)</span>
 pourrait être dans cet exemple:</p>
@@ -317,7 +317,7 @@ nombre total d’épreuves, <span class="math inline">\(n\)</span>. Un «succès
 la présence d’un taxon à un site (comme pour <em>Galumna</em>), le nombre
 d’individus qui survit pendant une année, etc. Voici des exemples de
 lois binomiales avec <span class="math inline">\(n\)</span> = 50 et trois valeurs différentes de <span class="math inline">\(p\)</span>:</p>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-35-1.png" width="33%" /><img src="book-fr_files/figure-html/unnamed-chunk-35-2.png" width="33%" /><img src="book-fr_files/figure-html/unnamed-chunk-35-3.png" width="33%" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-36-1.png" width="33%" /><img src="book-fr_files/figure-html/unnamed-chunk-36-2.png" width="33%" /><img src="book-fr_files/figure-html/unnamed-chunk-36-3.png" width="33%" /></p>
 <p>Remarquez que la loi binomiale est assymétrique et décalée à gauche
 lorsque <span class="math inline">\(p\)</span> est faible, mais elle est décalée à droite lorsque <span class="math inline">\(p\)</span> est
 élevé. C’est la différence principale avec la loi de Poisson: l’étendu
@@ -345,7 +345,7 @@ différentes valeurs de <span class="math inline">\(\lambda\)</span>. Ce modèle
 négatives car l’ensemble d’une loi de Poisson est toujours strictement
 positif. En changeant la distribution des résidus (<span class="math inline">\(\varepsilon\)</span>) de normale à Poisson, nous avons corrigé <em>presque</em> tous les problèmes de notre modèle linéaire pour l’abondance de <em>Galumna</em>.</p>
 <p>Ce modèle est presque un GLM de Poisson, qui ressemble à ça:</p>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-36-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-37-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Remarquez que les probabilités d’observer différentes valeurs estimées
 (en orange) sont maintenant des nombres entiers, et qu’autant la
 variance que la moyenne de la distribution declinent lorsque <span class="math inline">\(\lambda\)</span> diminue avec le contenu d’eau. Pourquoi la droite de régression est-elle

@@ -266,7 +266,7 @@ et,</p>
 <p>3. Les résidus suivent une distribution normale:</p>
 <p><span class="math display">\[\boldsymbol{\varepsilon} | \mathbf{X} \sim \mathcal{N} \left( \mathbf{0}, \sigma^2_\epsilon \mathbf{I} \right)\]</span></p>
 <p>Les estimations d’un modèle général linéaire telles que <span class="math inline">\(\widehat{Y} = \widehat{\beta}_0 + \widehat{\beta}_1 X\)</span> assumemt que les données sont générées selon les conditions présentées.</p>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-6-1.png" width="768" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-7-1.png" width="768" /></p>
 </div>
 </div>
 <div id="un-exemple-avec-les-modèles-linéaires-généraux" class="section level2 hasAnchor">
@@ -283,7 +283,7 @@ et,</p>
 <span id="cb4-9"><a href="révision-des-modèles-linéaires.html#cb4-9"></a>lm.simNormData &lt;-<span class="st"> </span><span class="kw">lm</span>(RespVar <span class="op">~</span><span class="st"> </span>PredVar, <span class="dt">data =</span> simNormData)</span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="révision-des-modèles-linéaires.html#cb5-1"></a><span class="kw">layout</span>(<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), <span class="dv">2</span>, <span class="dv">2</span>))</span>
 <span id="cb5-2"><a href="révision-des-modèles-linéaires.html#cb5-2"></a><span class="kw">plot</span>(lm.simNormData)</span></code></pre></div>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <ol style="list-style-type: decimal">
 <li><p>Ces graphiques permettent de vérifier les conditions d’application de la linéarité et l’homoscédasticité.</p></li>
 <li><p>Le graphique QQ permet la comparaison des résidus avec une distribution normal.</p></li>
@@ -371,12 +371,12 @@ Gillet &amp; Legendre, <em>Numerical Ecology with R</em>), et est disponible ave
 <p>Nous pouvons commencer en représentant les trois varaibles réponses avec la variable prédictrice:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="révision-des-modèles-linéaires.html#cb11-1"></a><span class="kw">plot</span>(Galumna <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites, <span class="dt">xlab =</span> <span class="st">&quot;Water content&quot;</span>,</span>
 <span id="cb11-2"><a href="révision-des-modèles-linéaires.html#cb11-2"></a>    <span class="dt">ylab =</span> <span class="st">&quot;Abundance&quot;</span>)</span></code></pre></div>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="révision-des-modèles-linéaires.html#cb12-1"></a><span class="kw">boxplot</span>(WatrCont <span class="op">~</span><span class="st"> </span>pa, <span class="dt">data =</span> mites, <span class="dt">xlab =</span> <span class="st">&quot;Presence/Absence&quot;</span>,</span>
 <span id="cb12-2"><a href="révision-des-modèles-linéaires.html#cb12-2"></a>    <span class="dt">ylab =</span> <span class="st">&quot;Water content&quot;</span>)</span></code></pre></div>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="révision-des-modèles-linéaires.html#cb13-1"></a><span class="kw">plot</span>(prop <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites, <span class="dt">xlab =</span> <span class="st">&quot;Water content&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Proportion&quot;</span>)</span></code></pre></div>
 <p><img src="book-fr_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="révision-des-modèles-linéaires.html#cb13-1"></a><span class="kw">plot</span>(prop <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites, <span class="dt">xlab =</span> <span class="st">&quot;Water content&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Proportion&quot;</span>)</span></code></pre></div>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p>En effet, <code>Galumna</code> semble varier négativement avec la fonction de <code>WatrCont</code>, <em>i</em>.<em>e</em>. <em>Galumna</em> sp. préfèrerait des sites plus secs.</p>
 <p>Nous pouvons aller plus loin encore en testant un modèle linéaire avec <code>Galumna</code>, <code>pa</code>, ou <code>prop</code> en fonction de <code>WatrCont</code></p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="révision-des-modèles-linéaires.html#cb14-1"></a><span class="co"># Fit the models</span></span>
@@ -467,29 +467,29 @@ Gillet &amp; Legendre, <em>Numerical Ecology with R</em>), et est disponible ave
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="révision-des-modèles-linéaires.html#cb27-1"></a><span class="co"># Plot the abundance model</span></span>
 <span id="cb27-2"><a href="révision-des-modèles-linéaires.html#cb27-2"></a><span class="kw">plot</span>(Galumna <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
 <span id="cb27-3"><a href="révision-des-modèles-linéaires.html#cb27-3"></a><span class="kw">abline</span>(lm.abund)</span></code></pre></div>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Le modèle ne suit pas bien les données observées. Il prédit une abondance négative lorsque <code>WatrCont</code> dépasse <code>600</code>, ce qui n’est pas réaliste pour notre jeu de données qui ne peut pas avoir de données négatives. Le modèle performe aussi très mal quand il en vient à prédire les valeurs d’abondance à hautes valeurs de <code>WatrCont</code>.</p>
 <p>Examinons les graphiques de diagnostique:</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="révision-des-modèles-linéaires.html#cb28-1"></a><span class="co"># Diagnostic plots</span></span>
 <span id="cb28-2"><a href="révision-des-modèles-linéaires.html#cb28-2"></a><span class="kw">plot</span>(lm.abund)</span></code></pre></div>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-20-1.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-20-2.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-20-3.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-20-4.png" width="50%" height="50%" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-21-1.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-21-2.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-21-3.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-21-4.png" width="50%" height="50%" /></p>
 <p>Les graphiques montre que le modèle viole les conditions d’homogénéité de la variance. En effet, le graphique en haut à gauche montre que les résidus sont plus larges lorsque les valeurs prédites sont élevés. Le modèle ne suit pas non plus la conditons de normalité; le graphique en haut à droite indique que les résidus ne suivre pas une courbe normale aux extrémités et beaucoup de points sont très éloignés de la valeur prédite (ligne pointillée).</p>
 <p>Nous devons rejeter ce modèle et ne pouvons conclure quoi que ce soit sur l’abondace de <em>Galumma</em> selon le contenu en eau.</p>
 <p>Nous pouvons regarder les graphiques de diagnostique du modèle de fréquence relative et de présence-absence, mais nous observons des problèmes similaires:</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="révision-des-modèles-linéaires.html#cb29-1"></a><span class="co"># Plot the proportion model</span></span>
 <span id="cb29-2"><a href="révision-des-modèles-linéaires.html#cb29-2"></a><span class="kw">plot</span>(prop <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
 <span id="cb29-3"><a href="révision-des-modèles-linéaires.html#cb29-3"></a><span class="kw">abline</span>(lm.prop)</span></code></pre></div>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="révision-des-modèles-linéaires.html#cb30-1"></a><span class="co"># Diagnostic plots</span></span>
 <span id="cb30-2"><a href="révision-des-modèles-linéaires.html#cb30-2"></a><span class="kw">plot</span>(lm.prop)</span></code></pre></div>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-22-1.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-22-2.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-22-3.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-22-4.png" width="50%" height="50%" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-23-1.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-23-2.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-23-3.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-23-4.png" width="50%" height="50%" /></p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="révision-des-modèles-linéaires.html#cb31-1"></a><span class="co"># Plot the presence/absence model</span></span>
 <span id="cb31-2"><a href="révision-des-modèles-linéaires.html#cb31-2"></a><span class="kw">plot</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
 <span id="cb31-3"><a href="révision-des-modèles-linéaires.html#cb31-3"></a><span class="kw">abline</span>(lm.pa)</span></code></pre></div>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="révision-des-modèles-linéaires.html#cb32-1"></a><span class="co"># Diagnostic plots</span></span>
 <span id="cb32-2"><a href="révision-des-modèles-linéaires.html#cb32-2"></a><span class="kw">plot</span>(lm.pa)</span></code></pre></div>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-24-1.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-24-2.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-24-3.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-24-4.png" width="50%" height="50%" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-25-1.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-25-2.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-25-3.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-25-4.png" width="50%" height="50%" /></p>
 <p>Reculons un peu et révisons les conditions d’application des modèles linéaires pour mieux comprendre d’où viennent ces suppositions. Cette équation est:</p>
 <p><span class="math display">\[Y_i = \beta_0 + \beta_1X_i + \varepsilon\]</span></p>
 <p>La dernière variable <span class="math inline">\(\varepsilon_i\)</span> est très importante. C’est de là que les conditions d’application du modèle prennent origine. Pour les modèles linéaires, <strong>les résidus <span class="math inline">\(\varepsilon_i\)</span> (la distance entre une observation et la droite de régression) peuvent être prédits en dessinant une variable aléatoire provenant d’une distribution normale.</strong></p>
@@ -498,9 +498,9 @@ Gillet &amp; Legendre, <em>Numerical Ecology with R</em>), et est disponible ave
 <p>où <span class="math inline">\(N(\cdot)\)</span> indique que <span class="math inline">\(Y_i\)</span> provient d’une <strong>distribution normale</strong> avec le paramètre <span class="math inline">\(\mu\)</span> (moyenne; qui dépend de <span class="math inline">\(x_i\)</span>) et <span class="math inline">\(\sigma\)</span> (variance; qui a la même valeur pour toutes les valeurs de <span class="math inline">\(Y_i\)</span>).</p>
 <p>Qu’arrive-t-il si on fait varier les valeurs de <span class="math inline">\(\mu\)</span> et <span class="math inline">\(\sigma\)</span>.</p>
 <p>En faisant varier <span class="math inline">\(\mu\)</span> alors <span class="math inline">\(\sigma = 5\)</span> fait changer la moyenen de la distribution.</p>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-25-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>Si nous gardons <span class="math inline">\(\mu = 25\)</span>, en faisant varier <span class="math inline">\(\sigma\)</span> , la forme e la distribution change, où un petit <span class="math inline">\(\sigma\)</span> (variance basse) indique que la probabilité est plus élevé autour de la moyenne, alors qu’un <span class="math inline">\(\sigma\)</span> élevé diffuse la probabilité à traver l’étendue des données.</p>
 <p><img src="book-fr_files/figure-html/unnamed-chunk-26-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Si nous gardons <span class="math inline">\(\mu = 25\)</span>, en faisant varier <span class="math inline">\(\sigma\)</span> , la forme e la distribution change, où un petit <span class="math inline">\(\sigma\)</span> (variance basse) indique que la probabilité est plus élevé autour de la moyenne, alors qu’un <span class="math inline">\(\sigma\)</span> élevé diffuse la probabilité à traver l’étendue des données.</p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-27-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div id="prédiction-du-modèle" class="section level3 hasAnchor">
 <h3><span class="header-section-number">3.4.1</span> Prédiction du modèle<a href="révision-des-modèles-linéaires.html#prédiction-du-modèle" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Lorsque les conditions d’application du modèle linéairene sont pas rencontrées, les prédiction du modèle deviennent problématiques. Regardons un exemple pour démontrer les problèmes associés avec un modèle mal estimé.</p>
