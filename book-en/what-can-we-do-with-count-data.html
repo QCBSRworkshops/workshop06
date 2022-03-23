@@ -247,11 +247,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="what-can-we-do-with-count-data.html#cb81-1"></a><span class="co"># Histogram of F. occidentalis count data</span></span>
 <span id="cb81-2"><a href="what-can-we-do-with-count-data.html#cb81-2"></a><span class="kw">hist</span>(faramea<span class="op">$</span>Faramea.occidentalis, <span class="dt">breaks=</span><span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">45</span>,<span class="dv">1</span>), <span class="dt">xlab=</span><span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Number of &quot;</span>,</span>
 <span id="cb81-3"><a href="what-can-we-do-with-count-data.html#cb81-3"></a><span class="kw">italic</span>(Faramea<span class="op">~</span>occidentalis))), <span class="dt">ylab=</span><span class="st">&quot;Frequency&quot;</span>, <span class="dt">main=</span><span class="st">&quot;&quot;</span>, <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-62-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-63-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>We can see that there are only positive and integer values.</p>
 <p>In this example, we want to test whether elevation (a continuous
 explanatory variable) influences <em>Faramea occidentalis</em> abundance.</p>
-<p><img src="book-en_files/figure-html/unnamed-chunk-63-1.png" width="672" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-64-1.png" width="672" /></p>
 <p>Hence, a Poisson GLM (i.e. a simple Poisson regression) seems to be a good choice to model the number of <em>Faramea occidentalis</em> as a function of elevation. Poisson GLMs are usually a good way to start modeling count data.</p>
 <div id="poisson-glms" class="section level2 hasAnchor">
 <h2><span class="header-section-number">8.1</span> Poisson GLMs<a href="what-can-we-do-with-count-data.html#poisson-glms" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -578,7 +578,7 @@ elevation.</p>
 <span id="cb105-17"><a href="what-can-we-do-with-count-data.html#cb105-17"></a><span class="kw">lines</span>(pframe<span class="op">$</span>pred, <span class="dt">lwd =</span> <span class="dv">2</span>) <span class="co"># predicted values</span></span>
 <span id="cb105-18"><a href="what-can-we-do-with-count-data.html#cb105-18"></a><span class="kw">lines</span>(pframe<span class="op">$</span>upr, <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">3</span>, <span class="dt">lwd =</span> <span class="dv">2</span>) <span class="co"># show error bounds</span></span>
 <span id="cb105-19"><a href="what-can-we-do-with-count-data.html#cb105-19"></a><span class="kw">lines</span>(pframe<span class="op">$</span>lwr, <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">3</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-74-1.png" width="672" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-75-1.png" width="672" /></p>
 <p>We can see that the number of <em>Faramea occidentalis</em> significantly
 decreases with elevation. However, the confidence envelope of the NB
 model is large at low elevation.</p>

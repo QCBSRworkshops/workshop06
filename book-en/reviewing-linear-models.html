@@ -265,7 +265,7 @@ and,</p>
 <p>3. And, the residuals are normal:</p>
 <p><span class="math display">\[\boldsymbol{\varepsilon} | \mathbf{X} \sim \mathcal{N} \left( \mathbf{0}, \sigma^2_\epsilon \mathbf{I} \right)\]</span>
 The estimations of general linear models as in <span class="math inline">\(\widehat{Y} = \widehat{\beta}_0 + \widehat{\beta}_1 X\)</span> assumes that data is generated following these assumptions.</p>
-<p><img src="book-en_files/figure-html/unnamed-chunk-6-1.png" width="768" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-7-1.png" width="768" /></p>
 </div>
 </div>
 <div id="an-example-with-general-linear-models" class="section level2 hasAnchor">
@@ -297,7 +297,7 @@ The estimations of general linear models as in <span class="math inline">\(\wide
 <p>.pull-right[</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="reviewing-linear-models.html#cb5-1"></a><span class="kw">layout</span>(<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>),<span class="dv">2</span>,<span class="dv">2</span>)) </span>
 <span id="cb5-2"><a href="reviewing-linear-models.html#cb5-2"></a><span class="kw">plot</span>(lm.simNormData)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>]</p>
 <ol style="list-style-type: decimal">
 <li><p>These graphs allows one to check the assumption of linearity and homoscedasticity;</p></li>
@@ -386,17 +386,17 @@ in the <code>vegan</code> library.</p>
 <span id="cb11-2"><a href="reviewing-linear-models.html#cb11-2"></a>     <span class="dt">data =</span> mites,</span>
 <span id="cb11-3"><a href="reviewing-linear-models.html#cb11-3"></a>     <span class="dt">xlab =</span> <span class="st">&#39;Water content&#39;</span>,</span>
 <span id="cb11-4"><a href="reviewing-linear-models.html#cb11-4"></a>     <span class="dt">ylab =</span> <span class="st">&#39;Abundance&#39;</span>)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="reviewing-linear-models.html#cb12-1"></a><span class="kw">boxplot</span>(WatrCont <span class="op">~</span><span class="st"> </span>pa,</span>
 <span id="cb12-2"><a href="reviewing-linear-models.html#cb12-2"></a>        <span class="dt">data =</span> mites,</span>
 <span id="cb12-3"><a href="reviewing-linear-models.html#cb12-3"></a>        <span class="dt">xlab=</span><span class="st">&#39;Presence/Absence&#39;</span>,</span>
 <span id="cb12-4"><a href="reviewing-linear-models.html#cb12-4"></a>        <span class="dt">ylab =</span> <span class="st">&#39;Water content&#39;</span>)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="reviewing-linear-models.html#cb13-1"></a><span class="kw">plot</span>(prop <span class="op">~</span><span class="st"> </span>WatrCont,</span>
 <span id="cb13-2"><a href="reviewing-linear-models.html#cb13-2"></a>     <span class="dt">data =</span> mites,</span>
 <span id="cb13-3"><a href="reviewing-linear-models.html#cb13-3"></a>     <span class="dt">xlab =</span> <span class="st">&#39;Water content&#39;</span>,</span>
 <span id="cb13-4"><a href="reviewing-linear-models.html#cb13-4"></a>     <span class="dt">ylab =</span> <span class="st">&#39;Proportion&#39;</span>)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p>Indeed, <code>Galumna</code> seems to vary negatively as a function of <code>WatrCont</code>, <em>i</em>.<em>e</em>.
 <em>Galumna</em> sp. seems to prefer dryer sites.</p>
 <p>We can go step further and fit general linear models to test whether <code>Galumna</code>, <code>pa</code>, or <code>prop</code> vary as a function of <code>WatrCont</code></p>
@@ -489,14 +489,14 @@ respect assumptions of linear models, starting with the abundance model.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="reviewing-linear-models.html#cb27-1"></a><span class="co"># Plot the abundance model</span></span>
 <span id="cb27-2"><a href="reviewing-linear-models.html#cb27-2"></a><span class="kw">plot</span>(Galumna <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
 <span id="cb27-3"><a href="reviewing-linear-models.html#cb27-3"></a><span class="kw">abline</span>(lm.abund)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>The model does not fit well. It predicts negative abundance values when
 <code>WatrCont</code> exceeds 600, which does not make any sense. Also, the model
 does poorly at predicting high abundance values at low values of <code>WatrCont</code>.</p>
 <p>We can also check the model diagnostic plots:</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="reviewing-linear-models.html#cb28-1"></a><span class="co"># Diagnostic plots</span></span>
 <span id="cb28-2"><a href="reviewing-linear-models.html#cb28-2"></a><span class="kw">plot</span>(lm.abund)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-20-1.png" width="50%" height="50%" /><img src="book-en_files/figure-html/unnamed-chunk-20-2.png" width="50%" height="50%" /><img src="book-en_files/figure-html/unnamed-chunk-20-3.png" width="50%" height="50%" /><img src="book-en_files/figure-html/unnamed-chunk-20-4.png" width="50%" height="50%" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-21-1.png" width="50%" height="50%" /><img src="book-en_files/figure-html/unnamed-chunk-21-2.png" width="50%" height="50%" /><img src="book-en_files/figure-html/unnamed-chunk-21-3.png" width="50%" height="50%" /><img src="book-en_files/figure-html/unnamed-chunk-21-4.png" width="50%" height="50%" /></p>
 <p>Diagnostic plots show that the data/model violate assumptions of
 homogeneity of variance (the graph on the left shows that residuals are
 larger at higher fitted values) and normality (the graph on the right
@@ -510,17 +510,17 @@ the proportion model also indicate that these models are also inappropriate:</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="reviewing-linear-models.html#cb29-1"></a><span class="co"># Plot the proportion model</span></span>
 <span id="cb29-2"><a href="reviewing-linear-models.html#cb29-2"></a><span class="kw">plot</span>(prop <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
 <span id="cb29-3"><a href="reviewing-linear-models.html#cb29-3"></a><span class="kw">abline</span>(lm.prop)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="reviewing-linear-models.html#cb30-1"></a><span class="co"># Diagnostic plots</span></span>
 <span id="cb30-2"><a href="reviewing-linear-models.html#cb30-2"></a><span class="kw">plot</span>(lm.prop)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-22-1.png" width="50%" height="50%" /><img src="book-en_files/figure-html/unnamed-chunk-22-2.png" width="50%" height="50%" /><img src="book-en_files/figure-html/unnamed-chunk-22-3.png" width="50%" height="50%" /><img src="book-en_files/figure-html/unnamed-chunk-22-4.png" width="50%" height="50%" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-23-1.png" width="50%" height="50%" /><img src="book-en_files/figure-html/unnamed-chunk-23-2.png" width="50%" height="50%" /><img src="book-en_files/figure-html/unnamed-chunk-23-3.png" width="50%" height="50%" /><img src="book-en_files/figure-html/unnamed-chunk-23-4.png" width="50%" height="50%" /></p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="reviewing-linear-models.html#cb31-1"></a><span class="co"># Plot the presence/absence model</span></span>
 <span id="cb31-2"><a href="reviewing-linear-models.html#cb31-2"></a><span class="kw">plot</span>(pa <span class="op">~</span><span class="st"> </span>WatrCont, <span class="dt">data =</span> mites)</span>
 <span id="cb31-3"><a href="reviewing-linear-models.html#cb31-3"></a><span class="kw">abline</span>(lm.pa)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="reviewing-linear-models.html#cb32-1"></a><span class="co"># Diagnostic plots</span></span>
 <span id="cb32-2"><a href="reviewing-linear-models.html#cb32-2"></a><span class="kw">plot</span>(lm.pa)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-24-1.png" width="50%" height="50%" /><img src="book-en_files/figure-html/unnamed-chunk-24-2.png" width="50%" height="50%" /><img src="book-en_files/figure-html/unnamed-chunk-24-3.png" width="50%" height="50%" /><img src="book-en_files/figure-html/unnamed-chunk-24-4.png" width="50%" height="50%" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-25-1.png" width="50%" height="50%" /><img src="book-en_files/figure-html/unnamed-chunk-25-2.png" width="50%" height="50%" /><img src="book-en_files/figure-html/unnamed-chunk-25-3.png" width="50%" height="50%" /><img src="book-en_files/figure-html/unnamed-chunk-25-4.png" width="50%" height="50%" /></p>
 <p>Let’s take a step back here and review the assumptions of linear models, and where they come from. Remember our simple linear model?</p>
 <p><span class="math display">\[Y_i = \beta_0 + \beta_1X_i + \varepsilon\]</span></p>
 <p>The last entry <span class="math inline">\(\varepsilon_i\)</span> is important. This is where assumptions of
@@ -531,9 +531,9 @@ variable), but <span class="math inline">\(\sigma^2\)</span> has the same value 
 <p>with <span class="math inline">\(N(\cdot)\)</span> meaning that <span class="math inline">\(Y_i\)</span> is drawn from a <strong>normal distribution</strong> with parameters <span class="math inline">\(\mu\)</span> (mean; which depends on <span class="math inline">\(x_i\)</span>) and <span class="math inline">\(\sigma\)</span> (variance; which has the same value for all <span class="math inline">\(Y_i\)</span>s).</p>
 <p>Let’s take a look at what happens to the distribution when we vary the parameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span>.</p>
 <p>Varying <span class="math inline">\(\mu\)</span> while <span class="math inline">\(\sigma = 5\)</span> shifts the mean of the distribution.</p>
-<p><img src="book-en_files/figure-html/unnamed-chunk-25-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>If we keep <span class="math inline">\(\mu = 25\)</span>, varying <span class="math inline">\(\sigma\)</span> changes the shape of the distribution, where smaller <span class="math inline">\(\sigma\)</span> (low variance) means there is higher probability around the mean, while larger <span class="math inline">\(\sigma\)</span> spreads out the probabilities across the full range of values.</p>
 <p><img src="book-en_files/figure-html/unnamed-chunk-26-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>If we keep <span class="math inline">\(\mu = 25\)</span>, varying <span class="math inline">\(\sigma\)</span> changes the shape of the distribution, where smaller <span class="math inline">\(\sigma\)</span> (low variance) means there is higher probability around the mean, while larger <span class="math inline">\(\sigma\)</span> spreads out the probabilities across the full range of values.</p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-27-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div id="model-prediction" class="section level3 hasAnchor">
 <h3><span class="header-section-number">3.3.1</span> Model prediction<a href="reviewing-linear-models.html#model-prediction" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>When the assumptions of the linear model are not met, model prediction becomes problematic. Let’s work through an example to demonstrate some of the problems that arise from a poorly fitted model.</p>

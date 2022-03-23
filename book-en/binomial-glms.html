@@ -245,7 +245,7 @@ variable: we observe a phenomenon <span class="math inline">\(Y\)</span> or its 
 <span id="cb45-5"><a href="binomial-glms.html#cb45-5"></a></span>
 <span id="cb45-6"><a href="binomial-glms.html#cb45-6"></a><span class="co"># linear model with binary data...</span></span>
 <span id="cb45-7"><a href="binomial-glms.html#cb45-7"></a><span class="kw">lm</span>(Pres <span class="op">~</span><span class="st"> </span>ExpVar)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-39-1.png" width="50%" /><img src="book-en_files/figure-html/unnamed-chunk-39-2.png" width="50%" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-40-1.png" width="50%" /><img src="book-en_files/figure-html/unnamed-chunk-40-2.png" width="50%" /></p>
 <p>When we predict the probability to observe a phenomenon <span class="math inline">\(Y\)</span> with a binary variable, the predicted value has to be between 0 and 1: it is the possible range of probability!</p>
 <div id="glm-with-binomial-data-logit-link" class="section level2 hasAnchor">
 <h2><span class="header-section-number">6.1</span> GLM with binomial data: logit link<a href="binomial-glms.html#glm-with-binomial-data-logit-link" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -480,7 +480,7 @@ the likelihood of observing <em>Galumna</em> sp. by 1.0159. We can also
 subtract 1 from the odds value to obtain a percentage:</p>
 <p><span class="math inline">\((1.0159 - 1) * 100 = 1.59%\)</span>.</p>
 <p>So there is a 1.59% decrease in probability of observing <em>Galumna</em> sp. with a one-unit increase in water content. To convince ourselves that it is an appropriate interpretation, we can plot the presence of <em>Galumna</em> sp. as a function of water content. We see that, on average, <em>Galumna</em> sp. presence is higher at lower water content than its “absence”.</p>
-<p><img src="book-en_files/figure-html/unnamed-chunk-50-1.png" width="480" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-51-1.png" width="480" /></p>
 <p>When an estimated parameter is between 0 and 1 on the odds’ scale, the relationship between the response variable and the predictors is <strong>negative</strong>. If it is greater than 1, the relationship will be <strong>positive</strong>. If the confidence interval include 1 on the odds’ scale, the relationship is <em>not significant</em>.</p>
 <p>Keep in mind that a value of 1 on the odds’ scale indicates that the probability to observe the event Y is equal to the probability of <em>not</em> observing the event (<em>i.e.</em> <span class="math inline">\(p\)</span> = 0.5, 0.5/(1-0.5) = 1).</p>
 <p>Let us try with topography:</p>
@@ -600,7 +600,7 @@ But, do not be afraid of non-significant results!
 <span id="cb75-2"><a href="binomial-glms.html#cb75-2"></a><span class="kw">stat_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>, <span class="dt">method.args =</span> <span class="kw">list</span>(<span class="dt">family=</span>binomial), <span class="dt">se =</span> <span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Water content&quot;</span>) <span class="op">+</span></span>
 <span id="cb75-3"><a href="binomial-glms.html#cb75-3"></a><span class="kw">ylab</span>(<span class="st">&quot;Probability of presence&quot;</span>) <span class="op">+</span></span>
 <span id="cb75-4"><a href="binomial-glms.html#cb75-4"></a><span class="kw">ggtitle</span>(<span class="st">&quot;Probability of presence of  Galumna sp. against the water content&quot;</span>)<span class="op">+</span><span class="kw">theme_classic</span>()</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-57-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-58-1.png" width="672" style="display: block; margin: auto;" /></p>
 
 </div>
 </div>
