@@ -69,18 +69,17 @@ lapply(list.of.packages, require, character.only = TRUE, quietly = TRUE)
 
 # About this workshop
 
-[![badge](https://img.shields.io/static/v1?style=flat-square&label=Slides&message=06&color=red&logo=html5)](https://qcbsrworkshops.github.io/workshop06/pres-en/workshop06-pres-en.html)
-[![badge](https://img.shields.io/static/v1?style=flat-square&label=book&message=06&logo=github)](https://qcbsrworkshops.github.io/workshop06/book-en/index.html)
-[![badge](https://img.shields.io/static/v1?style=flat-square&label=wiki&message=06&logo=wikipedia)](https://wiki.qcbs.ca/r_workshop6)
-[![badge](https://img.shields.io/static/v1?style=flat-square&label=script&message=06&color=2a50b8&logo=r)](https://qcbsrworkshops.github.io/workshop06/book-en/workshop06-script-en.R)
-[![badge](https://img.shields.io/static/v1?style=flat-square&label=repo&message=dev&color=6f42c1&logo=github)](https://github.com/QCBSRworkshops/workshop06) 
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&label=Slides&message=06&color=BF616A)](https://r.qcbs.ca/workshop06/pres-en/workshop06-pres-en.html)    [![badge](https://img.shields.io/static/v1?style=for-the-badge&label=Script&message=06&color=D08770&logo=r)](https://r.qcbs.ca/workshop06/book-en/workshop06-script-en.R) 
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&label=Book&message=06&color=EBCB8B)](https://r.qcbs.ca/workshop06/book-en/index.html)
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&label=Site&message=r.qcbs.ca&color=A3BE8C)](https://r.qcbs.ca/workshops/r-workshop-06/)
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&label=GitHub&message=06&color=B48EAD&logo=github)](https://github.com/QCBSRworkshops/workshop06)
 
 ---
 
 <p style="font-size:75%">
 
 .center[
-**Contributors to the development of this workshop**
+**QCBS members who contributed to this workshop**
 
 by modifying and improving its content as part of the <br> *Le*arning *a*nd *D*evelopment *A*ward
 ]
@@ -96,9 +95,9 @@ by modifying and improving its content as part of the <br> *Le*arning *a*nd *D*e
 <br>
 [Pedro Henrique P. Braga](https://github.com/pedrohbraga)
 <br>
-[Katherine Hébert]()
+[Katherine Hébert](https://github.com/katherinehebert)
 <br>
-[Alex Arkilanian]()
+[Alex Arkilanian](https://github.com/aarkilanian)
 <br>
 [Mathieu Vaillancourt](mathieu.vaillancourt.2@ulaval.ca)
 <br>
@@ -111,15 +110,15 @@ by modifying and improving its content as part of the <br> *Le*arning *a*nd *D*e
 .left[
 **2019** - **2018** - **2017**
 
-[Azenor Bideault]()
+[Azenor Bideault](https://github.com/Azenor)
 <br>
-[Willian Vieira]()
+[Willian Vieira](https://github.com/willvieira)
 <br>
-[Pedro Henrique P. Braga]()
+[Pedro Henrique P. Braga](https://github.com/pedrohbraga)
 <br>
-[Marie Hélène Brice]()
+[Marie Hélène Brice](https://github.com/mhBrice)
 <br>
-[Kevin Cazelles]()
+[Kevin Cazelles](https://github.com/KevCaz)
 
 **2016** - **2015** - **2014**
 
@@ -127,14 +126,19 @@ by modifying and improving its content as part of the <br> *Le*arning *a*nd *D*e
 <br>
 [Thomas Lamy]()
 <br>
-[Zofia Taranu]()
+[Zofia Taranu](https://github.com/zetaranu)
 <br>
-[Vincent Fugère]()
+[Vincent Fugère](https://github.com/VFugere)
 
 ]
 
 ]
 </p>
+
+<br><br>
+.center[
+__If you would like to contribute too__, visit [r.qcbs.ca/contributing](https://r.qcbs.ca/contributing/) <br> and don't hesitate to [get in touch](mailto:qcbs.csbq.r@gmail.com) with us!
+]
 
 ---
 
