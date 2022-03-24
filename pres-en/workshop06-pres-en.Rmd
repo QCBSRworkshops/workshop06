@@ -101,7 +101,7 @@ by modifying and improving its content as part of the <br> *Le*arning *a*nd *D*e
 <br>
 [Mathieu Vaillancourt](mathieu.vaillancourt.2@ulaval.ca)
 <br>
-[Esteban Góngora](https://github.com/estebangongora)
+[Esteban Góngora](https://github.com/estebangongora) 
 
 ]
 ]
