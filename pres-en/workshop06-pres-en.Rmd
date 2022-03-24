@@ -167,7 +167,7 @@ This workshop will build up your knowledge on models alongside with some of thei
 
 # Required material
 
-To follow this workshop, you are required to have downloaded and installed the earliest [RStudio](https://rstudio.com/products/rstudio/download/#download) and [R](https://cran.rstudio.com/) versions.
+To follow this workshop, you are required to have downloaded and installed [RStudio](https://rstudio.com/products/rstudio/download/#download) and [R](https://cran.rstudio.com/).
 
 <br>
 
@@ -195,6 +195,13 @@ install.packages(
 )
 ```
 ]
+
+<br>
+
+We will also be using the following datasets:
+
+- <a href="https://r.qcbs.ca/workshop06/pres-en/data/mites.csv">mites.csv</a> 
+- <a href="https://r.qcbs.ca/workshop06/pres-en/data/faramea.csv">faramea.csv</a>
 
 ---
 class: inverse, center, middle

@@ -154,15 +154,19 @@ Cet atelier développera vos connaissances de modèles, y compris certaines équ
 
 # Packages requis
 
-En plus des versions les plus récentes de R et RStudio, cet atelier requiert les packages R suivants:
+Pour suivre cet atelier, vous devriez avoir installé [R](https://cran.rstudio.com/) et [RStudio](https://rstudio.com/products/rstudio/download/#download).
 
+.pull-left[
+Cet atelier requiert aussi les packages R suivants:
 1. [ggplot2](https://cran.r-project.org/package=ggplot2)
 3. [MASS](https://cran.r-project.org/package=MASS)
 4. [vcdExtra](https://cran.r-project.org/package=vcdExtra)
 5. [bbmle](https://cran.r-project.org/package=bbmle)
 6. [DescTools](https://cran.r-project.org/package=DescTools)
+]
 
-<br>
+.pull-right[
+
 
 Pour les installer à partir de CRAN, roulez:
 
@@ -174,6 +178,14 @@ install.packages(c("ggplot2",
                    'DescTools')
                  )
 ```
+]
+
+<br>
+
+Nous utiliserons aussi ces jeux de données:
+
+- <a href="https://r.qcbs.ca/workshop06/pres-fr/data/mites.csv">mites.csv</a> 
+- <a href="https://r.qcbs.ca/workshop06/pres-fr/data/faramea.csv">faramea.csv</a>
 
 ---
 class: inverse, center, middle
