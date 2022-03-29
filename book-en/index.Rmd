@@ -77,39 +77,41 @@ Originally developed by:
 
 Cédric Frenette Dussault, Vincent Fugère, Thomas Lamy, Zofia Taranu
 
-Contributed with changes to the presentation:
-
-Contributed with changes to the written material:
-
-Contributed by reporting issues and suggesting modifications:
+Contributed with changes to the presentation and/or the written material:
 
 **2022** - **2021** - **2020**
 
 [Laurie Maynard](https://github.com/LaurieMaynard)\
 [Pedro Henrique P. Braga](https://github.com/pedrohbraga)\
 [Katherine Hébert](https://github.com/katherinehebert)\
-[Alex Arkilanian]()\
+[Alex Arkilanian](https://github.com/aarkilanian)\
 [Mathieu Vaillancourt](mathieu.vaillancourt.2@ulaval.ca)\
 [Esteban Góngora](https://github.com/estebangongora)\
 
 **2019** - **2018** - **2017**
 
-[Azenor Bideault]()\
-[Willian Vieira]()\
+[Azenor Bideault](https://github.com/Azenor)\
+[Willian Vieira](https://github.com/willvieira)\
 [Pedro Henrique P. Braga](https://github.com/pedrohbraga)\
-[Marie Hélène Brice]()\
-[Kevin Cazelles]()\
+[Marie Hélène Brice](https://github.com/mhBrice)\
+[Kevin Cazelles](https://github.com/KevCaz)\
 
 **2016** - **2015** - **2014**
 
 [Cédric Frenette Dussault]()\
 [Thomas Lamy]()\
-[Zofia Taranu]()\
-[Vincent Fugère]()\
+[Zofia Taranu](https://github.com/zetaranu)\
+[Vincent Fugère](https://github.com/VFugere)\
+
+Contributed by reporting issues and suggesting modifications:
 
 ## Contributing
 
-Under construction
+The QCBS R Workshop Series provides a venue for graduate students and postdoctoral fellows to improve their teaching and learning abilities through the instruction and the development of statistical and programming workshops. We immensely value the contributions provided to the series, and we rely on the QCBS community’s engagement to constantly improve our workshops. To encourage community contributions, we keep our workshops openly accessible, reproducible, and encourage collaboration between contributors.
+
+The QCBS offers Learning and Development Awards (LeaDA) to support graduates student and post-doctoral QCBS members who instruct or develop workshops. We also welcome voluntary community feedback to keep the workshops up to date and as helpful as possible!
+
+For more information about contributing, view our [Presentation and Development Protocol](https://r.qcbs.ca/presenter-developer-protocol/).
 
 
 ```{r include=FALSE}
@@ -120,6 +122,7 @@ opts_chunk$set(tidy.opts = list(width.cutoff = 60),
 mypar = list(mar = c(3, 3, 1, 0.5), 
              mgp = c(1.6, 0.3, 0), 
              tck = -.02)
+
 
 options(repos=structure(c(CRAN = "http://cran.r-project.org")))
 ```
