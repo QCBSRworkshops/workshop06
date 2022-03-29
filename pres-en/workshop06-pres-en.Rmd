@@ -593,15 +593,13 @@ par(mfrow = c(1, 3), cex = 1.4)
 plot(Galumna ~ WatrCont, data = mites, 
      xlab = 'Water content', ylab = 'Abundance')
 boxplot(WatrCont ~ pa, data = mites, 
-        xlab = 'Presence/Absence', ylab = 'Presence-absence', col = 'red')
+        xlab = 'Presence-absence', ylab = 'Water content', col = 'red')
 plot(prop ~ WatrCont, data = mites, 
      xlab = 'Water content', ylab = 'Relative frequency')
 ```
 ]
 
 ???
-
-
 
 ---
 # Using linear models with `lm()`
@@ -705,7 +703,7 @@ plot(lm.prop)
 ---
 # Using linear models: assumptions
 
-And, also bad `lm(pa ~ WatrCont)`:
+And, also bad for `lm(pa ~ WatrCont)`:
 
 .pull-left[
 ```{r,echo=-1}
@@ -736,7 +734,7 @@ It can also be written as this:
 
 $$Y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$
 
-with $N(\cdot)$ meaning that $Y_i$ is drawn from a **normal distribution** with parameters $\mu$ (mean; which depends on $x_i$) and $\sigma$ (variance; which has the same value for all $Y_i$s).
+with $N(\cdot)$ meaning that $Y_i$ is drawn from a **normal distribution** with parameters $\mu$ (mean; which depends on $x_i$) and $\sigma$ (variance; which has the same value for all $Y_i$).
 ]
 
 .pull-right[
@@ -762,8 +760,15 @@ legend('topleft', legend = c('5', '7.5', '10'), lty = 1, col = 1:3, bty = 'n', l
 ```
 ]
 ]
+
 ???
-On the right, we show graphs where wither mu varies or omega varies. The top graph would wrok with a linear model -> omega is constant throughout values of Y. The bottom is most likely what we observe, with a varying omega necessiting a different distribution.
+
+On the right, we show graphs where mu varies or sigma varies. 
+
+The top figure corresponds shows that sigma is constant across mean values of Y. This is closer to linear assumptions
+
+The bottom figure exacerbates a situation where sigma increases across the mean of y.
+
 ---
 
 # Model prediction
@@ -789,38 +794,40 @@ summary(lm.abund)$sigma
 ```
 ]
 
-What are the parameters of the normal distribution used to model $Y$ when water content is $300$?
+What are the _predicted_ parameters of the normal distribution used to model $Y$ when water content is $300$?
 
 --
 
 .center[
-$\mu = 3.44 + (-0.006 \times 300) = 1.63$   and    $\sigma^2 = 1.51$
+for $X_{i} = 300$, $\mu = 3.44 + (-0.006 \times 300) = 1.63$   and    $\sigma^2 = 1.51$
 ]
 
-i.e. randomly drawn $Y$ values when water content is $300$ should be in average $1.63$ and have variance $1.51$. 
+_i.e._ randomly drawn $Y$ values when water content is $300$ should be in average $1.63$ and have variance $1.51$. 
 
 ---
 # Model prediction
 
 .pull-left[
 $$y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$
-$$\mu = 3.44 + (-0.006 \times 300) +\varepsilon= 1.63$$
+$$\mu = 3.44 + (-0.006 \times 400) +\varepsilon= 1.02$$
 $$\sigma^2 = 1.51$$
 ]
 .pull-right[
 At $x = 300$, residuals should follow a normal distribution with $\mu = 1.63$ and $\sigma^2 = 1.51$.
 
-At $x = 400$, we get $\mu = 1.02$ and $\sigma^2 = 1.51$, and there on.
+At $x = 400$, we expect $\mu = 1.02$ and $\sigma^2 = 1.51$, and there on.
 ]
 
 --
 
 .pull-left[
 
-.small[We can represent this model as]:
+.small[Our model thus expects observations to fall within the following shaded areas]:
+
 .center[
-```{r echo = FALSE, fig.height=5}
+```{r echo = FALSE, fig.height = 4, fig.width= 4.5}
 #Code to generate figure that illustrates assumptions of linear models
+par(mar = c(2, 2, 1, 0))
 plot.norm <- function(x, mymodel, mult = 1, sd.mult = 3, mycol = 'LightSalmon', howmany = 150) {
   yvar <- mymodel$model[,1]
   xvar <- mymodel$model[,2]
@@ -830,13 +837,26 @@ plot.norm <- function(x, mymodel, mult = 1, sd.mult = 3, mycol = 'LightSalmon', 
   polygon(c(stick.val,rep(xvar[x],howmany)),c(sort(steps,decreasing=T),steps),col=mycol,border=NA)
 }
 #function adapted from http://www.unc.edu/courses/2010fall/ecol/563/001/notes/lecture4%20Rcode.txt
-plot(Galumna ~ WatrCont, data = mites,ylim=c(-4,8),cex.axis=1,cex.lab=1,type='n')
-plot.norm(8,lm.abund,200)
-plot.norm(11,lm.abund,200)
-plot.norm(36,lm.abund,200)
-plot.norm(52,lm.abund,200)
-abline(h=0,lty=3)
-points(Galumna ~ WatrCont, data = mites,pch=21)
+plot(Galumna ~ WatrCont, 
+     data = mites,
+     ylim = c(-4,8), cex.axis = 1,
+     cex.lab = 0.1,type='n')
+plot.norm(8,
+          lm.abund,
+          200)
+plot.norm(11,
+          lm.abund,
+          200)
+plot.norm(36,
+          lm.abund,
+          200)
+plot.norm(52,
+          lm.abund,
+          200)
+abline(h=0,
+       lty=3)
+points(Galumna ~ WatrCont, data = mites, pch = 21,
+       col = rgb(red = 0, green = 0, blue = 1, alpha = 0))
 abline(lm.abund,lty=1)
 abline(v=mites$WatrCont[c(8,11,36,52)],col='red',lty=2)
 text(x = mites$WatrCont[8]+50,y=7.5,expression(mu == 1.8),cex=1,col='red')
@@ -848,32 +868,172 @@ text(x = mites$WatrCont[52]+105,y=6.5,expression(sigma == 'always' ~ 1.51),cex=1
 ]
 ]
 
-
 --
+
+<br> 
 
 .pull-right[
 
-**What are the main problems with this model?**
+.center[**But, do they?**]
 
-1. Values are on average farther from the regression line;
-2. The estimated $\mu$ (means) are not the same;
-3. The estimated $\sigma^2$ (variance) changes;
-4. The observations do not fall across the expected values.
+]
+
+---
+# Model prediction
+
+.pull-left[
+$$y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$
+$$\mu = 3.44 + (-0.006 \times 400) +\varepsilon= 1.02$$
+$$\sigma^2 = 1.51$$
+
+.small[Our model thus expects observations to fall within the following shaded areas]:
+
+.center[
+```{r echo = FALSE, fig.height = 4, fig.width= 4.5}
+#Code to generate figure that illustrates assumptions of linear models
+par(mar = c(2, 2, 1, 0))
+plot.norm <- function(x, mymodel, mult = 1, sd.mult = 3, mycol = 'LightSalmon', howmany = 150) {
+  yvar <- mymodel$model[,1]
+  xvar <- mymodel$model[,2]
+  sigma <- summary(mymodel)$sigma
+  stick.val <- rep(xvar[x],howmany)+mult*dnorm(seq(predict(mymodel)[x]-sd.mult*sigma, predict(mymodel)[x]+sd.mult*sigma, length = howmany), mean=predict(mymodel)[x],sd=sigma)
+  steps<-seq(predict(mymodel)[x]-sd.mult*sigma,predict(mymodel)[x]+sd.mult*sigma,length=howmany)
+  polygon(c(stick.val,rep(xvar[x],howmany)),c(sort(steps,decreasing=T),steps),col=mycol,border=NA)
+}
+#function adapted from http://www.unc.edu/courses/2010fall/ecol/563/001/notes/lecture4%20Rcode.txt
+plot(Galumna ~ WatrCont, 
+     data = mites,
+     ylim = c(-4,8), cex.axis = 1,
+     cex.lab = 0.1,type='n')
+plot.norm(8,
+          lm.abund,
+          200)
+plot.norm(11,
+          lm.abund,
+          200)
+plot.norm(36,
+          lm.abund,
+          200)
+plot.norm(52,
+          lm.abund,
+          200)
+abline(h=0,
+       lty=3)
+points(Galumna ~ WatrCont, data = mites, pch = 21,
+       col = rgb(red = 0, green = 0, blue = 1, alpha = 1))
+abline(lm.abund,lty=1)
+abline(v=mites$WatrCont[c(8,11,36,52)],col='red',lty=2)
+text(x = mites$WatrCont[8]+50,y=7.5,expression(mu == 1.8),cex=1,col='red')
+text(x = mites$WatrCont[11]+50,y=7.5,expression(mu == 2.6),cex=1,col='red')
+text(x = mites$WatrCont[36]+50,y=7.5,expression(mu == 0.9),cex=1,col='red')
+text(x = mites$WatrCont[52]+60,y=7.5,expression(mu == -0.1),cex=1,col='red')
+text(x = mites$WatrCont[52]+105,y=6.5,expression(sigma == 'always' ~ 1.51),cex=1,col='red')
+```
+]
+]
+
+.pull-right[
+
+At $x = 300$, residuals should follow a normal distribution with $\mu = 1.63$ and $\sigma^2 = 1.51$.
+
+At $x = 400$, we expect $\mu = 1.02$ and $\sigma^2 = 1.51$, and there on.
+
+<br>
+
+.center[**But, do they?**]
+
+.center[*Hmmmmmmmm...*]
+
+]
+
+
+---
+# Model prediction
+
+.pull-left[
+$$y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$
+$$\mu = 3.44 + (-0.006 \times 400) +\varepsilon= 1.02$$
+$$\sigma^2 = 1.51$$
+
+.small[Our model thus expects observations to fall within the following shaded areas]:
+
+.center[
+```{r echo = FALSE, fig.height = 4, fig.width= 4.5}
+#Code to generate figure that illustrates assumptions of linear models
+par(mar = c(2, 2, 1, 0))
+plot.norm <- function(x, mymodel, mult = 1, sd.mult = 3, mycol = 'LightSalmon', howmany = 150) {
+  yvar <- mymodel$model[,1]
+  xvar <- mymodel$model[,2]
+  sigma <- summary(mymodel)$sigma
+  stick.val <- rep(xvar[x],howmany)+mult*dnorm(seq(predict(mymodel)[x]-sd.mult*sigma, predict(mymodel)[x]+sd.mult*sigma, length = howmany), mean=predict(mymodel)[x],sd=sigma)
+  steps<-seq(predict(mymodel)[x]-sd.mult*sigma,predict(mymodel)[x]+sd.mult*sigma,length=howmany)
+  polygon(c(stick.val,rep(xvar[x],howmany)),c(sort(steps,decreasing=T),steps),col=mycol,border=NA)
+}
+#function adapted from http://www.unc.edu/courses/2010fall/ecol/563/001/notes/lecture4%20Rcode.txt
+plot(Galumna ~ WatrCont, 
+     data = mites,
+     ylim = c(-4,8), cex.axis = 1,
+     cex.lab = 0.1,type='n')
+plot.norm(8,
+          lm.abund,
+          200)
+plot.norm(11,
+          lm.abund,
+          200)
+plot.norm(36,
+          lm.abund,
+          200)
+plot.norm(52,
+          lm.abund,
+          200)
+abline(h=0,
+       lty=3)
+points(Galumna ~ WatrCont, data = mites, pch = 21,
+       col = rgb(red = 0, green = 0, blue = 1, alpha = 1))
+abline(lm.abund,lty=1)
+abline(v=mites$WatrCont[c(8,11,36,52)],col='red',lty=2)
+text(x = mites$WatrCont[8]+50,y=7.5,expression(mu == 1.8),cex=1,col='red')
+text(x = mites$WatrCont[11]+50,y=7.5,expression(mu == 2.6),cex=1,col='red')
+text(x = mites$WatrCont[36]+50,y=7.5,expression(mu == 0.9),cex=1,col='red')
+text(x = mites$WatrCont[52]+60,y=7.5,expression(mu == -0.1),cex=1,col='red')
+text(x = mites$WatrCont[52]+105,y=6.5,expression(sigma == 'always' ~ 1.51),cex=1,col='red')
+```
+]
+]
+
+.pull-right[
+
+At $x = 300$, residuals should follow a normal distribution with $\mu = 1.63$ and $\sigma^2 = 1.51$.
+
+At $x = 400$, we expect $\mu = 1.02$ and $\sigma^2 = 1.51$, and there on.
+
+<br>
+
+.center[**But, do they?**]
+
+.center[*Hmmmmmmmm...*]
+
+<br>
+
+**Which of the following are correct?**
+
+1. The residuals seem to violate linear assumptions;
+2. $\sigma^2$ (variance) changes across the values of $x$;
+3. The observations do not fall across the expected values.
 ]
 
 ???
 
-Perform a multiple choice poll with participants.
-Correct answers are 3 and 4.
+You can perform a multiple choice poll with participants.
 
-Values are on average farther from the regression line at low water content values. That is, there is more residual variance around the predicted values for low values of x, such that εi varies as a function of x, thus violating the assumption of homoscedasticity. It makes no sense to use a constant value of σ2: the normal distributions used to predict y at low values of x should ideally be wider (have a larger σ2) than normal distributions used to predict y at large x values, but linear models do not permit this.
+Options 1, 2 and 3 are problems in this model, i.e. all are correct.
 
 ---
 ## What do we do now? Transform?
 
-Very often, data will not "behave" and will violate the assumptions we have seen, showing evidence for **non-normality** and/or **heteroskedasticity**.
+Very often, data will not "behave" and will violate the parametric assumptions, showing evidence for **non-normality** and/or **heteroskedasticity**.
 
-We have been told to **transform** our data using logarithmic, square-root, and cosine transformations.
+We can **transform** our data using logarithmic, square-root, and cosine (and other) transformations.
 
 --
 
@@ -908,7 +1068,8 @@ Statisticians have defined a [multitude of probability distributions](https://ww
 A distribution provides the probability of observing each possible outcome of an experiment or survey (e.g. $abund = 8$ *Galumna* individuals).
 
 --
-Distributions can be **discrete** (only include integers), **continuous** (including fractions) and be limited to a given range or domain (e.g., $0$ to $1$, $0$ to $+\infty$, $-\infty$ to $+\infty$).
+
+Distributions can be **discrete** (only include integers), **continuous** (including fractions) and be limited to a given range or domain (_e.g._, $0$ to $1$, $0$ to $+\infty$, $-\infty$ to $+\infty$).
 
 All distributions can be broken down into **parameters** that dictate their shapes (e.g. $\mu$ and $\sigma^2$ for the Normal).
 
