@@ -1,6 +1,6 @@
-# (PART\*) GLMs with proportion data {-}
+# (PART\*) GLM with proportion data {-}
 
-# Binomial GLMs and proportions
+# Binomial GLM and proportions
 
 Sometimes, proportion data are more similar to logistic regression than you think.
 
@@ -10,7 +10,7 @@ We will thus obtain a proportional number of "success" in observing individuals 
 
 In `glm()`, we have to provide prior weights if the response variable is the proportion of successes.
 
-Proportions can be modeled by providing both the number of "successes" and prior weights in the function
+Proportions can be modelled by providing both the number of "successes" and prior weights in the function
 
 ```{r, echo = FALSE, eval = TRUE}
 # Let's try this process again with proportion data!

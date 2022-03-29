@@ -1,6 +1,11 @@
 # Generalized linear models
 
-To avoid any bias from general linear models, we need to specify 2 things: 
+"Generalized" linear model (GLIM or GLM) refer to a larger class of models popularized by McCullagh and Nelder (1982).
+
+These models come in handy because the response variable $y$ can follow an exponential family distribution with mean $\mu$, which is assumed to follow a (often) nonlinear function. 
+
+In GLM, we need to specify:
+
 1\. **a statistical distribution for the residuals of the model**
 2\. **a link function** for the predicted valued of the model.
 
@@ -9,10 +14,10 @@ For a linear regression with a continuous response variable distributed normally
 $μ = βx$
 
 where:\
--$μ$ is the predicted value of the response variable\
--$x$ is the model matrix (*i.e.* predictor variables)\
--$β$ is the estimated parameters from the data (*i.e.*
-intercept and slope). $βx$ is called the **linear predictor**. In math terms, it's the matrix product of the model's matrix $x$ and the vector of the estimated parameters $β$. 
+- $μ$ is the predicted value of the response variable\
+- $x$ is the model matrix (*i.e.* predictor variables)\
+- $β$ is the estimated parameters from the data (*i.e.*
+intercept and slope). $βx$ is called the **linear predictor**. In math terms, it is the matrix product of the model's matrix $x$ and the vector of the estimated parameters $β$. 
 
 For a linear regression with a continuous response variable distributed normally, the linear predictor $βx$ is equivalent to the expected values of the response variable. *When the response varaible is not normally distributed, this statement is not true*. I nthis situation, we need to transform the predicted values $μ$ with a **link function** to obtain a linear relationship with the linear predictor:
 
@@ -26,7 +31,7 @@ To complete our model, we also need a **variance** function which describe how t
 
 $$\text{var}(Y_i) = \phi V(\mu)$$
 
-where the **dispersion parameter** $phi$ is constant.
+where the **dispersion parameter** $\phi$ (phi) is constant.
 
 With the linear predictor, our generalized linear model would be:
 
@@ -62,7 +67,7 @@ glm(formula,
     ...)
 ```
 
-This approach is extendable to other distribution families!
+This approach is extendable to other distribution families, such as the ones below:
 
 | Distribution of $Y$ | Link function name | Link function | Model      | `R` |
 |---------------------|--------------------|---------------|------------|-----|
