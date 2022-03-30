@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 8 Generalized linear models | Workshop 6: Generalized linear models</title>
+  <title>Chapter 6 Model prediction | Workshop 6: Generalized linear models</title>
   <meta name="description" content="Generalized linear models in R" />
   <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 8 Generalized linear models | Workshop 6: Generalized linear models" />
+  <meta property="og:title" content="Chapter 6 Model prediction | Workshop 6: Generalized linear models" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
   <meta property="og:description" content="Generalized linear models in R" />
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 8 Generalized linear models | Workshop 6: Generalized linear models" />
+  <meta name="twitter:title" content="Chapter 6 Model prediction | Workshop 6: Generalized linear models" />
   
   <meta name="twitter:description" content="Generalized linear models in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="the-distributions-of-biological-data.html"/>
-<link rel="next" href="binomial-glm.html"/>
+<link rel="prev" href="recalling-linear-models-assumptions.html"/>
+<link rel="next" href="the-distributions-of-biological-data.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -231,103 +231,56 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
 --!>
-<div id="generalized-linear-models" class="section level1 hasAnchor">
-<h1><span class="header-section-number">Chapter 8</span> Generalized linear models<a href="generalized-linear-models.html#generalized-linear-models" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>“Generalized” linear model (GLIM or GLM) refer to a larger class of models popularized by McCullagh and Nelder (1982).</p>
-<p>These models come in handy because the response variable <span class="math inline">\(y\)</span> can follow an exponential family distribution with mean <span class="math inline">\(\mu\)</span>, which is assumed to follow a (often) nonlinear function.</p>
-<p>In GLM, we need to specify:</p>
-<p>1. <strong>a statistical distribution for the residuals of the model</strong>
-2. <strong>a link function</strong> for the predicted valued of the model.</p>
-<p>For a linear regression with a continuous response variable distributed normally, the predicted values of Y is explained by this equation :</p>
-<p><span class="math inline">\(μ = βx\)</span></p>
-<p>where:<br />
-- <span class="math inline">\(μ\)</span> is the predicted value of the response variable<br />
-- <span class="math inline">\(x\)</span> is the model matrix (<em>i.e.</em> predictor variables)<br />
-- <span class="math inline">\(β\)</span> is the estimated parameters from the data (<em>i.e.</em>
-intercept and slope). <span class="math inline">\(βx\)</span> is called the <strong>linear predictor</strong>. In math terms, it is the matrix product of the model’s matrix <span class="math inline">\(x\)</span> and the vector of the estimated parameters <span class="math inline">\(β\)</span>.</p>
-<p>For a linear regression with a continuous response variable distributed normally, the linear predictor <span class="math inline">\(βx\)</span> is equivalent to the expected values of the response variable. <em>When the response varaible is not normally distributed, this statement is not true</em>. I nthis situation, we need to transform the predicted values <span class="math inline">\(μ\)</span> with a <strong>link function</strong> to obtain a linear relationship with the linear predictor:</p>
-<p><span class="math display">\[g(\mu_i) = ηi\]</span></p>
-<p>where <span class="math inline">\(g(μ)\)</span> is the link function to the predicted values. Therefore it removes the restriction on the residuals.</p>
-<p>The <span class="math inline">\(μ / 1-μ\)</span> ratio represent the odds of an event Y to occur. It transforms our predicted value to a scale of 0 to <code>+Inf</code>. For instance the probability to fail this course 0.6, thus the odds of failing is <span class="math inline">\(0.6/(1 − 0.6) = 1.5\)</span>. It indicates that the probability of me failing this class is 1.5 higher than the probability that I succeed (which are <span class="math inline">\(1.5 × 0.4 = 0.6\)</span>).</p>
-<p>To complete our model, we also need a <strong>variance</strong> function which describe how the variance <span class="math inline">\(\text{var}(Y_i)\)</span> depends on the mean:</p>
-<p><span class="math display">\[\text{var}(Y_i) = \phi V(\mu)\]</span></p>
-<p>where the <strong>dispersion parameter</strong> <span class="math inline">\(\phi\)</span> (phi) is constant.</p>
-<p>With the linear predictor, our generalized linear model would be:</p>
-<p><span class="math display">\[\eta_i = \underbrace{g(\mu)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}\]</span></p>
-<p>A<strong>general linear model</strong> with <span class="math inline">\(\epsilon ∼ N(0, σ^2)\)</span> and <span class="math inline">\(Y_i \sim{} N(\mu_i, \sigma^2)\)</span> has:</p>
-<ol style="list-style-type: decimal">
-<li>an <strong>identity</strong> link function:</li>
-</ol>
-<p><span class="math display">\[g(\mu_i) = \mu_i\]</span></p>
-<ol start="2" style="list-style-type: decimal">
-<li>and a variance function:</li>
-</ol>
-<p><span class="math display">\[V(\mu_i) = 1\]</span></p>
-<p>which result in:</p>
-<p><span class="math display">\[\underbrace{g(\mu)}_{Link~~function}  = \underbrace{\beta_0 + \beta_1X_1~+~...~+~\beta_pX_p}_{Linear~component}\]</span></p>
-<p>When our response variable is binary, the link function is a <em>logit</em> function:</p>
-<p><span class="math display">\[\eta_i = \text{logit}(\mu_i) = \log(\frac{\mu_i}{1-\mu_i})\]</span></p>
-<p>The log transformation allows the values to be distributed from <code>-Inf</code> to <code>+Inf</code>. We can now link the predicted values with the linear predictor <span class="math inline">\(βx\)</span>. This is the reason we still qualify this model as <strong>linear</strong> despite the relationship not being a «straight line».</p>
-<p>In <code>R</code>, we can fit generalized linear models using the <code>glm()</code> function, which is similar to the <code>lm()</code> function, with the <code>family</code> argument taking the names of the <strong>link function</strong> (inside <code>link</code>) and, the <strong>variance function</strong>:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="generalized-linear-models.html#cb44-1"></a><span class="co"># This is what the glm() function syntax looks like (don&#39;t run this)</span></span>
-<span id="cb44-2"><a href="generalized-linear-models.html#cb44-2"></a><span class="kw">glm</span>(formula,</span>
-<span id="cb44-3"><a href="generalized-linear-models.html#cb44-3"></a>    <span class="dt">family =</span> <span class="kw">gaussian</span>(<span class="dt">link =</span> <span class="st">&quot;identity&quot;</span>),</span>
-<span id="cb44-4"><a href="generalized-linear-models.html#cb44-4"></a>    data,</span>
-<span id="cb44-5"><a href="generalized-linear-models.html#cb44-5"></a>    ...)</span></code></pre></div>
-<p>This approach is extendable to other distribution families, such as the ones below:</p>
-<table>
-<colgroup>
-<col width="28%" />
-<col width="27%" />
-<col width="20%" />
-<col width="16%" />
-<col width="6%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Distribution of <span class="math inline">\(Y\)</span></th>
-<th>Link function name</th>
-<th>Link function</th>
-<th>Model</th>
-<th><code>R</code></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Normal</td>
-<td>Identity</td>
-<td><span class="math inline">\(g(\mu) = \mu\)</span></td>
-<td><span class="math inline">\(\mu = \mathbf{X} \boldsymbol{\beta}\)</span></td>
-<td><code>gaussian(link="identity")</code></td>
-</tr>
-<tr class="even">
-<td>Binomial</td>
-<td>Logit</td>
-<td><span class="math inline">\(g(\mu) = \log\left(\dfrac{\mu}{1-\mu}\right)\)</span></td>
-<td><span class="math inline">\(\log\left(\dfrac{\mu}{1-\mu}\right) = \mathbf{X} \boldsymbol{\beta}\)</span></td>
-<td><code>binomial(link="logit")</code></td>
-</tr>
-<tr class="odd">
-<td>Poisson</td>
-<td>Log</td>
-<td><span class="math inline">\(g(\mu) = \log(\mu)\)</span></td>
-<td><span class="math inline">\(-\mu^{-1} = \mathbf{X} \boldsymbol{\beta}\)</span></td>
-<td><code>poisson(link="log")</code></td>
-</tr>
-<tr class="even">
-<td>Exponential</td>
-<td>Negative Inverse</td>
-<td><span class="math inline">\(g(\mu) = -\mu^{-1}\)</span></td>
-<td><span class="math inline">\(\log(\mu) = \mathbf{X} \boldsymbol{\beta}\)</span></td>
-<td><code>Gamma(link="inverse")</code></td>
-</tr>
-</tbody>
-</table>
+<div id="model-prediction" class="section level1 hasAnchor">
+<h1><span class="header-section-number">Chapter 6</span> Model prediction<a href="model-prediction.html#model-prediction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>When the assumptions of the linear model are not met, model prediction becomes problematic. Let us work through an example to demonstrate some of the problems that arise from a poorly fitted model.</p>
+<p>Remember that when we predict, we aim at estimating the <em>unknown coefficients</em> <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> so that a line effectively predicting every value of <span class="math inline">\(Y\)</span> as a function of <span class="math inline">\(X\)</span> can be drawn!</p>
+<p><span class="math display">\[Y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)\]</span></p>
+<p>Let us predict <em>Galumna</em> abundance at a water content = 300 using the linear model we fit above. <strong>What are the parameters of the normal distribution used to model <span class="math inline">\(Y\)</span> when water content is <span class="math inline">\(300\)</span>?</strong></p>
+<p>Let us begin by obtaining the parameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> for a normal distribution corresponding to our equation. To obtain the coefficients from our models, we can use the function <code>coef()</code>:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="model-prediction.html#cb33-1"></a><span class="co"># Extract model coefficients</span></span>
+<span id="cb33-2"><a href="model-prediction.html#cb33-2"></a><span class="kw">coef</span>(lm.abund)</span></code></pre></div>
+<pre><code>##  (Intercept)     WatrCont 
+##  3.439348672 -0.006044788</code></pre>
+<p>These coefficients would allow us to predict <em>Galumna</em> abundance if there was no error. However, we know that error is an <strong>irrevocable</strong> part of our model. To get our predicted values, we therefore also need to add . This is where we use the normal
+distribution! For <span class="math inline">\(X\)</span> = 300, our model predicts that should follow a normal distribution with mean = 1.63. We can extract the variance (<span class="math inline">\(\sigma^2\)</span>) from our model summary:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="model-prediction.html#cb35-1"></a><span class="co"># Extract variance from the model summary</span></span>
+<span id="cb35-2"><a href="model-prediction.html#cb35-2"></a><span class="kw">summary</span>(lm.abund)<span class="op">$</span>sigma</span></code></pre></div>
+<pre><code>## [1] 1.513531</code></pre>
+<p>We can plug these values into the equation we just discussed above:
+<span class="math display">\[Y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)\]</span>
+<span class="math inline">\(\mu = 3.44 + (-0.006 \times 300) = 1.63\)</span></p>
+<p><span class="math inline">\(\sigma^2 = 1.51\)</span></p>
+<p>This tells us that randomly drawn <span class="math inline">\(Y\)</span> values when water content is <span class="math inline">\(300\)</span> should be on average <span class="math inline">\(1.63\)</span> and have a variance of <span class="math inline">\(1.51\)</span>. In other words, at <span class="math inline">\(x = 300\)</span>, residuals should follow a normal distribution with <span class="math inline">\(\mu = 1.63\)</span> and <span class="math inline">\(\sigma^2 = 1.51\)</span>. At <span class="math inline">\(x = 400\)</span>, we get <span class="math inline">\(\mu = 1.02\)</span> and <span class="math inline">\(\sigma^2 = 1.51\)</span>, etc.</p>
+<p>At a water content of 400, residuals should follow a normal distribution with parameters <span class="math inline">\(\mu = 3.44 + (-0.006 x 400) = 1.02\)</span> and <span class="math inline">\(\sigma^2 = 1.51\)</span>, and thereon.</p>
+<p>Each <span class="math inline">\(Y\)</span> value is modeled using a normal distribution with a mean that depends on <span class="math inline">\(X_i\)</span>, but with a variance that is constant <span class="math inline">\(\sigma^2 = 1.51\)</span> across all <span class="math inline">\(X_i\)</span> values.</p>
+<p>We can represent these expectations like this:</p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-30-1.png" width="480" /></p>
+<p>The four normal distributions on this graph represent the probability of observing a given Galumna abundance for 4 different water content values.</p>
+<p>The mean of the normal distribution varies as a function of water content (hence <span class="math inline">\(\mu\)</span> decreases with water content), but <span class="math inline">\(\sigma^2\)</span> is always 1.51 (<em>i.e.</em> the variance is homogeneous across all values of <span class="math inline">\(X\)</span>).</p>
+<p>Our model thus expects observations to fall within the following shaded areas. However, what happens if we add our observations to this plot?</p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-31-1.png" width="480" /></p>
+<p>This model seems inappropriate (!) for at least two reasons:</p>
+<p><strong>1. Values are on average further from the regression line at low water content values.</strong> That is, there is more residual variance around the predicted values for low values of <span class="math inline">\(X\)</span>, such that <span class="math inline">\(\varepsilon\)</span> varies as a function of <span class="math inline">\(X\)</span>, thus violating the assumption of homoscedasticity. It makes no sense to use a constant value of <span class="math inline">\(\sigma^2\)</span>: the normal distributions used to predict <span class="math inline">\(Y\)</span> at low values of <span class="math inline">\(X\)</span> should ideally be wider (have a larger <span class="math inline">\(\sigma^2\)</span>) than normal distributions used to predict <span class="math inline">\(Y\)</span> at large <span class="math inline">\(X\)</span> values, but linear models do not permit this.</p>
+<p><strong>2. The residuals do not follow a normal distribution with constant variance across all values of</strong> <span class="math inline">\(X\)</span>. The variance of the residuals’ distribution changes as a function of <span class="math inline">\(X\)</span> (see the spread of the data points around the trend line!).</p>
+<p><strong>3. The predicted values do not make sense, given the observations.</strong> Our response variable is abundance, which can only take integer values. Yet, when water content is 300, the abundance value that our model predicts to be the most probable is 1.63! We know that the probability of observing 1.63 individuals at water content = 300 is actually zero, as is the probability of observing any fraction (non-integers). Our predicted values should be modelled using a distribution that only predicts integers, rather than a continuous distribution like the normal distribution. This is a very common problem, as biological data often follows one of the myriad other statistical distributions besides the normal distribution.</p>
+<div id="so-what-do-we-do-now-transform-our-data" class="section level4 hasAnchor">
+<h4><span class="header-section-number">6.0.0.1</span> So, what do we do now? Transform our data?<a href="model-prediction.html#so-what-do-we-do-now-transform-our-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Very often, data will not “behave” and will violate the assumptions we have seen, showing evidence for <strong>non-normality</strong> and/or <strong>heteroskedasticity</strong>.</p>
+<p>We have been told to <strong>transform</strong> our data using logarithmic, square-root, and cosine transformations to get around these problems. Unfortunately, transformations not always work and come with a few drawbacks:</p>
+<p><strong>1.</strong> They change the response variable (!), making interpretation challenging;<br />
+<strong>2.</strong> They may not simultaneously improve linearity and homogeneity of variance;<br />
+<strong>3.</strong> The boundaries of the sample space change.<br />
+</p>
+<p>For instance, our simple linear model:</p>
+<p><span class="math display">\[Y_i = \beta_0 + \beta_1X_i + \varepsilon\]</span></p>
+<p>looks like this after the log-transformation of <span class="math inline">\(Y\)</span>:</p>
+<p><span class="math display">\[E(\log{Y_i}) = \beta_0 + \beta_1X_i\]</span></p>
+<p>It is, of course, much less intuitive to interpret that for every <span class="math inline">\(300\)</span> units increase in water content, <em>Galumna</em> abundance takes the form of <span class="math inline">\(\log(1.63)\)</span>…</p>
+<p>Thankfully, the <strong>normal distribution is not our only option!</strong></p>
 
 </div>
-
-
-
+</div>
 <hr>
 <center> 
   <div class="footer">
@@ -339,8 +292,8 @@ intercept and slope). <span class="math inline">\(βx\)</span> is called the <st
           </div>
         </div>
       </div>
-<a href="the-distributions-of-biological-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="binomial-glm.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="recalling-linear-models-assumptions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="the-distributions-of-biological-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

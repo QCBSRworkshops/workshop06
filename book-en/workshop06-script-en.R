@@ -17,6 +17,7 @@
 
 install.packages(c('ggplot2',
                    'MASS',
+                   'ggpmisc',
                    'vcdExtra',
                    'bbmle',
                    'DescTools',
@@ -33,6 +34,7 @@ library(bbmle)
 library(DescTools)
 library(GlmSimulatoR)
 library(cplm)
+library(ggpmisc)
 
 
 ##Section: 02-introduction.R 
@@ -41,24 +43,34 @@ library(cplm)
 N = 50
 beta_0 = 1
 beta_1 = 0.5
-
 # Generate sample data:
 x <- 0:N
-e <- rnorm(mean = 0, sd = 1.5, n = length(x))
+e <- rnorm(mean = 0, sd = 2, n = length(x))
 y <- beta_0 + beta_1 * x + e
+# Fit regression
+d <- data.frame(x, y)
+fit <- lm(y ~ x, data = d)
+d$predicted <- predict(fit)   # Save the predicted values
+d$residuals <- residuals(fit) # Save the residual values
 
 # Plot the data
-plot(x, y)
 
-# The regression equation:
-y_dgp <- beta_0 + beta_1 * x
-
-# Plot regression:
-lines(x = x, y = y_dgp, col = "darkgreen", lty = 2)
-
-legend(x = 0, y = 25,
-       legend = c(expression(paste("Y = ", beta[0] + beta[1] * X))),
-       lty = c(2, 1), lwd = c(1, 1), pch = c(NA, NA), col = c("darkgreen", "blue"))
+ggplot(d, aes(x = x, 
+              y = y)) +
+  geom_smooth(method = "lm", se = FALSE, color = "lightgrey", shape = 2) +
+  geom_segment(aes(xend = x, yend = predicted), alpha = 0.2) +
+  # > Alpha adjustments made here...
+  geom_point(aes(alpha = abs(residuals)), size = 2) +  # Alpha mapped to abs(residuals)
+  stat_poly_eq(formula = y ~ x, eq.with.lhs = "italic(hat(y))~`=`~",
+                aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~"), size = 5), 
+                parse = TRUE) +         
+  guides(alpha = FALSE) +  # Alpha legend removed
+ # geom_line(aes(y = predicted), shape = 3) +
+  theme_classic(base_size = 20) +
+  theme(
+        plot.margin = unit(c(0, 0, 0, 0), "null"),
+    panel.margin = unit(c(0, 0, 0, 0), "null")
+  )
 
 nSamples <- 250
 ID <- factor(c(seq(1:nSamples)))
@@ -82,7 +94,11 @@ simNormData <- data.frame(
 lm.simNormData <- lm(RespVar ~ PredVar, 
                      data = simNormData)
 
-layout(matrix(c(1,2,3,4),2,2)) 
+layout(
+  matrix(c(1, 2, 3, 4), 
+              2, 2)
+       ) 
+
 plot(lm.simNormData)
 
 # Use setwd() to set your working directory
@@ -176,6 +192,89 @@ coef(lm.abund)
 
 # Extract variance from the model summary
 summary(lm.abund)$sigma
+
+#Code to generate figure that illustrates assumptions of linear models
+plot.norm <- function(x, mymodel, mult = 1, sd.mult = 3, mycol = 'LightSalmon', howmany = 150) {
+  yvar <- mymodel$model[,1]
+  xvar <- mymodel$model[,2]
+  sigma <- summary(mymodel)$sigma
+  stick.val <- rep(xvar[x],howmany)+mult*dnorm(seq(predict(mymodel)[x]-sd.mult*sigma, predict(mymodel)[x]+sd.mult*sigma, length = howmany), mean=predict(mymodel)[x],sd=sigma)
+  steps<-seq(predict(mymodel)[x]-sd.mult*sigma,predict(mymodel)[x]+sd.mult*sigma,length=howmany)
+  polygon(c(stick.val,rep(xvar[x],howmany)),c(sort(steps,decreasing=T),steps),col=mycol,border=NA)
+}
+#function adapted from http://www.unc.edu/courses/2010fall/ecol/563/001/notes/lecture4%20Rcode.txt
+plot(Galumna ~ WatrCont, 
+     data = mites,
+          xlab = "Water content",
+     ylab = "Abundance",
+     ylim = c(-4,8), cex.axis = 1,
+     cex.lab = 1,
+     type='n')
+plot.norm(8,
+          lm.abund,
+          200)
+plot.norm(11,
+          lm.abund,
+          200)
+plot.norm(36,
+          lm.abund,
+          200)
+plot.norm(52,
+          lm.abund,
+          200)
+abline(h=0,
+       lty=3)
+points(Galumna ~ WatrCont, data = mites, pch = 21,
+       col = rgb(red = 0, green = 0, blue = 1, alpha = 0))
+abline(lm.abund,lty=1)
+abline(v=mites$WatrCont[c(8,11,36,52)],col='red',lty=2)
+text(x = mites$WatrCont[8]+50,y=7.5,expression(mu == 1.8),cex=1,col='red')
+text(x = mites$WatrCont[11]+50,y=7.5,expression(mu == 2.6),cex=1,col='red')
+text(x = mites$WatrCont[36]+50,y=7.5,expression(mu == 0.9),cex=1,col='red')
+text(x = mites$WatrCont[52]+60,y=7.5,expression(mu == -0.1),cex=1,col='red')
+text(x = mites$WatrCont[52]+105,y=6.5,expression(sigma == 'always' ~ 1.51),cex=1,col='red')
+
+#Code to generate figure that illustrates assumptions of linear models
+plot.norm <- function(x, mymodel, mult = 1, sd.mult = 3, mycol = 'LightSalmon', howmany = 150) {
+  yvar <- mymodel$model[,1]
+  xvar <- mymodel$model[,2]
+  sigma <- summary(mymodel)$sigma
+  stick.val <- rep(xvar[x],howmany)+mult*dnorm(seq(predict(mymodel)[x]-sd.mult*sigma, predict(mymodel)[x]+sd.mult*sigma, length = howmany), mean=predict(mymodel)[x],sd=sigma)
+  steps<-seq(predict(mymodel)[x]-sd.mult*sigma,predict(mymodel)[x]+sd.mult*sigma,length=howmany)
+  polygon(c(stick.val,rep(xvar[x],howmany)),c(sort(steps,decreasing=T),steps),col=mycol,border=NA)
+}
+#function adapted from http://www.unc.edu/courses/2010fall/ecol/563/001/notes/lecture4%20Rcode.txt
+plot(Galumna ~ WatrCont, 
+     data = mites,
+     ylim = c(-4,8), 
+     xlab = "Water content",
+     ylab = "Abundance",
+     cex.axis = 1,
+     cex.lab = 1,
+     type='n')
+plot.norm(8,
+          lm.abund,
+          200)
+plot.norm(11,
+          lm.abund,
+          200)
+plot.norm(36,
+          lm.abund,
+          200)
+plot.norm(52,
+          lm.abund,
+          200)
+abline(h=0,
+       lty=3)
+points(Galumna ~ WatrCont, data = mites, pch = 21,
+       col = rgb(red = 0, green = 0, blue = 1, alpha = 1))
+abline(lm.abund,lty=1)
+abline(v = mites$WatrCont[c(8,11,36,52)],col='red',lty=2)
+text(x = mites$WatrCont[8]+50,y=7.5,expression(mu == 1.8),cex=1,col='red')
+text(x = mites$WatrCont[11]+50,y=7.5,expression(mu == 2.6),cex=1,col='red')
+text(x = mites$WatrCont[36]+50,y=7.5,expression(mu == 0.9),cex=1,col='red')
+text(x = mites$WatrCont[52]+60,y=7.5,expression(mu == -0.1),cex=1,col='red')
+text(x = mites$WatrCont[52]+105,y=6.5,expression(sigma == 'always' ~ 1.51),cex=1,col='red')
 
 
 ##Section: 03-distributions.R 

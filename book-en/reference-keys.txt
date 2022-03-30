@@ -10,12 +10,13 @@ general-linear-models
 definition
 assumptions
 an-example-with-general-linear-models
+example-with-real-data
 recalling-linear-models-assumptions
 model-prediction
 so-what-do-we-do-now-transform-our-data
 the-distributions-of-biological-data
 generalized-linear-models
-binomial-glms
+binomial-glm
 glm-with-binomial-data-logit-link
 example
 challenge-1
@@ -25,7 +26,7 @@ interpreting-the-coefficients-using-the-logit-link
 predictive-power-and-goodness-of-fit
 challenge-2
 visual-representation-of-results
-binomial-glms-and-proportions
+binomial-glm-and-proportions
 what-can-we-do-with-count-data
 poisson-glms
 the-poisson-distribution
