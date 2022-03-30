@@ -54,8 +54,7 @@ by modifying and improving its content as part of the &lt;br&gt; *Le*arning *a*n
 .right[
 
  **2022** - **2021** - **2020**
- &lt;br&gt;
-  &lt;br&gt;
+
 [Laurie Maynard](https://github.com/LaurieMaynard)
 &lt;br&gt;
 [Pedro Henrique P. Braga](https://github.com/pedrohbraga)
@@ -164,7 +163,7 @@ install.packages(
 
 &lt;br&gt;
 
-We will also be using the following datasets:
+We will also use the following data sets:
 
 - &lt;a href="https://r.qcbs.ca/workshop06/pres-en/data/mites.csv"&gt;mites.csv&lt;/a&gt; 
 - &lt;a href="https://r.qcbs.ca/workshop06/pres-en/data/faramea.csv"&gt;faramea.csv&lt;/a&gt;
@@ -249,7 +248,7 @@ We have also learned that **linear models** only produce unbiased estimators (_i
 
 1\. The population can be described by a linear relationship:
 
-`$$Y = \beta_0 + \beta_1X + \varepsilon$$`
+`$$Y = \beta_0 + \beta_1X_i + \varepsilon_i$$`
 --
 2\. The error term `\(\varepsilon\)` has the same variance given any value of the explanatory variable (_i.e._ homoskedasticity), and the error terms are not correlated across observations (_i.e._ no autocorrelation):
 
@@ -301,7 +300,7 @@ class: middle
 
 .pull-right[
 
-The estimations of general linear models as in `\(\widehat{Y} = \widehat{\beta}_0 + \widehat{\beta}_1 X\)` assumes that data is generated following these assumptions.
+The estimations of general linear models as in `\(\widehat{Y} = \widehat{\beta}_0 + \widehat{\beta}_1 X + \hat\varepsilon\)` assumes that data is generated following these assumptions.
 &lt;br&gt;
 
 &lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-2-1.png" width="432" style="display: block; margin: auto;" /&gt;
@@ -346,6 +345,8 @@ lm.simNormData &lt;- lm(RespVar ~ PredVar,
 
 ]
 
+--
+
 .pull-right[
 
 ```r
@@ -369,7 +370,7 @@ Influential observations: An influential observation is defined as an observatio
 
 1. Allows one to check the assumption of linearity and homoscedasticity;
 
-2. QQ-plot allows the comparison of the residuals to "ideal" normal observations;
+2. QQ-plot allows the comparison of the residuals to "ideal" normal observations; it allows determining if two data sets come from populations with a common distribution.
 
 3. Scale-location plot (square rooted standardized residual vs. predicted value) is useful for checking the assumption of homoscedasticity;
 
@@ -625,6 +626,17 @@ plot(lm.abund)
 
 &lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-15-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
+
+???
+
+
+1. Allows one to check the assumption of linearity and homoscedasticity;
+
+2. QQ-plot allows the comparison of the residuals to "ideal" normal observations; it allows determining if two data sets come from populations with a common distribution.
+
+3. Scale-location plot (square rooted standardized residual vs. predicted value) is useful for checking the assumption of homoscedasticity;
+
+4. Cook's Distance, which is a measure of the influence of each observation on the regression coefficients.
 
 ---
 # Using linear models: assumptions
@@ -1335,7 +1347,7 @@ Deviance, coefficients and dispersion will be covered in the following slides.
 ---
 # Challenge 1 ![:cube]()
 
-Using the `bacteria` dataset, model the presence of *H. influenzae* as a function of treatment and week of test. Start with a full model and reduce it to the most parsimonious model.
+Using the `bacteria` data set, model the presence of *H. influenzae* as a function of treatment and week of test. Start with a full model and reduce it to the most parsimonious model.
 
 
 ```r
@@ -1350,8 +1362,13 @@ data(bacteria); str(bacteria)
 #  $ trt : Factor w/ 3 levels "placebo","drug",..: 1 1 1 1 3 3 3 3 2 2 ...
 ```
 
-
 *Tests of the presence of the bacteria H. influenzae in children with otitis media in the Northern Territory of Australia.*
+
+- `y` is the presence or absence: a factor with levels `n` and `y`;
+
+- `week` is the week of test; 
+
+- `trt` is the treatment ` placebo`, `drug` and `drug+`, a re-coding of `ap` and `hilo`.
 
 ???
 Dr A. Leach tested the effects of a drug on 50 children with a history of otitis media in the Northern Territory of Australia. The children were randomized to the drug or a placebo.
@@ -1393,7 +1410,12 @@ anova(model.bact1, model.bact2, model.bact3, test = "LRT")
 # 3       218     210.91 -2  -7.1026  0.02869 *
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+plot(model.bact1)
 ```
+
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-47-1.png" width="432" style="display: block; margin: auto;" /&gt;&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-47-2.png" width="432" style="display: block; margin: auto;" /&gt;&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-47-3.png" width="432" style="display: block; margin: auto;" /&gt;&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-47-4.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ???
 
@@ -1515,6 +1537,31 @@ exp(logit.reg$coefficient[2])
 # 0.9843118
 ```
 
+---
+# Interpreting the output
+
+.pull-left[
+
+When odds = 1, the probability to observe the event `\(Y\)` is equal to the probability of *not* observing it (*i.e.* `\(p = 0.5\)`, so `\(0.5/(1-0.5) = 1\)`).
+
+When  odds `\(&lt; 1\)`, we have to take the inverse (_i.e._ 1 divided by the odds) to facilitate interpretation.
+
+The interpretation is then how **LESS** likely it is to observe the event of interest. 
+
+For water content, the odds is `\(0.984\)`. The inverse is:
+
+`$$\dfrac{1}{0.984} = 1.0159$$`
+]
+
+.pull-right[
+
+This means that a one-unit increase in water content decreases the likelihood of observing _Galumna sp_. by `\(1.0159\)`. We can obtain a percentage change as below:
+`$$(1.0159 - 1) * 100 = 1.59%$$`
+There is a `\(1.59%\)` decrease in probability of observing _Galumna sp._ with a one-unit increase in water content.
+
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-52-1.png" width="288" style="display: block; margin: auto;" /&gt;
+
+]
 
 ---
 
@@ -1523,7 +1570,9 @@ exp(logit.reg$coefficient[2])
 Recall that the `\(R^2\)` value is a measure of how well the model explains the data.
 
 In simple linear models, `\(R^2\)` can be obtained as the square of the sample correlation equation coefficient ( `\(r\)` ) between the observed outcomes and the predictive values.
+
 --
+
 In some of the generalized linear models, we take different approaches.
 
 We can obtain a `\(\text{pseudo-R}^2\)`, the analogue of the `\(R^2\)` for models fitted by maximum likelihood.
@@ -1544,8 +1593,10 @@ The unit deviance is a measure of distance between `\(y\)` and `\(μ\)`.
 
 `$${\displaystyle d(y,y)=0}$$`
 `$${\displaystyle d(y,\mu )&gt;0\quad \forall y\neq \mu }$$`
+
 ???
 We will use the deviances to calculate the pseudo R2.
+
 --
 
 The total deviance `\({\displaystyle D(\mathbf {y} ,{\hat {\boldsymbol {\mu }}})}\)` of a model with predictions `\({\hat {\boldsymbol {\mu }}}\)` of the observation `\(\mathbf {y}\)` is the sum of its unit deviances:
@@ -1599,7 +1650,7 @@ full.model &lt;- glm(response.variable ~ ., family = binomial)
 ---
 # Predictive power and goodness-of-fit
 
-In `R`, we can extract the residual and null deviances directly from the `glm object`:
+In `R`, we can extract the residual and null deviance directly from the `glm object`:
 .small[
 
 ```r
@@ -1623,7 +1674,7 @@ Using the deviance values available from the `logit.reg` object what is the pseu
 
 ???
 
-Instruct participants to write some code based on the learning about deviances to manually calculate `\(R^2\)` and write their answer in the chat
+Instruct participants to write some code based on the learning about deviance to manually calculate `\(R^2\)` and write their answer in the chat
 
 ---
 # Predictive power and goodness-of-fit
@@ -1737,7 +1788,7 @@ HLtest(logit.reg)
 plot(HLtest(logit.reg))
 ```
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-57-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-58-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .comment[A non-significant value indicates an adequate fit!]
@@ -1914,7 +1965,7 @@ Count data are often characterized by:
 - Integer values: you do not count **7.56** individuals;\
 - Exhibits larger variance for larger values.
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-64-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-65-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ???
 You can say that *in average*, you expect 7.56 individuals in a given situation. But you measure something *discrete*.
 ---
@@ -1925,11 +1976,11 @@ You can say that *in average*, you expect 7.56 individuals in a given situation.
 Does elevation influence the abundance of *F. occidentalis*?
 
 .pull-left[
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-65-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-66-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-66-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-67-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .small[What type of distribution best fits this data?
@@ -1951,11 +2002,11 @@ This is a singe choice poll question. The correct answer is 3. Poisson
 Does elevation influence the abundance of *F. occidentalis*?
 
 .pull-left[
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-67-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-68-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-68-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-69-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 .small[What type of distribution best fits this data?
 1. Bernoulli   
@@ -2447,7 +2498,7 @@ lines(pframe$lwr, col = 2, lty = 3, lwd = 2)
 ```
 ]
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-78-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-79-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ---
 # Challenge 3 ![:cube]()
@@ -2521,7 +2572,7 @@ anova(glm.qp2, glm.qp, test="Chisq")
 &lt;br&gt;
 
 .center[
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-82-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-83-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 

@@ -90,8 +90,7 @@ by modifying and improving its content as part of the <br> *Le*arning *a*nd *D*e
 .right[
 
  **2022** - **2021** - **2020**
- <br>
-  <br>
+
 [Laurie Maynard](https://github.com/LaurieMaynard)
 <br>
 [Pedro Henrique P. Braga](https://github.com/pedrohbraga)
@@ -199,7 +198,7 @@ install.packages(
 
 <br>
 
-We will also be using the following datasets:
+We will also use the following data sets:
 
 - <a href="https://r.qcbs.ca/workshop06/pres-en/data/mites.csv">mites.csv</a> 
 - <a href="https://r.qcbs.ca/workshop06/pres-en/data/faramea.csv">faramea.csv</a>
@@ -284,7 +283,7 @@ We have also learned that **linear models** only produce unbiased estimators (_i
 
 1\. The population can be described by a linear relationship:
 
-$$Y = \beta_0 + \beta_1X + \varepsilon$$
+$$Y = \beta_0 + \beta_1X_i + \varepsilon_i$$
 --
 2\. The error term $\varepsilon$ has the same variance given any value of the explanatory variable (_i.e._ homoskedasticity), and the error terms are not correlated across observations (_i.e._ no autocorrelation):
 
@@ -336,7 +335,7 @@ $$\boldsymbol{\varepsilon} | \mathbf{X} \sim \mathcal{N} \left( \mathbf{0}, \sig
 
 .pull-right[
 
-The estimations of general linear models as in $\widehat{Y} = \widehat{\beta}_0 + \widehat{\beta}_1 X$ assumes that data is generated following these assumptions.
+The estimations of general linear models as in $\widehat{Y} = \widehat{\beta}_0 + \widehat{\beta}_1 X + \hat\varepsilon$ assumes that data is generated following these assumptions.
 <br>
 
 ```{r echo = FALSE, fig.align = "center"}
@@ -420,6 +419,8 @@ lm.simNormData <- lm(RespVar ~ PredVar,
 
 ]
 
+--
+
 .pull-right[
 ```{r}
 layout(matrix(c(1,2,3,4),2,2)) 
@@ -440,7 +441,7 @@ Influential observations: An influential observation is defined as an observatio
 
 1. Allows one to check the assumption of linearity and homoscedasticity;
 
-2. QQ-plot allows the comparison of the residuals to "ideal" normal observations;
+2. QQ-plot allows the comparison of the residuals to "ideal" normal observations; it allows determining if two data sets come from populations with a common distribution.
 
 3. Scale-location plot (square rooted standardized residual vs. predicted value) is useful for checking the assumption of homoscedasticity;
 
@@ -678,6 +679,17 @@ par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.abund)
 ```
 ]
+
+???
+
+
+1. Allows one to check the assumption of linearity and homoscedasticity;
+
+2. QQ-plot allows the comparison of the residuals to "ideal" normal observations; it allows determining if two data sets come from populations with a common distribution.
+
+3. Scale-location plot (square rooted standardized residual vs. predicted value) is useful for checking the assumption of homoscedasticity;
+
+4. Cook's Distance, which is a measure of the influence of each observation on the regression coefficients.
 
 ---
 # Using linear models: assumptions
@@ -1525,15 +1537,20 @@ Deviance, coefficients and dispersion will be covered in the following slides.
 ---
 # Challenge 1 ![:cube]()
 
-Using the `bacteria` dataset, model the presence of *H. influenzae* as a function of treatment and week of test. Start with a full model and reduce it to the most parsimonious model.
+Using the `bacteria` data set, model the presence of *H. influenzae* as a function of treatment and week of test. Start with a full model and reduce it to the most parsimonious model.
 
 ```{r}
 library(MASS)
 data(bacteria); str(bacteria)
 ```
 
-
 *Tests of the presence of the bacteria H. influenzae in children with otitis media in the Northern Territory of Australia.*
+
+- `y` is the presence or absence: a factor with levels `n` and `y`;
+
+- `week` is the week of test; 
+
+- `trt` is the treatment ` placebo`, `drug` and `drug+`, a re-coding of `ap` and `hilo`.
 
 ???
 Dr A. Leach tested the effects of a drug on 50 children with a history of otitis media in the Northern Territory of Australia. The children were randomized to the drug or a placebo.
@@ -1560,6 +1577,10 @@ model.bact3 <- glm(y ~ week, data = bacteria, family = binomial)
 
 ```{r, echo = TRUE}
 anova(model.bact1, model.bact2, model.bact3, test = "LRT")
+
+
+plot(model.bact1)
+
 ```
 
 ???
@@ -1661,6 +1682,36 @@ For a one-unit increase (or decrease) in water content, we can obtain the odds f
 exp(logit.reg$coefficient[2])
 ```
 
+---
+# Interpreting the output
+
+.pull-left[
+
+When odds = 1, the probability to observe the event $Y$ is equal to the probability of *not* observing it (*i.e.* $p = 0.5$, so $0.5/(1-0.5) = 1$).
+
+When  odds $< 1$, we have to take the inverse (_i.e._ 1 divided by the odds) to facilitate interpretation.
+
+The interpretation is then how **LESS** likely it is to observe the event of interest. 
+
+For water content, the odds is $0.984$. The inverse is:
+
+$$\dfrac{1}{0.984} = 1.0159$$
+]
+
+.pull-right[
+
+This means that a one-unit increase in water content decreases the likelihood of observing _Galumna sp_. by $1.0159$. We can obtain a percentage change as below:
+$$(1.0159 - 1) * 100 = 1.59%$$
+There is a $1.59%$ decrease in probability of observing _Galumna sp._ with a one-unit increase in water content.
+
+```{r, echo = F, eval = TRUE,fig.width = 4, fig.height = 3.5}
+library(ggplot2)
+ggplot(mites, aes(x = WatrCont, y = pa)) + geom_point() + xlab("Water content") +
+ylab("Probability of presence") +
+  theme_classic()
+```
+
+]
 
 ---
 
@@ -1669,7 +1720,9 @@ exp(logit.reg$coefficient[2])
 Recall that the $R^2$ value is a measure of how well the model explains the data.
 
 In simple linear models, $R^2$ can be obtained as the square of the sample correlation equation coefficient ( $r$ ) between the observed outcomes and the predictive values.
+
 --
+
 In some of the generalized linear models, we take different approaches.
 
 We can obtain a $\text{pseudo-R}^2$, the analogue of the $R^2$ for models fitted by maximum likelihood.
@@ -1690,8 +1743,10 @@ The unit deviance is a measure of distance between $y$ and $μ$.
 
 $${\displaystyle d(y,y)=0}$$
 $${\displaystyle d(y,\mu )>0\quad \forall y\neq \mu }$$
+
 ???
 We will use the deviances to calculate the pseudo R2.
+
 --
 
 The total deviance ${\displaystyle D(\mathbf {y} ,{\hat {\boldsymbol {\mu }}})}$ of a model with predictions ${\hat {\boldsymbol {\mu }}}$ of the observation $\mathbf {y}$ is the sum of its unit deviances:
@@ -1745,7 +1800,7 @@ full.model <- glm(response.variable ~ ., family = binomial)
 ---
 # Predictive power and goodness-of-fit
 
-In `R`, we can extract the residual and null deviances directly from the `glm object`:
+In `R`, we can extract the residual and null deviance directly from the `glm object`:
 .small[
 ```{r}
 objects(logit.reg)
@@ -1758,7 +1813,7 @@ Using the deviance values available from the `logit.reg` object what is the pseu
 
 ???
 
-Instruct participants to write some code based on the learning about deviances to manually calculate $R^2$ and write their answer in the chat
+Instruct participants to write some code based on the learning about deviance to manually calculate $R^2$ and write their answer in the chat
 
 ---
 # Predictive power and goodness-of-fit
