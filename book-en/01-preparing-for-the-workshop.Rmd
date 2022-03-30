@@ -4,7 +4,7 @@
 
 A significant limitation of general linear models is that they cannot accommodate response variables that do not have a normal error distribution - a situation that is very common when analyzing biological data. 
 
-In this workshop, you will learn how to use **generalized linear models**, which are powerful tools to overcome some of the distributional assumptions of linear models. Especifically, we will:
+In this workshop, you will learn how to use **generalized linear models**, which are powerful tools to overcome some of the distributional assumptions of linear models. Specifically, we will:
 
 1. Distinguish generalized linear models from general linear models (including many of their equations!).
 
@@ -14,7 +14,7 @@ In this workshop, you will learn how to use **generalized linear models**, which
 
 4. Implement and execute generalized linear models in binary, proportion and count data.
 
-5. Validate, interprete and visualise results of generalized linear models.
+5. Validate, interpret and visualise results of generalized linear models.
 
 
 # Preparing for the workshop
@@ -54,7 +54,8 @@ To install them from CRAN, run:
 
 ```{r eval = FALSE}
 install.packages(c('ggplot2', 
-                   'MASS', 
+                   'MASS',
+                   'ggpmisc',
                    'vcdExtra',
                    'bbmle',
                    'DescTools',
@@ -64,7 +65,8 @@ install.packages(c('ggplot2',
 ```
 
 ```{r, echo = FALSE, eval = TRUE, results='hide', purl = FALSE}
-install.packages(c('ggplot2', 
+install.packages(c('ggplot2',
+                   'ggpmisc',
                    'MASS', 
                    'vcdExtra',
                    'bbmle',
@@ -85,6 +87,7 @@ library(bbmle)
 library(DescTools)
 library(GlmSimulatoR)
 library(cplm)
+library(ggpmisc)
 ```
 
 This workshop will build up your knowledge on models along side with some of their important equations. *Do not run to the mountains!* This will be achieved progressively and you will feel proud of yourself after!

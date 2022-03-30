@@ -1,8 +1,8 @@
-# (PART\*) GLMs with binary data {-}
+# (PART\*) GLM with binary data {-}
 
-# Binomial GLMs
+# Binomial GLM
 
-A common response variable in ecological datasets is the binary
+A common response variable in ecological data sets is the binary
 variable: we observe a phenomenon $Y$ or its "absence". For example, species presence/absence is frequently recorded in ecological monitoring studies. We usually wish to determine whether a species' presence is affected by some environmental variables. Other examples include the presence/absence of a disease within a wild population, the success/failure to record a specific behaviour, and the survival/death of organisms. Usually, we are interested in questions such as: how do species occurrences vary in function of the environment?
 
 $$Occurrences = f(Environment)$$
