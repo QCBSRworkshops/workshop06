@@ -185,7 +185,7 @@ We are often looking for a function `\(f\)` that can explain a response variable
 
 `$$Y = f(X_1)$$`
 --
-The combination of predictive variables we have sampled will *never* fully explain `\(Y\)`. Because of this, there is always *unpredictable disturbance* in our models, i.e. the error `\(\epsilon\)`. As such, the error is an irrevocable part of our function:
+The combination of predictive variables we have sampled will *never* fully explain `\(Y\)`. Because of this, there is always *unpredictable disturbance* in our models, _i.e._ the error `\(\epsilon\)`. As such, the error is an irrevocable part of our function:
 
 `$$Y = f(X_1, \epsilon)$$`
 --
@@ -234,9 +234,9 @@ where:
 
 ???
 
-When explaning this slide, provide a few examples of Y and X variables (e.g. number of species, sampling effort, climatic gradient).
+When explaining this slide, provide a few examples of Y and X variables (e.g. number of species, sampling effort, climatic gradient).
 
-X can also be called independent variable, explanatory variable, predictor variabler;
+X can also be called independent variable, explanatory variable, predictor variable;
 
 Y can also be called dependent variable, response variable, explained variable, predicted variable;
 
@@ -245,13 +245,13 @@ Y can also be called dependent variable, response variable, explained variable, 
 ---
 # Revisiting linear models and their assumptions
 
-We have also learned that **linear models** only produce unbiased estimators (i.e. are only reliable) if they follow certain assumptions. Most importantly:
+We have also learned that **linear models** only produce unbiased estimators (_i.e._ are only reliable) if they follow certain assumptions. Most importantly:
 
 1\. The population can be described by a linear relationship:
 
 `$$Y = \beta_0 + \beta_1X + \varepsilon$$`
 --
-2\. The error term `\(\varepsilon\)` has the same variance given any value of the explanatory variable (i.e. homoskedasticity), and the error terms are not correlated across observations (i.e. no autocorrelation):
+2\. The error term `\(\varepsilon\)` has the same variance given any value of the explanatory variable (_i.e._ homoskedasticity), and the error terms are not correlated across observations (_i.e._ no autocorrelation):
 
 .pull-left[
 `$$\mathbb{V}{\rm ar} (\epsilon_i | \mathbf{X} ) = \sigma^2_\epsilon,\ \forall i = 1,..,N$$`
@@ -262,6 +262,7 @@ We have also learned that **linear models** only produce unbiased estimators (i.
 ]
 --
 &lt;br&gt;&lt;br&gt;
+
 3\. And, the residuals are normal:
 
 `$$\boldsymbol{\varepsilon} | \mathbf{X} \sim \mathcal{N} \left( \mathbf{0}, \sigma^2_\epsilon \mathbf{I} \right)$$`
@@ -275,6 +276,7 @@ class: middle
 
 .small[
 .center[**WHY SO MANY EQUATIONS?**]
+&lt;br&gt;
 .center[*Wait! Do not lose hope! They are necessary and we will explain why!*]
 ]
 ---
@@ -300,12 +302,15 @@ class: middle
 .pull-right[
 
 The estimations of general linear models as in `\(\widehat{Y} = \widehat{\beta}_0 + \widehat{\beta}_1 X\)` assumes that data is generated following these assumptions.
+&lt;br&gt;
+
 &lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-2-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ]
 
 ???
-Note: Improved versions of this workshop should include the lines describing the error estimates, and showing their distribution. For now, the presenter can help participants with this abstraction.
+
+Describe the figure to the participants, showing the fitted line and the residuals, and explaining how variance does not increase with either variables.
 
 ---
 ## Representing the assumptions
@@ -462,7 +467,9 @@ Predictive variables:
 
 --
 
-**To answer our question**, *we can develop models! So many options!*
+&lt;br&gt;
+
+**To answer our question**, we can develop models! *So many options!*
 
 .pull-left[
 `\(\text{Abundance} = f(\text{Water content}, \epsilon)\)`
@@ -510,41 +517,24 @@ What about...
 ---
 # Exploring relationships
 
-Do *Galumna*'s community values (abundance, occurrence and relative frequency) vary as a function of water content?
+Does the composition of *Galumna*'s communities (abundance, occurrence and relative frequency) vary as a function of water content?
 
 .small[
 
 ```r
 par(mfrow = c(1, 3), cex = 1.4)
-plot(Galumna ~ WatrCont, data = mites, xlab = 'Water content', ylab ='Abundance')
-boxplot(WatrCont ~ pa, 
-        data = mites, xlab = 'Presence or Absence', ylab = 'Water content')
-plot(prop ~ WatrCont, data = mites, xlab = 'Water content', ylab = 'Proportion')
+plot(Galumna ~ WatrCont, data = mites, 
+     xlab = 'Water content', ylab = 'Abundance')
+boxplot(WatrCont ~ pa, data = mites, 
+        xlab = 'Presence-absence', ylab = 'Water content', col = 'red')
+plot(prop ~ WatrCont, data = mites, 
+     xlab = 'Water content', ylab = 'Relative frequency')
 ```
 
 &lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-11-1.png" width="864" style="display: block; margin: auto;" /&gt;
 ]
 
----
-
-# Exploring relationships
-
-Do *Galumna*'s community values (abundance, occurrence and relative frequency) vary as a function of water content?
-
-
-```r
-par(mfrow = c(1, 3), cex = 1.4)
-plot(Galumna ~ WatrCont, 
-     data = mites, xlab = 'Water content', ylab='Water content')
-boxplot(WatrCont ~ pa, 
-        data = mites, xlab='Presence/Absence', ylab = 'Water content')
-plot(prop ~ WatrCont, 
-     data = mites, xlab = 'Water content', ylab='Proportion')
-```
-
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-13-1.png" width="864" style="display: block; margin: auto;" /&gt;
 ???
-These graphs all represents potential relationships, but the middle one is more likely to show properly in a model (the boxes do not overlap each other)
 
 ---
 # Using linear models with `lm()`
@@ -623,7 +613,7 @@ plot(Galumna ~ WatrCont, data = mites)
 abline(lm.abund)
 ```
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-16-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-14-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 ]
 .pull-right[
@@ -633,7 +623,7 @@ par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.abund)
 ```
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-17-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-15-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -648,7 +638,7 @@ plot(prop ~ WatrCont, data = mites)
 abline(lm.prop)
 ```
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-18-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-16-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -658,13 +648,13 @@ par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.prop)
 ```
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-19-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-17-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 # Using linear models: assumptions
 
-And, also bad `lm(pa ~ WatrCont)`:
+And, also bad for `lm(pa ~ WatrCont)`:
 
 .pull-left[
 
@@ -673,7 +663,7 @@ plot(pa ~ WatrCont, data = mites)
 abline(lm.pa)
 ```
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-20-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-18-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -683,7 +673,7 @@ par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.pa)
 ```
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-21-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-19-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -699,20 +689,27 @@ It can also be written as this:
 
 `$$Y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$`
 
-with `\(N(\cdot)\)` meaning that `\(Y_i\)` is drawn from a **normal distribution** with parameters `\(\mu\)` (mean; which depends on `\(x_i\)`) and `\(\sigma\)` (variance; which has the same value for all `\(Y_i\)`s).
+with `\(N(\cdot)\)` meaning that `\(Y_i\)` is drawn from a **normal distribution** with parameters `\(\mu\)` (mean; which depends on `\(x_i\)`) and `\(\sigma\)` (variance; which has the same value for all `\(Y_i\)`).
 ]
 
 .pull-right[
 Varying `\(\mu\)`, `\(\sigma = 5\)`
 
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-22-1.png" width="216" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-20-1.png" width="216" style="display: block; margin: auto;" /&gt;
 
 `\(\mu = 25\)`, varying `\(\sigma\)`
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-23-1.png" width="216" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-21-1.png" width="216" style="display: block; margin: auto;" /&gt;
 ]
 ]
+
 ???
-On the right, we show graphs where wither mu varies or omega varies. The top graph would wrok with a linear model -&gt; omega is constant throughout values of Y. The bottom is most likely what we observe, with a varying omega necessiting a different distribution.
+
+On the right, we show graphs where mu varies or sigma varies. 
+
+The top figure corresponds shows that sigma is constant across mean values of Y. This is closer to linear assumptions
+
+The bottom figure exacerbates a situation where sigma increases across the mean of y.
+
 ---
 
 # Model prediction
@@ -743,66 +740,129 @@ summary(lm.abund)$sigma
 ```
 ]
 
-What are the parameters of the normal distribution used to model `\(Y\)` when water content is `\(300\)`?
+What are the _predicted_ parameters of the normal distribution used to model `\(Y\)` when water content is `\(300\)`?
 
 --
 
 .center[
-`\(\mu = 3.44 + (-0.006 \times 300) = 1.63\)`   and    `\(\sigma^2 = 1.51\)`
+for `\(X_{i} = 300\)`, `\(\mu = 3.44 + (-0.006 \times 300) = 1.63\)`   and    `\(\sigma^2 = 1.51\)`
 ]
 
-i.e. randomly drawn `\(Y\)` values when water content is `\(300\)` should be in average `\(1.63\)` and have variance `\(1.51\)`. 
+_i.e._ randomly drawn `\(Y\)` values when water content is `\(300\)` should be in average `\(1.63\)` and have variance `\(1.51\)`. 
 
 ---
 # Model prediction
 
 .pull-left[
 `$$y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$`
-`$$\mu = 3.44 + (-0.006 \times 300) +\varepsilon= 1.63$$`
+`$$\mu = 3.44 + (-0.006 \times 400) +\varepsilon= 1.02$$`
 `$$\sigma^2 = 1.51$$`
 ]
 .pull-right[
 At `\(x = 300\)`, residuals should follow a normal distribution with `\(\mu = 1.63\)` and `\(\sigma^2 = 1.51\)`.
 
-At `\(x = 400\)`, we get `\(\mu = 1.02\)` and `\(\sigma^2 = 1.51\)`, and there on.
+At `\(x = 400\)`, we expect `\(\mu = 1.02\)` and `\(\sigma^2 = 1.51\)`, and there on.
 ]
 
 --
 
 .pull-left[
 
-.small[We can represent this model as]:
-.center[
-&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-24-1.png" width="432" style="display: block; margin: auto;" /&gt;
-]
-]
+.small[Our model thus expects observations to fall within the following shaded areas]:
 
+.center[
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-22-1.png" width="324" style="display: block; margin: auto;" /&gt;
+]
+]
 
 --
 
+&lt;br&gt; 
+
 .pull-right[
 
-**What are the main problems with this model?**
+.center[**But, do they?**]
 
-1. Values are on average farther from the regression line;
-2. The estimated `\(\mu\)` (means) are not the same;
-3. The estimated `\(\sigma^2\)` (variance) changes;
-4. The observations do not fall across the expected values.
+]
+
+---
+# Model prediction
+
+.pull-left[
+`$$y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$`
+`$$\mu = 3.44 + (-0.006 \times 400) +\varepsilon= 1.02$$`
+`$$\sigma^2 = 1.51$$`
+
+.small[Our model thus expects observations to fall within the following shaded areas]:
+
+.center[
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-23-1.png" width="324" style="display: block; margin: auto;" /&gt;
+]
+]
+
+.pull-right[
+
+At `\(x = 300\)`, residuals should follow a normal distribution with `\(\mu = 1.63\)` and `\(\sigma^2 = 1.51\)`.
+
+At `\(x = 400\)`, we expect `\(\mu = 1.02\)` and `\(\sigma^2 = 1.51\)`, and there on.
+
+&lt;br&gt;
+
+.center[**But, do they?**]
+
+.center[*Hmmmmmmmm...*]
+
+]
+
+
+---
+# Model prediction
+
+.pull-left[
+`$$y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$`
+`$$\mu = 3.44 + (-0.006 \times 400) +\varepsilon= 1.02$$`
+`$$\sigma^2 = 1.51$$`
+
+.small[Our model thus expects observations to fall within the following shaded areas]:
+
+.center[
+&lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-24-1.png" width="324" style="display: block; margin: auto;" /&gt;
+]
+]
+
+.pull-right[
+
+At `\(x = 300\)`, residuals should follow a normal distribution with `\(\mu = 1.63\)` and `\(\sigma^2 = 1.51\)`.
+
+At `\(x = 400\)`, we expect `\(\mu = 1.02\)` and `\(\sigma^2 = 1.51\)`, and there on.
+
+&lt;br&gt;
+
+.center[**But, do they?**]
+
+.center[*Hmmmmmmmm...*]
+
+&lt;br&gt;
+
+**Which of the following are correct?**
+
+1. The residuals seem to violate linear assumptions;
+2. `\(\sigma^2\)` (variance) changes across the values of `\(x\)`;
+3. The observations do not fall across the expected values.
 ]
 
 ???
 
-Perform a multiple choice poll with participants.
-Correct answers are 3 and 4.
+You can perform a multiple choice poll with participants.
 
-Values are on average farther from the regression line at low water content values. That is, there is more residual variance around the predicted values for low values of x, such that εi varies as a function of x, thus violating the assumption of homoscedasticity. It makes no sense to use a constant value of σ2: the normal distributions used to predict y at low values of x should ideally be wider (have a larger σ2) than normal distributions used to predict y at large x values, but linear models do not permit this.
+Options 1, 2 and 3 are problems in this model, i.e. all are correct.
 
 ---
 ## What do we do now? Transform?
 
-Very often, data will not "behave" and will violate the assumptions we have seen, showing evidence for **non-normality** and/or **heteroskedasticity**.
+Very often, data will not "behave" and will violate the parametric assumptions, showing evidence for **non-normality** and/or **heteroskedasticity**.
 
-We have been told to **transform** our data using logarithmic, square-root, and cosine transformations.
+We can **transform** our data using logarithmic, square-root, and cosine (and other) transformations.
 
 --
 
@@ -834,20 +894,23 @@ $$E(\log{Y_i}) = \beta_0 + \beta_1X_i $$
 
 Statisticians have defined a [multitude of probability distributions](https://www.causascientia.org/math_stat/Dists/Compendium.pdf) to describe different types of data.
 
-A distribution provides the probability of observing each possible outcome of an experiment or survey (e.g. `\(abund = 8\)` *Galumna* individuals).
+A distribution provides the probability of observing each possible outcome of an experiment or survey (_e.g._ `\(abund = 8\)` *Galumna* individuals).
 
 --
-Distributions can be **discrete** (only include integers), **continuous** (including fractions) and be limited to a given range or domain (e.g., `\(0\)` to `\(1\)`, `\(0\)` to `\(+\infty\)`, `\(-\infty\)` to `\(+\infty\)`).
 
-All distributions can be broken down into **parameters** that dictate their shapes (e.g. `\(\mu\)` and `\(\sigma^2\)` for the Normal).
+Distributions can be **discrete** (only include integers), **continuous** (including fractions) and be limited to a given range or domain (_e.g._, `\(0\)` to `\(1\)`, `\(0\)` to `\(+\infty\)`, `\(-\infty\)` to `\(+\infty\)`).
+
+&lt;br&gt;
+
+All distributions can be broken down into **parameters** that dictate their shapes (_e.g._, `\(\mu\)` and `\(\sigma^2\)` for the Normal).
 
 
 ---
 # Biological data &amp; distributions: Poisson
 
-*Galumna* `abund` follows a discrete distribution (i.e. it only takes integer values).
+*Galumna* `abund` follows a discrete distribution (_i.e._ it only takes integer values).
 
-A useful distribution to model abundance data is the “Poisson” distribution:
+Abundance data can often be described through the “Poisson” distribution:
 
 - **Poisson** is a discrete distribution with a single parameter, `\(\lambda\)` (lambda), which defines both the mean and the variance of the distribution:
 
@@ -875,6 +938,10 @@ Would a model incorporating the Poisson distribution work better in the `\(\text
 &lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-27-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
+??? 
+
+Again, note how we can interpret this where the values are expected to follow around the orange lines (before it was shaded because the values could be continuous; here they are discrete).
+
 ---
 # Biological data &amp; distributions
 
@@ -901,15 +968,13 @@ hist(mites$pa)
 &lt;br&gt;
 &lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-29-1.png" width="864" style="display: block; margin: auto;" /&gt;
 
-We can use the Bernouilli distribution to calculate the probability Galumna present (`1`) vs. absent (`0`).
+We can use the Bernouilli distribution to calculate the frequency probability for the presence of _Galumna_ (`1`) in relation to its absence (`0`).
 
 ???
 
-A Bernoulli event is one for which the probability the event occurs is p and the probability the event does not occur is 1-p; i.e., the event is has two possible outcomes (usually viewed as success or failure) occurring with
-probability p and 1-p, respectively.
+A Bernoulli event is one for which the probability the event occurs is p and the probability the event does not occur is 1-p; i.e., the event is has two possible outcomes (usually viewed as success or failure) occurring with probability p and 1-p, respectively.
 
-A Bernoulli distribution is the pair of probabilities of a Bernoulli event, which is too simple to be interesting. However, it is implicitly used in “yesno” decision processes where the choice occurs with the same probability
-from trial to trial (e.g., the customer chooses to go down aisle 1 with probability p).
+A Bernoulli distribution is the pair of probabilities of a Bernoulli event, which is too simple to be interesting. However, it is implicitly used in “yes, no” decision processes where the choice occurs with the same probability from trial to trial (e.g., the customer chooses to go down aisle 1 with probability p).
 
 ---
 # Biological data &amp; distributions: Binomial
@@ -925,7 +990,7 @@ from trial to trial (e.g., the customer chooses to go down aisle 1 with probabil
 
 **Binomial distribution**: used to model data where the number of successes are integers and where the number of trials, `\(n\)`, is known.
 
-**Main difference with Poisson distribution**: the binomial has an upper limit to its range, corresponding to `\(n\)`. Consequently, it is right-skewed at low p values but left-skewed at high `\(p\)` values
+**Main difference with Poisson distribution**: the binomial has an upper limit to its range, corresponding to `\(n\)`. Consequently, it is right-skewed at low `\(p\)` values but left-skewed at high `\(p\)` values
 
 &lt;img src="workshop06-pres-en_files/figure-html/unnamed-chunk-31-1.png" width="720" style="display: block; margin: auto;" /&gt;
 
@@ -943,7 +1008,7 @@ class: middle, center
 
 &lt;br&gt;
 
-.center[We can attempt using **generalized linear models**!]
+.center[We can try using models that are able to incorporate other types of distributions: the **generalized linear models**!]
 
 &lt;br&gt;
 
@@ -965,7 +1030,7 @@ In `R`, this means that we will move away from the (general) linear models funct
 &amp;nbsp; 2\. a **variance** function that describes how the variance of the process `\(Y\)`, `\(\text{var}(Y_i)\)`, depends on the mean
 
 `$$\text{var}(Y_i) = \phi V(\mu)$$`
-&amp;nbsp; where the **dispersion parameter** `\(phi\)` is a constant.
+&amp;nbsp; where the **dispersion parameter** `\(\phi\)` (_phi_) is a constant.
 
 ???
 
@@ -1067,12 +1132,12 @@ We observe a phenomenon `\(Y\)` or its “absence”:
 
 - Presence or absence of a species;
 - Presence or absence of a disease;
-- Success or failure to observe behaviour;
+- Success or failure to observe a certain behaviour;
 - Survival or death of organisms.
 
 &lt;br&gt;
 
-As usual, we are interested in questions such as how species occurrences vary in function of the environment?
+As usual, we are interested in questions such as _how species occurrences vary in function of the environment_?
 
 `$$\text{Occurrences} = f(\text{Environment})$$`
 
@@ -1287,12 +1352,13 @@ data(bacteria); str(bacteria)
 
 
 *Tests of the presence of the bacteria H. influenzae in children with otitis media in the Northern Territory of Australia.*
+
 ???
 Dr A. Leach tested the effects of a drug on 50 children with a history of otitis media in the Northern Territory of Australia. The children were randomized to the drug or a placebo.
 
-The presence of H. influenzae was checked at weeks 0, 2, 4, 6 and 11: 30 of the checks were missing and are not included in this data frame.
+The presence of _H. influenzae was_ checked at weeks 0, 2, 4, 6 and 11: 30 of the checks were missing and are not included in this data frame.
 
-This is a breakout room activity. Assign groups of 3-4 into breakout rooms and give them each 5 minutes to collaboratively write the code
+You can make this as a breakout room activity. You can assign groups of 3 - 4 people into breakout rooms and give them 5 minutes to collaboratively write the code.
 
 ]
 ---
