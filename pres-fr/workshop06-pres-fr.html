@@ -28,18 +28,17 @@ class: inverse, center, middle
 
 # À propos de cet atelier
 
-[![badge](https://img.shields.io/static/v1?style=flat-square&amp;label=Diapos&amp;message=06&amp;color=red&amp;logo=html5)](https://qcbsrworkshops.github.io/workshop06/pres-fr/workshop06-pres-fr.html)
-[![badge](https://img.shields.io/static/v1?style=flat-square&amp;label=livre&amp;message=06&amp;logo=github)](https://qcbsrworkshops.github.io/workshop06/book-fr/index.html)
-[![badge](https://img.shields.io/static/v1?style=flat-square&amp;label=wiki&amp;message=06&amp;logo=wikipedia)](https://wiki.qcbs.ca/r_atelier6)
-![badge](https://img.shields.io/static/v1?style=flat-square&amp;label=script&amp;message=06&amp;color=2a50b8&amp;logo=r)
-[![badge](https://img.shields.io/static/v1?style=flat-square&amp;label=repo&amp;message=dev&amp;color=6f42c1&amp;logo=github)](https://github.com/QCBSRworkshops/workshop06) 
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=Présentation&amp;message=06&amp;color=BF616A)](https://r.qcbs.ca/workshop06/pres-fr/workshop06-pres-fr.html)    [![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=Script&amp;message=06&amp;color=D08770&amp;logo=r)](https://r.qcbs.ca/workshop06/book-fr/workshop06-script-fr.R) 
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=Livre&amp;message=06&amp;color=EBCB8B)](https://r.qcbs.ca/workshop06/book-fr/index.html)
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=Site&amp;message=r.qcbs.ca&amp;color=A3BE8C)](https://r.qcbs.ca/fr/workshops/r-workshop-06/)
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=GitHub&amp;message=06&amp;color=B48EAD&amp;logo=github)](https://github.com/QCBSRworkshops/workshop06) 
 
 ---
 
 &lt;p style="font-size:75%"&gt;
 
 .center[
-**Contributeurs et contributrices au développement de cet atelier**
+**Membres du CSBQ qui ont contribué à cet atelier**
 
 en modifiant et améliorant son contenu dans le cadre du &lt;br&gt; prix d’apprentissage et de développement
 ]
@@ -49,15 +48,14 @@ en modifiant et améliorant son contenu dans le cadre du &lt;br&gt; prix d’app
 .right[
 
  **2022** - **2021** - **2020**
- &lt;br&gt;
-  &lt;br&gt;
+
 [Laurie Maynard](https://github.com/LaurieMaynard)
 &lt;br&gt;
 [Pedro Henrique P. Braga](https://github.com/pedrohbraga)
 &lt;br&gt;
-[Katherine Hébert]()
+[Katherine Hébert](https://github.com/katherinehebert)
 &lt;br&gt;
-[Alex Arkilanian]()
+[Alex Arkilanian](https://github.com/aarkilanian)
 &lt;br&gt;
 [Mathieu Vaillancourt](mathieu.vaillancourt.2@ulaval.ca)
 &lt;br&gt;
@@ -70,15 +68,15 @@ en modifiant et améliorant son contenu dans le cadre du &lt;br&gt; prix d’app
 .left[
 **2019** - **2018** - **2017**
 
-[Azenor Bideault]()
+[Azenor Bideault](https://github.com/Azenor)
 &lt;br&gt;
-[Willian Vieira]()
+[Willian Vieira](https://github.com/willvieira)
 &lt;br&gt;
-[Pedro Henrique P. Braga]()
+[Pedro Henrique P. Braga](https://github.com/pedrohbraga)
 &lt;br&gt;
-[Marie Hélène Brice]()
+[Marie Hélène Brice](https://github.com/mhBrice)
 &lt;br&gt;
-[Kevin Cazelles]()
+[Kevin Cazelles](https://github.com/KevCaz)
 
 **2016** - **2015** - **2014**
 
@@ -86,14 +84,21 @@ en modifiant et améliorant son contenu dans le cadre du &lt;br&gt; prix d’app
 &lt;br&gt;
 [Thomas Lamy]()
 &lt;br&gt;
-[Zofia Taranu]()
+[Zofia Taranu](https://github.com/zetaranu)
 &lt;br&gt;
-[Vincent Fugère]()
+[Vincent Fugère](https://github.com/VFugere)
 
 ]
 
 ]
 &lt;/p&gt;
+
+
+&lt;br&gt;&lt;br&gt;
+.center[
+__Si vous voulez contribuer aussi__, visitez [r.qcbs.ca/fr/contributing](https://r.qcbs.ca/fr/contributing/) &lt;br&gt; et n'hésitez pas à [nous contacter](mailto:csbq.qcbs.r@gmail.com)!
+]
+
 ---
 
 # Objectifs d'apprentissage
@@ -122,15 +127,19 @@ Cet atelier développera vos connaissances de modèles, y compris certaines équ
 
 # Packages requis
 
-En plus des versions les plus récentes de R et RStudio, cet atelier requiert les packages R suivants:
+Pour suivre cet atelier, vous devriez avoir installé [R](https://cran.rstudio.com/) et [RStudio](https://rstudio.com/products/rstudio/download/#download).
 
+.pull-left[
+Cet atelier requiert aussi les packages R suivants:
 1. [ggplot2](https://cran.r-project.org/package=ggplot2)
 3. [MASS](https://cran.r-project.org/package=MASS)
 4. [vcdExtra](https://cran.r-project.org/package=vcdExtra)
 5. [bbmle](https://cran.r-project.org/package=bbmle)
 6. [DescTools](https://cran.r-project.org/package=DescTools)
+]
 
-&lt;br&gt;
+.pull-right[
+
 
 Pour les installer à partir de CRAN, roulez:
 
@@ -143,6 +152,14 @@ install.packages(c("ggplot2",
                    'DescTools')
                  )
 ```
+]
+
+&lt;br&gt;
+
+Nous utiliserons aussi ces jeux de données:
+
+- &lt;a href="https://r.qcbs.ca/workshop06/pres-fr/data/mites.csv"&gt;mites.csv&lt;/a&gt; 
+- &lt;a href="https://r.qcbs.ca/workshop06/pres-fr/data/faramea.csv"&gt;faramea.csv&lt;/a&gt;
 
 ---
 class: inverse, center, middle
@@ -195,7 +212,7 @@ La formule générale de notre fonction linéaire `\(Y = f(X_1)\)` serait repré
 
 --
 
-`$$Y = \beta_0 + \beta_1X_i + \varepsilon$$`
+`$$Y = \beta_0 + \beta_1X_i + \varepsilon_i$$`
 où
 
 `\(Y_i\)` est la valeur prédite de la variable réponse
@@ -239,7 +256,7 @@ Nous avons aussi appris que les **modèles linéaires** produisent seulement des
 &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
 .small[
 .center[**POURQUOI TOUTES CES ÉQUATIONS?**]
-.center[*Courage! Ne perdez pas espoir!&lt;br&gt;Elles sont nécessaires et nous expliquerons pourquoi!*]
+.center[*Courage! Ne perdez pas l'espoir!&lt;br&gt;Elles sont nécessaires et nous expliquerons pourquoi!*]
 ]
 
 ---
@@ -265,10 +282,13 @@ Nous avons aussi appris que les **modèles linéaires** produisent seulement des
 
 Les estimations d'un modèle général linéaire telles que `\(\widehat{Y} = \widehat{\beta}_0 + \widehat{\beta}_1 X\)` assumemt que les données sont générées selon les conditions présentées. 
 
+
 &lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-2-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
+
 ???
-Note: Des versions plus développées de cet atelier devraient inclure les lignes décrivant les estimations d'erreur, et montrant leur distribution. Pour l'instant, le présentateur peut aider les participants avec cet abstraction.
+
+Décrivez la figure aux participants, en montrant la ligne ajustée et les résidus, et en expliquant que la variance n'augmente pas avec les deux variables.
 
 ---
 ## Representer les conditions d'application
@@ -296,7 +316,7 @@ simNormData &lt;- data.frame(
              )
   )
 
-# We have learned how to use lm() 
+# Nous avons appris à utiliser lm() 
 
 lm.simNormData &lt;- lm(RespVar ~ PredVar, 
                      data = simNormData)
@@ -425,6 +445,7 @@ Variables prédictives:
 
 --
 
+&lt;br&gt;
 **Pour répondre à notre question**: *On peut développer des modèles!*
 
 .pull-left[
@@ -478,44 +499,28 @@ Peut-être...
 ---
 # Explorer les relations
 
-Est-ce que la communauté de Galumna (abondance, occurence, et fréquence relative) varie en fonction du contenu en eau du sol?
+Est-ce que la communauté de _Galumna_ (abondance, occurence, et fréquence relative) varie en fonction du contenu en eau du sol?
 
+.small[
 
 ```r
 par(mfrow = c(1, 3), cex = 1.4)
-plot(Galumna ~ WatrCont, 
-     data = mites, xlab = 'Contenu en eau', ylab='Abondance')
-boxplot(WatrCont ~ pa, 
-        data = mites, xlab='Présence/Absence', ylab = 'Contenu en eau')
-plot(prop ~ WatrCont, 
-     data = mites, xlab = 'Contenu en eau', ylab='Proportion')
+plot(Galumna ~ WatrCont, data = mites, 
+     xlab = 'Contenu en eau', ylab = 'Abondance')
+boxplot(WatrCont ~ pa, data = mites, 
+        xlab = 'Presence-absence', ylab = 'Contenu en eau', col = 'red')
+plot(prop ~ WatrCont, data = mites, 
+     xlab = 'Contenu en eau', ylab = 'Frquence relative')
 ```
 
 &lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-11-1.png" width="864" style="display: block; margin: auto;" /&gt;
+]
 
 ---
-# Explorer les relations
 
-Est-ce que la communauté de Galumna (abondance, occurence, et fréquence relative) varie en fonction du contenu en eau du sol?
-
-```r
-par(mfrow = c(1, 3), cex = 1.4)
-plot(Galumna ~ WatrCont, 
-     data = mites, xlab = 'Contenu en eau', ylab='Abondance')
-boxplot(WatrCont ~ pa, 
-        data = mites, xlab='Présence/Absence', ylab = 'Contenu en eau')
-plot(prop ~ WatrCont, 
-     data = mites, xlab = 'Contenu en eau', ylab='Proportion')
-```
-
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-13-1.png" width="864" style="display: block; margin: auto;" /&gt;
-???
-Ces relations sont tous des relations linéaires potentielles et négatives, mais le contenu en eau a le plus de potentiel d'être significatif (les boîtes ne se touchent pas)
-
----
 # Utiliser des modèles linéaires
 
-Utilisons des modèles linéaires (généraux) pour tester si `Galumna`, `pa`, et/ou `prop`, varient en fonction du contenu d'eau (`WatrCont`).
+Utilisons des modèles linéaires (généraux) pour tester si `Galumna`, `pa`, et/ou `prop`, varient en fonction du contenu d'eau (`WatrCont`) en utilisant la fonction `lm()`:
 
 --
 .small[
@@ -589,7 +594,7 @@ plot(Galumna ~ WatrCont, data = mites)
 abline(lm.abund)
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-16-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-14-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 ]
 .pull-right[
@@ -599,7 +604,7 @@ par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.abund)
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-17-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-15-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -615,7 +620,7 @@ plot(prop ~ WatrCont, data = mites)
 abline(lm.prop)
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-18-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-16-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -625,7 +630,7 @@ par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.prop)
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-19-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-17-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -641,7 +646,7 @@ plot(pa ~ WatrCont, data = mites)
 abline(lm.pa)
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-20-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-18-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -651,7 +656,7 @@ par(mfrow = c(2, 2), cex = 1.4)
 plot(lm.pa)
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-21-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-19-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -667,16 +672,16 @@ On peut aussi l'écrire comme:
 
 `$$Y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$`
 
-avec `\(N(\cdot)\)`, c'est-à-dire que `\(Y_i\)` est échantillonné d'une **distribution normale**avec les paramètres `\(\mu\)` (moyenne; qui dépend de `\(x_i\)`) et `\(\sigma\)` (variance; qui a la même valeur pour tous les `\(Y_i\)`s).
+avec `\(N(\cdot)\)`, c'est-à-dire que `\(Y_i\)` est échantillonné d'une **distribution normale**avec les paramètres `\(\mu\)` (moyenne; qui dépend de `\(X_i\)`) et `\(\sigma\)` (variance; qui a la même valeur pour tous les `\(Y_i\)`).
 ]
 
 .pull-right[
 3 valeurs pour `\(\mu\)`, `\(\sigma = 5\)`
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-22-1.png" width="216" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-20-1.png" width="216" style="display: block; margin: auto;" /&gt;
 
 `\(\mu = 25\)`, 3 valeurs pour `\(\sigma\)`
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-23-1.png" width="216" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-21-1.png" width="216" style="display: block; margin: auto;" /&gt;
 ]
 ]
 ???
@@ -715,7 +720,7 @@ Quels sont les paramètres de la distribution normale utilisée pour modéliser 
 --
 
 .center[
-`\(\mu = 3.44 + (-0.006 \times 300) = 1.63\)`   et    `\(\sigma^2 = 1.51\)`
+pour `\(X_{i} = 300\)`, `\(\mu = 3.44 + (-0.006 \times 300) = 1.63\)`   et    `\(\sigma^2 = 1.51\)`
 ]
 
 c'est-à-dire, des valeurs `\(Y\)` échantillonés aléatoirement quand le contenu en eau est de 300 devraient avoir une moyenne de `\(1.63\)` et une variance de `\(1.51\)`. 
@@ -726,7 +731,7 @@ c'est-à-dire, des valeurs `\(Y\)` échantillonés aléatoirement quand le conte
 
 .pull-left[
 `$$y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$`
-`$$\mu = 3.44 + (-0.006 \times 300) +\varepsilon= 1.63$$`
+`$$\mu = 3.44 + (-0.006 \times 400) +\varepsilon= 1.02$$`
 `$$\sigma^2 = 1.51$$`
 ]
 .pull-right[
@@ -739,41 +744,31 @@ Lorsque `\(x_i = 400\)`, `\(Y_i\)` suit une distribution normale avec `\(\mu = 1
 
 .pull-left[
 
-.small[Graphiquement, notre modèle ressemble à:]
+.small[Notre modèle prévoit donc que les observations se situent dans les zones grisées suivantes:]
 
 .center[
-![:scale 90%](images/modelPredic.png)
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-22-1.png" width="324" style="display: block; margin: auto;" /&gt;
 ]
 ]
 
 --
 
+
+&lt;br&gt; 
+
 .pull-right[
 
-**Quelles sont les problèmes avec ce modèle?**
+.center[**Mais, le font-elles ?**]
 
-1. La pente ne suit pas les observations
-2. Les `\(\mu\)` (moyennes) sont incorrectes
-3. Les `\(\sigma^2\)` (variances) sont considerés homogènes
-4. Le distribution normal est continu mais les observations sont discètes
 ]
 
-???
-
-Faites un sondage à choix multiples avec les participants.
-Les réponses sont 3 et 4.
-
-Les valeurs sont en moyenne, plus éloignée de la pente à une valeur de X basse qu'à une valeur de X élevée, ce qui indique que la variance (σ2) n'est pas homogène.
-
-Les observations sont aussi discrètes (valeurs rondes plutôt que décimal) ce qui pose problème avec une distribution normale.
 
 ---
-exclude:true
 # Prédiction du modèle
 
 .pull-left[
 `$$y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$`
-`$$\mu = 3.44 + (-0.006 \times 300) +\varepsilon= 1.63$$`
+`$$\mu = 3.44 + (-0.006 \times 400) +\varepsilon= 1.02$$`
 `$$\sigma^2 = 1.51$$`
 ]
 .pull-right[
@@ -782,26 +777,38 @@ Lorsque `\(x_i = 300\)`, `\(Y_i\)` suit une distribution normale avec `\(\mu = 1
 Lorsque `\(x_i = 400\)`, `\(Y_i\)` suit une distribution normale avec `\(\mu = 1.02\)` et `\(\sigma^2 = 1.51\)`, etc.
 ]
 
---
-exclude:true
 .pull-left[
 
-.small[Graphiquement, notre modèle ressemble à:]
+.small[Notre modèle prévoit donc que les observations se situent dans les zones grisées suivantes:]
 
 .center[
-![:scale 90%](images/modelPredic.png)
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-23-1.png" width="324" style="display: block; margin: auto;" /&gt;
+
 ]
 ]
 
---
-exclude:true
+&lt;br&gt; 
+
 .pull-right[
 
-**Les problèmes avec ce modèle:**
+.center[**Mais, le font-elles ?**]
 
-3. `\(\sigma^2\)` n'est pas homogène, mais `lm()` nous contraint d'utiliser toujours la même valeur de `\(\sigma^2\)`.
-4. Les valeurs estimées devraient être des nombres entiers.
+.center[*Hmmmmmmmm...*]
+
+&lt;br&gt;
+
+**Lesquelles des propositions suivantes sont correctes?**
+
+1. Les résidus semblent violer les premises des modèles linéaires ;
+2. La `\(\sigma^2\)` (variance) change selon les valeurs de `\(x\)` ;
+3. Les observations ne tombent pas sur les valeurs attendues.
 ]
+
+???
+
+Vous pouvez effectuer un sondage à choix multiples auprès des participants.
+
+Les options 1, 2 et 3 posent problème dans ce modèle, c'est-à-dire qu'elles sont toutes correctes.
 
 ---
 ## Comment règler ces problèmes? Transformer?
@@ -817,10 +824,9 @@ On se fait souvent dire qu'il faut **transformer** nos données en utilisant des
 .pull-left[
 Mais, les transformations ne règlent pas toujours le problème, et viennent avec quelques inconvénients:
 
-**1.** Elles changent la variable réponse, ce qui peut compliquer l'interprétation;  
-**2.** Elles ne peuvent pas toujours améliorer la linéarité et l'homogénité de la variance en même temps;  
-
-**3.** Les bornes de l'espace d'échantillonage change.  
+1. Elles changent la variable réponse, ce qui peut compliquer l'interprétation;  
+2. Elles ne peuvent pas toujours améliorer la linéarité et l'homogénité de la variance en même temps;  
+3. Les limites de l'espace d'échantillonage changent.  
 
 ]
 
@@ -834,7 +840,7 @@ devient ceci après une transformation logarithmique:
 
 $$E(\log{Y_i}) = \beta_0 + \beta_1X_i $$
 
-.small[*C'est beaucoup moins intuitif d'interpréter que l'abondance de Galumna prend la forme de `\(\log(1.63).\)` pour chaque augmentation de `\(300\)` unités en contenu en eau!*]
+*C'est moins intuitif d'interpréter que l'abondance de Galumna prend la forme de `\(\log(1.63).\)` pour chaque augmentation de `\(300\)` unités en contenu en eau!*
 ]
 
 ---
@@ -1376,7 +1382,7 @@ pour une probabilité logarithmique de réponse positive. Nous pouvons égalemen
 
 `$$Pr(yi) = \dfrac{exp(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}{1 + exp{(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}}$$`
 
-.center[Super! Lâche pas!]
+.center[Super ! Lâche pas !]
 
 ---
 # Interpréter les coefficients de `glm()`
@@ -1390,7 +1396,7 @@ Voyons ce qui arrive aux coefficients pour un changement d'une unité à `\(x_1\
 `$$\Delta{y_i} = \dfrac{\exp[\beta_0 + (\color{red}{x_{1i} + 1})\beta_1 + x_{2i}\beta_2]}{1 + \exp{[\beta_0 + (\color{red}{x_{1i} + 1})\beta_1 + x_{2i}\beta_2]}} - \dfrac{\exp[\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2]}{1 + \exp{[\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2]}}$$`
 $$\Delta{y_i} = exp(\beta_1) $$
 
-As `\(x\)` increases by one unit, the odds increase by a factor of  `\(\exp(\beta_1)\)`.
+Lorsque `\(x\)` augmente d'une unité, la probabilité augmente d'un facteur de `\(\exp(\beta_1)\)`.
 
 ---
 # Interpréter les coefficients de `glm()`
@@ -1423,6 +1429,34 @@ exp(logit.reg$coefficient[2])
 #  WatrCont 
 # 0.9843118
 ```
+
+---
+# Interpréter les coefficients de `glm()`
+
+.pull-left[
+
+Quand _odds_ `\(= 1\)`, la probabilité d'observer l'événement `\(Y\)` est égale à la probabilité de *ne pas* l'observer (*i.e.* `\(p = 0.5\)`, donc `\(0.5/(1-0.5) = 1\)`).
+
+Lorsque _odds_ `\(&lt; 1\)`, il faut prendre l'inverse (_i._ `\(1\)` divisé par les _odds_).
+
+L'interprétation est alors de savoir quelle est la **moindre** probabilité d'observer l'événement d'intérêt. 
+
+Pour la teneur en eau, le _odds_ est de `\(0.984\)`. L'inverse est :
+
+`$$\dfrac{1}{0.984} = 1.0159$$`
+_i.e._, il y a une augmentation d'une unité de la teneur en eau diminue la probabilité d'observer _Galumna sp_. de `\(1.0159\)`.
+
+]
+
+.pull-right[
+ Nous pouvons obtenir une variation en pourcentage comme ci-dessous :
+`$$(1.0159 - 1) * 100 = 1.59%$$`
+Il y a une diminution de `\(1.59%\)` de la probabilité d'observer _Galumna sp._ avec une augmentation d'une unité de la teneur en eau.
+
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-51-1.png" width="288" style="display: block; margin: auto;" /&gt;
+
+]
+
 
 ---
 # Pouvoir prédictif et ajustement du modèle
@@ -1631,7 +1665,7 @@ HLtest(logit.reg)
 plot(HLtest(logit.reg))
 ```
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-55-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-56-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .comment[Une valeur non significative indique un ajustement adéquat!]
@@ -1806,7 +1840,7 @@ Les données d'abondance sont charactérisées par:
 - des valeurs entières : on ne peut pas compter **7.56** individus
 - une plus grande variance pour les grandes valeurs
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-64-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-65-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ???
 Vous pouvez dire qu'en *moyenne*, vous avez 7.56 individus pour une situation spécifique. Mais la mesure est tout de même *discrète*.
 ---
@@ -1816,7 +1850,7 @@ Vous pouvez dire qu'en *moyenne*, vous avez 7.56 individus pour une situation sp
 
 L'élévation influence-t-elle l'abondance de *F. occidentalis*?
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-65-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-66-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ---
 # Modéliser des données d'abondance
@@ -1824,11 +1858,11 @@ L'élévation influence-t-elle l'abondance de *F. occidentalis*?
 L'élévation influence-t-elle l'abondance de *F. occidentalis*?
 
 .pull-left[
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-66-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-67-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-67-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-68-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 Quelle distribution modèle le mieux ces observations?
@@ -1846,11 +1880,11 @@ Ceci est un question de sondage à un choix. La réponse est 3. Poisson.
 
 L'élévation influence-t-elle l'abondance de *F. occidentalis*?
 .pull-left[
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-68-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-69-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-69-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-70-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 .small[Quelle distribution modèle le mieux ces observations?
 1. Bernoulli   
@@ -2015,7 +2049,7 @@ exclude: false
 
 Rappelez vous que pour estimer les paramètres inconnus, l'estimation par maximum de vraisemblance est utilisée.
 
-La déviance résiduelle est approximativement la différence entre la vraisemblance d'un modèle saturé (n paramètres pour chaque observation) et le modèle complet (p paramètres):
+La déviance résiduelle est approximativement la différence entre la vraisemblance d'un modèle saturé ($n$ paramètres pour chaque observation) et le modèle complet ($p$ paramètres):
 
 `$$\text{Res dev} = 2 \, log(L(y;\,y)) - 2 \, log(L(y;\, \mu))$$`
 
@@ -2050,11 +2084,26 @@ Les tests sur les variables explicatives apparaîtront généralement plus signi
 ---
 # La surdispersion
 
-Quand la déviance résiduelle est supérieure au nombre de degrés de liberté résiduels, le modèle est **surdispersé**. On peut calculer un paramètre de surdispersion ( `\(\phi\)` ):
+Quand la déviance résiduelle est supérieure au nombre de degrés de liberté résiduels, le modèle est **surdispersé**.
 
+.pull-left[
+On peut calculer le paramètre de surdispersion ( `\(\phi\)` ) par:
 `$$\phi ~ = ~\frac{\text{Déviance résiduelle}}{\text{Degrés de liberté résiduels}}$$`
+]
 
-Puisque le GLM Poisson requiert que `\(var[y] = μ\)`, nous devons trouver une soluation alternative. 
+.pull-right[
+Si, `\(\phi\)` est plus que `\(1\)`, alors nous devrons l'estimer avec:
+
+`$$\widehat{\phi}=\frac{1}{n-k}\sum\frac{(Y_{i}-\hat{\mu_{i}})^2}{\hat{\mu_{i}}}$$`
+]
+
+```
+# En R, vous pouvez obtenir phi avec:
+sum(residuals(ton_obj_glm, type="pearson")^2)/df.residual(ton_obj_glm)
+```
+&lt;br&gt;
+
+Puisque le GLM Poisson requiert que `\(var[y] = μ\)`, nous devons trouver une solution alternative. 
 
 .center[.large[**Solutions**]]
 
@@ -2065,6 +2114,10 @@ Puisque le GLM Poisson requiert que `\(var[y] = μ\)`, nous devons trouver une s
 .pull-right[
 2: Choisir une autre distribution, comme **la negative binomiale**
 ]
+
+???
+
+where n is the sample size, k is the number of estimated parameters (including the intercept) and μiˆ=g−1(ηiˆ) is the fitted expectation of Yi (g−1 is the inverse link function). Note that the formulation above is simply the Pearson χ2 divided by the residual degrees of freedom: ϕˆ=χ2/df.
 
 ---
 # GLM quasi-Poisson
@@ -2314,7 +2367,7 @@ lines(pframe$lwr, col = 2, lty = 3, lwd = 2)
 ---
 # Visualiser le modèle final
 
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-79-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-80-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ---
 # Défi 3 ![:cube]()
@@ -2388,7 +2441,7 @@ anova(glm.qp2, glm.qp, test="Chisq")
 &lt;br&gt;
 
 .center[
-&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-83-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop06-pres-fr_files/figure-html/unnamed-chunk-84-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 

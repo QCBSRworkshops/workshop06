@@ -38,7 +38,7 @@ options(repos=structure(c(CRAN="http://cran.r-project.org")))
 ```{r install_pkgs, message=FALSE, warning=FALSE, include=FALSE, results=0}
 # Standard procedure to check and install packages and their dependencies, if needed.
 
-list.of.packages <- c('ggplot2', 'MASS', 'vcdExtra', 'bbmle', 'DescTools','xaringan')
+list.of.packages <- c('ggplot2', 'MASS', 'vcdExtra', 'bbmle', 'DescTools','xaringan', 'ggpmisc')
 
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 
@@ -54,18 +54,17 @@ lapply(list.of.packages, require, character.only = TRUE, quietly = TRUE)
 
 # À propos de cet atelier
 
-[![badge](https://img.shields.io/static/v1?style=flat-square&label=Diapos&message=06&color=red&logo=html5)](https://qcbsrworkshops.github.io/workshop06/pres-fr/workshop06-pres-fr.html)
-[![badge](https://img.shields.io/static/v1?style=flat-square&label=livre&message=06&logo=github)](https://qcbsrworkshops.github.io/workshop06/book-fr/index.html)
-[![badge](https://img.shields.io/static/v1?style=flat-square&label=wiki&message=06&logo=wikipedia)](https://wiki.qcbs.ca/r_atelier6)
-![badge](https://img.shields.io/static/v1?style=flat-square&label=script&message=06&color=2a50b8&logo=r)
-[![badge](https://img.shields.io/static/v1?style=flat-square&label=repo&message=dev&color=6f42c1&logo=github)](https://github.com/QCBSRworkshops/workshop06) 
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&label=Présentation&message=06&color=BF616A)](https://r.qcbs.ca/workshop06/pres-fr/workshop06-pres-fr.html)    [![badge](https://img.shields.io/static/v1?style=for-the-badge&label=Script&message=06&color=D08770&logo=r)](https://r.qcbs.ca/workshop06/book-fr/workshop06-script-fr.R) 
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&label=Livre&message=06&color=EBCB8B)](https://r.qcbs.ca/workshop06/book-fr/index.html)
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&label=Site&message=r.qcbs.ca&color=A3BE8C)](https://r.qcbs.ca/fr/workshops/r-workshop-06/)
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&label=GitHub&message=06&color=B48EAD&logo=github)](https://github.com/QCBSRworkshops/workshop06) 
 
 ---
 
 <p style="font-size:75%">
 
 .center[
-**Contributeurs et contributrices au développement de cet atelier**
+**Membres du CSBQ qui ont contribué à cet atelier**
 
 en modifiant et améliorant son contenu dans le cadre du <br> prix d’apprentissage et de développement
 ]
@@ -75,15 +74,14 @@ en modifiant et améliorant son contenu dans le cadre du <br> prix d’apprentis
 .right[
 
  **2022** - **2021** - **2020**
- <br>
-  <br>
+
 [Laurie Maynard](https://github.com/LaurieMaynard)
 <br>
 [Pedro Henrique P. Braga](https://github.com/pedrohbraga)
 <br>
-[Katherine Hébert]()
+[Katherine Hébert](https://github.com/katherinehebert)
 <br>
-[Alex Arkilanian]()
+[Alex Arkilanian](https://github.com/aarkilanian)
 <br>
 [Mathieu Vaillancourt](mathieu.vaillancourt.2@ulaval.ca)
 <br>
@@ -96,15 +94,15 @@ en modifiant et améliorant son contenu dans le cadre du <br> prix d’apprentis
 .left[
 **2019** - **2018** - **2017**
 
-[Azenor Bideault]()
+[Azenor Bideault](https://github.com/Azenor)
 <br>
-[Willian Vieira]()
+[Willian Vieira](https://github.com/willvieira)
 <br>
-[Pedro Henrique P. Braga]()
+[Pedro Henrique P. Braga](https://github.com/pedrohbraga)
 <br>
-[Marie Hélène Brice]()
+[Marie Hélène Brice](https://github.com/mhBrice)
 <br>
-[Kevin Cazelles]()
+[Kevin Cazelles](https://github.com/KevCaz)
 
 **2016** - **2015** - **2014**
 
@@ -112,14 +110,21 @@ en modifiant et améliorant son contenu dans le cadre du <br> prix d’apprentis
 <br>
 [Thomas Lamy]()
 <br>
-[Zofia Taranu]()
+[Zofia Taranu](https://github.com/zetaranu)
 <br>
-[Vincent Fugère]()
+[Vincent Fugère](https://github.com/VFugere)
 
 ]
 
 ]
 </p>
+
+
+<br><br>
+.center[
+__Si vous voulez contribuer aussi__, visitez [r.qcbs.ca/fr/contributing](https://r.qcbs.ca/fr/contributing/) <br> et n'hésitez pas à [nous contacter](mailto:csbq.qcbs.r@gmail.com)!
+]
+
 ---
 
 # Objectifs d'apprentissage
@@ -148,15 +153,19 @@ Cet atelier développera vos connaissances de modèles, y compris certaines équ
 
 # Packages requis
 
-En plus des versions les plus récentes de R et RStudio, cet atelier requiert les packages R suivants:
+Pour suivre cet atelier, vous devriez avoir installé [R](https://cran.rstudio.com/) et [RStudio](https://rstudio.com/products/rstudio/download/#download).
 
+.pull-left[
+Cet atelier requiert aussi les packages R suivants:
 1. [ggplot2](https://cran.r-project.org/package=ggplot2)
 3. [MASS](https://cran.r-project.org/package=MASS)
 4. [vcdExtra](https://cran.r-project.org/package=vcdExtra)
 5. [bbmle](https://cran.r-project.org/package=bbmle)
 6. [DescTools](https://cran.r-project.org/package=DescTools)
+]
 
-<br>
+.pull-right[
+
 
 Pour les installer à partir de CRAN, roulez:
 
@@ -168,6 +177,14 @@ install.packages(c("ggplot2",
                    'DescTools')
                  )
 ```
+]
+
+<br>
+
+Nous utiliserons aussi ces jeux de données:
+
+- <a href="https://r.qcbs.ca/workshop06/pres-fr/data/mites.csv">mites.csv</a> 
+- <a href="https://r.qcbs.ca/workshop06/pres-fr/data/faramea.csv">faramea.csv</a>
 
 ---
 class: inverse, center, middle
@@ -220,7 +237,7 @@ La formule générale de notre fonction linéaire $Y = f(X_1)$ serait représent
 
 --
 
-$$Y = \beta_0 + \beta_1X_i + \varepsilon$$
+$$Y = \beta_0 + \beta_1X_i + \varepsilon_i$$
 où
 
 $Y_i$ est la valeur prédite de la variable réponse
@@ -264,7 +281,7 @@ $$\boldsymbol{\varepsilon} | \mathbf{X} \sim \mathcal{N} \left( \mathbf{0}, \sig
 <br><br><br><br><br><br><br><br><br>
 .small[
 .center[**POURQUOI TOUTES CES ÉQUATIONS?**]
-.center[*Courage! Ne perdez pas espoir!<br>Elles sont nécessaires et nous expliquerons pourquoi!*]
+.center[*Courage! Ne perdez pas l'espoir!<br>Elles sont nécessaires et nous expliquerons pourquoi!*]
 ]
 
 ---
@@ -290,31 +307,53 @@ $$\boldsymbol{\varepsilon} | \mathbf{X} \sim \mathcal{N} \left( \mathbf{0}, \sig
 
 Les estimations d'un modèle général linéaire telles que $\widehat{Y} = \widehat{\beta}_0 + \widehat{\beta}_1 X$ assumemt que les données sont générées selon les conditions présentées. 
 
-```{r echo = FALSE}
+
+```{r echo = FALSE, fig.align = "center"}
 # Set the coefficients:
 N = 50
 beta_0 = 1
 beta_1 = 0.5
 # Generate sample data:
 x <- 0:N
-#
-e <- rnorm(mean = 0, sd = 1.5, n = length(x))
+e <- rnorm(mean = 0, sd = 2, n = length(x))
 y <- beta_0 + beta_1 * x + e
+# Fit regression
+d <- data.frame(x, y)
+fit <- lm(y ~ x, data = d)
+d$predicted <- predict(fit)   # Save the predicted values
+d$residuals <- residuals(fit) # Save the residual values
+
 # Plot the data
-#
-#
-plot(x, y)
-# The unknown DGP:
-y_dgp <- beta_0 + beta_1 * x
-# Plot the Unknown Population regression:
-lines(x = x, y = y_dgp, col = "darkgreen", lty = 2)
-legend(x = 0, y = 25,
-       legend = c(expression(paste("Y = ", beta[0] + beta[1] * X))),
-       lty = c(2, 1), lwd = c(1, 1), pch = c(NA, NA), col = c("darkgreen", "blue"))
+library(ggplot2)
+library(ggpmisc)
+
+ggplot(d, aes(x = x, 
+              y = y)) +
+  geom_smooth(method = "lm", se = FALSE, color = "lightgrey", shape = 2) +
+  geom_segment(aes(xend = x, yend = predicted), alpha = 0.2) +
+  # > Alpha adjustments made here...
+  geom_point(aes(alpha = abs(residuals)), size = 2) +  # Alpha mapped to abs(residuals)
+  stat_poly_eq(formula = y ~ x, eq.with.lhs = "italic(hat(y))~`=`~",
+                aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~"), size = 5), 
+                parse = TRUE) +         
+  guides(alpha = FALSE) +  # Alpha legend removed
+ # geom_line(aes(y = predicted), shape = 3) +
+  theme_classic(base_size = 20) +
+  theme(
+        plot.margin = unit(c(0, 0, 0, 0), "null"),
+    panel.margin = unit(c(0, 0, 0, 0), "null")
+  )
+
+
+# legend(x = 0, y = 25,
+#        legend = c(expression(paste("Y = ", beta[0] + beta[1] * X))),
+#        lty = c(2, 1), lwd = c(1, 1), pch = c(NA, NA), col = c("darkgreen", "blue"))
 ```
 ]
+
 ???
-Note: Des versions plus développées de cet atelier devraient inclure les lignes décrivant les estimations d'erreur, et montrant leur distribution. Pour l'instant, le présentateur peut aider les participants avec cet abstraction.
+
+Décrivez la figure aux participants, en montrant la ligne ajustée et les résidus, et en expliquant que la variance n'augmente pas avec les deux variables.
 
 ---
 ## Representer les conditions d'application
@@ -341,7 +380,7 @@ simNormData <- data.frame(
              )
   )
 
-# We have learned how to use lm() 
+# Nous avons appris à utiliser lm() 
 
 lm.simNormData <- lm(RespVar ~ PredVar, 
                      data = simNormData)
@@ -461,6 +500,7 @@ Variables prédictives:
 
 --
 
+<br>
 **Pour répondre à notre question**: *On peut développer des modèles!*
 
 .pull-left[
@@ -516,51 +556,26 @@ Peut-être...
 ---
 # Explorer les relations
 
-Est-ce que la communauté de Galumna (abondance, occurence, et fréquence relative) varie en fonction du contenu en eau du sol?
+Est-ce que la communauté de _Galumna_ (abondance, occurence, et fréquence relative) varie en fonction du contenu en eau du sol?
 
-```{r,fig.width=12,fig.height=4,echo=-1}
+.small[
+```{r, fig.width = 12, fig.height = 4,echo = -1}
 par(mypar)
 par(mfrow = c(1, 3), cex = 1.4)
-plot(Galumna ~ WatrCont, 
-     data = mites, xlab = 'Contenu en eau', ylab='Abondance')
-boxplot(WatrCont ~ pa, 
-        data = mites, xlab='Présence/Absence', ylab = 'Contenu en eau')
-plot(prop ~ WatrCont, 
-     data = mites, xlab = 'Contenu en eau', ylab='Proportion')
+plot(Galumna ~ WatrCont, data = mites, 
+     xlab = 'Contenu en eau', ylab = 'Abondance')
+boxplot(WatrCont ~ pa, data = mites, 
+        xlab = 'Presence-absence', ylab = 'Contenu en eau', col = 'red')
+plot(prop ~ WatrCont, data = mites, 
+     xlab = 'Contenu en eau', ylab = 'Frquence relative')
 ```
+]
 
 ---
-# Explorer les relations
 
-Est-ce que la communauté de Galumna (abondance, occurence, et fréquence relative) varie en fonction du contenu en eau du sol?
-```{r,fig.width=12,fig.height=4,echo=-1,eval=FALSE}
-par(mypar)
-par(mfrow = c(1, 3), cex = 1.4)
-plot(Galumna ~ WatrCont, 
-     data = mites, xlab = 'Contenu en eau', ylab='Abondance')
-boxplot(WatrCont ~ pa, 
-        data = mites, xlab='Présence/Absence', ylab = 'Contenu en eau')
-plot(prop ~ WatrCont, 
-     data = mites, xlab = 'Contenu en eau', ylab='Proportion')
-```
-
-```{r,fig.width=12,fig.height=4,echo=FALSE}
-par(mypar)
-par(mfrow = c(1, 3), cex = 1.4)
-plot(Galumna ~ WatrCont, 
-     data = mites, xlab = 'Contenu en eau', ylab='Abondance')
-boxplot(WatrCont ~ pa, col='red',
-        data = mites, xlab='Présence/Absence', ylab = 'Contenu en eau')
-plot(prop ~ WatrCont, 
-     data = mites, xlab = 'Contenu en eau', ylab='Proportion')
-```
-???
-Ces relations sont tous des relations linéaires potentielles et négatives, mais le contenu en eau a le plus de potentiel d'être significatif (les boîtes ne se touchent pas)
-
----
 # Utiliser des modèles linéaires
 
-Utilisons des modèles linéaires (généraux) pour tester si `Galumna`, `pa`, et/ou `prop`, varient en fonction du contenu d'eau (`WatrCont`).
+Utilisons des modèles linéaires (généraux) pour tester si `Galumna`, `pa`, et/ou `prop`, varient en fonction du contenu d'eau (`WatrCont`) en utilisant la fonction `lm()`:
 
 --
 .small[
@@ -692,7 +707,7 @@ On peut aussi l'écrire comme:
 
 $$Y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$
 
-avec $N(\cdot)$, c'est-à-dire que $Y_i$ est échantillonné d'une **distribution normale**avec les paramètres $\mu$ (moyenne; qui dépend de $x_i$) et $\sigma$ (variance; qui a la même valeur pour tous les $Y_i$s).
+avec $N(\cdot)$, c'est-à-dire que $Y_i$ est échantillonné d'une **distribution normale**avec les paramètres $\mu$ (moyenne; qui dépend de $X_i$) et $\sigma$ (variance; qui a la même valeur pour tous les $Y_i$).
 ]
 
 .pull-right[
@@ -749,7 +764,7 @@ Quels sont les paramètres de la distribution normale utilisée pour modéliser 
 --
 
 .center[
-$\mu = 3.44 + (-0.006 \times 300) = 1.63$   et    $\sigma^2 = 1.51$
+pour $X_{i} = 300$, $\mu = 3.44 + (-0.006 \times 300) = 1.63$   et    $\sigma^2 = 1.51$
 ]
 
 c'est-à-dire, des valeurs $Y$ échantillonés aléatoirement quand le contenu en eau est de 300 devraient avoir une moyenne de $1.63$ et une variance de $1.51$. 
@@ -760,7 +775,7 @@ c'est-à-dire, des valeurs $Y$ échantillonés aléatoirement quand le contenu e
 
 .pull-left[
 $$y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$
-$$\mu = 3.44 + (-0.006 \times 300) +\varepsilon= 1.63$$
+$$\mu = 3.44 + (-0.006 \times 400) +\varepsilon= 1.02$$
 $$\sigma^2 = 1.51$$
 ]
 .pull-right[
@@ -773,41 +788,70 @@ Lorsque $x_i = 400$, $Y_i$ suit une distribution normale avec $\mu = 1.02$ et $\
 
 .pull-left[
 
-.small[Graphiquement, notre modèle ressemble à:]
+.small[Notre modèle prévoit donc que les observations se situent dans les zones grisées suivantes:]
 
 .center[
-![:scale 90%](images/modelPredic.png)
+```{r echo = FALSE, fig.height = 4, fig.width= 4.5}
+#Code to generate figure that illustrates assumptions of linear models
+par(mar = c(2, 2, 1, 0))
+plot.norm <- function(x, mymodel, mult = 1, sd.mult = 3, mycol = 'LightSalmon', howmany = 150) {
+  yvar <- mymodel$model[,1]
+  xvar <- mymodel$model[,2]
+  sigma <- summary(mymodel)$sigma
+  stick.val <- rep(xvar[x],howmany)+mult*dnorm(seq(predict(mymodel)[x]-sd.mult*sigma, predict(mymodel)[x]+sd.mult*sigma, length = howmany), mean=predict(mymodel)[x],sd=sigma)
+  steps<-seq(predict(mymodel)[x]-sd.mult*sigma,predict(mymodel)[x]+sd.mult*sigma,length=howmany)
+  polygon(c(stick.val,rep(xvar[x],howmany)),c(sort(steps,decreasing=T),steps),col=mycol,border=NA)
+}
+#function adapted from http://www.unc.edu/courses/2010fall/ecol/563/001/notes/lecture4%20Rcode.txt
+plot(Galumna ~ WatrCont, 
+     data = mites,
+     ylim = c(-4,8), cex.axis = 1,
+     cex.lab = 0.1,type='n')
+plot.norm(8,
+          lm.abund,
+          200)
+plot.norm(11,
+          lm.abund,
+          200)
+plot.norm(36,
+          lm.abund,
+          200)
+plot.norm(52,
+          lm.abund,
+          200)
+abline(h=0,
+       lty=3)
+points(Galumna ~ WatrCont, data = mites, pch = 21,
+       col = rgb(red = 0, green = 0, blue = 1, alpha = 0))
+abline(lm.abund,lty=1)
+abline(v=mites$WatrCont[c(8,11,36,52)],col='red',lty=2)
+text(x = mites$WatrCont[8]+50,y=7.5,expression(mu == 1.8),cex=1,col='red')
+text(x = mites$WatrCont[11]+50,y=7.5,expression(mu == 2.6),cex=1,col='red')
+text(x = mites$WatrCont[36]+50,y=7.5,expression(mu == 0.9),cex=1,col='red')
+text(x = mites$WatrCont[52]+60,y=7.5,expression(mu == -0.1),cex=1,col='red')
+text(x = mites$WatrCont[52]+105,y=6.5,expression(sigma == 'always' ~ 1.51),cex=1,col='red')
+```
 ]
 ]
 
 --
 
+
+<br> 
+
 .pull-right[
 
-**Quelles sont les problèmes avec ce modèle?**
+.center[**Mais, le font-elles ?**]
 
-1. La pente ne suit pas les observations
-2. Les $\mu$ (moyennes) sont incorrectes
-3. Les $\sigma^2$ (variances) sont considerés homogènes
-4. Le distribution normal est continu mais les observations sont discètes
 ]
 
-???
-
-Faites un sondage à choix multiples avec les participants.
-Les réponses sont 3 et 4.
-
-Les valeurs sont en moyenne, plus éloignée de la pente à une valeur de X basse qu'à une valeur de X élevée, ce qui indique que la variance (σ2) n'est pas homogène.
-
-Les observations sont aussi discrètes (valeurs rondes plutôt que décimal) ce qui pose problème avec une distribution normale.
 
 ---
-exclude:true
 # Prédiction du modèle
 
 .pull-left[
 $$y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)$$
-$$\mu = 3.44 + (-0.006 \times 300) +\varepsilon= 1.63$$
+$$\mu = 3.44 + (-0.006 \times 400) +\varepsilon= 1.02$$
 $$\sigma^2 = 1.51$$
 ]
 .pull-right[
@@ -816,26 +860,77 @@ Lorsque $x_i = 300$, $Y_i$ suit une distribution normale avec $\mu = 1.63$ et $\
 Lorsque $x_i = 400$, $Y_i$ suit une distribution normale avec $\mu = 1.02$ et $\sigma^2 = 1.51$, etc.
 ]
 
---
-exclude:true
 .pull-left[
 
-.small[Graphiquement, notre modèle ressemble à:]
+.small[Notre modèle prévoit donc que les observations se situent dans les zones grisées suivantes:]
 
 .center[
-![:scale 90%](images/modelPredic.png)
+```{r echo = FALSE, fig.height = 4, fig.width= 4.5}
+#Code to generate figure that illustrates assumptions of linear models
+par(mar = c(2, 2, 1, 0))
+plot.norm <- function(x, mymodel, mult = 1, sd.mult = 3, mycol = 'LightSalmon', howmany = 150) {
+  yvar <- mymodel$model[,1]
+  xvar <- mymodel$model[,2]
+  sigma <- summary(mymodel)$sigma
+  stick.val <- rep(xvar[x],howmany)+mult*dnorm(seq(predict(mymodel)[x]-sd.mult*sigma, predict(mymodel)[x]+sd.mult*sigma, length = howmany), mean=predict(mymodel)[x],sd=sigma)
+  steps<-seq(predict(mymodel)[x]-sd.mult*sigma,predict(mymodel)[x]+sd.mult*sigma,length=howmany)
+  polygon(c(stick.val,rep(xvar[x],howmany)),c(sort(steps,decreasing=T),steps),col=mycol,border=NA)
+}
+#function adapted from http://www.unc.edu/courses/2010fall/ecol/563/001/notes/lecture4%20Rcode.txt
+plot(Galumna ~ WatrCont, 
+     data = mites,
+     ylim = c(-4,8), cex.axis = 1,
+     cex.lab = 0.1,type='n')
+plot.norm(8,
+          lm.abund,
+          200)
+plot.norm(11,
+          lm.abund,
+          200)
+plot.norm(36,
+          lm.abund,
+          200)
+plot.norm(52,
+          lm.abund,
+          200)
+abline(h=0,
+       lty=3)
+points(Galumna ~ WatrCont, data = mites, pch = 21,
+       col = rgb(red = 0, green = 0, blue = 1, alpha = 1))
+abline(lm.abund,lty=1)
+abline(v=mites$WatrCont[c(8,11,36,52)],col='red',lty=2)
+text(x = mites$WatrCont[8]+50,y=7.5,expression(mu == 1.8),cex=1,col='red')
+text(x = mites$WatrCont[11]+50,y=7.5,expression(mu == 2.6),cex=1,col='red')
+text(x = mites$WatrCont[36]+50,y=7.5,expression(mu == 0.9),cex=1,col='red')
+text(x = mites$WatrCont[52]+60,y=7.5,expression(mu == -0.1),cex=1,col='red')
+text(x = mites$WatrCont[52]+105,y=6.5,expression(sigma == 'always' ~ 1.51),cex=1,col='red')
+```
+
 ]
 ]
 
---
-exclude:true
+<br> 
+
 .pull-right[
 
-**Les problèmes avec ce modèle:**
+.center[**Mais, le font-elles ?**]
 
-3. $\sigma^2$ n'est pas homogène, mais `lm()` nous contraint d'utiliser toujours la même valeur de $\sigma^2$.
-4. Les valeurs estimées devraient être des nombres entiers.
+.center[*Hmmmmmmmm...*]
+
+<br>
+
+**Lesquelles des propositions suivantes sont correctes?**
+
+1. Les résidus semblent violer les premises des modèles linéaires ;
+2. La $\sigma^2$ (variance) change selon les valeurs de $x$ ;
+3. Les observations ne tombent pas sur les valeurs attendues.
 ]
+
+???
+
+Vous pouvez effectuer un sondage à choix multiples auprès des participants.
+
+Les options 1, 2 et 3 posent problème dans ce modèle, c'est-à-dire qu'elles sont toutes correctes.
 
 ---
 ## Comment règler ces problèmes? Transformer?
@@ -851,10 +946,9 @@ On se fait souvent dire qu'il faut **transformer** nos données en utilisant des
 .pull-left[
 Mais, les transformations ne règlent pas toujours le problème, et viennent avec quelques inconvénients:
 
-**1.** Elles changent la variable réponse, ce qui peut compliquer l'interprétation;  
-**2.** Elles ne peuvent pas toujours améliorer la linéarité et l'homogénité de la variance en même temps;  
-
-**3.** Les bornes de l'espace d'échantillonage change.  
+1. Elles changent la variable réponse, ce qui peut compliquer l'interprétation;  
+2. Elles ne peuvent pas toujours améliorer la linéarité et l'homogénité de la variance en même temps;  
+3. Les limites de l'espace d'échantillonage changent.  
 
 ]
 
@@ -868,7 +962,7 @@ devient ceci après une transformation logarithmique:
 
 $$E(\log{Y_i}) = \beta_0 + \beta_1X_i $$
 
-.small[*C'est beaucoup moins intuitif d'interpréter que l'abondance de Galumna prend la forme de $\log(1.63).$ pour chaque augmentation de $300$ unités en contenu en eau!*]
+*C'est moins intuitif d'interpréter que l'abondance de Galumna prend la forme de $\log(1.63).$ pour chaque augmentation de $300$ unités en contenu en eau!*
 ]
 
 ---
@@ -1409,7 +1503,7 @@ $$\dfrac{p}{1-p}=exp(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)$$
 
 $$Pr(yi) = \dfrac{exp(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}{1 + exp{(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}}$$
 
-.center[Super! Lâche pas!]
+.center[Super ! Lâche pas !]
 
 ---
 # Interpréter les coefficients de `glm()`
@@ -1423,7 +1517,7 @@ Voyons ce qui arrive aux coefficients pour un changement d'une unité à $x_1$ :
 $$\Delta{y_i} = \dfrac{\exp[\beta_0 + (\color{red}{x_{1i} + 1})\beta_1 + x_{2i}\beta_2]}{1 + \exp{[\beta_0 + (\color{red}{x_{1i} + 1})\beta_1 + x_{2i}\beta_2]}} - \dfrac{\exp[\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2]}{1 + \exp{[\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2]}}$$
 $$\Delta{y_i} = exp(\beta_1) $$
 
-As $x$ increases by one unit, the odds increase by a factor of  $\exp(\beta_1)$.
+Lorsque $x$ augmente d'une unité, la probabilité augmente d'un facteur de $\exp(\beta_1)$.
 
 ---
 # Interpréter les coefficients de `glm()`
@@ -1441,6 +1535,39 @@ Pour une augmentation (ou une diminution) d'une unité de contenu en eau, on peu
 ```{r}
 exp(logit.reg$coefficient[2])
 ```
+
+---
+# Interpréter les coefficients de `glm()`
+
+.pull-left[
+
+Quand _odds_ $= 1$, la probabilité d'observer l'événement $Y$ est égale à la probabilité de *ne pas* l'observer (*i.e.* $p = 0.5$, donc $0.5/(1-0.5) = 1$).
+
+Lorsque _odds_ $< 1$, il faut prendre l'inverse (_i._ $1$ divisé par les _odds_).
+
+L'interprétation est alors de savoir quelle est la **moindre** probabilité d'observer l'événement d'intérêt. 
+
+Pour la teneur en eau, le _odds_ est de $0.984$. L'inverse est :
+
+$$\dfrac{1}{0.984} = 1.0159$$
+_i.e._, il y a une augmentation d'une unité de la teneur en eau diminue la probabilité d'observer _Galumna sp_. de $1.0159$.
+
+]
+
+.pull-right[
+ Nous pouvons obtenir une variation en pourcentage comme ci-dessous :
+$$(1.0159 - 1) * 100 = 1.59%$$
+Il y a une diminution de $1.59%$ de la probabilité d'observer _Galumna sp._ avec une augmentation d'une unité de la teneur en eau.
+
+```{r, echo = F, eval = TRUE,fig.width = 4, fig.height = 4}
+library(ggplot2)
+ggplot(mites, aes(x = WatrCont, y = pa)) + geom_point() + xlab("Contenu en eau") +
+ylab("Probabilité de présence") +
+  theme_classic()
+```
+
+]
+
 
 ---
 # Pouvoir prédictif et ajustement du modèle
@@ -1973,7 +2100,7 @@ exclude: false
 
 Rappelez vous que pour estimer les paramètres inconnus, l'estimation par maximum de vraisemblance est utilisée.
 
-La déviance résiduelle est approximativement la différence entre la vraisemblance d'un modèle saturé (n paramètres pour chaque observation) et le modèle complet (p paramètres):
+La déviance résiduelle est approximativement la différence entre la vraisemblance d'un modèle saturé ($n$ paramètres pour chaque observation) et le modèle complet ($p$ paramètres):
 
 $$\text{Res dev} = 2 \, log(L(y;\,y)) - 2 \, log(L(y;\, \mu))$$
 
@@ -2008,11 +2135,26 @@ Les tests sur les variables explicatives apparaîtront généralement plus signi
 ---
 # La surdispersion
 
-Quand la déviance résiduelle est supérieure au nombre de degrés de liberté résiduels, le modèle est **surdispersé**. On peut calculer un paramètre de surdispersion ( $\phi$ ):
+Quand la déviance résiduelle est supérieure au nombre de degrés de liberté résiduels, le modèle est **surdispersé**.
 
+.pull-left[
+On peut calculer le paramètre de surdispersion ( $\phi$ ) par:
 $$\phi ~ = ~\frac{\text{Déviance résiduelle}}{\text{Degrés de liberté résiduels}}$$
+]
 
-Puisque le GLM Poisson requiert que $var[y] = μ$, nous devons trouver une soluation alternative. 
+.pull-right[
+Si, $\phi$ est plus que $1$, alors nous devrons l'estimer avec:
+
+$$\widehat{\phi}=\frac{1}{n-k}\sum\frac{(Y_{i}-\hat{\mu_{i}})^2}{\hat{\mu_{i}}}$$
+]
+
+```
+# En R, vous pouvez obtenir phi avec:
+sum(residuals(ton_obj_glm, type="pearson")^2)/df.residual(ton_obj_glm)
+```
+<br>
+
+Puisque le GLM Poisson requiert que $var[y] = μ$, nous devons trouver une solution alternative. 
 
 .center[.large[**Solutions**]]
 
@@ -2023,6 +2165,10 @@ Puisque le GLM Poisson requiert que $var[y] = μ$, nous devons trouver une solua
 .pull-right[
 2: Choisir une autre distribution, comme **la negative binomiale**
 ]
+
+???
+
+where n is the sample size, k is the number of estimated parameters (including the intercept) and μiˆ=g−1(ηiˆ) is the fitted expectation of Yi (g−1 is the inverse link function). Note that the formulation above is simply the Pearson χ2 divided by the residual degrees of freedom: ϕˆ=χ2/df.
 
 ---
 # GLM quasi-Poisson
