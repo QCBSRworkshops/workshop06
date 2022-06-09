@@ -194,7 +194,7 @@ Si nous voulons ainsi convertir les cotes en probabilité, selon le coefficient 
 
 $$ Pr(y_i = 1) = logit^{-1}(\alpha) = \dfrac{1}{1 + exp(-\alpha)} = (\dfrac{1}{1 + exp(-\alpha)}) * (\dfrac{exp(\alpha)}{exp(\alpha)}) = \dfrac{exp(\alpha)}{exp(\alpha) + 1}$$
 
-Pour en revenir à notre mode`le, cela nous donne:
+Pour en revenir à notre modèle, cela nous donne:
 
 $$Pr(y_i = 1) = \dfrac{exp(\beta_0 + \beta_1x_{1i} +\beta_2 x_{2i})}{1 + exp{(\beta_0 + \beta_1x_{1i} + \beta_2x_{2i})}}$$
 
@@ -219,7 +219,7 @@ Pour obtenir l'intervalle de confiance sur l'échelle des cotes :
 exp(confint(logit.reg)[2,])
 ```
 
-Lorsque la cote est inférieure à 1, l'interprétation est un peu plus compliquée. Si c'est le case, il faut prendre la valeur inverse de la cote (*i.e.* 1 divisé par la cote) pour faciliter l'interprétation. 
+Lorsque la cote est inférieure à 1, l'interprétation est un peu plus compliquée. Si c'est le cas, il faut prendre la valeur inverse de la cote (*i.e.* 1 divisé par la cote) pour faciliter l'interprétation. 
 
 L'interprétation revient à dire comment l'observation d'un phénomène est **MOINS** probable. Pour le contenu en eau du sol, la cote est de 0.984. L'inverse est:
 $$\dfrac{1}{0.984} = 1.0159$$.
@@ -241,7 +241,7 @@ Rappelez-vous qu'une valeur de 1 sur l'échelle des cotes signifie que la probab
 
 Faisons de même avec la topographie:
 ```{r, echo = TRUE, eval = TRUE}
-exp(logit.reg$coefficients[1])
+exp(logit.reg$coefficients[3])
 ```
 
 Le paramètre estimé pour la topographie est de 2.091 sur l'échelle des cotes en log. Donc, la probabilité est donnée par :
