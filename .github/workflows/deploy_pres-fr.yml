@@ -46,9 +46,6 @@ jobs:
         with:
           r-version: '4.2.2'
 
-      - name: 💻 Setup R Dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
-
       - name: 💻 Install pandoc and pandoc citeproc
         uses: r-lib/actions/setup-pandoc@v2
 
