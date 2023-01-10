@@ -49,7 +49,7 @@ jobs:
       - name: 💻 Install pandoc and pandoc citeproc
         uses: r-lib/actions/setup-pandoc@v2
         
-        - name: Install cURL Headers
+      - name: Install cURL Headers
         run: |
           sudo apt-get install -y libcurl4-openssl-dev
 
