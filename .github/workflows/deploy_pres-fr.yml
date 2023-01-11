@@ -46,6 +46,12 @@ jobs:
         with:
           r-version: '4.2.2'
 
+      - name: 💾 Cache R packages
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key:  r-${{ hashFiles('DESCRIPTION') }}
+
       - name: 💻 Install pandoc and pandoc citeproc
         uses: r-lib/actions/setup-pandoc@v2
         
@@ -70,7 +76,7 @@ jobs:
         run: Rscript -e 'rmarkdown::render("workshop06-pres-fr.Rmd")'
 
       - name: 🔺 Upload artifact containing the presentation
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: pres-fr
           path: pres-fr/
@@ -86,12 +92,12 @@ jobs:
 
    steps:
       - name: 🛎️ Checkout again
-        uses: actions/checkout@v2.3.1 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
+        uses: actions/checkout@v3
         with:
           persist-credentials: false
 
       - name: 🔻 Download artifact containing the presentation
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
          # Artifact name
          name: pres-fr # optional
@@ -99,7 +105,7 @@ jobs:
          path: pres-fr/ # optional
 
       - name: 💎 Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@4.1.4
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           branch: gh-pages # The branch the action should deploy to.
