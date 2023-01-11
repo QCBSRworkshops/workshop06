@@ -320,7 +320,7 @@ library(ggplot2)
 ggplot(mites, aes(x = WatrCont, y = pa)) + geom_point() + xlab("Contenu en eau") +
 ylab("Probabilité de présence")
 
-exp(logit.reg$coefficients[1])
+exp(logit.reg$coefficients[3])
 
 # Les déviances résiduelle et nulle sont déjà enregistrées dans un objet de type glm.
 objects(logit.reg)
