@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 8 Generalized linear models | Workshop 6: Generalized linear models</title>
   <meta name="description" content="Generalized linear models in R" />
-  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 8 Generalized linear models | Workshop 6: Generalized linear models" />
   <meta property="og:type" content="book" />
@@ -48,25 +48,24 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -86,7 +85,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -136,66 +135,76 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <link rel="icon" type="image/png" href="assets/images/favicon.ico"/>
 
 <li class="divider"></li>
-<li class="part"><span><b>QCBS R Workshop Series<span></span></b></span></li>
-<li><a href="index.html#preface">Preface<span></span></a><ul>
-<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>0.1</b> Code of conduct<span></span></a><ul>
-<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#expected-behaviour"><i class="fa fa-check"></i><b>0.1.1</b> Expected behaviour<span></span></a></li>
-<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#unacceptable-behaviour"><i class="fa fa-check"></i><b>0.1.2</b> Unacceptable behaviour<span></span></a></li>
+<li class="part"><span><b>QCBS R Workshop Series</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#code-of-conduct"><i class="fa fa-check"></i><b>0.1</b> Code of conduct</a>
+<ul>
+<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#expected-behaviour"><i class="fa fa-check"></i><b>0.1.1</b> Expected behaviour</a></li>
+<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#unacceptable-behaviour"><i class="fa fa-check"></i><b>0.1.2</b> Unacceptable behaviour</a></li>
 </ul></li>
-<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributors"><i class="fa fa-check"></i><b>0.2</b> Contributors<span></span></a></li>
-<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contributing"><i class="fa fa-check"></i><b>0.3</b> Contributing<span></span></a></li>
+<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributors"><i class="fa fa-check"></i><b>0.2</b> Contributors</a></li>
+<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contributing"><i class="fa fa-check"></i><b>0.3</b> Contributing</a></li>
 </ul></li>
-<li class="part"><span><b>Generalized linear models in <code>R</code><span></span></b></span></li>
-<li class="chapter" data-level="1" data-path="learning-objectives.html"><a href="learning-objectives.html"><i class="fa fa-check"></i><b>1</b> Learning objectives<span></span></a></li>
-<li class="chapter" data-level="2" data-path="preparing-for-the-workshop.html"><a href="preparing-for-the-workshop.html"><i class="fa fa-check"></i><b>2</b> Preparing for the workshop<span></span></a></li>
-<li class="chapter" data-level="3" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html"><i class="fa fa-check"></i><b>3</b> Reviewing linear models<span></span></a><ul>
-<li class="chapter" data-level="3.1" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#general-linear-models"><i class="fa fa-check"></i><b>3.1</b> General linear models<span></span></a><ul>
-<li class="chapter" data-level="3.1.1" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#definition"><i class="fa fa-check"></i><b>3.1.1</b> Definition<span></span></a></li>
-<li class="chapter" data-level="3.1.2" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#assumptions"><i class="fa fa-check"></i><b>3.1.2</b> Assumptions<span></span></a></li>
+<li class="part"><span><b>Generalized linear models in <code>R</code></b></span></li>
+<li class="chapter" data-level="1" data-path="learning-objectives.html"><a href="learning-objectives.html"><i class="fa fa-check"></i><b>1</b> Learning objectives</a></li>
+<li class="chapter" data-level="2" data-path="preparing-for-the-workshop.html"><a href="preparing-for-the-workshop.html"><i class="fa fa-check"></i><b>2</b> Preparing for the workshop</a></li>
+<li class="chapter" data-level="3" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html"><i class="fa fa-check"></i><b>3</b> Reviewing linear models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#general-linear-models"><i class="fa fa-check"></i><b>3.1</b> General linear models</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#definition"><i class="fa fa-check"></i><b>3.1.1</b> Definition</a></li>
+<li class="chapter" data-level="3.1.2" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#assumptions"><i class="fa fa-check"></i><b>3.1.2</b> Assumptions</a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#an-example-with-general-linear-models"><i class="fa fa-check"></i><b>3.2</b> An example with general linear models<span></span></a></li>
+<li class="chapter" data-level="3.2" data-path="reviewing-linear-models.html"><a href="reviewing-linear-models.html#an-example-with-general-linear-models"><i class="fa fa-check"></i><b>3.2</b> An example with general linear models</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="example-with-real-data.html"><a href="example-with-real-data.html"><i class="fa fa-check"></i><b>4</b> Example with real data<span></span></a></li>
-<li class="chapter" data-level="5" data-path="recalling-linear-models-assumptions.html"><a href="recalling-linear-models-assumptions.html"><i class="fa fa-check"></i><b>5</b> Recalling linear models: assumptions<span></span></a></li>
-<li class="chapter" data-level="6" data-path="model-prediction.html"><a href="model-prediction.html"><i class="fa fa-check"></i><b>6</b> Model prediction<span></span></a></li>
-<li class="chapter" data-level="7" data-path="the-distributions-of-biological-data.html"><a href="the-distributions-of-biological-data.html"><i class="fa fa-check"></i><b>7</b> The distributions of biological data<span></span></a></li>
-<li class="chapter" data-level="8" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>8</b> Generalized linear models<span></span></a></li>
-<li class="part"><span><b>GLM with binary data<span></span></b></span></li>
-<li class="chapter" data-level="9" data-path="binomial-glm.html"><a href="binomial-glm.html"><i class="fa fa-check"></i><b>9</b> Binomial GLM<span></span></a><ul>
-<li class="chapter" data-level="9.1" data-path="binomial-glm.html"><a href="binomial-glm.html#glm-with-binomial-data-logit-link"><i class="fa fa-check"></i><b>9.1</b> GLM with binomial data: logit link<span></span></a></li>
-<li class="chapter" data-level="9.2" data-path="binomial-glm.html"><a href="binomial-glm.html#example"><i class="fa fa-check"></i><b>9.2</b> Example<span></span></a></li>
-<li class="chapter" data-level="9.3" data-path="binomial-glm.html"><a href="binomial-glm.html#challenge-1"><i class="fa fa-check"></i><b>9.3</b> Challenge 1<span></span></a></li>
-<li class="chapter" data-level="9.4" data-path="binomial-glm.html"><a href="binomial-glm.html#interpreting-the-output-of-a-logistic-regression"><i class="fa fa-check"></i><b>9.4</b> Interpreting the output of a logistic regression<span></span></a><ul>
-<li class="chapter" data-level="9.4.1" data-path="binomial-glm.html"><a href="binomial-glm.html#an-example-using-the-identity-link"><i class="fa fa-check"></i><b>9.4.1</b> An example using the identity link<span></span></a></li>
-<li class="chapter" data-level="9.4.2" data-path="binomial-glm.html"><a href="binomial-glm.html#interpreting-the-coefficients-using-the-logit-link"><i class="fa fa-check"></i><b>9.4.2</b> Interpreting the coefficients using the logit link<span></span></a></li>
+<li class="chapter" data-level="4" data-path="example-with-real-data.html"><a href="example-with-real-data.html"><i class="fa fa-check"></i><b>4</b> Example with real data</a></li>
+<li class="chapter" data-level="5" data-path="recalling-linear-models-assumptions.html"><a href="recalling-linear-models-assumptions.html"><i class="fa fa-check"></i><b>5</b> Recalling linear models: assumptions</a></li>
+<li class="chapter" data-level="6" data-path="model-prediction.html"><a href="model-prediction.html"><i class="fa fa-check"></i><b>6</b> Model prediction</a></li>
+<li class="chapter" data-level="7" data-path="the-distributions-of-biological-data.html"><a href="the-distributions-of-biological-data.html"><i class="fa fa-check"></i><b>7</b> The distributions of biological data</a></li>
+<li class="chapter" data-level="8" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>8</b> Generalized linear models</a></li>
+<li class="part"><span><b>GLM with binary data</b></span></li>
+<li class="chapter" data-level="9" data-path="binomial-glm.html"><a href="binomial-glm.html"><i class="fa fa-check"></i><b>9</b> Binomial GLM</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="binomial-glm.html"><a href="binomial-glm.html#glm-with-binomial-data-logit-link"><i class="fa fa-check"></i><b>9.1</b> GLM with binomial data: logit link</a></li>
+<li class="chapter" data-level="9.2" data-path="binomial-glm.html"><a href="binomial-glm.html#example"><i class="fa fa-check"></i><b>9.2</b> Example</a></li>
+<li class="chapter" data-level="9.3" data-path="binomial-glm.html"><a href="binomial-glm.html#challenge-1"><i class="fa fa-check"></i><b>9.3</b> Challenge 1</a></li>
+<li class="chapter" data-level="9.4" data-path="binomial-glm.html"><a href="binomial-glm.html#interpreting-the-output-of-a-logistic-regression"><i class="fa fa-check"></i><b>9.4</b> Interpreting the output of a logistic regression</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="binomial-glm.html"><a href="binomial-glm.html#an-example-using-the-identity-link"><i class="fa fa-check"></i><b>9.4.1</b> An example using the identity link</a></li>
+<li class="chapter" data-level="9.4.2" data-path="binomial-glm.html"><a href="binomial-glm.html#interpreting-the-coefficients-using-the-logit-link"><i class="fa fa-check"></i><b>9.4.2</b> Interpreting the coefficients using the logit link</a></li>
 </ul></li>
-<li class="chapter" data-level="9.5" data-path="binomial-glm.html"><a href="binomial-glm.html#predictive-power-and-goodness-of-fit"><i class="fa fa-check"></i><b>9.5</b> Predictive power and goodness-of-fit<span></span></a><ul>
-<li class="chapter" data-level="9.5.1" data-path="binomial-glm.html"><a href="binomial-glm.html#challenge-2"><i class="fa fa-check"></i><b>9.5.1</b> Challenge 2<span></span></a></li>
+<li class="chapter" data-level="9.5" data-path="binomial-glm.html"><a href="binomial-glm.html#predictive-power-and-goodness-of-fit"><i class="fa fa-check"></i><b>9.5</b> Predictive power and goodness-of-fit</a>
+<ul>
+<li class="chapter" data-level="9.5.1" data-path="binomial-glm.html"><a href="binomial-glm.html#challenge-2"><i class="fa fa-check"></i><b>9.5.1</b> Challenge 2</a></li>
 </ul></li>
-<li class="chapter" data-level="9.6" data-path="binomial-glm.html"><a href="binomial-glm.html#visual-representation-of-results"><i class="fa fa-check"></i><b>9.6</b> Visual representation of results<span></span></a></li>
+<li class="chapter" data-level="9.6" data-path="binomial-glm.html"><a href="binomial-glm.html#visual-representation-of-results"><i class="fa fa-check"></i><b>9.6</b> Visual representation of results</a></li>
 </ul></li>
-<li class="part"><span><b>GLM with proportion data<span></span></b></span></li>
-<li class="chapter" data-level="10" data-path="binomial-glm-and-proportions.html"><a href="binomial-glm-and-proportions.html"><i class="fa fa-check"></i><b>10</b> Binomial GLM and proportions<span></span></a></li>
-<li class="part"><span><b>GLMs with count data<span></span></b></span></li>
-<li class="chapter" data-level="11" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html"><i class="fa fa-check"></i><b>11</b> What can we do with count data?<span></span></a><ul>
-<li class="chapter" data-level="11.1" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#poisson-glms"><i class="fa fa-check"></i><b>11.1</b> Poisson GLMs<span></span></a><ul>
-<li class="chapter" data-level="11.1.1" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#the-poisson-distribution"><i class="fa fa-check"></i><b>11.1.1</b> The Poisson distribution<span></span></a></li>
-<li class="chapter" data-level="11.1.2" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#poisson-glms-in-r"><i class="fa fa-check"></i><b>11.1.2</b> Poisson GLMs in <code>R</code><span></span></a></li>
+<li class="part"><span><b>GLM with proportion data</b></span></li>
+<li class="chapter" data-level="10" data-path="binomial-glm-and-proportions.html"><a href="binomial-glm-and-proportions.html"><i class="fa fa-check"></i><b>10</b> Binomial GLM and proportions</a></li>
+<li class="part"><span><b>GLMs with count data</b></span></li>
+<li class="chapter" data-level="11" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html"><i class="fa fa-check"></i><b>11</b> What can we do with count data?</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#poisson-glms"><i class="fa fa-check"></i><b>11.1</b> Poisson GLMs</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#the-poisson-distribution"><i class="fa fa-check"></i><b>11.1.1</b> The Poisson distribution</a></li>
+<li class="chapter" data-level="11.1.2" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#poisson-glms-in-r"><i class="fa fa-check"></i><b>11.1.2</b> Poisson GLMs in <code>R</code></a></li>
 </ul></li>
-<li class="chapter" data-level="11.2" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#the-problem-of-overdispersion"><i class="fa fa-check"></i><b>11.2</b> The problem of overdispersion<span></span></a></li>
-<li class="chapter" data-level="11.3" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#quasi-poisson-glms"><i class="fa fa-check"></i><b>11.3</b> Quasi-Poisson GLMs<span></span></a></li>
-<li class="chapter" data-level="11.4" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#negative-binomial-glms"><i class="fa fa-check"></i><b>11.4</b> Negative binomial GLMs<span></span></a></li>
-<li class="chapter" data-level="11.5" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>11.5</b> Plotting the final GLM to the data<span></span></a><ul>
-<li class="chapter" data-level="11.5.1" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#challenge-3"><i class="fa fa-check"></i><b>11.5.1</b> Challenge 3<span></span></a></li>
+<li class="chapter" data-level="11.2" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#the-problem-of-overdispersion"><i class="fa fa-check"></i><b>11.2</b> The problem of overdispersion</a></li>
+<li class="chapter" data-level="11.3" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#quasi-poisson-glms"><i class="fa fa-check"></i><b>11.3</b> Quasi-Poisson GLMs</a></li>
+<li class="chapter" data-level="11.4" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#negative-binomial-glms"><i class="fa fa-check"></i><b>11.4</b> Negative binomial GLMs</a></li>
+<li class="chapter" data-level="11.5" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#plotting-the-final-glm-to-the-data"><i class="fa fa-check"></i><b>11.5</b> Plotting the final GLM to the data</a>
+<ul>
+<li class="chapter" data-level="11.5.1" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#challenge-3"><i class="fa fa-check"></i><b>11.5.1</b> Challenge 3</a></li>
 </ul></li>
-<li class="chapter" data-level="11.6" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#conclusion-on-glms-with-count-data"><i class="fa fa-check"></i><b>11.6</b> Conclusion on GLMs with count data<span></span></a></li>
+<li class="chapter" data-level="11.6" data-path="what-can-we-do-with-count-data.html"><a href="what-can-we-do-with-count-data.html#conclusion-on-glms-with-count-data"><i class="fa fa-check"></i><b>11.6</b> Conclusion on GLMs with count data</a></li>
 </ul></li>
-<li class="part"><span><b>Other distributions<span></span></b></span></li>
-<li class="chapter" data-level="12" data-path="other-distributions.html"><a href="other-distributions.html"><i class="fa fa-check"></i><b>12</b> Other distributions<span></span></a></li>
-<li class="part"><span><b>Additional GLM resources<span></span></b></span></li>
-<li class="chapter" data-level="13" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>13</b> Summary<span></span></a></li>
-<li class="chapter" data-level="14" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>14</b> Additional resources<span></span></a></li>
-<li class="chapter" data-level="15" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>15</b> References<span></span></a></li>
+<li class="part"><span><b>Other distributions</b></span></li>
+<li class="chapter" data-level="12" data-path="other-distributions.html"><a href="other-distributions.html"><i class="fa fa-check"></i><b>12</b> Other distributions</a></li>
+<li class="part"><span><b>Additional GLM resources</b></span></li>
+<li class="chapter" data-level="13" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>13</b> Summary</a></li>
+<li class="chapter" data-level="14" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>14</b> Additional resources</a></li>
+<li class="chapter" data-level="15" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>15</b> References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/qcbsRworkshops" target="blank">QCBS R Workshop Series</a></li>
 
@@ -231,7 +240,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
 --!>
-<div id="generalized-linear-models" class="section level1 hasAnchor">
+<div id="generalized-linear-models" class="section level1 hasAnchor" number="8">
 <h1><span class="header-section-number">Chapter 8</span> Generalized linear models<a href="generalized-linear-models.html#generalized-linear-models" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>“Generalized” linear model (GLIM or GLM) refer to a larger class of models popularized by McCullagh and Nelder (1982).</p>
 <p>These models come in handy because the response variable <span class="math inline">\(y\)</span> can follow an exponential family distribution with mean <span class="math inline">\(\mu\)</span>, which is assumed to follow a (often) nonlinear function.</p>
@@ -269,11 +278,11 @@ intercept and slope). <span class="math inline">\(βx\)</span> is called the <st
 <p><span class="math display">\[\eta_i = \text{logit}(\mu_i) = \log(\frac{\mu_i}{1-\mu_i})\]</span></p>
 <p>The log transformation allows the values to be distributed from <code>-Inf</code> to <code>+Inf</code>. We can now link the predicted values with the linear predictor <span class="math inline">\(βx\)</span>. This is the reason we still qualify this model as <strong>linear</strong> despite the relationship not being a «straight line».</p>
 <p>In <code>R</code>, we can fit generalized linear models using the <code>glm()</code> function, which is similar to the <code>lm()</code> function, with the <code>family</code> argument taking the names of the <strong>link function</strong> (inside <code>link</code>) and, the <strong>variance function</strong>:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="generalized-linear-models.html#cb44-1"></a><span class="co"># This is what the glm() function syntax looks like (don&#39;t run this)</span></span>
-<span id="cb44-2"><a href="generalized-linear-models.html#cb44-2"></a><span class="kw">glm</span>(formula,</span>
-<span id="cb44-3"><a href="generalized-linear-models.html#cb44-3"></a>    <span class="dt">family =</span> <span class="kw">gaussian</span>(<span class="dt">link =</span> <span class="st">&quot;identity&quot;</span>),</span>
-<span id="cb44-4"><a href="generalized-linear-models.html#cb44-4"></a>    data,</span>
-<span id="cb44-5"><a href="generalized-linear-models.html#cb44-5"></a>    ...)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="generalized-linear-models.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is what the glm() function syntax looks like (don&#39;t run this)</span></span>
+<span id="cb44-2"><a href="generalized-linear-models.html#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glm</span>(formula,</span>
+<span id="cb44-3"><a href="generalized-linear-models.html#cb44-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">&quot;identity&quot;</span>),</span>
+<span id="cb44-4"><a href="generalized-linear-models.html#cb44-4" aria-hidden="true" tabindex="-1"></a>    data,</span>
+<span id="cb44-5"><a href="generalized-linear-models.html#cb44-5" aria-hidden="true" tabindex="-1"></a>    ...)</span></code></pre></div>
 <p>This approach is extendable to other distribution families, such as the ones below:</p>
 <table>
 <colgroup>
@@ -400,7 +409,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');
