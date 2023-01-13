@@ -248,14 +248,14 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>Les variables binaires sont fréquentes en écologie : on observe un phénomène <span class="math inline">\(Y\)</span> ou son «absence». Par exemple, on note souvent la présence ou l’absence d’espèces lors d’études de terrain. Le but est généralement de déterminer si la présence d’une espèce est influencée par différentes variables environnementales. D’autres exemples courants sont la présence/absence d’une maladie au sein d’une population sauvage, l’observation/non-observation d’un comportement spécifique et la survie/mort d’un individu. Habituellement, nous sommes interessés à une question telle que: comment l’occurence d’une espèce varie en fonction des conditions de son environnement?</p>
 <p><span class="math display">\[Occurrences = f(Environment)\]</span>
 Sous un modèle linéaire, les valeurs attendues peuvent se trouver en dehors de l’étendu de <code>[0, 1]</code> avec la fonction ‘lm()’:</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="glm-avec-une-distribution-binomiale.html#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set up some binary data</span></span>
-<span id="cb45-2"><a href="glm-avec-une-distribution-binomiale.html#cb45-2" aria-hidden="true" tabindex="-1"></a>Pres <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">40</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">40</span>))</span>
-<span id="cb45-3"><a href="glm-avec-une-distribution-binomiale.html#cb45-3" aria-hidden="true" tabindex="-1"></a>rnor <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> <span class="fu">ifelse</span>(x <span class="sc">==</span> <span class="dv">1</span>, <span class="fl">12.5</span>, <span class="fl">7.5</span>),</span>
-<span id="cb45-4"><a href="glm-avec-une-distribution-binomiale.html#cb45-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="dv">2</span>)</span>
-<span id="cb45-5"><a href="glm-avec-une-distribution-binomiale.html#cb45-5" aria-hidden="true" tabindex="-1"></a>ExpVar <span class="ot">&lt;-</span> <span class="fu">sapply</span>(Pres, rnor)</span>
-<span id="cb45-6"><a href="glm-avec-une-distribution-binomiale.html#cb45-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-7"><a href="glm-avec-une-distribution-binomiale.html#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="co"># linear model with binary data...</span></span>
-<span id="cb45-8"><a href="glm-avec-une-distribution-binomiale.html#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(Pres <span class="sc">~</span> ExpVar)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="glm-avec-une-distribution-binomiale.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set up some binary data</span></span>
+<span id="cb44-2"><a href="glm-avec-une-distribution-binomiale.html#cb44-2" aria-hidden="true" tabindex="-1"></a>Pres <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">40</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">40</span>))</span>
+<span id="cb44-3"><a href="glm-avec-une-distribution-binomiale.html#cb44-3" aria-hidden="true" tabindex="-1"></a>rnor <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> <span class="fu">ifelse</span>(x <span class="sc">==</span> <span class="dv">1</span>, <span class="fl">12.5</span>, <span class="fl">7.5</span>),</span>
+<span id="cb44-4"><a href="glm-avec-une-distribution-binomiale.html#cb44-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb44-5"><a href="glm-avec-une-distribution-binomiale.html#cb44-5" aria-hidden="true" tabindex="-1"></a>ExpVar <span class="ot">&lt;-</span> <span class="fu">sapply</span>(Pres, rnor)</span>
+<span id="cb44-6"><a href="glm-avec-une-distribution-binomiale.html#cb44-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-7"><a href="glm-avec-une-distribution-binomiale.html#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="co"># linear model with binary data...</span></span>
+<span id="cb44-8"><a href="glm-avec-une-distribution-binomiale.html#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(Pres <span class="sc">~</span> ExpVar)</span></code></pre></div>
 <p><img src="book-fr_files/figure-html/unnamed-chunk-40-1.png" width="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-40-2.png" width="50%" /></p>
 <p>Lorsqu’on prédit la probabilité d’observer un phénomène Y qui est une variable binaire, la valeur prédite doit se trouver entre 0 et 1 : c’est l’étendue possible d’une probabilité !</p>
 <div id="glm-avec-des-données-binomiales-lien-logit" class="section level2 hasAnchor" number="6.1">
@@ -268,10 +268,10 @@ Les chances mettre nos valeurs attendues sur une échelle de <code>0</code> à <
 <p><span class="math display">\[\eta_i = \text{logit}(\mu_i) = \log(\frac{\mu_i}{1-\mu_i})\]</span></p>
 <p>avec <span class="math inline">\(\mu\)</span> étant la valeur attendue (probabilité que <span class="math inline">\(Y = 1\)</span>), et les valeurs attendues s’étendant de <code>-Inf</code> à <code>+Inf</code>.</p>
 <p>Dans ‘R’, la présence (ou succès, survie…) est habituellement codée par un <code>1</code> et une absence (ou échec, mort…) par un <code>0</code>. On effectue une régression logistique (ou n’importe quel GLM) à l’aide de la fonction <code>glm()</code>. Cette fonction diffère un peu de la fonction de base <code>lm()</code>, car elle permet de spécifier une distribution statistique autre que la distribution normale.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="glm-avec-une-distribution-binomiale.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glm</span>(formula,</span>
-<span id="cb46-2"><a href="glm-avec-une-distribution-binomiale.html#cb46-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> ???, <span class="co"># this argument allows us to set a probability distribution!</span></span>
-<span id="cb46-3"><a href="glm-avec-une-distribution-binomiale.html#cb46-3" aria-hidden="true" tabindex="-1"></a>    data,</span>
-<span id="cb46-4"><a href="glm-avec-une-distribution-binomiale.html#cb46-4" aria-hidden="true" tabindex="-1"></a>    ...)</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="glm-avec-une-distribution-binomiale.html#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glm</span>(formula,</span>
+<span id="cb45-2"><a href="glm-avec-une-distribution-binomiale.html#cb45-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> ???, <span class="co"># this argument allows us to set a probability distribution!</span></span>
+<span id="cb45-3"><a href="glm-avec-une-distribution-binomiale.html#cb45-3" aria-hidden="true" tabindex="-1"></a>    data,</span>
+<span id="cb45-4"><a href="glm-avec-une-distribution-binomiale.html#cb45-4" aria-hidden="true" tabindex="-1"></a>    ...)</span></code></pre></div>
 <p>Nous avons déjà vu que les variables binaires ne sont pas distribuées normalement (<em>i.e.</em> on observe un pic à 0 et un pic à 1 et rien entre les deux). Dans ‘R’, on spécifie la distribution statistique du modèle avec l’argument <code>family</code>. Pour la régression logistique, on l’indique de la façon suivante : <code>family = 'binomial</code>’.</p>
 <table>
 <colgroup>
@@ -322,19 +322,19 @@ Les chances mettre nos valeurs attendues sur une échelle de <code>0</code> à <
 </tbody>
 </table>
 <p>Dans <code>R</code>, nous pouvons donc construire notre GLM binomial avec un lien logit de cette façon:</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="glm-avec-une-distribution-binomiale.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is the syntax for a binomial GLM with a logit link</span></span>
-<span id="cb47-2"><a href="glm-avec-une-distribution-binomiale.html#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glm</span>(formula,</span>
-<span id="cb47-3"><a href="glm-avec-une-distribution-binomiale.html#cb47-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="co"># this is also known as logistic</span></span>
-<span id="cb47-4"><a href="glm-avec-une-distribution-binomiale.html#cb47-4" aria-hidden="true" tabindex="-1"></a>    data,</span>
-<span id="cb47-5"><a href="glm-avec-une-distribution-binomiale.html#cb47-5" aria-hidden="true" tabindex="-1"></a>    ...)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="glm-avec-une-distribution-binomiale.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is the syntax for a binomial GLM with a logit link</span></span>
+<span id="cb46-2"><a href="glm-avec-une-distribution-binomiale.html#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glm</span>(formula,</span>
+<span id="cb46-3"><a href="glm-avec-une-distribution-binomiale.html#cb46-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="co"># this is also known as logistic</span></span>
+<span id="cb46-4"><a href="glm-avec-une-distribution-binomiale.html#cb46-4" aria-hidden="true" tabindex="-1"></a>    data,</span>
+<span id="cb46-5"><a href="glm-avec-une-distribution-binomiale.html#cb46-5" aria-hidden="true" tabindex="-1"></a>    ...)</span></code></pre></div>
 </div>
 <div id="exemple" class="section level2 hasAnchor" number="6.2">
 <h2><span class="header-section-number">6.2</span> Exemple<a href="glm-avec-une-distribution-binomiale.html#exemple" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Construisons notre premier modèle linéaire généralisé! Ici, nous voulons construire notre modèle en utilisant le jeu de données <code>mites</code>:</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="glm-avec-une-distribution-binomiale.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># setwd(&#39;...&#39;)</span></span>
-<span id="cb48-2"><a href="glm-avec-une-distribution-binomiale.html#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-3"><a href="glm-avec-une-distribution-binomiale.html#cb48-3" aria-hidden="true" tabindex="-1"></a>mites <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/mites.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb48-4"><a href="glm-avec-une-distribution-binomiale.html#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(mites)</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="glm-avec-une-distribution-binomiale.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># setwd(&#39;...&#39;)</span></span>
+<span id="cb47-2"><a href="glm-avec-une-distribution-binomiale.html#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="glm-avec-une-distribution-binomiale.html#cb47-3" aria-hidden="true" tabindex="-1"></a>mites <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/mites.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb47-4"><a href="glm-avec-une-distribution-binomiale.html#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(mites)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    70 obs. of  9 variables:
 ##  $ Galumna   : int  8 3 1 1 2 1 1 1 2 5 ...
 ##  $ pa        : int  1 1 1 1 1 1 1 1 1 1 ...
@@ -346,9 +346,9 @@ Les chances mettre nos valeurs attendues sur une échelle de <code>0</code> à <
 ##  $ Shrub     : chr  &quot;Few&quot; &quot;Few&quot; &quot;Few&quot; &quot;Few&quot; ...
 ##  $ Topo      : chr  &quot;Hummock&quot; &quot;Hummock&quot; &quot;Hummock&quot; &quot;Hummock&quot; ...</code></pre>
 <p>Nous pouvons modéliser notre régression logistique avec les doonées de présence de <em>Galumna</em> sp. en relation avec le contenu en eau et la topographie comme s’en suit, en utilisant <code>glm()</code> et l’argument <code>family</code>:</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="glm-avec-une-distribution-binomiale.html#cb50-1" aria-hidden="true" tabindex="-1"></a>logit.reg <span class="ot">&lt;-</span> <span class="fu">glm</span>(pa <span class="sc">~</span> WatrCont <span class="sc">+</span> Topo, <span class="at">data =</span> mites, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="glm-avec-une-distribution-binomiale.html#cb49-1" aria-hidden="true" tabindex="-1"></a>logit.reg <span class="ot">&lt;-</span> <span class="fu">glm</span>(pa <span class="sc">~</span> WatrCont <span class="sc">+</span> Topo, <span class="at">data =</span> mites, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>))</span></code></pre></div>
 <p>Pour la sortie du modèle:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="glm-avec-une-distribution-binomiale.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(logit.reg)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="glm-avec-une-distribution-binomiale.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(logit.reg)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = pa ~ WatrCont + Topo, family = binomial(link = &quot;logit&quot;), 
@@ -392,16 +392,16 @@ Commençez avec le modèle complet, puis réduisez-le pour obtenir le modèle le
 <summary>
 <strong>Cliquez pour voir la solution au Défi 1!</strong>
 </summary>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="glm-avec-une-distribution-binomiale.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Challenge 1 - Solution</span></span>
-<span id="cb54-2"><a href="glm-avec-une-distribution-binomiale.html#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-3"><a href="glm-avec-une-distribution-binomiale.html#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit models (full to most parsimonious)</span></span>
-<span id="cb54-4"><a href="glm-avec-une-distribution-binomiale.html#cb54-4" aria-hidden="true" tabindex="-1"></a>model.bact1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> trt <span class="sc">*</span> week, <span class="at">data =</span> bacteria, <span class="at">family =</span> binomial)</span>
-<span id="cb54-5"><a href="glm-avec-une-distribution-binomiale.html#cb54-5" aria-hidden="true" tabindex="-1"></a>model.bact2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> trt <span class="sc">+</span> week, <span class="at">data =</span> bacteria, <span class="at">family =</span> binomial)</span>
-<span id="cb54-6"><a href="glm-avec-une-distribution-binomiale.html#cb54-6" aria-hidden="true" tabindex="-1"></a>model.bact3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> week, <span class="at">data =</span> bacteria, <span class="at">family =</span> binomial)</span>
-<span id="cb54-7"><a href="glm-avec-une-distribution-binomiale.html#cb54-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-8"><a href="glm-avec-une-distribution-binomiale.html#cb54-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s compare these models using a likelihood ratio test</span></span>
-<span id="cb54-9"><a href="glm-avec-une-distribution-binomiale.html#cb54-9" aria-hidden="true" tabindex="-1"></a><span class="co"># (LRT).</span></span>
-<span id="cb54-10"><a href="glm-avec-une-distribution-binomiale.html#cb54-10" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model.bact1, model.bact2, model.bact3, <span class="at">test =</span> <span class="st">&quot;LRT&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="glm-avec-une-distribution-binomiale.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Challenge 1 - Solution</span></span>
+<span id="cb53-2"><a href="glm-avec-une-distribution-binomiale.html#cb53-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-3"><a href="glm-avec-une-distribution-binomiale.html#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit models (full to most parsimonious)</span></span>
+<span id="cb53-4"><a href="glm-avec-une-distribution-binomiale.html#cb53-4" aria-hidden="true" tabindex="-1"></a>model.bact1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> trt <span class="sc">*</span> week, <span class="at">data =</span> bacteria, <span class="at">family =</span> binomial)</span>
+<span id="cb53-5"><a href="glm-avec-une-distribution-binomiale.html#cb53-5" aria-hidden="true" tabindex="-1"></a>model.bact2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> trt <span class="sc">+</span> week, <span class="at">data =</span> bacteria, <span class="at">family =</span> binomial)</span>
+<span id="cb53-6"><a href="glm-avec-une-distribution-binomiale.html#cb53-6" aria-hidden="true" tabindex="-1"></a>model.bact3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> week, <span class="at">data =</span> bacteria, <span class="at">family =</span> binomial)</span>
+<span id="cb53-7"><a href="glm-avec-une-distribution-binomiale.html#cb53-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-8"><a href="glm-avec-une-distribution-binomiale.html#cb53-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s compare these models using a likelihood ratio test</span></span>
+<span id="cb53-9"><a href="glm-avec-une-distribution-binomiale.html#cb53-9" aria-hidden="true" tabindex="-1"></a><span class="co"># (LRT).</span></span>
+<span id="cb53-10"><a href="glm-avec-une-distribution-binomiale.html#cb53-10" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model.bact1, model.bact2, model.bact3, <span class="at">test =</span> <span class="st">&quot;LRT&quot;</span>)</span></code></pre></div>
 <pre><code>## Analysis of Deviance Table
 ## 
 ## Model 1: y ~ trt * week
@@ -413,7 +413,7 @@ Commençez avec le modèle complet, puis réduisez-le pour obtenir le modèle le
 ## 3       218     210.91 -2  -7.1026  0.02869 *
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="glm-avec-une-distribution-binomiale.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Which model is the best candidate?</span></span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="glm-avec-une-distribution-binomiale.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Which model is the best candidate?</span></span></code></pre></div>
 <p>En se basant sur ces résultats, on doit choisir le modèle 2
 comme celui représentant le mieux le jeu de données.</p>
 </details>
@@ -422,8 +422,8 @@ comme celui représentant le mieux le jeu de données.</p>
 <h2><span class="header-section-number">6.4</span> Interpréter la sortie d’une régression logistique<a href="glm-avec-une-distribution-binomiale.html#interpréter-la-sortie-dune-régression-logistique" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>La sortie du modèle de régression logistique indique que les deux
 variables explicatives (<code>WatrCont</code> et <code>Topo</code>) sont significatives:</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="glm-avec-une-distribution-binomiale.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracting model coefficients</span></span>
-<span id="cb57-2"><a href="glm-avec-une-distribution-binomiale.html#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(logit.reg)<span class="sc">$</span>coefficients</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="glm-avec-une-distribution-binomiale.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracting model coefficients</span></span>
+<span id="cb56-2"><a href="glm-avec-une-distribution-binomiale.html#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(logit.reg)<span class="sc">$</span>coefficients</span></code></pre></div>
 <pre><code>##                Estimate  Std. Error   z value     Pr(&gt;|z|)
 ## (Intercept)  4.46440199 1.670622482  2.672299 0.0075333598
 ## WatrCont    -0.01581255 0.004535069 -3.486728 0.0004889684
@@ -458,11 +458,11 @@ Cependant, nous pouvons observer ce qui arrive à la différence avec un incrém
 <p>Lorsque <span class="math inline">\(x_1\)</span> augmente d’une unité, les cotes augmentes par un facteur de <span class="math inline">\(\exp(\beta_1)\)</span>.
 à noter que les valeurs des cotes ici sont considérées dans une situation où les autres paramètres sont constants.</p>
 <p>Avec ceci, nous pouvons finalement interpréter nos coefficients et les résultats de nos modèles!</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="glm-avec-une-distribution-binomiale.html#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(logit.reg<span class="sc">$</span>coefficients[<span class="dv">2</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="glm-avec-une-distribution-binomiale.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(logit.reg<span class="sc">$</span>coefficients[<span class="dv">2</span>])</span></code></pre></div>
 <pre><code>##  WatrCont 
 ## 0.9843118</code></pre>
 <p>Pour obtenir l’intervalle de confiance sur l’échelle des cotes :</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="glm-avec-une-distribution-binomiale.html#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">confint</span>(logit.reg)[<span class="dv">2</span>, ])</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="glm-avec-une-distribution-binomiale.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">confint</span>(logit.reg)[<span class="dv">2</span>, ])</span></code></pre></div>
 <pre><code>##     2.5 %    97.5 % 
 ## 0.9741887 0.9919435</code></pre>
 <p>Lorsque la cote est inférieure à 1, l’interprétation est un peu plus compliquée. Si c’est le cas, il faut prendre la valeur inverse de la cote (<em>i.e.</em> 1 divisé par la cote) pour faciliter l’interprétation.</p>
@@ -475,7 +475,7 @@ Cependant, nous pouvons observer ce qui arrive à la différence avec un incrém
 <p>Lorsqu’un paramètre estimé est entre 0 et 1 sur l’échelle des cotes, la relation entre la variable réponse et la variable explicative est <strong>négative</strong>. Si la valeur est supérieure à 1, la relation est <strong>positive</strong>. Si l’intervalle de confiance inclut la valeur 1, la relation n’est pas <em>significative</em>.</p>
 <p>Rappelez-vous qu’une valeur de 1 sur l’échelle des cotes signifie que la probabilité d’observer un phénomène Y est la même que celle de ne pas observer ce phénomène (<em>i.e.</em> quand <span class="math inline">\(p\)</span> = 0.5, 0.5/(1-0.5) = 1).</p>
 <p>Faisons de même avec la topographie:</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="glm-avec-une-distribution-binomiale.html#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(logit.reg<span class="sc">$</span>coefficients[<span class="dv">3</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="glm-avec-une-distribution-binomiale.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(logit.reg<span class="sc">$</span>coefficients[<span class="dv">3</span>])</span></code></pre></div>
 <pre><code>## TopoHummock 
 ##    8.091034</code></pre>
 <p>Le paramètre estimé pour la topographie est de 2.091 sur l’échelle des cotes en log. Donc, la probabilité est donnée par :</p>
@@ -526,13 +526,13 @@ avec <span class="math inline">\(\hat \theta_0\)</span> dénotant la valeurs aju
 <p>Enfin, la <strong>déviance nulle</strong> est définie comme 2 fois le ratio de la vraisemblence en log du modèle saturé comparé au modèle réduit (i.e. les variables prédictrices = 1).</p>
 <p><span class="math display">\[D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(\text{modèle saturé}){\big )}-\log {\big (}p(\text{modèle nul}){\big )}{\Big )}\]</span></p>
 <p>Maintenant, nous pouvons le faire dans R. Comparons la déviance de notre modèle (déviance résiduelle) à la déviance d’un modèle nul (déviance nulle).</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="glm-avec-une-distribution-binomiale.html#cb65-1" aria-hidden="true" tabindex="-1"></a>null.model <span class="ot">&lt;-</span> <span class="fu">glm</span>(response.variable <span class="sc">~</span> <span class="dv">1</span>, <span class="at">family =</span> binomial)</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="glm-avec-une-distribution-binomiale.html#cb64-1" aria-hidden="true" tabindex="-1"></a>null.model <span class="ot">&lt;-</span> <span class="fu">glm</span>(response.variable <span class="sc">~</span> <span class="dv">1</span>, <span class="at">family =</span> binomial)</span></code></pre></div>
 <p>Le modèle <strong>saturé (ou complet)</strong> contient l’ensemble des variables prédisctrices:</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="glm-avec-une-distribution-binomiale.html#cb66-1" aria-hidden="true" tabindex="-1"></a>full.model <span class="ot">&lt;-</span> <span class="fu">glm</span>(response.variable <span class="sc">~</span> ., <span class="at">family =</span> binomial)</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="glm-avec-une-distribution-binomiale.html#cb65-1" aria-hidden="true" tabindex="-1"></a>full.model <span class="ot">&lt;-</span> <span class="fu">glm</span>(response.variable <span class="sc">~</span> ., <span class="at">family =</span> binomial)</span></code></pre></div>
 <p>Les déviances résiduelles et nulles sont déjà stockées dans <code>glm object</code>:</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="glm-avec-une-distribution-binomiale.html#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Les déviances résiduelle et nulle sont déjà enregistrées</span></span>
-<span id="cb67-2"><a href="glm-avec-une-distribution-binomiale.html#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="co"># dans un objet de type glm.</span></span>
-<span id="cb67-3"><a href="glm-avec-une-distribution-binomiale.html#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="fu">objects</span>(logit.reg)</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="glm-avec-une-distribution-binomiale.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Les déviances résiduelle et nulle sont déjà enregistrées</span></span>
+<span id="cb66-2"><a href="glm-avec-une-distribution-binomiale.html#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="co"># dans un objet de type glm.</span></span>
+<span id="cb66-3"><a href="glm-avec-une-distribution-binomiale.html#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="fu">objects</span>(logit.reg)</span></code></pre></div>
 <pre><code>##  [1] &quot;aic&quot;               &quot;boundary&quot;          &quot;call&quot;             
 ##  [4] &quot;coefficients&quot;      &quot;contrasts&quot;         &quot;control&quot;          
 ##  [7] &quot;converged&quot;         &quot;data&quot;              &quot;deviance&quot;         
@@ -544,9 +544,9 @@ avec <span class="math inline">\(\hat \theta_0\)</span> dénotant la valeurs aju
 ## [25] &quot;rank&quot;              &quot;residuals&quot;         &quot;terms&quot;            
 ## [28] &quot;weights&quot;           &quot;xlevels&quot;           &quot;y&quot;</code></pre>
 <p>Nous pouvons mainteant utiliser ces déviances pour calculer la valeur du pseudo-R<sup>2</sup>:</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="glm-avec-une-distribution-binomiale.html#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calcule pseudo-R2</span></span>
-<span id="cb69-2"><a href="glm-avec-une-distribution-binomiale.html#cb69-2" aria-hidden="true" tabindex="-1"></a>pseudoR2 <span class="ot">&lt;-</span> (logit.reg<span class="sc">$</span>null.deviance <span class="sc">-</span> logit.reg<span class="sc">$</span>deviance)<span class="sc">/</span>logit.reg<span class="sc">$</span>null.deviance</span>
-<span id="cb69-3"><a href="glm-avec-une-distribution-binomiale.html#cb69-3" aria-hidden="true" tabindex="-1"></a>pseudoR2</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="glm-avec-une-distribution-binomiale.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calcule pseudo-R2</span></span>
+<span id="cb68-2"><a href="glm-avec-une-distribution-binomiale.html#cb68-2" aria-hidden="true" tabindex="-1"></a>pseudoR2 <span class="ot">&lt;-</span> (logit.reg<span class="sc">$</span>null.deviance <span class="sc">-</span> logit.reg<span class="sc">$</span>deviance)<span class="sc">/</span>logit.reg<span class="sc">$</span>null.deviance</span>
+<span id="cb68-3"><a href="glm-avec-une-distribution-binomiale.html#cb68-3" aria-hidden="true" tabindex="-1"></a>pseudoR2</span></code></pre></div>
 <pre><code>## [1] 0.4655937</code></pre>
 <p>Les variables explicatives du modèle expliquent 46.6% de la variabilité de la variable réponse.</p>
 <p>Un pseudo-R<sup>2</sup> de McFadden ajusté, qui pénalise pour le nombre de
@@ -559,18 +559,18 @@ mesures de Maddala (1983) ou de Cragg et Uhler (1970).</p>
 <p>Lorsqu’on parle de régressions logistiques, les valeurs faibles de <strong>R<sup>2</sup></strong>
 sont courantes.</p>
 <p>La fonction R <code>DescTools::PseudoR2()</code> permet de calculer plusieurs pseudo-R<sup>2</sup>. En spécifiant <code>which = all</code>, calculez toutes les statistiques en même temps.</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="glm-avec-une-distribution-binomiale.html#cb71-1" aria-hidden="true" tabindex="-1"></a>logit.reg <span class="ot">&lt;-</span> <span class="fu">glm</span>(pa <span class="sc">~</span> WatrCont <span class="sc">+</span> Topo, <span class="at">data =</span> mites, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
-<span id="cb71-2"><a href="glm-avec-une-distribution-binomiale.html#cb71-2" aria-hidden="true" tabindex="-1"></a>DescTools<span class="sc">::</span><span class="fu">PseudoR2</span>(logit.reg, <span class="at">which =</span> <span class="st">&quot;all&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="glm-avec-une-distribution-binomiale.html#cb70-1" aria-hidden="true" tabindex="-1"></a>logit.reg <span class="ot">&lt;-</span> <span class="fu">glm</span>(pa <span class="sc">~</span> WatrCont <span class="sc">+</span> Topo, <span class="at">data =</span> mites, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
+<span id="cb70-2"><a href="glm-avec-une-distribution-binomiale.html#cb70-2" aria-hidden="true" tabindex="-1"></a>DescTools<span class="sc">::</span><span class="fu">PseudoR2</span>(logit.reg, <span class="at">which =</span> <span class="st">&quot;all&quot;</span>)</span></code></pre></div>
 <pre><code>##        McFadden     McFaddenAdj        CoxSnell      Nagelkerke   AldrichNelson 
 ##       0.4655937       0.3998373       0.4549662       0.6245898       0.3776866 
 ## VeallZimmermann           Efron McKelveyZavoina            Tjur             AIC 
 ##       0.6674318       0.5024101       0.7064093       0.5114661      54.7623962 
 ##             BIC          logLik         logLik0              G2 
 ##      61.5078819     -24.3811981     -45.6229593      42.4835224</code></pre>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="glm-avec-une-distribution-binomiale.html#cb73-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">Rsq</span>(<span class="at">object =</span> logit.reg)</span>
-<span id="cb73-2"><a href="glm-avec-une-distribution-binomiale.html#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="fu">HLtest</span>(<span class="at">object =</span> fit)</span>
-<span id="cb73-3"><a href="glm-avec-une-distribution-binomiale.html#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="co"># La valeur de p est de 0.9051814. Donc, on ne rejète pas</span></span>
-<span id="cb73-4"><a href="glm-avec-une-distribution-binomiale.html#cb73-4" aria-hidden="true" tabindex="-1"></a><span class="co"># notre modèle.  L&#39;ajustement du modèle est bon.</span></span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="glm-avec-une-distribution-binomiale.html#cb72-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">Rsq</span>(<span class="at">object =</span> logit.reg)</span>
+<span id="cb72-2"><a href="glm-avec-une-distribution-binomiale.html#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="fu">HLtest</span>(<span class="at">object =</span> fit)</span>
+<span id="cb72-3"><a href="glm-avec-une-distribution-binomiale.html#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="co"># La valeur de p est de 0.9051814. Donc, on ne rejète pas</span></span>
+<span id="cb72-4"><a href="glm-avec-une-distribution-binomiale.html#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="co"># notre modèle.  L&#39;ajustement du modèle est bon.</span></span></code></pre></div>
 <div id="défi-2" class="section level3 hasAnchor" number="6.5.1">
 <h3><span class="header-section-number">6.5.1</span> Défi 2<a href="glm-avec-une-distribution-binomiale.html#défi-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Évaluez l’ajustement et le pouvoir prédictif du modèle <code>model.bact2</code>.
@@ -579,10 +579,10 @@ Comment pouvez-vous améliorer le pouvoir prédictif du modèle ?</p>
 <summary>
 <strong>Cliquez pour voir la solution au Défi 2!</strong>
 </summary>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="glm-avec-une-distribution-binomiale.html#cb74-1" aria-hidden="true" tabindex="-1"></a>null.d <span class="ot">&lt;-</span> model.bact2<span class="sc">$</span>null.deviance</span>
-<span id="cb74-2"><a href="glm-avec-une-distribution-binomiale.html#cb74-2" aria-hidden="true" tabindex="-1"></a>resid.d <span class="ot">&lt;-</span> model.bact2<span class="sc">$</span>deviance</span>
-<span id="cb74-3"><a href="glm-avec-une-distribution-binomiale.html#cb74-3" aria-hidden="true" tabindex="-1"></a>bact.pseudoR2 <span class="ot">&lt;-</span> (null.d <span class="sc">-</span> resid.d)<span class="sc">/</span>null.d</span>
-<span id="cb74-4"><a href="glm-avec-une-distribution-binomiale.html#cb74-4" aria-hidden="true" tabindex="-1"></a>bact.pseudoR2</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="glm-avec-une-distribution-binomiale.html#cb73-1" aria-hidden="true" tabindex="-1"></a>null.d <span class="ot">&lt;-</span> model.bact2<span class="sc">$</span>null.deviance</span>
+<span id="cb73-2"><a href="glm-avec-une-distribution-binomiale.html#cb73-2" aria-hidden="true" tabindex="-1"></a>resid.d <span class="ot">&lt;-</span> model.bact2<span class="sc">$</span>deviance</span>
+<span id="cb73-3"><a href="glm-avec-une-distribution-binomiale.html#cb73-3" aria-hidden="true" tabindex="-1"></a>bact.pseudoR2 <span class="ot">&lt;-</span> (null.d <span class="sc">-</span> resid.d)<span class="sc">/</span>null.d</span>
+<span id="cb73-4"><a href="glm-avec-une-distribution-binomiale.html#cb73-4" aria-hidden="true" tabindex="-1"></a>bact.pseudoR2</span></code></pre></div>
 <pre><code>## [1] 0.0624257</code></pre>
 <p>C’est très faible!</p>
 <p>Le pouvoir prédictif pourrait être augmenté en incluant plus de
@@ -594,10 +594,10 @@ variables explicatives.</p>
 <h2><span class="header-section-number">6.6</span> Représentation graphique des résultats<a href="glm-avec-une-distribution-binomiale.html#représentation-graphique-des-résultats" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Lorsque le modèle a été validé, il peut être utile de représenter les
 résultats graphiquement. Voici un exemple avec le paquet <code>ggplot2</code>. Revoir <a href="r_workshop3">l’atelier 3</a> pour plus d’informations sur ce paquet.</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="glm-avec-une-distribution-binomiale.html#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mites, <span class="fu">aes</span>(<span class="at">x =</span> WatrCont, <span class="at">y =</span> pa)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">&quot;glm&quot;</span>,</span>
-<span id="cb76-2"><a href="glm-avec-une-distribution-binomiale.html#cb76-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">method.args =</span> <span class="fu">list</span>(<span class="at">family =</span> binomial), <span class="at">se =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Contenu en eau&quot;</span>) <span class="sc">+</span></span>
-<span id="cb76-3"><a href="glm-avec-une-distribution-binomiale.html#cb76-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Probabilité de présence&quot;</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;Probabilité de présence de Galumna sp. en fonction du contenu en eau&quot;</span>) <span class="sc">+</span></span>
-<span id="cb76-4"><a href="glm-avec-une-distribution-binomiale.html#cb76-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_classic</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="glm-avec-une-distribution-binomiale.html#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mites, <span class="fu">aes</span>(<span class="at">x =</span> WatrCont, <span class="at">y =</span> pa)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">&quot;glm&quot;</span>,</span>
+<span id="cb75-2"><a href="glm-avec-une-distribution-binomiale.html#cb75-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">method.args =</span> <span class="fu">list</span>(<span class="at">family =</span> binomial), <span class="at">se =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Contenu en eau&quot;</span>) <span class="sc">+</span></span>
+<span id="cb75-3"><a href="glm-avec-une-distribution-binomiale.html#cb75-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Probabilité de présence&quot;</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;Probabilité de présence de Galumna sp. en fonction du contenu en eau&quot;</span>) <span class="sc">+</span></span>
+<span id="cb75-4"><a href="glm-avec-une-distribution-binomiale.html#cb75-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_classic</span>()</span></code></pre></div>
 <p><img src="book-fr_files/figure-html/unnamed-chunk-61-1.png" width="672" style="display: block; margin: auto;" /></p>
 
 </div>

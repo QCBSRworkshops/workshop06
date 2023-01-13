@@ -252,12 +252,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li>Démontre une variance élevée pour des valeurs élevées</li>
 </ul>
 <p>Afin d’illustrer l’utilisation des GLMs avec des données d’abondance, nous allons utiliser un nouveau jeux de données: <code>faramea</code>.</p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="que-faire-avec-des-données-dabondance.html#cb81-1" aria-hidden="true" tabindex="-1"></a>faramea <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;faramea.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="que-faire-avec-des-données-dabondance.html#cb80-1" aria-hidden="true" tabindex="-1"></a>faramea <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;faramea.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Ce jeux de données s’intéresse à l’espèce d’arbre <em>Faramea occidentalis</em> sur l’île Barro Colorado au Panama. 43 transects ont été utilisés afin de mesurer le nombre d’arbre le long d’un gradient environnemental. Des caractéristiques environnementales, comme l’élévation du terrain et la précipitation, ont aussi été mesurées au niveau de chaque transect. Examinons maintenant à quoi ressemble la distribution du nombre d’arbres par transect.</p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="que-faire-avec-des-données-dabondance.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram of F. occidentalis count data</span></span>
-<span id="cb82-2"><a href="que-faire-avec-des-données-dabondance.html#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(faramea<span class="sc">$</span>Faramea.occidentalis, <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">45</span>, <span class="dv">1</span>), <span class="at">xlab =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">&quot;Nombre de &quot;</span>,</span>
-<span id="cb82-3"><a href="que-faire-avec-des-données-dabondance.html#cb82-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">italic</span>(Faramea <span class="sc">~</span> occidentalis))), <span class="at">ylab =</span> <span class="st">&quot;Fréquence&quot;</span>, <span class="at">main =</span> <span class="st">&quot;&quot;</span>,</span>
-<span id="cb82-4"><a href="que-faire-avec-des-données-dabondance.html#cb82-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">&quot;grey&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="que-faire-avec-des-données-dabondance.html#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram of F. occidentalis count data</span></span>
+<span id="cb81-2"><a href="que-faire-avec-des-données-dabondance.html#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(faramea<span class="sc">$</span>Faramea.occidentalis, <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">45</span>, <span class="dv">1</span>), <span class="at">xlab =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">&quot;Nombre de &quot;</span>,</span>
+<span id="cb81-3"><a href="que-faire-avec-des-données-dabondance.html#cb81-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">italic</span>(Faramea <span class="sc">~</span> occidentalis))), <span class="at">ylab =</span> <span class="st">&quot;Fréquence&quot;</span>, <span class="at">main =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb81-4"><a href="que-faire-avec-des-données-dabondance.html#cb81-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">&quot;grey&quot;</span>)</span></code></pre></div>
 <p><img src="book-fr_files/figure-html/unnamed-chunk-66-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Nous pouvons remarquer qu’il n’y a que des valeurs entières et
 positives.</p>
@@ -305,10 +305,10 @@ valeur négative est nulle</li>
 <h3><span class="header-section-number">8.1.2</span> GLM de Poisson dans <code>R</code><a href="que-faire-avec-des-données-dabondance.html#glm-de-poisson-dans-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Pour ajuster un GLM avec une distribution de Poisson sous R, il suffit
 de spécifier <code>family = poisson</code> dans la fonction <code>glm()</code>. Par défaut la fonction de lien est la fonction logarithmique.</p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="que-faire-avec-des-données-dabondance.html#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a Poisson GLM</span></span>
-<span id="cb83-2"><a href="que-faire-avec-des-données-dabondance.html#cb83-2" aria-hidden="true" tabindex="-1"></a>glm.poisson <span class="ot">=</span> <span class="fu">glm</span>(Faramea.occidentalis <span class="sc">~</span> Elevation, <span class="at">data =</span> faramea,</span>
-<span id="cb83-3"><a href="que-faire-avec-des-données-dabondance.html#cb83-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> poisson)  <span class="co"># this is what makes it a Poisson GLM! Note the default link is log.</span></span>
-<span id="cb83-4"><a href="que-faire-avec-des-données-dabondance.html#cb83-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.poisson)</span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="que-faire-avec-des-données-dabondance.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a Poisson GLM</span></span>
+<span id="cb82-2"><a href="que-faire-avec-des-données-dabondance.html#cb82-2" aria-hidden="true" tabindex="-1"></a>glm.poisson <span class="ot">=</span> <span class="fu">glm</span>(Faramea.occidentalis <span class="sc">~</span> Elevation, <span class="at">data =</span> faramea,</span>
+<span id="cb82-3"><a href="que-faire-avec-des-données-dabondance.html#cb82-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> poisson)  <span class="co"># this is what makes it a Poisson GLM! Note the default link is log.</span></span>
+<span id="cb82-4"><a href="que-faire-avec-des-données-dabondance.html#cb82-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.poisson)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = Faramea.occidentalis ~ Elevation, family = poisson, 
@@ -336,11 +336,11 @@ de spécifier <code>family = poisson</code> dans la fonction <code>glm()</code>.
 <p>Élévation = <span class="math inline">\(\beta\)</span></p>
 <p>Le résumé est similaire à celui de la fonction <strong>lm</strong> ( voir l’<a href="https://github.com/QCBSRworkshops/workshop04">atelier 4</a>) et donne les estimations des paramètres. Vous pouvez aussi récupérer
 les estimations des paramètres à l’aide des fonctions suivantes :</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="que-faire-avec-des-données-dabondance.html#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ordonnée à l&#39;origine</span></span>
-<span id="cb85-2"><a href="que-faire-avec-des-données-dabondance.html#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.poisson)<span class="sc">$</span>coefficients[<span class="dv">1</span>, <span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="que-faire-avec-des-données-dabondance.html#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ordonnée à l&#39;origine</span></span>
+<span id="cb84-2"><a href="que-faire-avec-des-données-dabondance.html#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.poisson)<span class="sc">$</span>coefficients[<span class="dv">1</span>, <span class="dv">1</span>]</span></code></pre></div>
 <pre><code>## [1] 1.7687</code></pre>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="que-faire-avec-des-données-dabondance.html#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pente de elevation</span></span>
-<span id="cb87-2"><a href="que-faire-avec-des-données-dabondance.html#cb87-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.poisson)<span class="sc">$</span>coefficients[<span class="dv">2</span>, <span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="que-faire-avec-des-données-dabondance.html#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pente de elevation</span></span>
+<span id="cb86-2"><a href="que-faire-avec-des-données-dabondance.html#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.poisson)<span class="sc">$</span>coefficients[<span class="dv">2</span>, <span class="dv">1</span>]</span></code></pre></div>
 <pre><code>## [1] -0.002737509</code></pre>
 <p>À partir d’ici, nous pouvons estimer les déviance résiduelle et nulle. Dans notre modèle, la paramètre inconnu est l’ordonnée à l’origine (<span class="math inline">\(\alpha\)</span>) et la pente de l’élévation (<span class="math inline">\(\beta\)</span>):</p>
 <p><span class="math display">\[log(\mu_i) = 1.769 - 0.0027 \times \text{Élévation}_i\]</span></p>
@@ -355,8 +355,8 @@ Rappelez-vous que pour estimer une paramètre inconnu, l’estimation de la vrai
 <div id="la-validation-du-modèle-et-le-problème-de-la-surdispersion" class="section level3 hasAnchor" number="8.1.3">
 <h3><span class="header-section-number">8.1.3</span> La validation du modèle et le problème de la surdispersion<a href="que-faire-avec-des-données-dabondance.html#la-validation-du-modèle-et-le-problème-de-la-surdispersion" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Un aspect important du résumé se trouve dans les dernières lignes :</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="que-faire-avec-des-données-dabondance.html#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Null deviance: 414.81 on 42 degrees of freedom Residual</span></span>
-<span id="cb89-2"><a href="que-faire-avec-des-données-dabondance.html#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="do">## deviance: 388.12 on 41 degrees of freedom</span></span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="que-faire-avec-des-données-dabondance.html#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Null deviance: 414.81 on 42 degrees of freedom Residual</span></span>
+<span id="cb88-2"><a href="que-faire-avec-des-données-dabondance.html#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="do">## deviance: 388.12 on 41 degrees of freedom</span></span></code></pre></div>
 <p>L’estimation du maximum de vraisemblance est utilisé afin d’estimer
 les paramètres. Nous avons déjà mentionné que la déviance est
 l’équivalent en maximum de vraisemblance des sommes des carrés dans un
@@ -388,9 +388,9 @@ Poisson n’est plus appropriée. Pour nous convaincre une dernière fois
 d’abandonner la distribution de Poisson pour modéliser l’abondance de
 l’espèce <em>faramea</em> nous pouvons rapidement calculer la moyenne et la
 variance dans notre jeux de données :</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="que-faire-avec-des-données-dabondance.html#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(faramea<span class="sc">$</span>Faramea.occidentalis)</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="que-faire-avec-des-données-dabondance.html#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(faramea<span class="sc">$</span>Faramea.occidentalis)</span></code></pre></div>
 <pre><code>## [1] 3.883721</code></pre>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="que-faire-avec-des-données-dabondance.html#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(faramea<span class="sc">$</span>Faramea.occidentalis)</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="que-faire-avec-des-données-dabondance.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(faramea<span class="sc">$</span>Faramea.occidentalis)</span></code></pre></div>
 <pre><code>## [1] 60.24806</code></pre>
 <p>Dans la pratique, les GLMs basés sur la distribution de Poisson sont
 très pratique pour décrire la moyenne <em>µ</em><sub>i</sub> mais vont sous-estimer la
@@ -417,14 +417,14 @@ ces problèmes de surdispersion (de la même manière la famille
 <code>quasibinomial</code> peut être utilisée). L’estimation de <span class="math inline">\(φ\)</span> sera donné
 dans le résumé du modèle GLM quasi-Poisson. Nous pouvons ajuster ce
 modèle de deux manières différentes :</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="que-faire-avec-des-données-dabondance.html#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 1, nous ajustons un nouveau modèle GLM</span></span>
-<span id="cb95-2"><a href="que-faire-avec-des-données-dabondance.html#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="co"># quasi-Poisson</span></span>
-<span id="cb95-3"><a href="que-faire-avec-des-données-dabondance.html#cb95-3" aria-hidden="true" tabindex="-1"></a>glm.quasipoisson <span class="ot">=</span> <span class="fu">glm</span>(Faramea.occidentalis <span class="sc">~</span> Elevation, <span class="at">data =</span> faramea,</span>
-<span id="cb95-4"><a href="que-faire-avec-des-données-dabondance.html#cb95-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> quasipoisson)</span>
-<span id="cb95-5"><a href="que-faire-avec-des-données-dabondance.html#cb95-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 2, nous actualisons le modèle précédent :</span></span>
-<span id="cb95-6"><a href="que-faire-avec-des-données-dabondance.html#cb95-6" aria-hidden="true" tabindex="-1"></a>glm.quasipoisson <span class="ot">=</span> <span class="fu">update</span>(glm.poisson, <span class="at">family =</span> quasipoisson)</span>
-<span id="cb95-7"><a href="que-faire-avec-des-données-dabondance.html#cb95-7" aria-hidden="true" tabindex="-1"></a><span class="co"># regardons le résumé</span></span>
-<span id="cb95-8"><a href="que-faire-avec-des-données-dabondance.html#cb95-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.quasipoisson)</span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="que-faire-avec-des-données-dabondance.html#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 1, nous ajustons un nouveau modèle GLM</span></span>
+<span id="cb94-2"><a href="que-faire-avec-des-données-dabondance.html#cb94-2" aria-hidden="true" tabindex="-1"></a><span class="co"># quasi-Poisson</span></span>
+<span id="cb94-3"><a href="que-faire-avec-des-données-dabondance.html#cb94-3" aria-hidden="true" tabindex="-1"></a>glm.quasipoisson <span class="ot">=</span> <span class="fu">glm</span>(Faramea.occidentalis <span class="sc">~</span> Elevation, <span class="at">data =</span> faramea,</span>
+<span id="cb94-4"><a href="que-faire-avec-des-données-dabondance.html#cb94-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> quasipoisson)</span>
+<span id="cb94-5"><a href="que-faire-avec-des-données-dabondance.html#cb94-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 2, nous actualisons le modèle précédent :</span></span>
+<span id="cb94-6"><a href="que-faire-avec-des-données-dabondance.html#cb94-6" aria-hidden="true" tabindex="-1"></a>glm.quasipoisson <span class="ot">=</span> <span class="fu">update</span>(glm.poisson, <span class="at">family =</span> quasipoisson)</span>
+<span id="cb94-7"><a href="que-faire-avec-des-données-dabondance.html#cb94-7" aria-hidden="true" tabindex="-1"></a><span class="co"># regardons le résumé</span></span>
+<span id="cb94-8"><a href="que-faire-avec-des-données-dabondance.html#cb94-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.quasipoisson)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = Faramea.occidentalis ~ Elevation, family = quasipoisson, 
@@ -483,8 +483,8 @@ devienne:</p></li>
 <p><span class="math display">\[\frac{(D_1-D_2)/(p_2-p_1)}{D_2(n-p_2)}\]</span></p>
 <p>Ce critère est supposé suivre une distribution F avec <span class="math inline">\(p_1-p_2\)</span> et <span class="math inline">\(n-p_2\)</span> degrés de liberté.</p>
 <p>Testons l’effet de l’élévation par une analyse de déviance.</p>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="que-faire-avec-des-données-dabondance.html#cb97-1" aria-hidden="true" tabindex="-1"></a>null.model <span class="ot">&lt;-</span> <span class="fu">glm</span>(Faramea.occidentalis <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> faramea, <span class="at">family =</span> quasipoisson)</span>
-<span id="cb97-2"><a href="que-faire-avec-des-données-dabondance.html#cb97-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(null.model, glm.quasipoisson, <span class="at">test =</span> <span class="st">&quot;Chisq&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="que-faire-avec-des-données-dabondance.html#cb96-1" aria-hidden="true" tabindex="-1"></a>null.model <span class="ot">&lt;-</span> <span class="fu">glm</span>(Faramea.occidentalis <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> faramea, <span class="at">family =</span> quasipoisson)</span>
+<span id="cb96-2"><a href="que-faire-avec-des-données-dabondance.html#cb96-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(null.model, glm.quasipoisson, <span class="at">test =</span> <span class="st">&quot;Chisq&quot;</span>)</span></code></pre></div>
 <pre><code>## Analysis of Deviance Table
 ## 
 ## Model 1: Faramea.occidentalis ~ 1
@@ -534,8 +534,8 @@ soient toujours positives.</p>
 <p><span class="math display">\[µ_i = exp(β_0 + βX_i)\]</span></p>
 <p>Vous pouvez ajuster un GLM avec une distribution BN à l’aide de la
 fonction <code>glm.nb()</code> du package <code>MASS</code>:</p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="que-faire-avec-des-données-dabondance.html#cb99-1" aria-hidden="true" tabindex="-1"></a>glm.negbin <span class="ot">=</span> <span class="fu">glm.nb</span>(Faramea.occidentalis <span class="sc">~</span> Elevation, <span class="at">data =</span> faramea)</span>
-<span id="cb99-2"><a href="que-faire-avec-des-données-dabondance.html#cb99-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.negbin)</span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="que-faire-avec-des-données-dabondance.html#cb98-1" aria-hidden="true" tabindex="-1"></a>glm.negbin <span class="ot">=</span> <span class="fu">glm.nb</span>(Faramea.occidentalis <span class="sc">~</span> Elevation, <span class="at">data =</span> faramea)</span>
+<span id="cb98-2"><a href="que-faire-avec-des-données-dabondance.html#cb98-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.negbin)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm.nb(formula = Faramea.occidentalis ~ Elevation, data = faramea, 
@@ -577,29 +577,29 @@ interprétation car l’intervalle n’est pas symétrique.</p>
 modéliser nos données. Nous voulons maintenant représenter la relation
 entre le nombre de <em>Faramea occidentalis</em> et l’élévation.</p>
 <p>Utilisez <code>summary</code> pour obtenir les paramètres.</p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="que-faire-avec-des-données-dabondance.html#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.negbin)<span class="sc">$</span>coefficients[<span class="dv">1</span>, <span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="que-faire-avec-des-données-dabondance.html#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.negbin)<span class="sc">$</span>coefficients[<span class="dv">1</span>, <span class="dv">1</span>]</span></code></pre></div>
 <pre><code>## [1] 2.369226</code></pre>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="que-faire-avec-des-données-dabondance.html#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.negbin)<span class="sc">$</span>coefficients[<span class="dv">2</span>, <span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="que-faire-avec-des-données-dabondance.html#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.negbin)<span class="sc">$</span>coefficients[<span class="dv">2</span>, <span class="dv">1</span>]</span></code></pre></div>
 <pre><code>## [1] -0.007038124</code></pre>
 <p>Utilisez les écarts-types pour construire l’intervalle de confiance.</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="que-faire-avec-des-données-dabondance.html#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.negbin)<span class="sc">$</span>coefficients[<span class="dv">1</span>, <span class="dv">2</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="que-faire-avec-des-données-dabondance.html#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.negbin)<span class="sc">$</span>coefficients[<span class="dv">1</span>, <span class="dv">2</span>]</span></code></pre></div>
 <pre><code>## [1] 0.4738409</code></pre>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="que-faire-avec-des-données-dabondance.html#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.negbin)<span class="sc">$</span>coefficients[<span class="dv">2</span>, <span class="dv">2</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="que-faire-avec-des-données-dabondance.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.negbin)<span class="sc">$</span>coefficients[<span class="dv">2</span>, <span class="dv">2</span>]</span></code></pre></div>
 <pre><code>## [1] 0.002496143</code></pre>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="que-faire-avec-des-données-dabondance.html#cb109-1" aria-hidden="true" tabindex="-1"></a>pp <span class="ot">&lt;-</span> <span class="fu">predict</span>(glm.negbin, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">Elevation =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">800</span>),</span>
-<span id="cb109-2"><a href="que-faire-avec-des-données-dabondance.html#cb109-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">se.fit =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb109-3"><a href="que-faire-avec-des-données-dabondance.html#cb109-3" aria-hidden="true" tabindex="-1"></a>linkinv <span class="ot">&lt;-</span> <span class="fu">family</span>(glm.negbin)<span class="sc">$</span>linkinv  <span class="do">## inverse-link function</span></span>
-<span id="cb109-4"><a href="que-faire-avec-des-données-dabondance.html#cb109-4" aria-hidden="true" tabindex="-1"></a>pframe <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pp<span class="sc">$</span>fit)</span>
-<span id="cb109-5"><a href="que-faire-avec-des-données-dabondance.html#cb109-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(pframe) <span class="ot">&lt;-</span> <span class="st">&quot;pred0&quot;</span></span>
-<span id="cb109-6"><a href="que-faire-avec-des-données-dabondance.html#cb109-6" aria-hidden="true" tabindex="-1"></a>pframe<span class="sc">$</span>pred <span class="ot">&lt;-</span> <span class="fu">linkinv</span>(pp<span class="sc">$</span>fit)</span>
-<span id="cb109-7"><a href="que-faire-avec-des-données-dabondance.html#cb109-7" aria-hidden="true" tabindex="-1"></a>sc <span class="ot">&lt;-</span> <span class="fu">abs</span>(<span class="fu">qnorm</span>((<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.95</span>)<span class="sc">/</span><span class="dv">2</span>))  <span class="do">## Normal approx. to likelihood</span></span>
-<span id="cb109-8"><a href="que-faire-avec-des-données-dabondance.html#cb109-8" aria-hidden="true" tabindex="-1"></a>pframe <span class="ot">&lt;-</span> <span class="fu">transform</span>(pframe, <span class="at">lwr =</span> <span class="fu">linkinv</span>(pred0 <span class="sc">-</span> sc <span class="sc">*</span> pp<span class="sc">$</span>se.fit),</span>
-<span id="cb109-9"><a href="que-faire-avec-des-données-dabondance.html#cb109-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">upr =</span> <span class="fu">linkinv</span>(pred0 <span class="sc">+</span> sc <span class="sc">*</span> pp<span class="sc">$</span>se.fit))</span>
-<span id="cb109-10"><a href="que-faire-avec-des-données-dabondance.html#cb109-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(faramea<span class="sc">$</span>Elevation, faramea<span class="sc">$</span>Faramea.occidentalis, <span class="at">ylab =</span> <span class="st">&quot;Nombre de F. occidentalis&quot;</span>,</span>
-<span id="cb109-11"><a href="que-faire-avec-des-données-dabondance.html#cb109-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">&quot;Élévation(m)&quot;</span>)</span>
-<span id="cb109-12"><a href="que-faire-avec-des-données-dabondance.html#cb109-12" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pframe<span class="sc">$</span>pred, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb109-13"><a href="que-faire-avec-des-données-dabondance.html#cb109-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pframe<span class="sc">$</span>upr, <span class="at">col =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb109-14"><a href="que-faire-avec-des-données-dabondance.html#cb109-14" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pframe<span class="sc">$</span>lwr, <span class="at">col =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="que-faire-avec-des-données-dabondance.html#cb108-1" aria-hidden="true" tabindex="-1"></a>pp <span class="ot">&lt;-</span> <span class="fu">predict</span>(glm.negbin, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">Elevation =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">800</span>),</span>
+<span id="cb108-2"><a href="que-faire-avec-des-données-dabondance.html#cb108-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">se.fit =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb108-3"><a href="que-faire-avec-des-données-dabondance.html#cb108-3" aria-hidden="true" tabindex="-1"></a>linkinv <span class="ot">&lt;-</span> <span class="fu">family</span>(glm.negbin)<span class="sc">$</span>linkinv  <span class="do">## inverse-link function</span></span>
+<span id="cb108-4"><a href="que-faire-avec-des-données-dabondance.html#cb108-4" aria-hidden="true" tabindex="-1"></a>pframe <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pp<span class="sc">$</span>fit)</span>
+<span id="cb108-5"><a href="que-faire-avec-des-données-dabondance.html#cb108-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(pframe) <span class="ot">&lt;-</span> <span class="st">&quot;pred0&quot;</span></span>
+<span id="cb108-6"><a href="que-faire-avec-des-données-dabondance.html#cb108-6" aria-hidden="true" tabindex="-1"></a>pframe<span class="sc">$</span>pred <span class="ot">&lt;-</span> <span class="fu">linkinv</span>(pp<span class="sc">$</span>fit)</span>
+<span id="cb108-7"><a href="que-faire-avec-des-données-dabondance.html#cb108-7" aria-hidden="true" tabindex="-1"></a>sc <span class="ot">&lt;-</span> <span class="fu">abs</span>(<span class="fu">qnorm</span>((<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.95</span>)<span class="sc">/</span><span class="dv">2</span>))  <span class="do">## Normal approx. to likelihood</span></span>
+<span id="cb108-8"><a href="que-faire-avec-des-données-dabondance.html#cb108-8" aria-hidden="true" tabindex="-1"></a>pframe <span class="ot">&lt;-</span> <span class="fu">transform</span>(pframe, <span class="at">lwr =</span> <span class="fu">linkinv</span>(pred0 <span class="sc">-</span> sc <span class="sc">*</span> pp<span class="sc">$</span>se.fit),</span>
+<span id="cb108-9"><a href="que-faire-avec-des-données-dabondance.html#cb108-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">upr =</span> <span class="fu">linkinv</span>(pred0 <span class="sc">+</span> sc <span class="sc">*</span> pp<span class="sc">$</span>se.fit))</span>
+<span id="cb108-10"><a href="que-faire-avec-des-données-dabondance.html#cb108-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(faramea<span class="sc">$</span>Elevation, faramea<span class="sc">$</span>Faramea.occidentalis, <span class="at">ylab =</span> <span class="st">&quot;Nombre de F. occidentalis&quot;</span>,</span>
+<span id="cb108-11"><a href="que-faire-avec-des-données-dabondance.html#cb108-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">&quot;Élévation(m)&quot;</span>)</span>
+<span id="cb108-12"><a href="que-faire-avec-des-données-dabondance.html#cb108-12" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pframe<span class="sc">$</span>pred, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb108-13"><a href="que-faire-avec-des-données-dabondance.html#cb108-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pframe<span class="sc">$</span>upr, <span class="at">col =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb108-14"><a href="que-faire-avec-des-données-dabondance.html#cb108-14" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pframe<span class="sc">$</span>lwr, <span class="at">col =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="book-fr_files/figure-html/unnamed-chunk-78-1.png" width="672" /></p>
 <p>Nous pouvons voir que le nombre de <em>Faramea occidentalis</em> diminue de
 manière significative avec l’élévation. Toutefois, l’intervalle de
@@ -612,23 +612,23 @@ Galumna en fonction des caractéristiques du substrat (son contenu en eau <code>
 <p>Faut-il contrôler pour la surdispersion?<br />
 Quelles variables explicatives ont un effet significatif?<br />
 Selectionnez le meilleur modèle!</p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="que-faire-avec-des-données-dabondance.html#cb110-1" aria-hidden="true" tabindex="-1"></a>mites <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;mites.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="que-faire-avec-des-données-dabondance.html#cb109-1" aria-hidden="true" tabindex="-1"></a>mites <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;mites.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Retirez une variable à la fois et comparez le modèle imbriqué au
 modèle saturé (ou complet):</p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="que-faire-avec-des-données-dabondance.html#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="fu">drop1</span>(MyGLM, <span class="at">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="que-faire-avec-des-données-dabondance.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">drop1</span>(MyGLM, <span class="at">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
 <p>Spécifiez un modèle imbriqué manuellement, appelez le <code>MyGLM2</code>,
 et utilisez la fonction <code>anova()</code>:</p>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="que-faire-avec-des-données-dabondance.html#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(MyGLM, MyGLM2, <span class="at">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="que-faire-avec-des-données-dabondance.html#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(MyGLM, MyGLM2, <span class="at">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
 <details>
 <summary>
 <strong>Cliquez pour voir la solution au Défi 3!</strong>
 </summary>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="que-faire-avec-des-données-dabondance.html#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="co"># GLM Poisson</span></span>
-<span id="cb113-2"><a href="que-faire-avec-des-données-dabondance.html#cb113-2" aria-hidden="true" tabindex="-1"></a>glm.p <span class="ot">=</span> <span class="fu">glm</span>(Galumna <span class="sc">~</span> WatrCont <span class="sc">+</span> SubsDens, <span class="at">data =</span> mites, <span class="at">family =</span> poisson)</span>
-<span id="cb113-3"><a href="que-faire-avec-des-données-dabondance.html#cb113-3" aria-hidden="true" tabindex="-1"></a><span class="co"># GLM quasi-Poisson</span></span>
-<span id="cb113-4"><a href="que-faire-avec-des-données-dabondance.html#cb113-4" aria-hidden="true" tabindex="-1"></a>glm.qp <span class="ot">=</span> <span class="fu">update</span>(glm.p, <span class="at">family =</span> quasipoisson)</span>
-<span id="cb113-5"><a href="que-faire-avec-des-données-dabondance.html#cb113-5" aria-hidden="true" tabindex="-1"></a><span class="co"># sélection du modèle</span></span>
-<span id="cb113-6"><a href="que-faire-avec-des-données-dabondance.html#cb113-6" aria-hidden="true" tabindex="-1"></a><span class="fu">drop1</span>(glm.qp, <span class="at">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="que-faire-avec-des-données-dabondance.html#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># GLM Poisson</span></span>
+<span id="cb112-2"><a href="que-faire-avec-des-données-dabondance.html#cb112-2" aria-hidden="true" tabindex="-1"></a>glm.p <span class="ot">=</span> <span class="fu">glm</span>(Galumna <span class="sc">~</span> WatrCont <span class="sc">+</span> SubsDens, <span class="at">data =</span> mites, <span class="at">family =</span> poisson)</span>
+<span id="cb112-3"><a href="que-faire-avec-des-données-dabondance.html#cb112-3" aria-hidden="true" tabindex="-1"></a><span class="co"># GLM quasi-Poisson</span></span>
+<span id="cb112-4"><a href="que-faire-avec-des-données-dabondance.html#cb112-4" aria-hidden="true" tabindex="-1"></a>glm.qp <span class="ot">=</span> <span class="fu">update</span>(glm.p, <span class="at">family =</span> quasipoisson)</span>
+<span id="cb112-5"><a href="que-faire-avec-des-données-dabondance.html#cb112-5" aria-hidden="true" tabindex="-1"></a><span class="co"># sélection du modèle</span></span>
+<span id="cb112-6"><a href="que-faire-avec-des-données-dabondance.html#cb112-6" aria-hidden="true" tabindex="-1"></a><span class="fu">drop1</span>(glm.qp, <span class="at">test =</span> <span class="st">&quot;Chi&quot;</span>)</span></code></pre></div>
 <pre><code>## Single term deletions
 ## 
 ## Model:
@@ -639,9 +639,9 @@ et utilisez la fonction <code>anova()</code>:</p>
 ## SubsDens  1   108.05       3.125   0.07708 .  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="que-faire-avec-des-données-dabondance.html#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ou</span></span>
-<span id="cb115-2"><a href="que-faire-avec-des-données-dabondance.html#cb115-2" aria-hidden="true" tabindex="-1"></a>glm.qp2 <span class="ot">=</span> <span class="fu">glm</span>(Galumna <span class="sc">~</span> WatrCont, <span class="at">data =</span> mites, <span class="at">family =</span> quasipoisson)</span>
-<span id="cb115-3"><a href="que-faire-avec-des-données-dabondance.html#cb115-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(glm.qp2, glm.qp, <span class="at">test =</span> <span class="st">&quot;Chisq&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="que-faire-avec-des-données-dabondance.html#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ou</span></span>
+<span id="cb114-2"><a href="que-faire-avec-des-données-dabondance.html#cb114-2" aria-hidden="true" tabindex="-1"></a>glm.qp2 <span class="ot">=</span> <span class="fu">glm</span>(Galumna <span class="sc">~</span> WatrCont, <span class="at">data =</span> mites, <span class="at">family =</span> quasipoisson)</span>
+<span id="cb114-3"><a href="que-faire-avec-des-données-dabondance.html#cb114-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(glm.qp2, glm.qp, <span class="at">test =</span> <span class="st">&quot;Chisq&quot;</span>)</span></code></pre></div>
 <pre><code>## Analysis of Deviance Table
 ## 
 ## Model 1: Galumna ~ WatrCont
