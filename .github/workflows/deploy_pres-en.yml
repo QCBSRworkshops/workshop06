@@ -1,10 +1,10 @@
 on:
   push:
-     branches:
-       - main
-     paths:
-       - pres-en/**
-       - .github/workflows/deploy_pres-en.yml
+    branches:
+      - main
+    paths:
+      - pres-en/**
+      - .github/workflows/deploy_pres-en.yml
   repository_dispatch:
     types: [pong_presentation]
 
