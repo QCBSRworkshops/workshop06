@@ -386,7 +386,7 @@ points(x, dnorm(x, mean = 25, sd = 10), type = 'l', lwd = 3, col = 4)
 legend('topleft', legend = c('5', '7.5', '10'), lty = 1, col = c(1,2,4), bty = 'n', lwd = 2, cex = 1.1)
 ```
 
-# Model prediction
+## Model prediction
 
 When the assumptions of the linear model are not met, model prediction becomes problematic. Let us work through an example to demonstrate some of the problems that arise from a poorly fitted model.
 
@@ -527,7 +527,7 @@ This model seems inappropriate (!) for at least two reasons:
 
 **3. The predicted values do not make sense, given the observations.** Our response variable is abundance, which can only take integer values. Yet, when water content is 300, the abundance value that our model predicts to be the most probable is 1.63! We know that the probability of observing 1.63 individuals at water content = 300 is actually zero, as is the probability of observing any fraction (non-integers). Our predicted values should be modelled using a distribution that only predicts integers, rather than a continuous distribution like the normal distribution. This is a very common problem, as biological data often follows one of the myriad other statistical distributions besides the normal distribution.
 
-#### So, what do we do now? Transform our data?
+## So, what do we do now? Transform our data?
 
 Very often, data will not "behave" and will violate the assumptions we have seen, showing evidence for **non-normality** and/or **heteroskedasticity**.
 
