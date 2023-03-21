@@ -66,7 +66,7 @@ with $\mu$ being the expected values (probability that $Y = 1$ ), and with the e
 
 In `R`, presence (or success, survival...) is usually coded as `1` and absence (or failure, death...) as `0`. A logistic regression (or any other generalized linear model) is performed with the `glm()` function. This function is different from the basic `lm()` as it allows one to specify a statistical distribution other than the normal distribution.
 
-```{r, eval = FALSE, echo = TRUE}
+```{r, eval = FALSE, echo = TRUE, purl = FALSE}
 glm(formula,
     family = ???, # this argument allows us to set a probability distribution!
     data,
