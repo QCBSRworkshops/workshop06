@@ -1800,7 +1800,7 @@ full.model <- glm(response.variable ~ ., family = binomial)
 ---
 # Predictive power and goodness-of-fit
 
-In `R`, we can extract the residual and null deviance directly from the `glm object`:
+In `R`, we can extract the residual and null deviances directly from the `glm object`:
 .small[
 ```{r}
 objects(logit.reg)
