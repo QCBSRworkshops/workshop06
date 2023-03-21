@@ -280,10 +280,7 @@ mtext(expression(symbol("\256")), at = 3, side = 1, line = -2.2, cex = 6, col = 
 # histogram
 hist(Pres)
 
-glm(formula,
-    family = ???, # this argument allows us to set a probability distribution!
-    data,
-    ...)
+
 
 # This is the syntax for a binomial GLM with a logit link
 glm(formula,
@@ -402,8 +399,7 @@ summary(glm.poisson)$coefficients[1,1]
 # pente de elevation
 summary(glm.poisson)$coefficients[2,1]
 
-    Null deviance: 414.81  on 42  degrees of freedom
-Residual deviance: 388.12  on 41  degrees of freedom
+
 
 mean(faramea$Faramea.occidentalis)
 var(faramea$Faramea.occidentalis)
@@ -432,11 +428,11 @@ summary(glm.negbin)$coefficients[1, 2]
 summary(glm.negbin)$coefficients[2, 2]
 
 pp <- predict(glm.negbin, newdata = data.frame(Elevation = 1:800), se.fit = TRUE)
-linkinv <- family(glm.negbin)$linkinv inverse-link function
+linkinv <- family(glm.negbin)$linkinv # inverse-link function
 pframe <- as.data.frame(pp$fit)
 names(pframe) <- "pred0"
 pframe$pred <- linkinv(pp$fit)
-sc <- abs(qnorm((1-0.95)/2))  Normal approx. to likelihood
+sc <- abs(qnorm((1-0.95)/2))  # Normal approx. to likelihood
 pframe <- transform(pframe, lwr = linkinv(pred0-sc*pp$se.fit), upr = linkinv(pred0+sc*pp$se.fit))
 plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'Nombre de F. occidentalis', xlab = 'Élévation(m)')
 lines(pframe$pred, lwd = 2)
