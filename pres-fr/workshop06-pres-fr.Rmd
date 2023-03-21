@@ -1472,7 +1472,7 @@ L'interprétation directe des coefficients dans le modèle logit est délicate e
 
 Supposons que nous avons un résultat binaire $y$ et deux covariables $x_1$ et $x_2$ (et une constante). La probabilité d'un résultat positif ( $y = 1$ ) est donnée par:
 
-$$Pr(y_i = 1) = p = g^{-1(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}$$
+$$Pr(y_i = 1) = p = g^{-1}(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)$$
 
 où $g^{-1}()$ est la **fonction de lien inverse**.
 
