@@ -56,7 +56,7 @@ avec $\mu$ étant la valeur attendue (probabilité que $Y = 1$), et les valeurs 
 Dans 'R', la présence (ou succès, survie...) est habituellement codée par un `1` et une absence (ou échec, mort...) par un `0`. On effectue une régression logistique (ou n'importe quel GLM) à l'aide de la fonction `glm()`. Cette fonction diffère un peu de la fonction de base `lm()`, car elle permet de spécifier une distribution statistique autre que la distribution normale. 
 
 
-```{r, eval = FALSE, echo = TRUE}
+```{r, eval = FALSE, echo = TRUE, purl = FALSE}
 glm(formula,
     family = ???, # this argument allows us to set a probability distribution!
     data,
