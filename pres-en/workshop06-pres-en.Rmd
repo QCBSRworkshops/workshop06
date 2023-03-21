@@ -2283,7 +2283,7 @@ The residual deviance is defined as twice the difference between the log-likelih
 
 $$\text{residual deviance} = 2 \, log(L(y;\,y)) - 2 \, log(L(y;\, \mu))$$
 
-In a Poisson GLM, the residual deviance should be close to the residual degrees of freedoms.
+In a Poisson GLM, the residual deviance should be close to the residual degrees of freedom.
 
 
 .center[.alert[388.12 >> 41]]
