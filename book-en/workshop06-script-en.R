@@ -383,10 +383,7 @@ mtext(expression(symbol("\256")), at = 3, side = 1, line = -2.2, cex = 6, col = 
 # histogram
 hist(Pres)
 
-glm(formula,
-    family = ???, # this argument allows us to set a probability distribution!
-    data,
-    ...)
+
 
 # This is the syntax for a binomial GLM with a logit link
 glm(formula,
