@@ -59,7 +59,8 @@ Nous utiliserons ces paquets R pour cet atelier:
 Télechargez les paquets R:
 
 ```{r eval = FALSE}
-install.packages(c('ggplot2', 
+install.packages(c('ggplot2',
+                   'ggpmisc',
                    'MASS', 
                    'vcdExtra',
                    'bbmle',
@@ -70,7 +71,8 @@ install.packages(c('ggplot2',
 ```
 
 ```{r, echo = FALSE, eval = TRUE, results='hide', purl = FALSE}
-install.packages(c('ggplot2', 
+install.packages(c('ggplot2',
+                   'ggpmisc',
                    'MASS', 
                    'vcdExtra',
                    'bbmle',
