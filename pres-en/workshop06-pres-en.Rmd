@@ -1620,7 +1620,7 @@ The direct interpretation of the coefficients in the logit model is tenuous beca
 
 Let us assume that we have a binary outcome $y$ and two covariates $x_1$ and $x_2$ (and a constant). The probability of a successful outcome ( $y = 1$ ) is given by:
 
-$$Pr(y_i = 1) = p = g^{-1(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}$$
+$$Pr(y_i = 1) = p = g^{-1}(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)$$
 
 where $g^{-1}()$ is the **inverse link function**.
 
@@ -1755,7 +1755,7 @@ $${\displaystyle D(\mathbf {y} ,{\hat {\boldsymbol {\mu }}})=\sum _{i}d(y_{i},{\
 
 Now, the deviance of a model that has estimates  ${\hat {\mu }}=E[Y|{\hat {\theta }}_{0}]$ can be defined by its **likelihood**:
 $$D(y,{\hat {\mu }})=2{\Big (}\log {\big (}p(y\mid {\hat {\theta }}_{s}){\big )}-\log {\big (}p(y\mid {\hat {\theta }}_{0}){\big )}{\Big )}$$
-with $\hat \theta_0$ denoting the fitted values of the parameters in the reduced model, while ${\displaystyle {\hat {\theta }}_{s}}\hat \theta_s$ denotes the fitted parameters for the saturated model.
+where $\hat \theta_0$ denotes the fitted values of the parameters in the reduced model, while $\hat \theta_s$ denotes the fitted parameters for the saturated model.
 
 ---
 # Unit deviance, total deviance and null deviance
