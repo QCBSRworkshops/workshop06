@@ -2,7 +2,7 @@
 title: "Atelier 6: Modèles linéaires généralisés en `R`"
 subtitle: "Série d'ateliers R du CSBQ"
 author:
-- Développé et entretenu par les contributeurs et les contributrices de la Série d'ateliers R du CSBQ^[La Série d'ateliers R du CSBQ fait partie du [Centre de la science de la biodiversité du Québec](https://www.qcbs.ca), et est maintenue par les coordonnateurs et les coordonnatrices de la série, et les membres étudiants diplômés, postdoctoraux et professionnels de la recherche. **La liste des contributeurs et des contributrices de cet atelier sont accessibles[ici](lien)**].
+- Développé et entretenu par les contributeurs et les contributrices de la Série d'ateliers R du CSBQ^[La Série d'ateliers R du CSBQ fait partie du [Centre de la science de la biodiversité du Québec](https://www.qcbs.ca), et est maintenue par les coordonnateurs et les coordonnatrices de la série, et les membres étudiants diplômés, postdoctoraux et professionnels de la recherche. **La liste des contributeurs et des contributrices de cet atelier est accessible [ici](https://github.com/QCBSRworkshops/workshop06#contributions)**.
 date: "`r Sys.time()`"
 site: bookdown::bookdown_site
 documentclass: book
@@ -109,10 +109,17 @@ Contribution en signalant des problèmes et en suggérant des modifications:
 
 ## Contribuez à la série!
 
-En construction
+La série d'ateliers R du CSBQ permet aux étudiants diplômés et aux post-doctorants d'améliorer leurs capacités d'enseignement et d'apprentissage à travers l'enseignement et le développement d'ateliers statistiques et de programmation. Nous apprécions énormément les contributions apportées à la série, et nous comptons sur l'engagement de la communauté du CSBQ pour améliorer constamment nos ateliers. Pour encourager les contributions de la communauté, nous gardons nos ateliers en libre accès, reproductibles et nous encourageons la collaboration entre les contributeurs.
+
+Le CSBQ offre des bourses d'apprentissage et de développement (LeaDA) pour soutenir les étudiants diplômés et les membres post-doctoraux du CSBQ qui enseignent ou développent des ateliers. Nous apprécions également les commentaires volontaires de la communauté afin de maintenir les ateliers à jour et aussi utiles que possible !
+
+Pour plus d'informations sur les contributions, consultez notre [Protocole de présentation et de développement](https://r.qcbs.ca/presenter-developer-protocol/).
+
 
 ```{r include=FALSE}
 library(knitr)
 opts_chunk$set(tidy.opts = list(width.cutoff = 60),
                tidy = TRUE)
+
+options(repos=structure(c(CRAN = "http://cran.r-project.org")))
 ```

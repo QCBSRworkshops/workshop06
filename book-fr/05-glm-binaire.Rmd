@@ -168,7 +168,7 @@ Si nous avions utilisé une fonction de lien d'identité, l'interprétation sera
 
 En assumant un résultat binaire $y$ et deux covariables $x_1$ et $x_2$ et une constante, la probabilité d'avoir un résultat favorable ( $y = 1$ ) est donné par:
 
-$$Pr(y_i = 1) = p = g^{-1(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}$$
+$$Pr(y_i = 1) = p = g^{-1}(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)$$
 
 où $g^{-1}()$ est la **fonction lien d'identité inverse**.
 
@@ -359,7 +359,7 @@ DescTools::PseudoR2(logit.reg, which = "all")
 ```
 
 
-```{r, echo = FALSE, eval = FALSE}
+```{r, echo = FALSE, eval = FALSE, purl = FALSE}
 ### ENLEVÉ PARCE QUE LE PACKAGE binomTools A ÉTÉ RETIRÉ DU CRAN (à supprimer?)
 
 Récemment, [Tjur
@@ -421,10 +421,10 @@ valeurs attendues. Le test est similaire à un test de khi-carré avec G -
 2 degrés de liberté (G est le nombre de groupes). Dans R, ce test est
 disponible dans le paquet `binomTools` ou `vcdExtra`.
 
-```{r, echo = TRUE, eval = FALSE}
+
 fit <- Rsq(object = logit.reg)
 HLtest(object = fit)
-# La valeur de p est de 0.9051814. Donc, on ne rejète pas notre modèle.
+# La valeur de p est de 0.9051814. Donc, on ne rejette pas notre modèle.
 # L'ajustement du modèle est bon.
 ```
 

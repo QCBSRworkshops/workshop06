@@ -176,7 +176,7 @@ But how do we interpret the slope coefficients? Remember that we applied a trans
 If we were to use the identity link function, the interpretation is much easier.
 Assuming we have a binary outcome $y$ and two covariates $x_1$ and $x_2$ and a constant, the probability of a successful outcome ( $y = 1$ ) is given by:
 
-$$Pr(y_i = 1) = p = g^{-1(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}$$
+$$Pr(y_i = 1) = p = g^{-1}(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)$$
 
 where $g^{-1}()$ is the **inverse link function**.
 
