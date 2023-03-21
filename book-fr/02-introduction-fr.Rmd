@@ -56,29 +56,39 @@ $$\boldsymbol{\varepsilon} | \mathbf{X} \sim \mathcal{N} \left( \mathbf{0}, \sig
 
 Les estimations d'un modèle général linéaire telles que $\widehat{Y} = \widehat{\beta}_0 + \widehat{\beta}_1 X$ assumemt que les données sont générées selon les conditions présentées. 
 
-```{r echo = FALSE, fig.width = 8, fig.height = 8}
+```{r echo=FALSE, fig.height=8, fig.width=8, message=FALSE, warning=FALSE}
 # Set the coefficients:
 N = 50
 beta_0 = 1
 beta_1 = 0.5
-
 # Generate sample data:
 x <- 0:N
-e <- rnorm(mean = 0, sd = 1.5, n = length(x))
+e <- rnorm(mean = 0, sd = 2, n = length(x))
 y <- beta_0 + beta_1 * x + e
+# Fit regression
+d <- data.frame(x, y)
+fit <- lm(y ~ x, data = d)
+d$predicted <- predict(fit)   # Save the predicted values
+d$residuals <- residuals(fit) # Save the residual values
 
 # Plot the data
-plot(x, y)
 
-# The regression equation:
-y_dgp <- beta_0 + beta_1 * x
-
-# Plot regression:
-lines(x = x, y = y_dgp, col = "darkgreen", lty = 2)
-
-legend(x = 0, y = 25,
-       legend = c(expression(paste("Y = ", beta[0] + beta[1] * X))),
-       lty = c(2, 1), lwd = c(1, 1), pch = c(NA, NA), col = c("darkgreen", "blue"))
+ggplot(d, aes(x = x, 
+              y = y)) +
+  geom_smooth(method = "lm", se = FALSE, color = "lightgrey", shape = 2) +
+  geom_segment(aes(xend = x, yend = predicted), alpha = 0.2) +
+  # > Alpha adjustments made here...
+  geom_point(aes(alpha = abs(residuals)), size = 2) +  # Alpha mapped to abs(residuals)
+  stat_poly_eq(formula = y ~ x, eq.with.lhs = "italic(hat(y))~`=`~",
+                aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~"), size = 5), 
+                parse = TRUE) +         
+  guides(alpha = FALSE) +  # Alpha legend removed
+ # geom_line(aes(y = predicted), shape = 3) +
+  theme_classic(base_size = 20) +
+  theme(
+        plot.margin = unit(c(0, 0, 0, 0), "null"),
+    panel.margin = unit(c(0, 0, 0, 0), "null")
+  )
 ```
 
 
@@ -119,7 +129,7 @@ Un point de levier est défini comme une observation $Y$ qui a une valeur de $x$
 
 Une observation influente est défini par une observation $Y$ qui change la pente de la relation $\beta_1$. Donc, un point influent va avoir une influence élevée sur la prédiction du modèle. Une méthode pour trouver des observations influentes est de comparer un modèle avec et sans la dite observation. 
 
-## Un exemple avec des vrais données des modèles linéaires généraux
+# Un exemple avec des vrais données
 
 Utilisons nos connaissances des modèles linéaires généraux pour explorer la relation entre les variables dans le *jeu de données de mites Orbatid*.
 
@@ -272,7 +282,7 @@ summary(lm.prop)$coefficients[, 4]
 ```
 En effet, il y a une forte relation significative avec les 3 variables réponses! **Mais attendez...** Nous avons oublier de faire la chose la plus important! Soit de vérifier les conditions d'application du modèle linéaire!
 
-## Les conditions d'application d'un modèle linéaire
+# Les conditions d'application d'un modèle linéaire
 
 Validons nos modèles pour s'assurer qu'ils suivent les conditions d'application des modèles linéaires, en commençant avec le modèle d'abondance.
 
@@ -359,7 +369,7 @@ points(x, dnorm(x, mean = 25, sd = 10), type = 'l', lwd = 3, col = 4)
 legend('topleft', legend = c('5', '7.5', '10'), lty = 1, col = c(1,2,4), bty = 'n', lwd = 2, cex = 1.1)
 ```
 
-### Prédiction du modèle
+## Prédiction du modèle
 
 Lorsque les conditions d'application du modèle linéairene sont pas rencontrées, les prédiction du modèle deviennent problématiques. Regardons un exemple pour démontrer les problèmes associés avec un modèle mal estimé.
 
@@ -406,7 +416,7 @@ Ce modèle est innaproprié pour au moins deux raisons:
 
 **3. Les valeurs prédites ne font pas de sens, selon les observations données.** Notre variable réponse est l'abondance, qui est une variable discrète. Pourtant, pour un contenu en eau = 300, la valeur d'abondance que notre modèle prédit comme étant la plus probable d'observer est 1.63! Nous savons que la probabilité d'observer 1.63 individuals pour une contenu en eau = 300 est actuellement de 0, puisque la probabilité d'observer n'importe quelle fraction (non-discrète) est impossible. Nos valeurs prédites devraient être modélisées en utilisant une distribution qui prédit seulement avec des variables discrètes, plutôt que continus. Ceci est un problème commun, puisque les données biologiques suivent souvent une myriades d'autres distributions statistiques autre que la distribution normale. 
 
-### Que faire? Transformer nos données?
+## Que faire? Transformer nos données?
 
 Très souvent, nos données ne vont pas se comporter adéquatement et vont violer les conditions d'applications, ce qui indique la **non-normalité** et **hétéroscédasticité**.
 
