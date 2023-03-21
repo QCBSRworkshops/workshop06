@@ -1468,7 +1468,7 @@ La sortie indique que le contenu d'eau et la topographie sont associés signific
 ---
 # Interpréter les coefficients de `glm()`
 
-L'interprétation directe des coefficients dans le modèle logit est délicate en raison de la fonction de lien. Si le lien est *identité*, l'interprétationest beaucoup plus facile.
+L'interprétation directe des coefficients dans le modèle logit est délicate en raison de la fonction de lien. Si le lien est *identité*, l'interprétation est beaucoup plus facile.
 
 Supposons que nous avons un résultat binaire $y$ et deux covariables $x_1$ et $x_2$ (et une constante). La probabilité d'un résultat positif ( $y = 1$ ) est donnée par:
 
