@@ -10,7 +10,7 @@ modèles-linéaires-généraux
 définition
 conditions-dutilisation
 un-exemple-avec-les-modèles-linéaires-généraux
-un-exemple-avec-des-vrais-données-des-modèles-linéaires-généraux
+un-exemple-avec-des-vrais-données
 les-conditions-dapplication-dun-modèle-linéaire
 prédiction-du-modèle
 que-faire-transformer-nos-données

@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapitre 2 Préparez-vous pour cet atelier | Atelier 6: Modèles linéaires généralisés en R</title>
+  <title>Chapitre 4 Un exemple avec des vrais données | Atelier 6: Modèles linéaires généralisés en R</title>
   <meta name="description" content="Modèles linéaires généralisés en R" />
   <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapitre 2 Préparez-vous pour cet atelier | Atelier 6: Modèles linéaires généralisés en R" />
+  <meta property="og:title" content="Chapitre 4 Un exemple avec des vrais données | Atelier 6: Modèles linéaires généralisés en R" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
   <meta property="og:description" content="Modèles linéaires généralisés en R" />
   <meta name="github-repo" content="qcbsRworkshops/workshop06" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapitre 2 Préparez-vous pour cet atelier | Atelier 6: Modèles linéaires généralisés en R" />
+  <meta name="twitter:title" content="Chapitre 4 Un exemple avec des vrais données | Atelier 6: Modèles linéaires généralisés en R" />
   
   <meta name="twitter:description" content="Modèles linéaires généralisés en R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="objectifs-dapprentissage.html"/>
-<link rel="next" href="révision-des-modèles-linéaires.html"/>
+<link rel="prev" href="révision-des-modèles-linéaires.html"/>
+<link rel="next" href="les-conditions-dapplication-dun-modèle-linéaire.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -243,38 +243,171 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
 --!>
-<div id="préparez-vous-pour-cet-atelier" class="section level1 hasAnchor" number="2">
-<h1><span class="header-section-number">Chapitre 2</span> Préparez-vous pour cet atelier<a href="préparez-vous-pour-cet-atelier.html#préparez-vous-pour-cet-atelier" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Téléchargez les données pour cet atelier:</p>
-<ul>
-<li><a href="https://raw.githubusercontent.com/QCBSRworkshops/workshop06/main/book-en/data/mites.csv">Mites</a></li>
-<li><a href="https://github.com/QCBSRworkshops/workshop06/blob/main/book-en/data/faramea.csv">Faramea</a></li>
-</ul>
-<p>Nous utiliserons ces paquets R pour cet atelier:</p>
-<ul>
-<li><a href="https://cran.r-project.org/package=ggplot2">ggplot2</a></li>
-<li><a href="https://cran.r-project.org/package=lme4">lme4</a></li>
-<li><a href="https://cran.r-project.org/package=MASS">MASS</a></li>
-<li><a href="https://cran.r-project.org/package=vcdExtra">vcdExtra</a></li>
-<li><a href="https://cran.r-project.org/package=bbmle">bbmle</a></li>
-<li><a href="https://cran.r-project.org/package=DescTools">DescTools</a></li>
-<li><a href="https://cran.r-project.org/package=GlmSimulatoR">GlmSimulatoR</a></li>
-<li><a href="https://cran.r-project.org/package=cplm">cplm</a></li>
-</ul>
-<p>Télechargez les paquets R:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="préparez-vous-pour-cet-atelier.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;ggplot2&quot;</span>, <span class="st">&quot;ggpmisc&quot;</span>, <span class="st">&quot;MASS&quot;</span>, <span class="st">&quot;vcdExtra&quot;</span>,</span>
-<span id="cb1-2"><a href="préparez-vous-pour-cet-atelier.html#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;bbmle&quot;</span>, <span class="st">&quot;DescTools&quot;</span>, <span class="st">&quot;GlmSimulatoR&quot;</span>, <span class="st">&quot;cplm&quot;</span>))</span></code></pre></div>
-<pre><code>## also installing the dependencies &#39;assertthat&#39;, &#39;statmod&#39;, &#39;tweedie&#39;, &#39;biglm&#39;, &#39;reshape2&#39;</code></pre>
-<p>Ensuite, chargez les:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="préparez-vous-pour-cet-atelier.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb3-2"><a href="préparez-vous-pour-cet-atelier.html#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
-<span id="cb3-3"><a href="préparez-vous-pour-cet-atelier.html#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vcdExtra)</span>
-<span id="cb3-4"><a href="préparez-vous-pour-cet-atelier.html#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bbmle)</span>
-<span id="cb3-5"><a href="préparez-vous-pour-cet-atelier.html#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DescTools)</span>
-<span id="cb3-6"><a href="préparez-vous-pour-cet-atelier.html#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GlmSimulatoR)</span>
-<span id="cb3-7"><a href="préparez-vous-pour-cet-atelier.html#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cplm)</span>
-<span id="cb3-8"><a href="préparez-vous-pour-cet-atelier.html#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpmisc)</span></code></pre></div>
-
+<div id="un-exemple-avec-des-vrais-données" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapitre 4</span> Un exemple avec des vrais données<a href="un-exemple-avec-des-vrais-données.html#un-exemple-avec-des-vrais-données" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Utilisons nos connaissances des modèles linéaires généraux pour explorer la relation entre les variables dans le <em>jeu de données de mites Orbatid</em>.</p>
+<p>Commençons par charger les données dans <code>R</code>:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="un-exemple-avec-des-vrais-données.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use setwd() to set your working directory</span></span>
+<span id="cb6-2"><a href="un-exemple-avec-des-vrais-données.html#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="un-exemple-avec-des-vrais-données.html#cb6-3" aria-hidden="true" tabindex="-1"></a>mites <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/mites.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>Le jeu de données que vous avez chargé est un échantillon du jeu de données <a href="http://adn.biol.umontreal.ca/~numericalecology/data/oribates.html">mites Oribatid (Acari,Oribatei)</a>, qui a été utilsé pour plusieurs textes (e.g. Borcard,
+Gillet &amp; Legendre, <em>Numerical Ecology with R</em>), et est disponible avec le package <code>vegan</code>.</p>
+<p>Le jeu de données <code>mites</code> contient <strong>70 échantillons de mousses et mites</strong> récoltés par la <a href="https://goo.gl/maps/PxN1Q7KUPnUt92Eu5">Station de Biologie de l’Université de Montréal</a>.
+] provenant de la municipalité de Saint-Hippolyte, Québec (Canada). Il contient <strong>5 variables environmentales</strong>, l’abondance de la mite <em>Galumna</em> sp., et l’abondance totale des mites.</p>
+<p>Nous pouvons examiner la structure du jeu de données avec les fonctions <code>head()</code> and <code>str()</code> functions:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="un-exemple-avec-des-vrais-données.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mites)</span></code></pre></div>
+<pre><code>##   Galumna pa totalabund        prop SubsDens WatrCont Substrate Shrub    Topo
+## 1       8  1        140 0.057142857    39.18   350.15   Sphagn1   Few Hummock
+## 2       3  1        268 0.011194030    54.99   434.81    Litter   Few Hummock
+## 3       1  1        186 0.005376344    46.07   371.72 Interface   Few Hummock
+## 4       1  1        286 0.003496503    48.19   360.50   Sphagn1   Few Hummock
+## 5       2  1        199 0.010050251    23.55   204.13   Sphagn1   Few Hummock
+## 6       1  1        209 0.004784689    57.32   311.55   Sphagn1   Few Hummock</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="un-exemple-avec-des-vrais-données.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(mites)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    70 obs. of  9 variables:
+##  $ Galumna   : int  8 3 1 1 2 1 1 1 2 5 ...
+##  $ pa        : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ totalabund: int  140 268 186 286 199 209 162 126 123 166 ...
+##  $ prop      : num  0.05714 0.01119 0.00538 0.0035 0.01005 ...
+##  $ SubsDens  : num  39.2 55 46.1 48.2 23.6 ...
+##  $ WatrCont  : num  350 435 372 360 204 ...
+##  $ Substrate : Factor w/ 7 levels &quot;Barepeat&quot;,&quot;Interface&quot;,..: 4 3 2 4 4 4 4 2 3 4 ...
+##  $ Shrub     : Factor w/ 3 levels &quot;Few&quot;,&quot;Many&quot;,&quot;None&quot;: 1 1 1 1 1 1 1 2 2 2 ...
+##  $ Topo      : Factor w/ 2 levels &quot;Blanket&quot;,&quot;Hummock&quot;: 2 2 2 2 2 2 2 1 1 2 ...</code></pre>
+<p>Notre première vue su jeu de données nous permet déjà de séparer les variables potentielles en variables réponses ou variables prédictrices:</p>
+<div class="split">
+<div class="split-left">
+<p>Variables réponses:</p>
+<ol style="list-style-type: decimal">
+<li>Occurrence: <code>pa</code></li>
+<li>Abondance: <code>Galumna</code></li>
+<li>Fréquence relative ou Proportions: <code>prop</code></li>
+</ol>
+</div>
+<div class="split-right">
+<p>Variables prédictrices:</p>
+<ol style="list-style-type: decimal">
+<li>Densité du substrat: <code>SubsDens</code></li>
+<li>Contenu en eau (du sol): <code>WatrCont</code></li>
+<li>Substrat: <code>Substrate</code></li>
+<li>Arbustes: <code>Shrub</code></li>
+<li>Topographie: <code>Topo</code></li>
+</ol>
+</div>
+</div>
+<p>Quelles questions pouvons-nous poser avec ces variables?
+<br>
+<strong>Est-ce que l’environnement permet de prédire l’abondance, l’occurrence, ou la proportion de <em>Galumna</em> sp.?</strong></p>
+<p>Pour répondre à ces questions nous pouvons élaborer plusieurs fonctions:</p>
+<div class="split">
+<div class="split-left">
+<p><span class="math inline">\(\text{Abondance} = f(\text{Contenu en eau}, \epsilon)\)</span></p>
+<p><span class="math inline">\(\text{Proportion} = f(\text{Contenu en eau}, \epsilon)\)</span></p>
+<p><span class="math inline">\(\text{Occurrence} = f(\text{Substrat}, \epsilon)\)</span></p>
+<p><span class="math inline">\(\text{Abondance} = f(\text{Topographie}, \epsilon)\)</span></p>
+</div>
+<div class="split-right">
+<p><span class="math inline">\(\text{Occurrence} = f(\text{Arbustes}, \epsilon)\)</span></p>
+<p><span class="math inline">\(\text{Fréquence relative} = f(\text{Topographie}, \epsilon)\)</span></p>
+<p><span class="math inline">\(\text{Occurrence} = f(\text{Densité du substrat}, \epsilon)\)</span></p>
+<p><span class="math inline">\(\text{Abondance} = f(\text{Substrat}, \epsilon)\)</span>
+]</p>
+</div>
+</div>
+<p>Pouvons-nous voir une relation entre <em>Galumna</em> et une ou plusieurs des cinq variables environnementales?</p>
+<p>Essayons en cherchant si <strong>la communauté de <em>Galumna</em> (abondance, occurrence and fréquence relative) varie en fonction du contenu en eau</strong>.</p>
+<p>Nous pouvons commencer en représentant les trois varaibles réponses avec la variable prédictrice:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="un-exemple-avec-des-vrais-données.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Galumna <span class="sc">~</span> WatrCont, <span class="at">data =</span> mites, <span class="at">xlab =</span> <span class="st">&quot;Water content&quot;</span>,</span>
+<span id="cb11-2"><a href="un-exemple-avec-des-vrais-données.html#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">&quot;Abundance&quot;</span>)</span></code></pre></div>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="un-exemple-avec-des-vrais-données.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(WatrCont <span class="sc">~</span> pa, <span class="at">data =</span> mites, <span class="at">xlab =</span> <span class="st">&quot;Presence/Absence&quot;</span>,</span>
+<span id="cb12-2"><a href="un-exemple-avec-des-vrais-données.html#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">&quot;Water content&quot;</span>)</span></code></pre></div>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="un-exemple-avec-des-vrais-données.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(prop <span class="sc">~</span> WatrCont, <span class="at">data =</span> mites, <span class="at">xlab =</span> <span class="st">&quot;Water content&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Proportion&quot;</span>)</span></code></pre></div>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>En effet, <code>Galumna</code> semble varier négativement avec la fonction de <code>WatrCont</code>, <em>i</em>.<em>e</em>. <em>Galumna</em> sp. préfèrerait des sites plus secs.</p>
+<p>Nous pouvons aller plus loin encore en testant un modèle linéaire avec <code>Galumna</code>, <code>pa</code>, ou <code>prop</code> en fonction de <code>WatrCont</code></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="un-exemple-avec-des-vrais-données.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the models</span></span>
+<span id="cb14-2"><a href="un-exemple-avec-des-vrais-données.html#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb14-3"><a href="un-exemple-avec-des-vrais-données.html#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Abundance model</span></span>
+<span id="cb14-4"><a href="un-exemple-avec-des-vrais-données.html#cb14-4" aria-hidden="true" tabindex="-1"></a>lm.abund <span class="ot">&lt;-</span> <span class="fu">lm</span>(Galumna <span class="sc">~</span> WatrCont, <span class="at">data =</span> mites)</span>
+<span id="cb14-5"><a href="un-exemple-avec-des-vrais-données.html#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb14-6"><a href="un-exemple-avec-des-vrais-données.html#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Presence-absence model</span></span>
+<span id="cb14-7"><a href="un-exemple-avec-des-vrais-données.html#cb14-7" aria-hidden="true" tabindex="-1"></a>lm.pa <span class="ot">&lt;-</span> <span class="fu">lm</span>(pa <span class="sc">~</span> WatrCont, <span class="at">data =</span> mites)</span>
+<span id="cb14-8"><a href="un-exemple-avec-des-vrais-données.html#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb14-9"><a href="un-exemple-avec-des-vrais-données.html#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Proportion model</span></span>
+<span id="cb14-10"><a href="un-exemple-avec-des-vrais-données.html#cb14-10" aria-hidden="true" tabindex="-1"></a>lm.prop <span class="ot">&lt;-</span> <span class="fu">lm</span>(prop <span class="sc">~</span> WatrCont, <span class="at">data =</span> mites)</span></code></pre></div>
+<p>Nous pouvons vérifier si la relation est significative avec sa sortie du modèle:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="un-exemple-avec-des-vrais-données.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the model output with the summary() function</span></span>
+<span id="cb15-2"><a href="un-exemple-avec-des-vrais-données.html#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm.abund)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Galumna ~ WatrCont, data = mites)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -1.7210 -0.8236 -0.3270  0.3910  6.6772 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  3.439349   0.555825   6.188 3.98e-08 ***
+## WatrCont    -0.006045   0.001280  -4.723 1.21e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.514 on 68 degrees of freedom
+## Multiple R-squared:  0.247,  Adjusted R-squared:  0.2359 
+## F-statistic: 22.31 on 1 and 68 DF,  p-value: 1.206e-05</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="un-exemple-avec-des-vrais-données.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm.pa)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = pa ~ WatrCont, data = mites)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.61320 -0.30889 -0.05498  0.30247  0.80073 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  1.1892142  0.1431306   8.309 6.03e-12 ***
+## WatrCont    -0.0020263  0.0003296  -6.148 4.68e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.3897 on 68 degrees of freedom
+## Multiple R-squared:  0.3573, Adjusted R-squared:  0.3478 
+## F-statistic:  37.8 on 1 and 68 DF,  p-value: 4.677e-08</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="un-exemple-avec-des-vrais-données.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm.prop)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = prop ~ WatrCont, data = mites)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.010208 -0.004927 -0.002056  0.003240  0.049252 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  2.020e-02  3.294e-03   6.133 4.98e-08 ***
+## WatrCont    -3.516e-05  7.586e-06  -4.635 1.67e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.008971 on 68 degrees of freedom
+## Multiple R-squared:  0.2401, Adjusted R-squared:  0.2289 
+## F-statistic: 21.49 on 1 and 68 DF,  p-value: 1.665e-05</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="un-exemple-avec-des-vrais-données.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracting the Pr(&gt;|t|)</span></span>
+<span id="cb21-2"><a href="un-exemple-avec-des-vrais-données.html#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="un-exemple-avec-des-vrais-données.html#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm.abund)<span class="sc">$</span>coefficients[, <span class="dv">4</span>]</span></code></pre></div>
+<pre><code>##  (Intercept)     WatrCont 
+## 3.981563e-08 1.206117e-05</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="un-exemple-avec-des-vrais-données.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm.pa)<span class="sc">$</span>coefficients[, <span class="dv">4</span>]</span></code></pre></div>
+<pre><code>##  (Intercept)     WatrCont 
+## 6.030252e-12 4.676755e-08</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="un-exemple-avec-des-vrais-données.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm.prop)<span class="sc">$</span>coefficients[, <span class="dv">4</span>]</span></code></pre></div>
+<pre><code>##  (Intercept)     WatrCont 
+## 4.977432e-08 1.665437e-05</code></pre>
+<p>En effet, il y a une forte relation significative avec les 3 variables réponses! <strong>Mais attendez…</strong> Nous avons oublier de faire la chose la plus important! Soit de vérifier les conditions d’application du modèle linéaire!</p>
 </div>
 <hr>
 <center> 
@@ -287,8 +420,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="objectifs-dapprentissage.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="révision-des-modèles-linéaires.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="révision-des-modèles-linéaires.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="les-conditions-dapplication-dun-modèle-linéaire.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

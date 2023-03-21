@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapitre 5 Les conditions d’application d’un modèle linéaire | Atelier 6: Modèles linéaires généralisés en R</title>
+  <meta name="description" content="Modèles linéaires généralisés en R" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapitre 5 Les conditions d’application d’un modèle linéaire | Atelier 6: Modèles linéaires généralisés en R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
+  <meta property="og:description" content="Modèles linéaires généralisés en R" />
+  <meta name="github-repo" content="qcbsRworkshops/workshop06" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapitre 5 Les conditions d’application d’un modèle linéaire | Atelier 6: Modèles linéaires généralisés en R" />
+  
+  <meta name="twitter:description" content="Modèles linéaires généralisés en R" />
+  <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
+
+<meta name="author" content="Développé et entretenu par les contributeurs et les contributrices de la Série d’ateliers R du CSBQ^[La Série d’ateliers R du CSBQ fait partie du Centre de la science de la biodiversité du Québec, et est maintenue par les coordonnateurs et les coordonnatrices de la série, et les membres étudiants diplômés, postdoctoraux et professionnels de la recherche. La liste des contributeurs et des contributrices de cet atelier est accessible ici." />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
+<link rel="prev" href="un-exemple-avec-des-vrais-données.html"/>
+<link rel="next" href="les-distributions-des-données-biologiques.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="assets/qcbs-style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="./"><img src="assets/images/csbq_logo_gray_accueil.png"></a></li>
+<link rel="icon" type="image/png" href="assets/images/favicon.ico"/>
+
+<li class="divider"></li>
+<li class="part"><span><b>Série d’ateliers R du CSBQ</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Préface</a>
+<ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#code-de-conduite"><i class="fa fa-check"></i><b>0.1</b> Code de conduite</a>
+<ul>
+<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#comportement-attendu"><i class="fa fa-check"></i><b>0.1.1</b> Comportement attendu</a></li>
+<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#comportements-inacceptables"><i class="fa fa-check"></i><b>0.1.2</b> Comportements inacceptables</a></li>
+</ul></li>
+<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributeurs-et-contributrices"><i class="fa fa-check"></i><b>0.2</b> Contributeurs et contributrices</a></li>
+<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contribuez-à-la-série"><i class="fa fa-check"></i><b>0.3</b> Contribuez à la série!</a></li>
+</ul></li>
+<li class="part"><span><b>Modèles linéaires généralisés en <code>R</code></b></span></li>
+<li class="chapter" data-level="1" data-path="objectifs-dapprentissage.html"><a href="objectifs-dapprentissage.html"><i class="fa fa-check"></i><b>1</b> Objectifs d’apprentissage</a></li>
+<li class="chapter" data-level="2" data-path="préparez-vous-pour-cet-atelier.html"><a href="préparez-vous-pour-cet-atelier.html"><i class="fa fa-check"></i><b>2</b> Préparez-vous pour cet atelier</a></li>
+<li class="chapter" data-level="3" data-path="révision-des-modèles-linéaires.html"><a href="révision-des-modèles-linéaires.html"><i class="fa fa-check"></i><b>3</b> Révision des modèles linéaires</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="révision-des-modèles-linéaires.html"><a href="révision-des-modèles-linéaires.html#modèles-linéaires-généraux"><i class="fa fa-check"></i><b>3.1</b> Modèles linéaires généraux</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="révision-des-modèles-linéaires.html"><a href="révision-des-modèles-linéaires.html#définition"><i class="fa fa-check"></i><b>3.1.1</b> Définition</a></li>
+<li class="chapter" data-level="3.1.2" data-path="révision-des-modèles-linéaires.html"><a href="révision-des-modèles-linéaires.html#conditions-dutilisation"><i class="fa fa-check"></i><b>3.1.2</b> Conditions d’utilisation</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="révision-des-modèles-linéaires.html"><a href="révision-des-modèles-linéaires.html#un-exemple-avec-les-modèles-linéaires-généraux"><i class="fa fa-check"></i><b>3.2</b> Un exemple avec les modèles linéaires généraux</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="un-exemple-avec-des-vrais-données.html"><a href="un-exemple-avec-des-vrais-données.html"><i class="fa fa-check"></i><b>4</b> Un exemple avec des vrais données</a></li>
+<li class="chapter" data-level="5" data-path="les-conditions-dapplication-dun-modèle-linéaire.html"><a href="les-conditions-dapplication-dun-modèle-linéaire.html"><i class="fa fa-check"></i><b>5</b> Les conditions d’application d’un modèle linéaire</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="les-conditions-dapplication-dun-modèle-linéaire.html"><a href="les-conditions-dapplication-dun-modèle-linéaire.html#prédiction-du-modèle"><i class="fa fa-check"></i><b>5.1</b> Prédiction du modèle</a></li>
+<li class="chapter" data-level="5.2" data-path="les-conditions-dapplication-dun-modèle-linéaire.html"><a href="les-conditions-dapplication-dun-modèle-linéaire.html#que-faire-transformer-nos-données"><i class="fa fa-check"></i><b>5.2</b> Que faire? Transformer nos données?</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="les-distributions-des-données-biologiques.html"><a href="les-distributions-des-données-biologiques.html"><i class="fa fa-check"></i><b>6</b> Les distributions des données biologiques</a></li>
+<li class="chapter" data-level="7" data-path="modèle-linéaire-généralisé.html"><a href="modèle-linéaire-généralisé.html"><i class="fa fa-check"></i><b>7</b> Modèle linéaire généralisé</a></li>
+<li class="part"><span><b>GLM avec des données binaires</b></span></li>
+<li class="chapter" data-level="8" data-path="glm-avec-une-distribution-binomiale.html"><a href="glm-avec-une-distribution-binomiale.html"><i class="fa fa-check"></i><b>8</b> GLM avec une distribution binomiale</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="glm-avec-une-distribution-binomiale.html"><a href="glm-avec-une-distribution-binomiale.html#glm-avec-des-données-binomiales-lien-logit"><i class="fa fa-check"></i><b>8.1</b> GLM avec des données binomiales: lien logit</a></li>
+<li class="chapter" data-level="8.2" data-path="glm-avec-une-distribution-binomiale.html"><a href="glm-avec-une-distribution-binomiale.html#exemple"><i class="fa fa-check"></i><b>8.2</b> Exemple</a></li>
+<li class="chapter" data-level="8.3" data-path="glm-avec-une-distribution-binomiale.html"><a href="glm-avec-une-distribution-binomiale.html#défi-1"><i class="fa fa-check"></i><b>8.3</b> Défi 1</a></li>
+<li class="chapter" data-level="8.4" data-path="glm-avec-une-distribution-binomiale.html"><a href="glm-avec-une-distribution-binomiale.html#interpréter-la-sortie-dune-régression-logistique"><i class="fa fa-check"></i><b>8.4</b> Interpréter la sortie d’une régression logistique</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="glm-avec-une-distribution-binomiale.html"><a href="glm-avec-une-distribution-binomiale.html#un-exemple-avec-le-lien-didentité"><i class="fa fa-check"></i><b>8.4.1</b> Un exemple avec le lien d’identité</a></li>
+<li class="chapter" data-level="8.4.2" data-path="glm-avec-une-distribution-binomiale.html"><a href="glm-avec-une-distribution-binomiale.html#interprétation-avec-un-lien-logit"><i class="fa fa-check"></i><b>8.4.2</b> Interprétation avec un lien logit</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="glm-avec-une-distribution-binomiale.html"><a href="glm-avec-une-distribution-binomiale.html#pouvoir-prédictif-et-validation-du-modèle"><i class="fa fa-check"></i><b>8.5</b> Pouvoir prédictif et validation du modèle</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="glm-avec-une-distribution-binomiale.html"><a href="glm-avec-une-distribution-binomiale.html#défi-2"><i class="fa fa-check"></i><b>8.5.1</b> Défi 2</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="glm-avec-une-distribution-binomiale.html"><a href="glm-avec-une-distribution-binomiale.html#représentation-graphique-des-résultats"><i class="fa fa-check"></i><b>8.6</b> Représentation graphique des résultats</a></li>
+</ul></li>
+<li class="part"><span><b>GLM avec des données de proportions</b></span></li>
+<li class="chapter" data-level="9" data-path="glm-binomial-avec-des-proportions.html"><a href="glm-binomial-avec-des-proportions.html"><i class="fa fa-check"></i><b>9</b> GLM binomial avec des proportions</a></li>
+<li class="part"><span><b>GLM avec des données d’abondance</b></span></li>
+<li class="chapter" data-level="10" data-path="que-faire-avec-des-données-dabondance.html"><a href="que-faire-avec-des-données-dabondance.html"><i class="fa fa-check"></i><b>10</b> Que faire avec des données d’abondance?</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="que-faire-avec-des-données-dabondance.html"><a href="que-faire-avec-des-données-dabondance.html#glm-avec-une-distribution-de-poisson"><i class="fa fa-check"></i><b>10.1</b> GLM avec une distribution de Poisson</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="que-faire-avec-des-données-dabondance.html"><a href="que-faire-avec-des-données-dabondance.html#la-distribution-de-poisson"><i class="fa fa-check"></i><b>10.1.1</b> La distribution de Poisson</a></li>
+<li class="chapter" data-level="10.1.2" data-path="que-faire-avec-des-données-dabondance.html"><a href="que-faire-avec-des-données-dabondance.html#glm-de-poisson-dans-r"><i class="fa fa-check"></i><b>10.1.2</b> GLM de Poisson dans <code>R</code></a></li>
+<li class="chapter" data-level="10.1.3" data-path="que-faire-avec-des-données-dabondance.html"><a href="que-faire-avec-des-données-dabondance.html#la-validation-du-modèle-et-le-problème-de-la-surdispersion"><i class="fa fa-check"></i><b>10.1.3</b> La validation du modèle et le problème de la surdispersion</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="que-faire-avec-des-données-dabondance.html"><a href="que-faire-avec-des-données-dabondance.html#glm-avec-une-distribution-quasi-poisson"><i class="fa fa-check"></i><b>10.2</b> GLM avec une distribution quasi-Poisson</a></li>
+<li class="chapter" data-level="10.3" data-path="que-faire-avec-des-données-dabondance.html"><a href="que-faire-avec-des-données-dabondance.html#glm-avec-une-distribution-binomiale-négative"><i class="fa fa-check"></i><b>10.3</b> GLM avec une distribution binomiale négative</a></li>
+<li class="chapter" data-level="10.4" data-path="que-faire-avec-des-données-dabondance.html"><a href="que-faire-avec-des-données-dabondance.html#représentation-graphique-du-modèle-final"><i class="fa fa-check"></i><b>10.4</b> Représentation graphique du modèle final</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="que-faire-avec-des-données-dabondance.html"><a href="que-faire-avec-des-données-dabondance.html#défi-3"><i class="fa fa-check"></i><b>10.4.1</b> Défi 3</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="que-faire-avec-des-données-dabondance.html"><a href="que-faire-avec-des-données-dabondance.html#conclusion-sur-les-glm-avec-des-données-dabondance"><i class="fa fa-check"></i><b>10.5</b> Conclusion sur les GLM avec des données d’abondance</a></li>
+</ul></li>
+<li class="part"><span><b>Autres distributions</b></span></li>
+<li class="chapter" data-level="11" data-path="autres-distributions.html"><a href="autres-distributions.html"><i class="fa fa-check"></i><b>11</b> Autres distributions</a></li>
+<li class="part"><span><b>Considérations finales</b></span></li>
+<li class="chapter" data-level="12" data-path="sommaire.html"><a href="sommaire.html"><i class="fa fa-check"></i><b>12</b> Sommaire</a></li>
+<li class="chapter" data-level="13" data-path="ressources-additionnelles.html"><a href="ressources-additionnelles.html"><i class="fa fa-check"></i><b>13</b> Ressources additionnelles</a></li>
+<li class="chapter" data-level="14" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>14</b> References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/qcbsRworkshops" target="blank">QCBS R Workshop Series</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Atelier 6: Modèles linéaires généralisés en <code>R</code></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<!------------------------ Hero Image Container --------------------------> 
+
+<head>
+  <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=10.0,initial-scale=1.0">
+  <script src="https://kit.fontawesome.com/6a26f47516.js"></script>
+  <script src="assets/qcbs-hideOutput.js"></script>
+  <link href="assets/qcbs-style.css" rel="stylesheet">
+</head>
+
+
+<!-- 
+<div class="hero-image-container"> 
+  <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
+</div>
+--!>
+<div id="les-conditions-dapplication-dun-modèle-linéaire" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapitre 5</span> Les conditions d’application d’un modèle linéaire<a href="les-conditions-dapplication-dun-modèle-linéaire.html#les-conditions-dapplication-dun-modèle-linéaire" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Validons nos modèles pour s’assurer qu’ils suivent les conditions d’application des modèles linéaires, en commençant avec le modèle d’abondance.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="les-conditions-dapplication-dun-modèle-linéaire.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the abundance model</span></span>
+<span id="cb27-2"><a href="les-conditions-dapplication-dun-modèle-linéaire.html#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Galumna <span class="sc">~</span> WatrCont, <span class="at">data =</span> mites)</span>
+<span id="cb27-3"><a href="les-conditions-dapplication-dun-modèle-linéaire.html#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(lm.abund)</span></code></pre></div>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Le modèle ne suit pas bien les données observées. Il prédit une abondance négative lorsque <code>WatrCont</code> dépasse <code>600</code>, ce qui n’est pas réaliste pour notre jeu de données qui ne peut pas avoir de données négatives. Le modèle performe aussi très mal quand il en vient à prédire les valeurs d’abondance à hautes valeurs de <code>WatrCont</code>.</p>
+<p>Examinons les graphiques de diagnostique:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="les-conditions-dapplication-dun-modèle-linéaire.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagnostic plots</span></span>
+<span id="cb28-2"><a href="les-conditions-dapplication-dun-modèle-linéaire.html#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lm.abund)</span></code></pre></div>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-21-1.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-21-2.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-21-3.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-21-4.png" width="50%" height="50%" /></p>
+<p>Les graphiques montre que le modèle viole les conditions d’homogénéité de la variance. En effet, le graphique en haut à gauche montre que les résidus sont plus larges lorsque les valeurs prédites sont élevés. Le modèle ne suit pas non plus la conditons de normalité; le graphique en haut à droite indique que les résidus ne suivre pas une courbe normale aux extrémités et beaucoup de points sont très éloignés de la valeur prédite (ligne pointillée).</p>
+<p>Nous devons rejeter ce modèle et ne pouvons conclure quoi que ce soit sur l’abondace de <em>Galumma</em> selon le contenu en eau.</p>
+<p>Nous pouvons regarder les graphiques de diagnostique du modèle de fréquence relative et de présence-absence, mais nous observons des problèmes similaires:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="les-conditions-dapplication-dun-modèle-linéaire.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the proportion model</span></span>
+<span id="cb29-2"><a href="les-conditions-dapplication-dun-modèle-linéaire.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(prop <span class="sc">~</span> WatrCont, <span class="at">data =</span> mites)</span>
+<span id="cb29-3"><a href="les-conditions-dapplication-dun-modèle-linéaire.html#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(lm.prop)</span></code></pre></div>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="les-conditions-dapplication-dun-modèle-linéaire.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagnostic plots</span></span>
+<span id="cb30-2"><a href="les-conditions-dapplication-dun-modèle-linéaire.html#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lm.prop)</span></code></pre></div>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-23-1.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-23-2.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-23-3.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-23-4.png" width="50%" height="50%" /></p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="les-conditions-dapplication-dun-modèle-linéaire.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the presence/absence model</span></span>
+<span id="cb31-2"><a href="les-conditions-dapplication-dun-modèle-linéaire.html#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pa <span class="sc">~</span> WatrCont, <span class="at">data =</span> mites)</span>
+<span id="cb31-3"><a href="les-conditions-dapplication-dun-modèle-linéaire.html#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(lm.pa)</span></code></pre></div>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="les-conditions-dapplication-dun-modèle-linéaire.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagnostic plots</span></span>
+<span id="cb32-2"><a href="les-conditions-dapplication-dun-modèle-linéaire.html#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lm.pa)</span></code></pre></div>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-25-1.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-25-2.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-25-3.png" width="50%" height="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-25-4.png" width="50%" height="50%" /></p>
+<p>Reculons un peu et révisons les conditions d’application des modèles linéaires pour mieux comprendre d’où viennent ces suppositions. Cette équation est:</p>
+<p><span class="math display">\[Y_i = \beta_0 + \beta_1X_i + \varepsilon\]</span></p>
+<p>La dernière variable <span class="math inline">\(\varepsilon_i\)</span> est très importante. C’est de là que les conditions d’application du modèle prennent origine. Pour les modèles linéaires, <strong>les résidus <span class="math inline">\(\varepsilon_i\)</span> (la distance entre une observation et la droite de régression) peuvent être prédits en dessinant une variable aléatoire provenant d’une distribution normale.</strong></p>
+<p>Rappelez-vous que les distributions normales ont deux paramètres: <span class="math inline">\(\mu\)</span> (la moyenne de la distribution) et <span class="math inline">\(\sigma^2\)</span> (la variance de la distribution). Pour un modèle linéaire, <span class="math inline">\(\mu\)</span> change selon la valeur de <span class="math inline">\(X\)</span> (variable prédictrice), mais <span class="math inline">\(\sigma^2\)</span> a la même valeurs pour toutes les valeurs de <span class="math inline">\(Y\)</span>. Notre modèle linéaire simple peut aussi être écrit de cette façon:</p>
+<p><span class="math display">\[Y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)\]</span></p>
+<p>où <span class="math inline">\(N(\cdot)\)</span> indique que <span class="math inline">\(Y_i\)</span> provient d’une <strong>distribution normale</strong> avec le paramètre <span class="math inline">\(\mu\)</span> (moyenne; qui dépend de <span class="math inline">\(x_i\)</span>) et <span class="math inline">\(\sigma\)</span> (variance; qui a la même valeur pour toutes les valeurs de <span class="math inline">\(Y_i\)</span>).</p>
+<p>Qu’arrive-t-il si on fait varier les valeurs de <span class="math inline">\(\mu\)</span> et <span class="math inline">\(\sigma\)</span>.</p>
+<p>En faisant varier <span class="math inline">\(\mu\)</span> alors <span class="math inline">\(\sigma = 5\)</span> fait changer la moyenen de la distribution.</p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-26-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Si nous gardons <span class="math inline">\(\mu = 25\)</span>, en faisant varier <span class="math inline">\(\sigma\)</span> , la forme e la distribution change, où un petit <span class="math inline">\(\sigma\)</span> (variance basse) indique que la probabilité est plus élevé autour de la moyenne, alors qu’un <span class="math inline">\(\sigma\)</span> élevé diffuse la probabilité à traver l’étendue des données.</p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-27-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="prédiction-du-modèle" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Prédiction du modèle<a href="les-conditions-dapplication-dun-modèle-linéaire.html#prédiction-du-modèle" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Lorsque les conditions d’application du modèle linéairene sont pas rencontrées, les prédiction du modèle deviennent problématiques. Regardons un exemple pour démontrer les problèmes associés avec un modèle mal estimé.</p>
+<p>Rappel: nous voulons estimer les <em>coefficients inconnus</em> <span class="math inline">\(\beta_0\)</span> et <span class="math inline">\(\beta_1\)</span>, pour tracer une ligne droite qui prédit chaque valeur de <span class="math inline">\(Y\)</span> en fonction de <span class="math inline">\(X\)</span>!</p>
+<p><span class="math display">\[Y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)\]</span></p>
+<p>Prédisons l’abondance de <em>Galumna</em> pour un contenu en eau = 300 avec notre modèle linéaire général. <strong>Quels sont les paramètres de la distribution normale utilisée pour modéliser <span class="math inline">\(Y\)</span> quand le contenu en eau est <span class="math inline">\(300\)</span>?</strong></p>
+<p>Nous commençons par obtenir les valeurs de <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> pour une distribution correspondant à notre modèle. Pour obtenir les coefficient de nos modèles, on peut utiliser la fonction <code>coef()</code>:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="les-conditions-dapplication-dun-modèle-linéaire.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract model coefficients</span></span>
+<span id="cb33-2"><a href="les-conditions-dapplication-dun-modèle-linéaire.html#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(lm.abund)</span></code></pre></div>
+<pre><code>##  (Intercept)     WatrCont 
+##  3.439348672 -0.006044788</code></pre>
+<p>Ces coéfficients nous permettrais de prédire l’abondance de <em>Galumna</em> s’il n’y avait pas d’erreur. Cepenant, nous savons que l’erreur est <strong>irrévocable</strong> pour notre modèle. Pour avoir nos valeurs prédites, nous avons donc besoin d’ajouter . C’est ici que nous utilisons la distribution normale! Pour <span class="math inline">\(X\)</span> = 300, notre modèle prédit que devrait suivre une distribution normale avec une moyenne = 1.63. Nous pouvons extraire la variance (<span class="math inline">\(\sigma^2\)</span>) avec le sommaire du modèle:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="les-conditions-dapplication-dun-modèle-linéaire.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract variance from the model summary</span></span>
+<span id="cb35-2"><a href="les-conditions-dapplication-dun-modèle-linéaire.html#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm.abund)<span class="sc">$</span>sigma</span></code></pre></div>
+<pre><code>## [1] 1.513531</code></pre>
+<p>Nous pouvons intégrer ces valeurs avec l’équation du modèle:
+<span class="math display">\[Y_i \sim N(\mu = \beta_0 + \beta_1 X_i +\varepsilon, \sigma^2)\]</span>
+<span class="math inline">\(\mu = 3.44 + (-0.006 \times 300) = 1.63\)</span></p>
+<p><span class="math inline">\(\sigma^2 = 1.51\)</span></p>
+<p>Ceci nous indique que des valeurs de <span class="math inline">\(Y\)</span> générées aléatoirement lorsque le contenu en eau = <span class="math inline">\(300\)</span> devrait être <span class="math inline">\(1.63\)</span> en moeynne et avoir un variance de <span class="math inline">\(1.51\)</span>. À <span class="math inline">\(x = 300\)</span>, résidus devrait suivre une distribution normale avec <span class="math inline">\(\mu = 1.63\)</span> et <span class="math inline">\(\sigma^2 = 1.51\)</span>. À <span class="math inline">\(x = 400\)</span>, nous avons <span class="math inline">\(\mu = 1.02\)</span> et <span class="math inline">\(\sigma^2 = 1.51\)</span>, etc.</p>
+<p>Lorsque le contenu en eau = 400, résidus devrait suivre une distribution normale dont les paramètres <span class="math inline">\(\mu = 3.44 + (-0.006 x 400) = 1.02\)</span> et <span class="math inline">\(\sigma^2 = 1.51\)</span>, etc. Chaque valeur de <span class="math inline">\(Y\)</span> est modélisé selon une distribution normale avec une moyenne qui dépend de <span class="math inline">\(X_i\)</span>, mais avec la variance qui est constante <span class="math inline">\(\sigma^2 = 1.51\)</span> pour toutes les valeurs de <span class="math inline">\(X_i\)</span>. Sur un graphique, cela ressemblerait à:</p>
+<p><img src="images/modelPredic.png" width="400" /></p>
+<p>Les quatre distributions normales (en orange) sur ce graphique représentent la probabilité d’observer une valeur d’abondance de <em>Galumna</em> donnée pour quatre valeurs différentes de contenu en eau. La moyenne de la distribution normale varie selon une fonction du contenu en eau (donc <span class="math inline">\(\mu\)</span> diminue avec le contenu en eau), mais <span class="math inline">\(\sigma^2\)</span> est toujorus = 1.51 (i.e. la variance est homogène pour toutes les valeurs de <span class="math inline">\(X\)</span>).</p>
+<p>Ce modèle est innaproprié pour au moins deux raisons:</p>
+<p><strong>1. Les valeurs sont en moyenne, plus éloignée de la pente à une valeur de X basse qu’à une valeur de X élevée, ce qui indique que la variance (σ2) n’est pas homogène.</strong> Il y a plus de variance résiduelle autour des valeurs prédites à une valeurs basse de <span class="math inline">\(X\)</span>, d’une façon que <span class="math inline">\(\varepsilon\)</span> varie en fonction de <span class="math inline">\(X\)</span>, et ainsi violant la condition de l’homoscédasticité. Ce n’est pas réaliste d’utiliser une valeur de <span class="math inline">\(\sigma^2\)</span> constante: la distribution normale utilisée pour prédire <span class="math inline">\(Y\)</span> à de faibles valeurs de <span class="math inline">\(X\)</span> devrait idéalement être plus large (une variance <span class="math inline">\(\sigma^2\)</span> plus large) que la distribution normale utilisée pour prédire <span class="math inline">\(Y\)</span> pour de grandes valeurs de <span class="math inline">\(X\)</span>, mais le modèle linéaire ne permet pas cela.</p>
+<p><strong>2. Les résidus ne suivent pas une distribution normale avec une variance constante pour toutes les valeurs de</strong> <span class="math inline">\(X\)</span>. La distribution de la variance des résidus changent selon une fonction de <span class="math inline">\(X\)</span> (observer l’étendue des données aoutut de la ligne de tendance!).</p>
+<p><strong>3. Les valeurs prédites ne font pas de sens, selon les observations données.</strong> Notre variable réponse est l’abondance, qui est une variable discrète. Pourtant, pour un contenu en eau = 300, la valeur d’abondance que notre modèle prédit comme étant la plus probable d’observer est 1.63! Nous savons que la probabilité d’observer 1.63 individuals pour une contenu en eau = 300 est actuellement de 0, puisque la probabilité d’observer n’importe quelle fraction (non-discrète) est impossible. Nos valeurs prédites devraient être modélisées en utilisant une distribution qui prédit seulement avec des variables discrètes, plutôt que continus. Ceci est un problème commun, puisque les données biologiques suivent souvent une myriades d’autres distributions statistiques autre que la distribution normale.</p>
+</div>
+<div id="que-faire-transformer-nos-données" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Que faire? Transformer nos données?<a href="les-conditions-dapplication-dun-modèle-linéaire.html#que-faire-transformer-nos-données" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Très souvent, nos données ne vont pas se comporter adéquatement et vont violer les conditions d’applications, ce qui indique la <strong>non-normalité</strong> et <strong>hétéroscédasticité</strong>.</p>
+<p>Certains vous dirons de <strong>transformer</strong> vos données avec un logarithme, la racine carré ou un cosine remédier à ce problème. Malheureusement, les transformations ne marhcent pas toujours et viennent souvent avec des inconvénients:</p>
+<p><strong>1.</strong> Cela change la variable réponse (!), rendant l’interprétation difficile;
+<strong>2.</strong> Les transformations ne vont pas toujours améliorer la linéarité et l’homogénéité de la variance;
+<strong>3.</strong> Les limites spatiales de l’échantillon changent.</p>
+<p>Par exemple, notre modèle linéaire simple:</p>
+<p><span class="math display">\[Y_i = \beta_0 + \beta_1X_i + \varepsilon\]</span></p>
+<p>ressemble à ceci lorsqu’on le transforme avec un logarithme:</p>
+<p><span class="math display">\[E(\log{Y_i}) = \beta_0 + \beta_1X_i \]</span></p>
+<p>C’est, de toute évidence, moins intuitif à interpréter pour chaque augmentation de <span class="math inline">\(300\)</span> unités en contenu en eau, l’abondance de <em>Galumna</em> prend la forme de <span class="math inline">\(\log(1.63)\)</span>…</p>
+<p>Heureusement, la <strong>distribution normale n’est pas notre seule option!</strong></p>
+
+</div>
+</div>
+<hr>
+<center> 
+  <div class="footer">
+      All the content of the workshop series is under a <a href="https://creativecommons.org/licenses/by-nc/2.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+  </div>
+</center>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="un-exemple-avec-des-vrais-données.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="les-distributions-des-données-biologiques.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

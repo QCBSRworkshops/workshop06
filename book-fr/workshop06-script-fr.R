@@ -16,6 +16,7 @@
 
 
 install.packages(c('ggplot2',
+                   'ggpmisc',
                    'MASS',
                    'vcdExtra',
                    'bbmle',
@@ -33,6 +34,7 @@ library(bbmle)
 library(DescTools)
 library(GlmSimulatoR)
 library(cplm)
+library(ggpmisc)
 
 
 ##Section: 02-introduction-fr.R 
@@ -41,24 +43,34 @@ library(cplm)
 N = 50
 beta_0 = 1
 beta_1 = 0.5
-
 # Generate sample data:
 x <- 0:N
-e <- rnorm(mean = 0, sd = 1.5, n = length(x))
+e <- rnorm(mean = 0, sd = 2, n = length(x))
 y <- beta_0 + beta_1 * x + e
+# Fit regression
+d <- data.frame(x, y)
+fit <- lm(y ~ x, data = d)
+d$predicted <- predict(fit)   # Save the predicted values
+d$residuals <- residuals(fit) # Save the residual values
 
 # Plot the data
-plot(x, y)
 
-# The regression equation:
-y_dgp <- beta_0 + beta_1 * x
-
-# Plot regression:
-lines(x = x, y = y_dgp, col = "darkgreen", lty = 2)
-
-legend(x = 0, y = 25,
-       legend = c(expression(paste("Y = ", beta[0] + beta[1] * X))),
-       lty = c(2, 1), lwd = c(1, 1), pch = c(NA, NA), col = c("darkgreen", "blue"))
+ggplot(d, aes(x = x, 
+              y = y)) +
+  geom_smooth(method = "lm", se = FALSE, color = "lightgrey", shape = 2) +
+  geom_segment(aes(xend = x, yend = predicted), alpha = 0.2) +
+  # > Alpha adjustments made here...
+  geom_point(aes(alpha = abs(residuals)), size = 2) +  # Alpha mapped to abs(residuals)
+  stat_poly_eq(formula = y ~ x, eq.with.lhs = "italic(hat(y))~`=`~",
+                aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~"), size = 5), 
+                parse = TRUE) +         
+  guides(alpha = FALSE) +  # Alpha legend removed
+ # geom_line(aes(y = predicted), shape = 3) +
+  theme_classic(base_size = 20) +
+  theme(
+        plot.margin = unit(c(0, 0, 0, 0), "null"),
+    panel.margin = unit(c(0, 0, 0, 0), "null")
+  )
 
 nSamples <- 250
 ID <- factor(c(seq(1:nSamples)))
@@ -333,71 +345,7 @@ logit.reg <- glm(pa ~ WatrCont + Topo,
                  data = mites, family = binomial(link = "logit"))
 DescTools::PseudoR2(logit.reg, which = "all")
 
-#ENLEVÉ PARCE QUE LE PACKAGE binomTools A ÉTÉ RETIRÉ DU CRAN (à supprimer?)
 
-Récemment, [Tjur
-(2009)](http://www.tandfonline.com/doi/abs/10.1198/tast.2009.08210#.VFpKZYcc4ow)
-a proposé une nouvelle statistique, le coefficient de discrimination
-(*D*), afin d'évaluer le pouvoir prédictif d'une régression
-logistique. Intuitivement, *D* évalue si la régression logistique peut
-classer adéquatement chaque résultat comme un succès ou un échec.
-Mathématiquement, c'est la différence entre la moyenne des valeurs
-prédites des succès (*i.e.* Y = 1) et des échecs (*i.e.* Y = 0) :
-
-*D = π~1~ - π~0~*
-
-où *π~1~* est la moyenne attendue des probabilités
-lorsqu'un événement est observé et *π~0~* est la
-moyenne attendue des probabilités lorsqu'un événement n'est pas
-observé. Une valeur de *D* près de 1 indique que le modèle accorde une
-probabilité élevée d'observer un événement lorsque celui-ci a été
-observé et une probabilité faible d'observer un événement lorsque
-celui-ci n'a pas été observé. Une valeur de *D* près de 0 indique que
-le modèle n'est pas utile pour distinguer entre les observations et les
-«non-observations» d'un résultat.
-
-
-
-# Le code suivant montre comment obtenir la valeur de *D* et comment représenter #visuellement les valeurs
-de *π~1~* et *π~0~*.
-
-install.packages("binomTools")
-library("binomTools")
-# La fonctions Rsq calcule indices d'ajustement
-# dont le coefficient de discrimination.
-# Pour plus d'information sur les autres indices, consultez Tjur (2009).
-# Les histogrammes montrent la distribution des valeurs attendues lorsque le résultat est observé
-# et non observé.
-# Idéalement, le recouvrement entre les deux histogrammes doit être minimal.
-fit <- Rsq(object = logit.reg)
-fit
-# R-square measures and the coefficient of discrimination, 'D':
-#
-#    R2mod     R2res     R2cor     D
-#    0.5205221 0.5024101 0.5025676 0.5114661
-#
-# Number of binomial observations:  70
-# Number of binary observation:  70
-# Average group size:  1
-plot(fit, which = "hist")
-
-
-Pour évaluer l'ajustement (*i.e.* goodness-of-fit) d'une régression
-logistique, les graphiques de diagnostic ne sont pas très utiles (voir
-atelier 4). On utilise plutôt un [test de
-Hosmer-Lemeshow](http://en.wikipedia.org/wiki/Hosmer-Lemeshow_test) pour
-évaluer si un modèle est approprié ou non. Ce test sépare les valeurs
-attendues (ordonnées de la plus faible à la plus grande) en groupes de
-même taille. Dix groupes est généralement le nombre de groupes
-recommandé. Pour chaque groupe, on compare les valeurs observées aux
-valeurs attendues. Le test est similaire à un test de khi-carré avec G -
-2 degrés de liberté (G est le nombre de groupes). Dans R, ce test est
-disponible dans le paquet `binomTools` ou `vcdExtra`.
-
-fit <- Rsq(object = logit.reg)
-HLtest(object = fit)
-# La valeur de p est de 0.9051814. Donc, on ne rejète pas notre modèle.
-# L'ajustement du modèle est bon.
 
 null.d <- model.bact2$null.deviance
 resid.d <- model.bact2$deviance
