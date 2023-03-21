@@ -168,7 +168,7 @@ Si nous avions utilisé une fonction de lien d'identité, l'interprétation sera
 
 En assumant un résultat binaire $y$ et deux covariables $x_1$ et $x_2$ et une constante, la probabilité d'avoir un résultat favorable ( $y = 1$ ) est donné par:
 
-$$Pr(y_i = 1) = p = g^{-1(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)}$$
+$$Pr(y_i = 1) = p = g^{-1}(\beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2)$$
 
 où $g^{-1}()$ est la **fonction lien d'identité inverse**.
 
