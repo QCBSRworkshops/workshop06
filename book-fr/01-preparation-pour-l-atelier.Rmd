@@ -92,5 +92,6 @@ library(bbmle)
 library(DescTools)
 library(GlmSimulatoR)
 library(cplm)
+library(ggpmisc)
 ```
 
