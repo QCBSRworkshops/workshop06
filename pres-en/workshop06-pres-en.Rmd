@@ -814,7 +814,7 @@ What are the _predicted_ parameters of the normal distribution used to model $Y$
 for $X_{i} = 300$, $\mu = 3.44 + (-0.006 \times 300) = 1.63$   and    $\sigma^2 = 1.51$
 ]
 
-_i.e._ randomly drawn $Y$ values when water content is $300$ should be in average $1.63$ and have variance $1.51$. 
+_i.e._ randomly drawn $Y$ values when water content is $300$ should be on average $1.63$ and have variance $1.51$. 
 
 ---
 # Model prediction
@@ -2040,7 +2040,7 @@ par(mypar);par(cex = 1.4)
 hist(faramea$Faramea.occidentalis, breaks = 30, col = 'gray', xlab = 'Number of F. occidentalis', ylab = 'Frequency', main = '')
 ```
 ???
-You can say that *in average*, you expect 7.56 individuals in a given situation. But you measure something *discrete*.
+You can say that *on average*, you expect 7.56 individuals in a given situation. But you measure something *discrete*.
 ---
 # Modeling count data
 
@@ -2077,7 +2077,7 @@ hist(lm$resid,breaks=20,main='Distribution of residuals',
 
 ???
 
-This is a singe choice poll question. The correct answer is 3. Poisson
+This is a single choice poll question. The correct answer is 3. Poisson
 
 ---
 # Modeling count data
@@ -2114,7 +2114,7 @@ hist(lm$resid,breaks=20,main='Distribution of residuals',
 
 ???
 
-This is a singe choice poll question. The correct answer is 3. Poisson
+This is a single choice poll question. The correct answer is 3. Poisson
 
 ---
 # The Poisson distribution
@@ -2257,7 +2257,7 @@ What about the *null deviance* and the *residual deviance*?
 
 ???
 
-Note: Point out that the resiudal deviance of 388.12 is much higher than residual degrees of freedom of 41 indicating overdispersion.
+Note: Point out that the residual deviance of 388.12 is much higher than residual degrees of freedom of 41 indicating overdispersion.
 
 ---
 
@@ -2545,7 +2545,7 @@ mites <- read.csv("data/mites.csv", header = TRUE)
 
 ???
 
-This is a breakout activity with groups of 3-4 people and a time limit of 10 minutes
+This is a breakout activity with groups of 3-4 people and a time limit of 10 minutes.
 Don't forget to show tips on the next slide.
 
 ---
