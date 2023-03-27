@@ -2318,7 +2318,7 @@ than warranted by the data!
 
 # Overdispersion
 
-When the residual deviance is higher than the residual degrees of freedom we say that the model is **overdispersed**. We can calculate a overdispersion parameter ( $\phi$ ):
+When the residual deviance is higher than the residual degrees of freedom we say that the model is **overdispersed**. We can calculate an overdispersion parameter ( $\phi$ ):
 
 $$\phi \, = \, \frac{\text{Residual deviance}}{\text{Residual degrees of freedom}}$$
 
