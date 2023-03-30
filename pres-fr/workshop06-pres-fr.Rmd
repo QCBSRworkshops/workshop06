@@ -1318,8 +1318,8 @@ glm(formula,
 |---------------------|--------------------|---------------|------------|-----|
 | Normale              | Identité           | $g(\mu) = \mu$  | $\mu = \mathbf{X} \boldsymbol{\beta}$ | `gaussian(link="identity")` | 
 | Binomiale            | Logit              | $g(\mu) = \log\left(\dfrac{\mu}{1-\mu}\right)$  | $\log\left(\dfrac{\mu}{1-\mu}\right) = \mathbf{X} \boldsymbol{\beta}$ | `binomial(link="logit")`| 
-| Poisson              | Log           | $g(\mu) = \log(\mu)$ | $-\mu^{-1} = \mathbf{X} \boldsymbol{\beta}$ | `poisson(link="log")`|
-| Exponentielle              | Inverse négative          | $g(\mu) = -\mu^{-1}$  | $\log(\mu) = \mathbf{X} \boldsymbol{\beta}$ | `Gamma(link="inverse")` |
+| Poisson              | Log           | $g(\mu) = \log(\mu)$ | $\log(\mu) = \mathbf{X} \boldsymbol{\beta}$ | `poisson(link="log")`|
+| Exponentielle              | Inverse négative          | $g(\mu) = -\mu^{-1}$  | $-\mu^{-1} = \mathbf{X} \boldsymbol{\beta}$ | `Gamma(link="inverse")` |
 
 --
 
